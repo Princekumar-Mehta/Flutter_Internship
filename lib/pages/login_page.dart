@@ -8,12 +8,41 @@ class LoginPage extends StatelessWidget {
         appBar:AppBar(title:Text('Login Page')),
         body:
         Center(
-          child:Text('Login Page',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color:Colors.purple,
-              ) ),
+          child:  Column(
+            children: [
+              Image.asset("assets/images/login_image.png"),
+              SizedBox(height:20.0),
+              Text('Welcome'),
+              SizedBox(height:20.0),
+              Padding(
+                padding : const EdgeInsets.symmetric(vertical:10.0,horizontal:10.0),
+                  child: Column(
+                      children :[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText:"Enter Username",
+                            labelText:"Username",
+                          ),
+                        ),
+                        TextFormField(
+                          obscureText:true,
+                          decoration: InputDecoration(
+                            hintText:"Enter Username",
+                            labelText:"Username",
+                          ),
+                        ),
+                        ElevatedButton(
+                            child: Text('Enter'),
+                            style:TextButton.styleFrom(backgroundColor: Colors.blue),
+                            onPressed: (){
+                              print("Enter Pressed");
+                            },
+                        )
+                      ]
+                  )
+              )
+            ]
+          )
         )
       )
     );
