@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
           child: Container(
             child: ElevatedButton(
               child: Text('Enter'),
-              style:TextButton.styleFrom(backgroundColor: Colors.blue,minimumSize: Size(300,100)),
+              style:TextButton.styleFrom(backgroundColor: Colors.blue,minimumSize: Size(150,50)),
               onPressed: (){
                 Navigator.pushNamed(context,MyRoutes.loginRoute);
               },
