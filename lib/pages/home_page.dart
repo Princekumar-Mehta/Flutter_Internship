@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_app_crash_course_2/utils/routes.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -10,7 +11,13 @@ class HomePage extends StatelessWidget {
         ),
         body: Center(
           child: Container(
-            child: Text("Welcome"),
+            child: ElevatedButton(
+              child: Text('Enter'),
+              style:TextButton.styleFrom(backgroundColor: Colors.blue,minimumSize: Size(300,100)),
+              onPressed: (){
+                Navigator.pushNamed(context,MyRoutes.loginRoute);
+              },
+            ),
           )
         ),
         drawer : Drawer(),
