@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter_app_crash_course_2/utils/routes.dart';
+import 'package:flutter_app_crash_course_2/widgets/drawer.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,7 +21,7 @@ class HomePage extends StatelessWidget {
             ),
           )
         ),
-        drawer : Drawer(),
+        drawer : MyDrawer(),
       )
     );
   }
