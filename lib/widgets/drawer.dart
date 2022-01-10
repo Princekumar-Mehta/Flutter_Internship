@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final imageURL ="";
+    final imageURL ="assets/images/login_image.png";
     return Drawer(
       child:
       Container(
@@ -18,7 +18,8 @@ class MyDrawer extends StatelessWidget {
                     accountName: Text('Prince Mehta'),
                     accountEmail:Text('PrinceMehta@gmail.com'),
                     currentAccountPicture: CircleAvatar(
-                     // backgroundImage: NetworkImage(imageURL),
+                      //backgroundImage: NetworkImage(imageURL), network issue
+                      backgroundImage: AssetImage(imageURL),
                     ),
                   )
               ),
