@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "iphone 10 pro",
+      "desc": "Apple iphone 12th generation",
+      "price": 888,
+      "color": "#33505a",
+      "image": "assets/images/login_image.png"
+    },
+    {
+      "id": 2,
+      "name": "iphone 8 pro",
+      "desc": "Apple iphone 11th generation",
+      "price": 777,
+      "color": "#33505a",
+      "image": "assets/images/login_image.png"
+    },
+    {
+      "id": 3,
+      "name": "iphone 7 pro",
+      "desc": "Apple iphone 10th generation",
+      "price": 666,
+      "color": "#33505a",
+      "image": "assets/images/login_image.png"
+    }
+  ]
+}
