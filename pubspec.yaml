@@ -42,6 +42,11 @@ dependencies:
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+4
   location: ^4.3.0
+  mailer: ^5.0.2
+  fluent_ui: ^3.7.0
+  firebase_database: ^9.0.5
+  firebase: ^9.0.2
+
 
 dev_dependencies:
   flutter_test:

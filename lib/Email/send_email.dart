@@ -6,8 +6,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 main() async {
-  String username = email will be added by database;
-  String password = pwd will be added by database;
+  String username = "email will be added by database";
+  String password = "pwd will be added by database";
 
   final smtpServer = gmail(username, password);
   // Use the SmtpServer class to configure an SMTP server:

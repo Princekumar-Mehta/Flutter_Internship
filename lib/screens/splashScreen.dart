@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 5),
-      ()=>Navigator.pushNamed(context,MyRoutes.Mylogin));
+      ()=>Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen));
   }
   @override
   Widget build(BuildContext context) {
@@ -39,10 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     top:MediaQuery.of(context).size.height*(4/5),
                     left:MediaQuery.of(context).size.width/5,
                     child:Image.asset(
-                        "assets/images/Shivaay_Logo.png",
+                        "assets/images/Shivaay_Logo_Transparent.png",
                         height:MediaQuery.of(context).size.height/5,
                         width:MediaQuery.of(context).size.width*(3/5)),
-                  ),
+                  )
                 ]
             ),
           )

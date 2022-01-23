@@ -1,5 +1,12 @@
+// import 'package:project_2/DatabaseManager/databaseManager.dart';
+//
+// main(){
+//   DatabaseManager db = DatabaseManager();
+//
+// }
 import 'package:flutter/material.dart';
 import 'package:project_2/routes.dart';
+import 'package:project_2/screens/getStartedScreen.dart';
 import 'package:project_2/screens/splashScreen.dart';
 import 'package:project_2/screens/loginScreen.dart';
 
@@ -13,10 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: MyRoutes.MYHome,
+      initialRoute: MyRoutes.MYSplashScreen,
       routes: {
-        MyRoutes.Mylogin : (context)=> LoginScreen(),
-        MyRoutes.MYHome : (context)=> SplashScreen(),
+        MyRoutes.MYSplashScreen : (context)=> SplashScreen(),
+        MyRoutes.MyGetStartedScreen : (context)=> GetStartedScreen(),
+        MyRoutes.MyLogin : (context)=> LoginScreen(),
+
       },
     );
   }

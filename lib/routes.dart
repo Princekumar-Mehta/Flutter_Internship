@@ -1,4 +1,5 @@
 class MyRoutes{
-  static final Mylogin = '/login';
-  static final MYHome = '/home';
+  static final MYSplashScreen = '/splashScreen';
+  static final MyGetStartedScreen = '/getStartedScreen';
+  static final MyLogin = '/login';
 }
