@@ -18,10 +18,16 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             child:Stack(
                 children:[
                   Positioned(
-                    child:Image.asset(
-                        "assets/images/Abstract_2.png",
-                        height:MediaQuery.of(context).size.height,
-                        width:MediaQuery.of(context).size.width),
+                    child:Container(
+                      width:MediaQuery.of(context).size.width,
+                      height:MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image:AssetImage("assets/images/Abstract_2.png"),
+                            fit:BoxFit.fill,
+                          )
+                      ),
+                    ),
                   ),
                   Positioned(
                     top:MediaQuery.of(context).size.height/(3.5),
@@ -67,21 +73,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                       },
                     ),
                   ),
-                  //   //SliderButton(
-                  //   //   action: (){
-                  //   //
-                  //   //   },
-                  //   //   label: Text(
-                  //   //     "Get Started",
-                  //   //   ),
-                  //   //   icon: Center(
-                  //   //     child: Icon(
-                  //   //       Icons.person_add,
-                  //   //     ),
-                  //   //     width: 230,
-                  //   //   )
-                  //   // )
-                  // ),
                 ]
             ),
           )
