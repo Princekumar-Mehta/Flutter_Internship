@@ -138,27 +138,51 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(
                                   width:300,
                                   height:30,
-                                  child:  ElevatedButton(
-                                    style:ElevatedButton.styleFrom(
-                                      primary:Color(0xFFF42C04),
-                                      shape:StadiumBorder(),
+                                  child:  InkWell(
+                                    child:Stack(
+                                      children:[
+                                        Opacity(
+                                          opacity:0.6,
+                                          child:Container(
+                                            alignment:Alignment.center,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              color:Color(0xFFF42C04),
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child:Text("Login",style:TextStyle(color:Colors.white,fontSize: 17)),
+                                        )
+                                      ],
                                     ),
-                                    child:Text("Login",style:TextStyle(fontSize:17)),
-                                    onPressed:(){} ,
+
+                                    onTap:(){Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen);} ,
                                   ),
                                 ),
                                 SizedBox(height:20),
                                 SizedBox(
                                   width:300,
                                   height:30,
-                                  child:  ElevatedButton(
-                                    style:ElevatedButton.styleFrom(
-                                      primary:Color(0xFFF42C04),
-                                      shape:StadiumBorder(),
-
+                                  child:  InkWell(
+                                    child:Stack(
+                                      children:[
+                                        Opacity(
+                                          opacity:0.6,
+                                          child:Container(
+                                            alignment:Alignment.center,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              color:Color(0xFFF42C04),
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child:Text("Login with Google",style:TextStyle(color:Colors.white,fontSize: 17)),
+                                        )
+                                      ],
                                     ),
-                                    child:Text("Login with Google",style:TextStyle(fontSize: 17)),
-                                    onPressed:(){Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen);} ,
+                                    onTap:(){Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen);} ,
                                   ),
                                 ),
                                 Container(
