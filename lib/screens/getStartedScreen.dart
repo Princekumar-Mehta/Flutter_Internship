@@ -12,8 +12,31 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   bool isStarted = false;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return WillPopScope(
+      onWillPop: () {
+        showDialog<bool>(
+          context:context,
+          builder: (c)=> AlertDialog(
+            title:Text('Warning'),
+            content: Text('Do you really want to exit ?'),
+            actions: [
+              FlatButton(
+                child: Text('Yes'),
+                onPressed: (){
+                  Navigator.pop(c,true);
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text('No'),
+                onPressed: ()=> Navigator.pop(c,false),
+              ),
+            ],
+          ),
+        );
+        return Future.value(true);
+      },
+      child: Scaffold(
           backgroundColor: Color(0xFF0F1A20),
           body: Center(
             child:Stack(
@@ -49,7 +72,10 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                         });
                         await Future.delayed(Duration(seconds:1));
                         await  Navigator.pushNamed(context,MyRoutes.MyLogin);
-
+                        await Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen);
+                        setState(() {
+                          isStarted=false;
+                        });
                         },
                       child: Container(
                         width:170,

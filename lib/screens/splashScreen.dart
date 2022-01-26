@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:project_2/routes.dart';
 import 'package:project_2/screens/loginScreen.dart';
 
+import 'getStartedScreen.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 5),
-      ()=>Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen));
+      ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GetStartedScreen())));
   }
   @override
   Widget build(BuildContext context) {
