@@ -9,6 +9,7 @@ class GetStartedScreen extends StatefulWidget {
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
+  bool isStarted = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,38 +40,68 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                   ),
                   Positioned(
                     bottom:10,
-                    right:MediaQuery.of(context).size.width/10,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(200,50),
-                        primary: Colors.white,
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left:0,
-                            child: Container(
-                              width:30,
-                              height:50,
-                              child: Icon(Icons.person_add,color:Colors.black,size:40),
-                            ),
-                          ),
-                          Positioned(
-                            right:0,
-                            child:
+                    left:160,
+                    child:InkWell(
+                      onTap:() async {
+                        await Future.delayed(Duration(seconds:2));
+                        setState(() {
+                          isStarted=true;
+                        });
+                        await Future.delayed(Duration(seconds:1));
+                        await  Navigator.pushNamed(context,MyRoutes.MyLogin);
+
+                        },
+                      child: Container(
+                        width:170,
+                        child:Stack(
+                          children:[
                             Container(
-                              width:110,
                               height:50,
-                              color:Color(0xFFced6d4),
-                              alignment: Alignment.centerRight,
-                              child: Text("Get Started",style:TextStyle(color:Colors.black,fontSize: 20)),
+                              decoration: BoxDecoration(
+                                color:Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: AnimatedContainer(
+                                duration:  Duration(seconds:2),
+                                child:Row(
+                                  children: [
+                                    Icon(Icons.person_add,color:Colors.black,size:30),
+                                    isStarted?SizedBox(width:110):SizedBox(width:5),
+                                    Image.asset(
+                                      "assets/images/Textered_Grip.png",
+                                      height:20,
+                                      width:20,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              right:0,
+                              child:Opacity(
+                                opacity: isStarted?0:0.5,
+                                child:AnimatedContainer(
+                                  width:115,
+                                  height:50,
+                                  decoration: BoxDecoration(
+                                    color:Color(0xFFced6d4),
+                                    boxShadow:[BoxShadow(
+                                      color:Colors.black,
+                                      blurRadius: 10,
+                                      offset:Offset(0, 2),
+                                    ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                  duration:  Duration(seconds:2),
+                                  child: Text("Get Started",style:TextStyle(color:Colors.black,fontSize: 22)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
                       ),
-                      onPressed: (){
-                        Navigator.pushNamed(context,MyRoutes.MyLogin);
-                      },
                     ),
                   ),
                 ]
