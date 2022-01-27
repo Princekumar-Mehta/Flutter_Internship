@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_2/routes.dart';
 import 'package:project_2/screens/getStartedScreen.dart';
+import 'package:project_2/screens/signUp_Google.dart';
 import 'package:project_2/screens/splashScreen.dart';
 import 'package:project_2/screens/loginScreen.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MYSplashScreen : (context)=> SplashScreen(),
         MyRoutes.MyGetStartedScreen : (context)=> GetStartedScreen(),
         MyRoutes.MyLogin : (context)=> LoginScreen(),
-
+        MyRoutes.MySignUpGoogle : (context)=> SignUpGoogle(),
       },
     );
   }

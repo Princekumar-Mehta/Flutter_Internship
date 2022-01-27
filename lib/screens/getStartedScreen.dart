@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project_2/Extras/myColors.dart';
 import 'package:project_2/routes.dart';
 import 'dart:io' show Platform;
 class GetStartedScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
         return Future.value(true);
       },
       child: Scaffold(
-          backgroundColor: Color(0xFF0F1A20),
+          backgroundColor: MyColors.richBlackFogra,
           body: Center(
             child:Stack(
                 children:[

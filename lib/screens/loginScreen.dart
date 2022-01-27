@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project_2/Extras/myColors.dart';
 import '../routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xff0F1A20),
+        backgroundColor: MyColors.richBlackFogra,
         body: Stack(
             children:[
               Positioned(
@@ -55,14 +56,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       height:500,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color:Color(0xFF0F1A20),
+                        color:MyColors.richBlackFogra,
                       ),
                       child: Stack(
                         children: [
                           Positioned(
                             top:10,
                             left:20,
-                            child:Text("Welcome!",style:TextStyle(color:Color(0xFF88A2AA),fontSize: 30)),
+                            child:Text("Welcome!",style:TextStyle(color:MyColors.pewterBlue,fontSize: 30)),
                           ),
                           Positioned(
                             top:50,
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(
                                   width:300,
                                   height:20,
-                                  child:Text("Email/Employee ID *",style:TextStyle(color:Color(0xFF88A2AA),fontSize: 20)),
+                                  child:Text("Email/Employee ID *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
                                 ),
                                 SizedBox(height: 20),
                                 SizedBox(
@@ -82,9 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child:TextFormField(
                                     decoration: InputDecoration(
                                       hintText:'Full name',
-                                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:Color(0xFF88A2AA))),
+                                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                                     ),
-                                    style:TextStyle(color:Color(0xFFE2856E),fontSize: 20),
+                                    style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                                   ),
                                 ),
                                 SizedBox(height: 20),
@@ -93,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height:20,
                                     child: Row(
                                       children:[
-                                        Text("Password *",style:TextStyle(color:Color(0xFF88A2AA),fontSize: 20)),
+                                        Text("Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
                                       ],
                                     )
                                 ),
@@ -110,16 +111,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                             obscureText:true,
                                             decoration: InputDecoration(
                                               hintText:'Enter Your Password',
-                                              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:Color(0xFF88A2AA))),
+                                              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                                               // suffixIcon: Padding(
                                               //   padding: EdgeInsets.fromLTRB(0,0,0,40),
-                                              //   child: Icon(Icons.remove_red_eye,color:Color(0xFF88A2AA),size:30),
+                                              //   child: Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
                                               // ),
                                             ),
-                                            style:TextStyle(color:Color(0xFFE2856E),fontSize: 20),
+                                            style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                                           ),
                                         ),
-                                        Icon(Icons.remove_red_eye,color:Color(0xFF88A2AA),size:30),
+                                        Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
                                       ],
                                     )
                                 ),
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Row(
                                       children:[
                                         SizedBox(width: 130),
-                                        Text("Forgot Password?",style:TextStyle(color:Color(0xFFE2856E),fontSize: 20)),
+                                        Text("Forgot Password?",style:TextStyle(color:MyColors.middleRed,fontSize: 20)),
                                       ],
                                     )
                                 ),
@@ -147,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             alignment:Alignment.center,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(20),
-                                              color:Color(0xFFF42C04),
+                                              color:MyColors.scarlet,
                                             ),
                                           ),
                                         ),
@@ -173,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             alignment:Alignment.center,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(20),
-                                              color:Color(0xFFF42C04),
+                                              color:MyColors.scarlet,
                                             ),
                                           ),
                                         ),
@@ -191,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                        color:Color(0xFF88A2AA),
+                                        color:MyColors.pewterBlue,
                                       ),
                                     ),
                                   ),
@@ -204,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height:50,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        color:Color(0xFF88A2AA),
+                                        color:MyColors.pewterBlue,
                                       ),
                                       child:Stack(
                                         children:[
@@ -227,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height:50,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        color:Color(0xFF88A2AA),
+                                        color:MyColors.pewterBlue,
                                       ),
                                       child:InkWell(
                                         onTap:(){

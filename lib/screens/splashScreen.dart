@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:project_2/Extras/myColors.dart';
 import 'package:project_2/routes.dart';
 import 'package:project_2/screens/loginScreen.dart';
 
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          backgroundColor: Color(0xFF0F1A20),
+          backgroundColor: MyColors.richBlackFogra,
           body: Center(
             child:Stack(
                 children:[
