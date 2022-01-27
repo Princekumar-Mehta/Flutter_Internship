@@ -2,5 +2,5 @@ class MyRoutes{
   static final MYSplashScreen = '/splashScreen';
   static final MyGetStartedScreen = '/getStartedScreen';
   static final MyLogin = '/login';
-  static final MySignUpGoogle='/signUpGoogle';
+  static final MySignUpEmail='/signUpEmail';
 }

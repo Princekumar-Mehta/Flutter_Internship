@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_2/Extras/myColors.dart';
+import 'package:project_2/screens/signUp_Email.dart';
+import 'package:project_2/screens/signUp_Google.dart';
 import '../routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -82,7 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height:20,
                                   child:TextFormField(
                                     decoration: InputDecoration(
-                                      hintText:'Full name',
                                       enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                                     ),
                                     style:TextStyle(color:MyColors.middleRed,fontSize: 20),
@@ -95,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Row(
                                       children:[
                                         Text("Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
+                                        SizedBox(width:150),
+                                        Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
                                       ],
                                     )
                                 ),
@@ -105,12 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Row(
                                       children:[
                                         SizedBox(
-                                          width:270,
+                                          width:300,
                                           height:20,
                                           child:TextFormField(
                                             obscureText:true,
                                             decoration: InputDecoration(
-                                              hintText:'Enter Your Password',
                                               enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                                               // suffixIcon: Padding(
                                               //   padding: EdgeInsets.fromLTRB(0,0,0,40),
@@ -120,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                             style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                                           ),
                                         ),
-                                        Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
                                       ],
                                     )
                                 ),
@@ -207,20 +208,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius: BorderRadius.all(Radius.circular(5)),
                                         color:MyColors.pewterBlue,
                                       ),
-                                      child:Stack(
-                                        children:[
-                                          Positioned(
-                                            left:7,
-                                            top:9,
-                                            child:Icon(Icons.mail,size: 35,),
-                                          ),
-                                          Positioned(
-                                            left:50,
-                                            top:15,
-                                            child:Text("Sign Up",style:TextStyle(fontSize: 17)),
-                                          ),
-                                        ],
-                                      ),
+                                      child: InkWell(
+                                        child:Stack(
+                                          children:[
+                                            Positioned(
+                                              left:7,
+                                              top:9,
+                                              child:Icon(Icons.mail,size: 35,),
+                                            ),
+                                            Positioned(
+                                              left:50,
+                                              top:15,
+                                              child:Text("Sign Up",style:TextStyle(fontSize: 17)),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap:()=>Navigator.pushNamed(context, MyRoutes.MySignUpEmail)
+                                      )
                                     ),
                                     SizedBox(width:20),
                                     Container(
@@ -231,24 +235,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color:MyColors.pewterBlue,
                                       ),
                                       child:InkWell(
-                                        onTap:(){
-                                          // _googleSignIn.signOut().then((value){
-                                          //   setState((){
-                                          //     _isLoggedin = false;
-                                          //     //_userObj = null!;
-                                          //   });
-                                          // }).catchError((e){
-                                          //   print(e);
-                                          // });
-                                          _googleSignIn.signIn().then((userData){
-                                            setState((){
-                                              _isLoggedin = true;
-                                              _userObj = userData!;
-                                              });
-                                          }).catchError((e){
-                                            print(e);
-                                          });
-                                        },
                                         child: Stack(
                                           children:[
                                             Positioned(
@@ -267,6 +253,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                           ],
                                         ),
+                                        onTap:(){
+                                          // _googleSignIn.signOut().then((value){
+                                          //   setState((){
+                                          //     _isLoggedin = false;
+                                          //     //_userObj = null!;
+                                          //   });
+                                          // }).catchError((e){
+                                          //   print(e);
+                                          // });
+                                          _googleSignIn.signIn().then((userData){
+                                            setState((){
+                                              _isLoggedin = true;
+                                              _userObj = userData!;
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpGoogle(user: userData,)));
+                                            });
+                                          }).catchError((e){
+                                            print(e);
+                                          });
+                                        },
                                       ),
                                     ),
                                   ],

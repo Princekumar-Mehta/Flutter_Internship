@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_2/Extras/myColors.dart';
 import 'dart:io';
-class SignUpGoogle extends StatefulWidget {
-  final GoogleSignInAccount user;
-  const SignUpGoogle({Key? key, required this.user}) : super(key: key);
+class SignUpEmail extends StatefulWidget {
+  const SignUpEmail({Key? key}) : super(key: key);
 
   @override
-  _SignUpGoogleState createState() => _SignUpGoogleState();
+  _SignUpEmailState createState() => _SignUpEmailState();
 }
 
-class _SignUpGoogleState extends State<SignUpGoogle> {
+class _SignUpEmailState extends State<SignUpEmail> {
   File _pickedImage = File('assets/images/DIMS.png');
   Future<void> _pickImage() async {
     final pickedImageFile = await ImagePicker().pickImage(source:ImageSource.camera);
@@ -31,7 +29,6 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
   ];
   @override
   Widget build(BuildContext context) {
-    print(widget.user);
     return Material(
         child:SingleChildScrollView(
           child: Container(
@@ -95,6 +92,59 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
                   ),
                   SizedBox(height: 20),
                   SizedBox(
+                    width:300,
+                    height:20,
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
+                      ),
+                      style:TextStyle(color:MyColors.middleRed,fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(
+                      width:300,
+                      height:20,
+                      child: Row(
+                        children:[
+                          Text("Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
+                          SizedBox(width:168),
+                          Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
+                        ],
+                      )
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                      width:300,
+                      height:20,
+                      child: Row(
+                        children:[
+                          SizedBox(
+                            width:300,
+                            height:20,
+                            child:TextFormField(
+                              obscureText:true,
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
+                              ),
+                              style:TextStyle(color:MyColors.middleRed,fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                  SizedBox(
+                      width:300,
+                      height:20,
+                      child: Row(
+                        children:[
+                          Text("Confirm Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
+                          SizedBox(width:90),
+                          Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
+                        ],
+                      )
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
                       width:300,
                       height:20,
                       child: Row(
@@ -145,7 +195,7 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
                       },
                     ),
                   ),
-                  SizedBox(height:60),
+                  SizedBox(height:30),
                   SizedBox(
                     width:150,
                     height:60,
@@ -170,7 +220,7 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
                       onTap:(){} ,
                     ),
                   ),
-                  SizedBox(height:124),
+                  SizedBox(height:34),
                 ],
               ),
             ),

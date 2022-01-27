@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 5),
-      ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GetStartedScreen())));
+      ()=>Navigator.pushReplacementNamed(context, MyRoutes.MyGetStartedScreen));
   }
   @override
   Widget build(BuildContext context) {
