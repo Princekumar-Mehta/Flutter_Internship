@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:project_2/routes.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:project_2/routes.dart';
+import 'dart:io' show Platform;
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
 
@@ -25,6 +28,10 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 onPressed: (){
                   Navigator.pop(c,true);
                   Navigator.pop(context);
+                  if(Platform.isAndroid)
+                    SystemNavigator.pop();
+                  else if(Platform.isIOS)
+                    exit(0);
                 },
               ),
               FlatButton(
