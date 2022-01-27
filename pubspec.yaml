@@ -46,8 +46,7 @@ dependencies:
   fluent_ui: ^3.7.0
   firebase_database: ^9.0.5
   firebase: ^9.0.2
-
-
+  uri_to_file: ^0.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

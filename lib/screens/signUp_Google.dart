@@ -3,6 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_2/Extras/myColors.dart';
 import 'dart:io';
+import 'dart:math';
+
 class SignUpGoogle extends StatefulWidget {
   final GoogleSignInAccount user;
   const SignUpGoogle({Key? key, required this.user}) : super(key: key);
@@ -12,7 +14,7 @@ class SignUpGoogle extends StatefulWidget {
 }
 
 class _SignUpGoogleState extends State<SignUpGoogle> {
-  File _pickedImage = File('assets/images/DIMS.png');
+  File ? _pickedImage;
   Future<void> _pickImage() async {
     final pickedImageFile = await ImagePicker().pickImage(source:ImageSource.camera);
     setState(() {
@@ -31,7 +33,6 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
   ];
   @override
   Widget build(BuildContext context) {
-    print(widget.user);
     return Material(
         child:SingleChildScrollView(
           child: Container(
@@ -41,7 +42,6 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
             ),
             child:Container(
               child:Column(
-                //crossAxisAlignment: CrossAxisAlignment.baseline,
                 children:[
                   SizedBox(height:50),
                   Container(
@@ -65,7 +65,8 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
                         InkWell(
                           child:CircleAvatar(
                             radius:40,
-                            backgroundImage: _pickedImage != null? FileImage(_pickedImage):null,
+                            backgroundImage: _pickedImage != null? FileImage(_pickedImage !):null,
+                            child:_pickedImage == null? Image.network(widget.user.photoUrl.toString()):null,
                           ),
                           onTap: _pickImage,
                         ),
@@ -82,6 +83,7 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
                     width:300,
                     height:20,
                     child:TextFormField(
+                      initialValue:widget.user.displayName.toString(),
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                       ),
@@ -103,7 +105,7 @@ class _SignUpGoogleState extends State<SignUpGoogle> {
                             width:300,
                             height:20,
                             child:TextFormField(
-                              obscureText:true,
+                              initialValue:widget.user.email.toString(),
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                               ),
