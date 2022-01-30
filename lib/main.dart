@@ -11,8 +11,10 @@ import 'package:project_2/screens/signUp_Google.dart';
 import 'package:project_2/screens/signUp_Email.dart';
 import 'package:project_2/screens/splashScreen.dart';
 import 'package:project_2/screens/loginScreen.dart';
+import 'package:project_2/temp/sqlite_app.dart';
 
 void main(){
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //home:SqliteApp(),
       initialRoute: MyRoutes.MYSplashScreen,
       routes: {
         MyRoutes.MYSplashScreen : (context)=> SplashScreen(),
