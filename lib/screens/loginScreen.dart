@@ -158,8 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         )
                                       ],
                                     ),
-
-                                    onTap:(){Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen);} ,
+                                    onTap:(){
+                                      Navigator.pushNamed(context,MyRoutes.MySalesOrder);
+                                      } ,
                                   ),
                                 ),
                                 SizedBox(height:20),
@@ -225,54 +226,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         onTap:()=>Navigator.pushNamed(context, MyRoutes.MySignUpEmail)
                                       )
-                                    ),
-                                    SizedBox(width:20),
-                                    Container(
-                                      width: 120,
-                                      height:50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        color:MyColors.pewterBlue,
-                                      ),
-                                      child:InkWell(
-                                        child: Stack(
-                                          children:[
-                                            Positioned(
-                                              left:10,
-                                              top:8,
-                                              child:Image.asset(
-                                                "assets/images/Google_Logo.png",
-                                                height:30,
-                                                width:30,
-                                              ),
-                                            ),
-                                            Positioned(
-                                              right:10,
-                                              top:15,
-                                              child:Text("Sign Up",style:TextStyle(fontSize: 17)),
-                                            ),
-                                          ],
-                                        ),
-                                        onTap:(){
-                                          // _googleSignIn.signOut().then((value){
-                                          //   setState((){
-                                          //     _isLoggedin = false;
-                                          //     //_userObj = null!;
-                                          //   });
-                                          // }).catchError((e){
-                                          //   print(e);
-                                          // });
-                                          _googleSignIn.signIn().then((userData){
-                                            setState((){
-                                              _isLoggedin = true;
-                                              _userObj = userData!;
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpGoogle(user: userData,)));
-                                            });
-                                          }).catchError((e){
-                                            print(e);
-                                          });
-                                        },
-                                      ),
                                     ),
                                   ],
                                 ),

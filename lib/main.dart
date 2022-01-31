@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_2/routes.dart';
 import 'package:project_2/screens/getStartedScreen.dart';
+import 'package:project_2/screens/salesOrderScreen.dart';
 import 'package:project_2/screens/signUp_Google.dart';
 import 'package:project_2/screens/signUp_Email.dart';
 import 'package:project_2/screens/splashScreen.dart';
@@ -25,12 +26,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       //home:SqliteApp(),
-      initialRoute: MyRoutes.MYSplashScreen,
+      initialRoute: MyRoutes.MySalesOrder,
       routes: {
         MyRoutes.MYSplashScreen : (context)=> SplashScreen(),
         MyRoutes.MyGetStartedScreen : (context)=> GetStartedScreen(),
         MyRoutes.MyLogin : (context)=> LoginScreen(),
         MyRoutes.MySignUpEmail : (context)=> SignUpEmail(),
+        MyRoutes.MySalesOrder : (context)=> SalesOrderScreen(),
       },
     );
   }
