@@ -12,6 +12,7 @@ class SalesOrderScreen extends StatefulWidget {
 class _SalesOrderScreenState extends State<SalesOrderScreen> {
   DateTime ? _dateTime;
   double _animatedHeight=100.0;
+  var quantity = ['','Qty','Packet','1','Patti','5','Box','10','Total','210'];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -327,17 +328,26 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                                   Text("Unit: Packet",style:TextStyle(color:MyColors.pewterBlue)),
                                                 ],
                                               ),
-                                              GridView.count(
-                                                padding:EdgeInsets.all(0),
-                                                crossAxisCount:2,
-                                                children:List.generate(10, (index){
-                                                  return SizedBox(
-                                                   // color:Colors.red,
-                                                   // color:Colors.red,
-                                                    width:10,
-                                                    height:10,
-                                                  );
-                                                  }),
+                                              Positioned(
+                                                top:30,
+                                                left:100,
+                                                child:Container(
+                                                  constraints: BoxConstraints(
+                                                    maxHeight: 100,
+                                                    maxWidth: 100,
+                                                  ),
+                                                  color:MyColors.richBlackFogra,
+                                                  child:GridView.count(
+                                                    padding:EdgeInsets.all(0),
+                                                    crossAxisCount:2,
+                                                    crossAxisSpacing: 4,
+                                                    mainAxisSpacing: 8,
+                                                    childAspectRatio: 2,
+                                                    children:List.generate(quantity.length, (index){
+                                                      return Text(quantity[index],style:TextStyle(color:MyColors.pewterBlue));
+                                                    }),
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
