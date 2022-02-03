@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       //home:SqliteApp(),
-      initialRoute: MyRoutes.MySalesOrder,
+      initialRoute: MyRoutes.MYSplashScreen,
       routes: {
         MyRoutes.MYSplashScreen : (context)=> SplashScreen(),
         MyRoutes.MyGetStartedScreen : (context)=> GetStartedScreen(),
