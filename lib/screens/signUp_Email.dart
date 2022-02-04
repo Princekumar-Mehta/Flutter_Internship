@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
 import '../routes.dart';
@@ -16,12 +17,12 @@ class SignUpEmail extends StatefulWidget {
 }
 
 class _SignUpEmailState extends State<SignUpEmail> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormBuilderState>();
   File? _pickedImage;
-  bool _isObscure = false;
+  bool _isObscure = true;
   String dropdownvalue = 'Select an Option';
   var items = [
-    'Select an Option',
+    'Salesperson',
     'Regional Manager',
     'Area Manager',
     'General Manager',
@@ -51,6 +52,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
       return;
     }
     if(_formKey.currentState!.validate()){
+      _formKey.currentState!.save();
+      print(_formKey.currentState!.value);
       await Future.delayed(Duration(seconds:1));
       await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
     }
@@ -97,7 +100,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
               height:MediaQuery.of(context).size.height,
               child:Stack(
                   children:[
-                    Form(
+                    FormBuilder(
                       key:_formKey,
                       child:Column(
                         children: [
@@ -130,8 +133,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           Container(
                             width: 300,
                             height: 30,
-                            child: TextFormField(
-                              obscureText: true,
+                            child: FormBuilderTextField(
+                              name:'full_name',
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -159,7 +162,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           Container(
                             width: 300,
                             height: 30,
-                            child: TextFormField(
+                            child: FormBuilderTextField(
+                                name:'email',
                                 decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
@@ -169,7 +173,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                     fontSize: 20),
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return "Please Enter Email or Employee Id";
+                                    return "Please Enter Email Id";
                                   }
                                   return null;
                                 }
@@ -201,7 +205,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           Container(
                             width:300,
                             height:30,
-                            child:TextFormField(
+                            child:FormBuilderTextField(
+                              name:'password_1',
                               obscureText: _isObscure,
                               style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                               validator: (value) {
@@ -235,7 +240,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           Container(
                             width: 300,
                             height: 30,
-                            child: TextFormField(
+                            child: FormBuilderTextField(
+                              name:'password_2',
                               obscureText: true,
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -266,7 +272,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           SizedBox(height:10),
                           SizedBox(
                             width: 300,
-                            child: DropdownButtonFormField(
+                            child: FormBuilderDropdown(
+                              name:'role',
                               validator: (value) {
                                 if(value.toString()=="Select an Option")
                                   return "Please seleect you role";
@@ -275,7 +282,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               style: TextStyle(color: MyColors.pewterBlue),
                               isExpanded: true,
                               isDense: true,
-                              value: dropdownvalue,
                               icon: const Icon(Icons.keyboard_arrow_down),
                               items: items.map((String items) {
                                 return DropdownMenuItem(

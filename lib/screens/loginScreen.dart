@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
 import '../routes.dart';
-
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -10,11 +10,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormBuilderState>();
+
   moveToHome(BuildContext context) async{
     if(_formKey.currentState!.validate()){
-      await Future.delayed(Duration(seconds:1));
-      await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
+      _formKey.currentState!.save();
+      final form_data = _formKey.currentState?.value;
+      if(_formKey.currentState?.value['email_emp'].toString()=="Prince@gmail.com"&&_formKey.currentState?.value['password'].toString()=='123456'){
+        await Future.delayed(Duration(seconds:1));
+        await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
+        _formKey.currentState!.reset();
+      }else{
+        showDialog<bool>(
+          context:context,
+          builder: (c)=> AlertDialog(
+            title:Text('Alert'),
+            content: Text('Either Password is incorrect or email/employee id doesn\'t exist'),
+            actions: [
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: ()=> Navigator.pop(c,false),
+              ),
+            ],
+          ),
+        );
+      }
+
     }
   }
   bool _isObscure = true;
@@ -75,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Positioned(
                                   top:50,
                                   left:10,
-                                  child: Form(
+                                  child: FormBuilder(
                                     key:_formKey,
                                     child:Column(
                                       children: [
@@ -90,7 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Container(
                                           width:300,
                                           height:30,
-                                          child:TextFormField(
+                                          child:FormBuilderTextField(
+                                              name:'email_emp',
                                               decoration: InputDecoration(
                                                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                                               ),
@@ -119,7 +141,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Container(
                                           width:300,
                                           height:30,
-                                          child:TextFormField(
+                                          child:FormBuilderTextField(
+                                              name:'password',
                                               obscureText:true,
                                               decoration: InputDecoration(
                                                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
