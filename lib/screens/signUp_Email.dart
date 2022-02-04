@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
-
 import '../routes.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class SignUpEmail extends StatefulWidget {
   const SignUpEmail({Key? key}) : super(key: key);
@@ -14,31 +17,69 @@ class SignUpEmail extends StatefulWidget {
 
 class _SignUpEmailState extends State<SignUpEmail> {
   final _formKey = GlobalKey<FormState>();
+  File? _pickedImage;
+  bool _isObscure = false;
+  String dropdownvalue = 'Select an Option';
+  var items = [
+    'Select an Option',
+    'Regional Manager',
+    'Area Manager',
+    'General Manager',
+  ];
+  Future<void> _pickImage() async {
+    final pickedImageFile = await ImagePicker().pickImage(source:ImageSource.camera);
+    setState(() {
+      _pickedImage = File(pickedImageFile!.path);
+      print(_pickedImage);
+    });
+  }
   moveToHome(BuildContext context) async{
+    if(_pickedImage == null){
+      showDialog<bool>(
+        context:context,
+        builder: (c)=> AlertDialog(
+          title:Text('Alert'),
+          content: Text('Please Select/Upload Image'),
+          actions: [
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: ()=> Navigator.pop(c,false),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
     if(_formKey.currentState!.validate()){
       await Future.delayed(Duration(seconds:1));
       await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
     }
   }
+  /*
+    This is code load image from asset in case user doesn't select image, this will be used as default image
+    but it is not working.*/
+
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/DIMS.png');
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
+  Future<void> LoadImage() async {
+    _pickedImage = await getImageFileFromAssets('images/DIMS.png');
+    print(_pickedImage);
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    File? _pickedImage;
-    Future<void> _pickImage() async {
-      final pickedImageFile = await ImagePicker().pickImage(source:ImageSource.camera);
-      setState(() {
-        _pickedImage = File(_pickedImage!.path);
-      });
+    if (_pickedImage == null) {
+      LoadImage();
     }
-// Initial Selected Value
-    String dropdownvalue = 'Select an Option';
-
-// List of items in our dropdown menu
-    var items = [
-      'Select an Option',
-      'Regional Manager',
-      'Area Manager',
-      'General Manager',
-    ];
     return MaterialApp(
       home: Scaffold(
           appBar:AppBar(
@@ -85,6 +126,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 "Full Name*", style: TextStyle(color: MyColors
                                 .pewterBlue, fontSize: 20)),
                           ),
+                          SizedBox(height:20),
                           Container(
                             width: 300,
                             height: 30,
@@ -113,6 +155,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 "Email Address*", style: TextStyle(color: MyColors
                                 .pewterBlue, fontSize: 20)),
                           ),
+                          SizedBox(height:20),
                           Container(
                             width: 300,
                             height: 30,
@@ -134,30 +177,33 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           ),
                           SizedBox(height:10),
                           SizedBox(
-                              width: 300,
-                              height: 20,
+                              width:300,
+                              height:20,
                               child: Row(
-                                children: [
-                                  Text("Password *", style: TextStyle(
-                                      color: MyColors.pewterBlue, fontSize: 20)),
-                                  SizedBox(width: 168),
-                                  Icon(Icons.remove_red_eye,
-                                      color: MyColors.pewterBlue, size: 30),
+                                children:[
+                                  Text("Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
+                                  SizedBox(width:150),
+                                  // IconButton(
+                                  //   icon: Icon(
+                                  //       _isObscure ? Icons.visibility : Icons.visibility_off,
+                                  //       color:MyColors.pewterBlue,size:30
+                                  //   ),
+                                  //   onPressed: () {
+                                  //     setState(() {
+                                  //       _isObscure = !_isObscure;
+                                  //     });
+                                  //   },
+                                  // ),
                                 ],
                               )
                           ),
+                          SizedBox(height: 20),
                           Container(
-                            width: 300,
-                            height: 30,
-                            child: TextFormField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: MyColors.pewterBlue)),
-                              ),
-                              style: TextStyle(color: MyColors.middleRed,
-                                  fontSize: 20),
+                            width:300,
+                            height:30,
+                            child:TextFormField(
+                              obscureText: _isObscure,
+                              style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Please Enter Password";
@@ -167,6 +213,10 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 }
                                 return null;
                               },
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
+                              ),
+
                             ),
                           ),
                           SizedBox(height:10),
@@ -178,11 +228,10 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                   Text("Confirm Password *", style: TextStyle(
                                       color: MyColors.pewterBlue, fontSize: 20)),
                                   SizedBox(width: 90),
-                                  Icon(Icons.remove_red_eye,
-                                      color: MyColors.pewterBlue, size: 30),
                                 ],
                               )
                           ),
+                          SizedBox(height:20),
                           Container(
                             width: 300,
                             height: 30,

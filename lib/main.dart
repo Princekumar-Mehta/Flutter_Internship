@@ -6,6 +6,7 @@ import 'package:intern_project_v1/screens/signUp_Email.dart';
 import 'package:intern_project_v1/screens/splashScreen.dart';
 import 'package:intern_project_v1/screens/loginScreen.dart';
 
+
 void main(){
   runApp(MyApp());
 }

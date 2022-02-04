@@ -358,6 +358,252 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                         ],
                                       ),
                                     ),
+                                    Stack(
+                                      children:[
+                                        Container(
+                                          alignment:Alignment.centerLeft,
+                                          child: Text("1",style:TextStyle(color:MyColors.pewterBlue)),
+                                        ),
+                                        Positioned.fill(
+                                          child:Align(
+                                            alignment:Alignment.topCenter,
+                                            child:Container(
+                                              alignment:Alignment.center,
+                                              width:200,
+                                              decoration: BoxDecoration(
+                                                border:Border(
+                                                  bottom:BorderSide(color:MyColors.pewterBlue),
+                                                ),
+                                              ),
+                                              child: Text("Item: Balaji Masala Wafers",style:TextStyle(color:MyColors.pewterBlue)),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right:0,
+                                          child: Container(
+                                            height:40,
+                                            alignment:Alignment.topRight,
+                                            child: GestureDetector(
+                                              onTap:(){
+                                                setState(() {
+                                                  _animatedHeight!=0.0?_animatedHeight=0.0:_animatedHeight=150.0;
+                                                });
+                                              },
+                                              child:Icon(Icons.keyboard_arrow_down,color:MyColors.pewterBlue,size:20),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    AnimatedContainer(
+                                      duration: Duration(milliseconds: 120),
+                                      height:_animatedHeight,
+                                      child:Stack(
+                                        children:[
+                                          Row(
+                                            children:[
+                                              SizedBox(width:50),
+                                              Text("Price: \$ XX.XX",style:TextStyle(color:MyColors.pewterBlue)),
+                                              SizedBox(width:30),
+                                              Text("Unit: Packet",style:TextStyle(color:MyColors.pewterBlue)),
+                                            ],
+                                          ),
+                                          Positioned(
+                                            top:30,
+                                            left:30,
+                                            child:Container(
+                                              height:400,
+                                              width:100,
+                                              color:MyColors.richBlackFogra,
+                                              child:GridView.count(
+                                                padding:EdgeInsets.all(0),
+                                                crossAxisCount:2,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 8,
+                                                childAspectRatio: 3,
+                                                children:List.generate(_quantity.length, (index){
+                                                  return Text(_quantity[index],style:TextStyle(color:MyColors.pewterBlue));
+                                                }),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:50,
+                                            left:120,
+                                            child:Container(
+                                              height:400,
+                                              width:120,
+                                              color:MyColors.richBlackFogra,
+                                              child:GridView.count(
+                                                padding:EdgeInsets.all(0),
+                                                crossAxisCount:2,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 8,
+                                                childAspectRatio: 3,
+                                                children:List.generate(_calculated.length, (index){
+                                                  return Text(_calculated[index],style:TextStyle(color:MyColors.pewterBlue));
+                                                }),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:40,
+                                            right:10,
+                                            child: Material(
+                                              child:InkWell(
+                                                child:Container(
+                                                  decoration: BoxDecoration(
+                                                    color: MyColors.richBlackFogra,
+                                                    border:Border.all(color:MyColors.richBlackFogra),
+                                                  ),
+                                                  child:Icon(Icons.save,color:MyColors.pewterBlue,size:30),
+                                                ),
+                                                onTap:(){Navigator.pop(context,true);},
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:90,
+                                            right:10,
+                                            child: Material(
+                                              child:InkWell(child:Container(
+                                                decoration: BoxDecoration(
+                                                  color: MyColors.richBlackFogra,
+                                                  border:Border.all(color:MyColors.richBlackFogra),
+                                                ),
+                                                child:Icon(Icons.delete_forever,color:MyColors.pewterBlue,size:30),
+                                              ),
+                                                onTap:(){Navigator.pop(context,true);},
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Stack(
+                                      children:[
+                                        Container(
+                                          alignment:Alignment.centerLeft,
+                                          child: Text("1",style:TextStyle(color:MyColors.pewterBlue)),
+                                        ),
+                                        Positioned.fill(
+                                          child:Align(
+                                            alignment:Alignment.topCenter,
+                                            child:Container(
+                                              alignment:Alignment.center,
+                                              width:200,
+                                              decoration: BoxDecoration(
+                                                border:Border(
+                                                  bottom:BorderSide(color:MyColors.pewterBlue),
+                                                ),
+                                              ),
+                                              child: Text("Item: Balaji Masala Wafers",style:TextStyle(color:MyColors.pewterBlue)),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right:0,
+                                          child: Container(
+                                            height:40,
+                                            alignment:Alignment.topRight,
+                                            child: GestureDetector(
+                                              onTap:(){
+                                                setState(() {
+                                                  _animatedHeight!=0.0?_animatedHeight=0.0:_animatedHeight=150.0;
+                                                });
+                                              },
+                                              child:Icon(Icons.keyboard_arrow_down,color:MyColors.pewterBlue,size:20),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    AnimatedContainer(
+                                      duration: Duration(milliseconds: 120),
+                                      height:_animatedHeight,
+                                      child:Stack(
+                                        children:[
+                                          Row(
+                                            children:[
+                                              SizedBox(width:50),
+                                              Text("Price: \$ XX.XX",style:TextStyle(color:MyColors.pewterBlue)),
+                                              SizedBox(width:30),
+                                              Text("Unit: Packet",style:TextStyle(color:MyColors.pewterBlue)),
+                                            ],
+                                          ),
+                                          Positioned(
+                                            top:30,
+                                            left:30,
+                                            child:Container(
+                                              height:400,
+                                              width:100,
+                                              color:MyColors.richBlackFogra,
+                                              child:GridView.count(
+                                                padding:EdgeInsets.all(0),
+                                                crossAxisCount:2,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 8,
+                                                childAspectRatio: 3,
+                                                children:List.generate(_quantity.length, (index){
+                                                  return Text(_quantity[index],style:TextStyle(color:MyColors.pewterBlue));
+                                                }),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:50,
+                                            left:120,
+                                            child:Container(
+                                              height:400,
+                                              width:120,
+                                              color:MyColors.richBlackFogra,
+                                              child:GridView.count(
+                                                padding:EdgeInsets.all(0),
+                                                crossAxisCount:2,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 8,
+                                                childAspectRatio: 3,
+                                                children:List.generate(_calculated.length, (index){
+                                                  return Text(_calculated[index],style:TextStyle(color:MyColors.pewterBlue));
+                                                }),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:40,
+                                            right:10,
+                                            child: Material(
+                                              child:InkWell(
+                                                child:Container(
+                                                  decoration: BoxDecoration(
+                                                    color: MyColors.richBlackFogra,
+                                                    border:Border.all(color:MyColors.richBlackFogra),
+                                                  ),
+                                                  child:Icon(Icons.save,color:MyColors.pewterBlue,size:30),
+                                                ),
+                                                onTap:(){Navigator.pop(context,true);},
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top:90,
+                                            right:10,
+                                            child: Material(
+                                              child:InkWell(child:Container(
+                                                decoration: BoxDecoration(
+                                                  color: MyColors.richBlackFogra,
+                                                  border:Border.all(color:MyColors.richBlackFogra),
+                                                ),
+                                                child:Icon(Icons.delete_forever,color:MyColors.pewterBlue,size:30),
+                                              ),
+                                                onTap:(){Navigator.pop(context,true);},
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ]
                               ),
                             ),
