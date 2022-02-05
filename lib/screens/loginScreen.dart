@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intern_project_v1/Database/db_SignUp.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
 import '../routes.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -11,31 +14,47 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
-
+  void showMessage(BuildContext context,String message){
+    showDialog<bool>(
+      context:context,
+      builder: (c)=> AlertDialog(
+        title:Text('Alert'),
+        content: Text(message),
+        actions: [
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: ()=> Navigator.pop(c,false),
+          ),
+        ],
+      ),
+    );
+  }
   moveToHome(BuildContext context) async{
+    await Database_signUp.print_emps();
     if(_formKey.currentState!.validate()){
       _formKey.currentState!.save();
-      final form_data = _formKey.currentState?.value;
-      if(_formKey.currentState?.value['email_emp'].toString()=="Prince@gmail.com"&&_formKey.currentState?.value['password'].toString()=='123456'){
-        await Future.delayed(Duration(seconds:1));
-        await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
-        _formKey.currentState!.reset();
-      }else{
-        showDialog<bool>(
-          context:context,
-          builder: (c)=> AlertDialog(
-            title:Text('Alert'),
-            content: Text('Either Password is incorrect or email/employee id doesn\'t exist'),
-            actions: [
-              FlatButton(
-                child: Text('Okay'),
-                onPressed: ()=> Navigator.pop(c,false),
-              ),
-            ],
-          ),
-        );
+      RegExp _numeric =RegExp(r'^-?[0-9]+$');
+      String? id= _formKey.currentState?.value['email_or_id'].toString();
+      Employee? emp;
+      if(_numeric.hasMatch(id!)){
+         emp = await Database_signUp.getEmp(email: '', id: int.parse(id));
+      }else
+         emp = await Database_signUp.getEmp(email: _formKey.currentState?.value['email_or_id'], id: 0);
+      if(emp==null){
+        showMessage(context,'No Entry with given Email/Id');
+        return;
       }
-
+      if(_formKey.currentState?.value['password'].toString()==emp.password){
+        showMessage(context,'Wrong Password');
+        return;
+      }
+      if(emp.status == 'Email Pending'){
+        showMessage(context,'Email Varification Pending');
+        return;
+      }
+      await Future.delayed(Duration(seconds:1));
+      await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
+      _formKey.currentState!.reset();
     }
   }
   bool _isObscure = true;
@@ -112,13 +131,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                           width:300,
                                           height:30,
                                           child:FormBuilderTextField(
-                                              name:'email_emp',
+                                              name:'email_or_id',
                                               decoration: InputDecoration(
                                                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
                                               ),
                                               style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                                               validator:(value){
-                                                if(value!.isEmpty){
+                                                if(value==null){
                                                   return "Please Enter Email or Employee Id";
                                                 }
                                                 return null;
@@ -132,8 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                             child: Row(
                                               children:[
                                                 Text("Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
-                                                SizedBox(width:150),
-                                                Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
                                               ],
                                             )
                                         ),
@@ -143,17 +160,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                           height:30,
                                           child:FormBuilderTextField(
                                               name:'password',
-                                              obscureText:true,
+                                              obscureText:_isObscure,
                                               decoration: InputDecoration(
                                                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
-                                                // suffixIcon: Padding(
-                                                //   padding: EdgeInsets.fromLTRB(0,0,0,40),
-                                                //   child: Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
-                                                // ),
+                                                suffixIcon: IconButton(
+                                                  icon:Icon(
+                                                    _isObscure? Icons.visibility:Icons.visibility_off,
+                                                      color:MyColors.pewterBlue,size:20
+                                                  ),
+                                                  onPressed: (){
+                                                    setState(() {
+                                                      _isObscure = !_isObscure;
+                                                    });
+                                                  },
+                                                ),
                                               ),
                                               style:TextStyle(color:MyColors.middleRed,fontSize: 20),
                                               validator:(value){
-                                                if(value!.isEmpty){
+                                                if(value==null){
                                                   return "Please Enter Password";
                                                 }
                                                 return null;
