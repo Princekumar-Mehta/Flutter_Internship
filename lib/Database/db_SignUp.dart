@@ -80,6 +80,7 @@ class DatabaseHelper{
      password TEXT,
      role TEXT,
      status TEXT
+     profile_pic TEXT
     )
     ''');
   }

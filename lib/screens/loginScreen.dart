@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intern_project_v1/Database/db_SignUp.dart';
+import 'package:intern_project_v1/Email/send_email.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
 import '../routes.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -30,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
   moveToHome(BuildContext context) async{
-    await Database_signUp.print_emps();
     if(_formKey.currentState!.validate()){
       _formKey.currentState!.save();
       RegExp _numeric =RegExp(r'^-?[0-9]+$');

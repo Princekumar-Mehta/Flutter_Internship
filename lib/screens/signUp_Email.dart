@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intern_project_v1/Database/db_SignUp.dart';
+import 'package:intern_project_v1/Email/send_email.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
+import 'package:intern_project_v1/screens/otpVerificationScreen.dart';
 import '../routes.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -37,12 +39,16 @@ class _SignUpEmailState extends State<SignUpEmail> {
         actions: [
           FlatButton(
             child: Text('Okay'),
-            onPressed: ()=> Navigator.pop(c,false),
+            onPressed: () async {
+              Navigator.pop(c,false);
+              await Navigator.pushNamed(context,MyRoutes.MyLogin);
+            },
           ),
         ],
       ),
     );
   }
+
   Future<void> _pickImage() async {
     final pickedImageFile = await ImagePicker().pickImage(source:ImageSource.camera);
     setState(() {
@@ -73,8 +79,10 @@ class _SignUpEmailState extends State<SignUpEmail> {
       String? email = _formKey.currentState?.value['email'].toString();
       Employee? emp = await Database_signUp.getEmp(email: email!, id: 0);
       await showMessage(context,"Your Employee Id is : "+emp!.id.toString());
-      await Future.delayed(Duration(seconds:5));
-      await Navigator.pushNamed(context,MyRoutes.MyLogin);
+      int otp=12345;
+      Send_Mail.send_mail(_formKey.currentState?.value['email'],otp);
+      int? id=emp.id;
+      OtpVerificationScreen(email:_formKey.currentState?.value['email'],id:id!,otp:otp);
     }
   }
   /*
