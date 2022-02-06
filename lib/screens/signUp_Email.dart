@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intern_project_v1/Database/db_SignUp.dart';
 import 'package:intern_project_v1/Extras/myColors.dart';
 import '../routes.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,21 @@ class _SignUpEmailState extends State<SignUpEmail> {
     'Area Manager',
     'General Manager',
   ];
+  Future<void> showMessage(BuildContext context,String message)async {
+    showDialog<bool>(
+      context:context,
+      builder: (c)=> AlertDialog(
+        title:Text('Alert'),
+        content: Text(message),
+        actions: [
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: ()=> Navigator.pop(c,false),
+          ),
+        ],
+      ),
+    );
+  }
   Future<void> _pickImage() async {
     final pickedImageFile = await ImagePicker().pickImage(source:ImageSource.camera);
     setState(() {
@@ -36,26 +52,29 @@ class _SignUpEmailState extends State<SignUpEmail> {
   }
   moveToHome(BuildContext context) async{
     if(_pickedImage == null){
-      showDialog<bool>(
-        context:context,
-        builder: (c)=> AlertDialog(
-          title:Text('Alert'),
-          content: Text('Please Select/Upload Image'),
-          actions: [
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: ()=> Navigator.pop(c,false),
-            ),
-          ],
-        ),
-      );
+      showMessage(context,'Please Select or Upload Image');
       return;
     }
     if(_formKey.currentState!.validate()){
       _formKey.currentState!.save();
-      print(_formKey.currentState!.value);
-      await Future.delayed(Duration(seconds:1));
-      await Navigator.pushNamed(context,MyRoutes.MySalesOrder);
+      if(_formKey.currentState!.value['password_1']!=_formKey.currentState!.value['password_2']){
+        showMessage(context,"Both Password should match");
+        return;
+      }
+
+      await Database_signUp.addEmp(
+          profile_pic: _pickedImage!.path,
+          name: _formKey.currentState!.value['full_name'],
+          email: _formKey.currentState!.value['email'],
+          password: _formKey.currentState!.value['password_1'],
+          role: _formKey.currentState!.value['role'],
+          status:"Email Pending",
+      );
+      String? email = _formKey.currentState?.value['email'].toString();
+      Employee? emp = await Database_signUp.getEmp(email: email!, id: 0);
+      await showMessage(context,"Your Employee Id is : "+emp!.id.toString());
+      await Future.delayed(Duration(seconds:5));
+      await Navigator.pushNamed(context,MyRoutes.MyLogin);
     }
   }
   /*
