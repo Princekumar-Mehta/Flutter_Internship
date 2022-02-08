@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:project_2/Database/db_SignUp.dart';
 import 'package:project_2/Extras/myColors.dart';
-import 'package:project_2/screens/signUp_Email.dart';
-import 'package:project_2/screens/signUp_Google.dart';
+import 'package:project_2/Extras/myScreen.dart';
+
 import '../routes.dart';
+import 'otpVerificationScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,223 +17,411 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoggedin = false;
-  late GoogleSignInAccount _userObj ;
-  GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _formKey = GlobalKey<FormBuilderState>();
+  void showMessage(BuildContext context, String message) {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Alert'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () => Navigator.pop(c, false),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> showIdOtp(
+    BuildContext context,
+    String message,
+    String email,
+    int id,
+    int otp,
+  ) async {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Alert'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () async {
+              Navigator.pop(c, false);
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => OtpVerificationScreen(
+                          email: email, id: id, otp: otp)));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  moveToHome(BuildContext context) async {
+    await Database_signUp.print_emps();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      RegExp _numeric = RegExp(r'^-?[0-9]+$');
+      String? id = _formKey.currentState?.value['email_or_id'].toString();
+      Employee? emp;
+      if (_numeric.hasMatch(id!)) {
+        emp = await Database_signUp.getEmp(email: '', id: int.parse(id));
+      } else {
+        emp = await Database_signUp.getEmp(
+            email: _formKey.currentState?.value['email_or_id'], id: 0);
+      }
+      if (emp == null) {
+        showMessage(context, 'No Entry with given Email/ID');
+        return;
+      }
+      if (_formKey.currentState?.value['password'].toString() != emp.password) {
+        showMessage(context, 'Wrong Password');
+        return;
+      }
+      if (emp.status == 'Email Pending') {
+        String? email = emp.email;
+        print(email);
+        int id = emp.id!;
+        String otp_mail = (1000 + Random().nextInt(9999 - 1000)).toString();
+        int otp = int.parse(otp_mail);
+        showIdOtp(context, 'Email Verification Pending', email!, id, otp);
+        return;
+      }
+      await Future.delayed(const Duration(seconds: 1));
+      await Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+      _formKey.currentState!.reset();
+    }
+  }
+
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: MyColors.richBlackFogra,
-        body: Stack(
-            children:[
+          backgroundColor: MyColors.richBlackFogra,
+          body: SizedBox(
+            width: MyScreen.getScreenWidth(context),
+            height: MyScreen.getScreenHeight(context),
+            child: Stack(children: [
               Positioned(
-                child:Container(
-                  width:MediaQuery.of(context).size.width,
-                  height:MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
+                child: Container(
+                  width: MyScreen.getScreenWidth(context),
+                  height: MyScreen.getScreenHeight(context),
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image:AssetImage("assets/images/Abstract_2.png"),
-                        fit:BoxFit.fill,
-                      )
-                  ),
+                    image: AssetImage("assets/images/Abstract_2.png"),
+                    fit: BoxFit.fill,
+                  )),
                 ),
               ),
-
               Positioned(
                 child: Center(
-                  child:Opacity(
-                    opacity:0.5,
-                    child:Container(
-                      width:MediaQuery.of(context).size.width,
-                      height:MediaQuery.of(context).size.height,
-                      color:Colors.white,
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Container(
+                      width: MyScreen.getScreenWidth(context),
+                      height: MyScreen.getScreenHeight(context),
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
               Positioned(
                 child: Center(
-                  child:Opacity(
-                    opacity:1,
-                    child:Container(
-                      width:320,
-                      height:500,
+                  child: Opacity(
+                    opacity: 1,
+                    child: Container(
+                      width: MyScreen.getScreenWidth(context) * (260 / 294),
+                      height: MyScreen.getScreenHeight(context) * (280 / 553),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color:MyColors.richBlackFogra,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                            MyScreen.getScreenHeight(context) * (5 / 553))),
+                        color: MyColors.richBlackFogra,
                       ),
                       child: Stack(
                         children: [
                           Positioned(
-                            top:10,
-                            left:20,
-                            child:Text("Welcome!",style:TextStyle(color:MyColors.pewterBlue,fontSize: 30)),
+                            top: MyScreen.getScreenHeight(context) * 0.02,
+                            left: MyScreen.getScreenWidth(context) * 0.05,
+                            child: Text("Welcome!",
+                                style: TextStyle(
+                                    color: MyColors.pewterBlue,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (30 / 1063.6))),
                           ),
                           Positioned(
-                            top:50,
-                            left:10,
-                            child: Column(
-                              children: [
-                                SizedBox(height: 50),
-                                SizedBox(
-                                  width:300,
-                                  height:20,
-                                  child:Text("Email/Employee ID *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
-                                ),
-                                SizedBox(height: 20),
-                                SizedBox(
-                                  width:300,
-                                  height:20,
-                                  child:TextFormField(
-                                    decoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
-                                    ),
-                                    style:TextStyle(color:MyColors.middleRed,fontSize: 20),
+                            top: MyScreen.getScreenHeight(context) *
+                                (140 / 1063.6),
+                            left: MyScreen.getScreenWidth(context) * 0.05,
+                            child: FormBuilder(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (228 / 294),
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (30 / 1063.6),
+                                    child: Text("Email/Employee ID *",
+                                        style: TextStyle(
+                                            color: MyColors.pewterBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                (20 / 1063.6))),
                                   ),
-                                ),
-                                SizedBox(height: 20),
-                                SizedBox(
-                                    width:300,
-                                    height:20,
-                                    child: Row(
-                                      children:[
-                                        Text("Password *",style:TextStyle(color:MyColors.pewterBlue,fontSize: 20)),
-                                        SizedBox(width:150),
-                                        Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
-                                      ],
-                                    )
-                                ),
-                                SizedBox(height: 20),
-                                SizedBox(
-                                    width:300,
-                                    height:30,
-                                    child: Row(
-                                      children:[
-                                        SizedBox(
-                                          width:300,
-                                          height:20,
-                                          child:TextFormField(
-                                            obscureText:true,
-                                            decoration: InputDecoration(
-                                              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:MyColors.pewterBlue)),
-                                              // suffixIcon: Padding(
-                                              //   padding: EdgeInsets.fromLTRB(0,0,0,40),
-                                              //   child: Icon(Icons.remove_red_eye,color:MyColors.pewterBlue,size:30),
-                                              // ),
-                                            ),
-                                            style:TextStyle(color:MyColors.middleRed,fontSize: 20),
+                                  SizedBox(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (228 / 294),
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (50 / 1063.6),
+                                    child: FormBuilderTextField(
+                                        name: 'email_or_id',
+                                        decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: MyColors.pewterBlue)),
+                                        ),
+                                        style: TextStyle(
+                                            color: MyColors.middleRed,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                (25 / 1063.6)),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Please enter Email or Employee ID";
+                                          }
+                                          return null;
+                                        }),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (6 / 553)),
+                                  SizedBox(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (228 / 294),
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (30 / 1063.6),
+                                      child: Row(
+                                        children: [
+                                          Text("Password *",
+                                              style: TextStyle(
+                                                  color: MyColors.pewterBlue,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          (20 / 1063.6))),
+                                        ],
+                                      )),
+                                  SizedBox(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (228 / 294),
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (50 / 1063.6),
+                                    child: FormBuilderTextField(
+                                        name: 'password',
+                                        obscureText: _isObscure,
+                                        decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: MyColors.pewterBlue)),
+                                          suffixIcon: IconButton(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 2.0),
+                                            icon: Icon(
+                                                _isObscure
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
+                                                color: MyColors.pewterBlue,
+                                                size: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    (22 / 1063.6)),
+                                            onPressed: () {
+                                              setState(() {
+                                                _isObscure = !_isObscure;
+                                              });
+                                            },
                                           ),
                                         ),
-                                      ],
-                                    )
-                                ),
-
-                                SizedBox(
-                                    width:300,
-                                    height:30,
-                                    child: Row(
-                                      children:[
-                                        SizedBox(width: 130),
-                                        Text("Forgot Password?",style:TextStyle(color:MyColors.middleRed,fontSize: 20)),
-                                      ],
-                                    )
-                                ),
-                                SizedBox(height:30),
-                                SizedBox(
-                                  width:300,
-                                  height:30,
-                                  child:  InkWell(
-                                    child:Stack(
-                                      children:[
-                                        Opacity(
-                                          opacity:0.6,
-                                          child:Container(
-                                            alignment:Alignment.center,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
-                                              color:MyColors.scarlet,
+                                        style: TextStyle(
+                                            color: MyColors.middleRed,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                (25 / 1063.6)),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Please enter Password";
+                                          }
+                                          return null;
+                                        }),
+                                  ),
+                                  SizedBox(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (228 / 294),
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (30 / 1063.6),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (258 / 490.9)),
+                                          Text("Forgot Password?",
+                                              style: TextStyle(
+                                                  color: MyColors.middleRed,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          (15 / 1063.6))),
+                                        ],
+                                      )),
+                                  SizedBox(
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (27 / 1063.6)),
+                                  SizedBox(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (228 / 294),
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (45 / 1063.6),
+                                    child: InkWell(
+                                      child: Stack(
+                                        children: [
+                                          Opacity(
+                                            opacity: 0.7,
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            (15 / 553)),
+                                                color: MyColors.scarlet,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Center(
-                                          child:Text("Login",style:TextStyle(color:Colors.white,fontSize: 17)),
-                                        )
-                                      ],
-                                    ),
-                                    onTap:(){
-                                      Navigator.pushNamed(context,MyRoutes.MySalesOrder);
-                                      } ,
-                                  ),
-                                ),
-                                SizedBox(height:20),
-                                SizedBox(
-                                  width:300,
-                                  height:30,
-                                  child:  InkWell(
-                                    child:Stack(
-                                      children:[
-                                        Opacity(
-                                          opacity:0.6,
-                                          child:Container(
-                                            alignment:Alignment.center,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
-                                              color:MyColors.scarlet,
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child:Text("Login with Google",style:TextStyle(color:Colors.white,fontSize: 17)),
-                                        )
-                                      ],
-                                    ),
-                                    onTap:(){Navigator.pushNamed(context,MyRoutes.MyGetStartedScreen);} ,
-                                  ),
-                                ),
-                                Container(
-                                  width:300,
-                                  height:10,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color:MyColors.pewterBlue,
+                                          Center(
+                                            child: Text("Login",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            (11 / 553))),
+                                          )
+                                        ],
                                       ),
+                                      onTap: () => moveToHome(context),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height:20),
-                                Row(
-                                  children:[
-                                    Container(
-                                      width: 120,
-                                      height:50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        color:MyColors.pewterBlue,
-                                      ),
-                                      child: InkWell(
-                                        child:Stack(
-                                          children:[
-                                            Positioned(
-                                              left:7,
-                                              top:9,
-                                              child:Icon(Icons.mail,size: 35,),
-                                            ),
-                                            Positioned(
-                                              left:50,
-                                              top:15,
-                                              child:Text("Sign Up",style:TextStyle(fontSize: 17)),
-                                            ),
-                                          ],
-                                        ),
-                                        onTap:()=>Navigator.pushNamed(context, MyRoutes.MySignUpEmail)
-                                      )
+                                  SizedBox(
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (10 / 1063.6)),
+                                  Text(
+                                    'or',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (20 / 1063.6),
+                                      color: MyColors.pewterBlue,
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (10 / 1063.6)),
+                                  SizedBox(
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (10 / 1063.6)),
+                                  Row(
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              (228 / 294),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              (45 / 1063.6),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    (5 / 553)),
+                                            color: MyColors.pewterBlue,
+                                          ),
+                                          child: InkWell(
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 20,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            (45 / 1063.6),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(
+                                                      Icons.account_circle,
+                                                      size:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              (35 / 490.9),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            (130 / 490.9),
+                                                  ),
+                                                  Center(
+                                                    child: Text("Sign Up",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                (11 / 553))),
+                                                  ),
+                                                ],
+                                              ),
+                                              onTap: () => Navigator.pushNamed(
+                                                  context,
+                                                  MyRoutes.MySignUpEmail))),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -238,9 +430,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-            ]
-        ),
-      ),
+            ]),
+          )),
     );
   }
 }
