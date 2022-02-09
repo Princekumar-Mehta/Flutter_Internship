@@ -21,7 +21,7 @@ class Employee {
       this.role,
       this.status});
 
-  factory Employee.fromMap(Map<String, dynamic> json) => new Employee(
+  factory Employee.fromMap(Map<String, dynamic> json) => Employee(
       profile_pic: json['profile_pic'],
       id: json['id'],
       name: json['name'],
@@ -70,6 +70,16 @@ class Database_signUp {
     final emp = await DatabaseHelper.instance.getEmp(email: email, id: id);
     return emp;
   }
+
+  static updateEmp(Employee emp) async {
+    await DatabaseHelper.instance.update(Employee(
+        profile_pic: emp.profile_pic,
+        name: emp.name,
+        email: emp.email,
+        password: emp.password,
+        role: emp.role,
+        status: emp.status));
+  }
 }
 
 class DatabaseHelper {
@@ -115,7 +125,6 @@ class DatabaseHelper {
     if (email != '') {
       var emp =
           await db.query('employees', where: 'email = ?', whereArgs: [email]);
-      ;
       List<Employee> empList =
           emp.isNotEmpty ? emp.map((c) => Employee.fromMap((c))).toList() : [];
       if (empList.isEmpty) return null;
@@ -133,5 +142,11 @@ class DatabaseHelper {
   Future<int> addEmp(Employee emp) async {
     Database db = await instance.database;
     return await db.insert('employees', emp.toMap());
+  }
+
+  Future<int> update(Employee emp) async {
+    Database db = await instance.database;
+    return await db
+        .update('employees', emp.toMap(), where: 'id = ?', whereArgs: [emp.id]);
   }
 }

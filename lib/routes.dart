@@ -4,4 +4,5 @@ class MyRoutes {
   static final MyLogin = '/login';
   static final MySignUpEmail = '/signUpEmail';
   static final MySalesOrder = '/salesOrderScreen';
+  static final MyForgotPasswordScreen1 = '/forgotPasswordScreen1';
 }

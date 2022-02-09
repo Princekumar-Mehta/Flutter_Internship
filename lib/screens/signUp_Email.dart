@@ -73,7 +73,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => OtpVerificationScreen(
-                          email: email, id: id, otp: otp)));
+                          email: email, otp: otp, previous: "login")));
             },
           ),
         ],
@@ -170,12 +170,12 @@ class _SignUpEmailState extends State<SignUpEmail> {
                       children: [
                         SizedBox(
                             height:
-                                MediaQuery.of(context).size.width * (70 / 640)),
+                                MyScreen.getScreenWidth(context) * (70 / 640)),
                         Stack(children: [
                           InkWell(
                             child: CircleAvatar(
-                              radius: MediaQuery.of(context).size.width *
-                                  (40 / 360),
+                              radius:
+                                  MyScreen.getScreenWidth(context) * (40 / 360),
                               backgroundImage: _pickedImage != null
                                   ? FileImage(_pickedImage!)
                                   : null,
@@ -187,13 +187,13 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             right: 2,
                             child: Icon(Icons.add_circle,
                                 color: Colors.white,
-                                size: MediaQuery.of(context).size.width *
+                                size: MyScreen.getScreenWidth(context) *
                                     (22 / 360)),
                           )
                         ]),
                         SizedBox(
                             height:
-                                MediaQuery.of(context).size.width * (70 / 640)),
+                                MyScreen.getScreenWidth(context) * (70 / 640)),
                         SizedBox(
                           width: MyScreen.getScreenWidth(context) * (228 / 294),
                           height:
@@ -201,7 +201,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           child: Text("Full Name *",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
-                                  fontSize: MediaQuery.of(context).size.height *
+                                  fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
                         SizedBox(
@@ -217,7 +217,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             ),
                             style: TextStyle(
                                 color: MyColors.middleRed,
-                                fontSize: MediaQuery.of(context).size.height *
+                                fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -237,7 +237,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           child: Text("Email Address *",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
-                                  fontSize: MediaQuery.of(context).size.height *
+                                  fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
                         SizedBox(
@@ -253,7 +253,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               ),
                               style: TextStyle(
                                   color: MyColors.middleRed,
-                                  fontSize: MediaQuery.of(context).size.height *
+                                  fontSize: MyScreen.getScreenHeight(context) *
                                       (25 / 1063.6)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -276,7 +276,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                     style: TextStyle(
                                         color: MyColors.pewterBlue,
                                         fontSize:
-                                            MediaQuery.of(context).size.height *
+                                            MyScreen.getScreenHeight(context) *
                                                 (20 / 1063.6))),
                               ],
                             )),
@@ -289,7 +289,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             obscureText: _isObscure,
                             style: TextStyle(
                                 color: MyColors.middleRed,
-                                fontSize: MediaQuery.of(context).size.height *
+                                fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -307,7 +307,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                         ? Icons.visibility
                                         : Icons.visibility_off,
                                     color: MyColors.pewterBlue,
-                                    size: MediaQuery.of(context).size.height *
+                                    size: MyScreen.getScreenHeight(context) *
                                         (22 / 1063.6)),
                                 onPressed: () {
                                   setState(() {
@@ -335,7 +335,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                     style: TextStyle(
                                         color: MyColors.pewterBlue,
                                         fontSize:
-                                            MediaQuery.of(context).size.height *
+                                            MyScreen.getScreenHeight(context) *
                                                 (20 / 1063.6))),
                               ],
                             )),
@@ -354,7 +354,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                         ? Icons.visibility
                                         : Icons.visibility_off,
                                     color: MyColors.pewterBlue,
-                                    size: MediaQuery.of(context).size.height *
+                                    size: MyScreen.getScreenHeight(context) *
                                         (22 / 1063.6)),
                                 onPressed: () {
                                   setState(() {
@@ -368,7 +368,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             ),
                             style: TextStyle(
                                 color: MyColors.middleRed,
-                                fontSize: MediaQuery.of(context).size.height *
+                                fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -390,7 +390,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           child: Text("Select Role *",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
-                                  fontSize: MediaQuery.of(context).size.height *
+                                  fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
                         Stack(children: [
@@ -414,7 +414,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 return null;
                               },
                               dropdownColor: MyColors.richBlackFogra,
-                              iconSize: MediaQuery.of(context).size.height *
+                              iconSize: MyScreen.getScreenHeight(context) *
                                   (35 / 1063.6),
                               isExpanded: true,
                               isDense: true,
@@ -439,19 +439,22 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                       child: Text(value,
                                           style: TextStyle(
                                               color: MyColors.pewterBlue,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  (20 / 1063.6)))),
+                                              fontSize:
+                                                  MyScreen.getScreenHeight(
+                                                          context) *
+                                                      (20 / 1063.6)))),
                                 );
                               }).toList(),
                             ),
                           )
                         ]),
-                        SizedBox(height: 30),
                         SizedBox(
-                          width: 150,
-                          height: 60,
+                            height: MyScreen.getScreenHeight(context) *
+                                (60 / 1063.6)),
+                        SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (85 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
                           child: InkWell(
                             child: Stack(
                               children: [
@@ -460,16 +463,20 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                   child: Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(
+                                          MyScreen.getScreenHeight(context) *
+                                              (10 / 1063.6)),
                                       color: MyColors.middleRed,
                                     ),
                                   ),
                                 ),
-                                const Center(
+                                Center(
                                   child: Text("Create Profile",
                                       style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17,
+                                          color: MyColors.richBlackFogra,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (17 / 1063.6),
                                           fontWeight: FontWeight.bold)),
                                 )
                               ],

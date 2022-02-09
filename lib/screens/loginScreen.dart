@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_2/Database/db_SignUp.dart';
+import 'package:project_2/Email/send_email.dart';
 import 'package:project_2/Extras/myColors.dart';
 import 'package:project_2/Extras/myScreen.dart';
 
@@ -55,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => OtpVerificationScreen(
-                          email: email, id: id, otp: otp)));
+                          email: email, otp: otp, previous: "login")));
             },
           ),
         ],
@@ -90,7 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
         int id = emp.id!;
         String otp_mail = (1000 + Random().nextInt(9999 - 1000)).toString();
         int otp = int.parse(otp_mail);
-        showIdOtp(context, 'Email Verification Pending', email!, id, otp);
+        Send_Mail.send_mail(email!, otp);
+        showIdOtp(context, 'Email Verification Pending', email, id, otp);
         return;
       }
       await Future.delayed(const Duration(seconds: 1));
@@ -138,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     opacity: 1,
                     child: Container(
                       width: MyScreen.getScreenWidth(context) * (260 / 294),
-                      height: MyScreen.getScreenHeight(context) * (280 / 553),
+                      height: MyScreen.getScreenHeight(context) * (290 / 553),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(
                             MyScreen.getScreenHeight(context) * (5 / 553))),
@@ -172,9 +174,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Text("Email/Employee ID *",
                                         style: TextStyle(
                                             color: MyColors.pewterBlue,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
+                                            fontSize: MyScreen.getScreenHeight(
+                                                    context) *
                                                 (20 / 1063.6))),
                                   ),
                                   SizedBox(
@@ -191,9 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         style: TextStyle(
                                             color: MyColors.middleRed,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
+                                            fontSize: MyScreen.getScreenHeight(
+                                                    context) *
                                                 (25 / 1063.6)),
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
@@ -218,9 +218,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               style: TextStyle(
                                                   color: MyColors.pewterBlue,
                                                   fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
                                                           (20 / 1063.6))),
                                         ],
                                       )),
@@ -257,9 +256,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         style: TextStyle(
                                             color: MyColors.middleRed,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
+                                            fontSize: MyScreen.getScreenHeight(
+                                                    context) *
                                                 (25 / 1063.6)),
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
@@ -268,29 +266,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                           return null;
                                         }),
                                   ),
-                                  SizedBox(
-                                      width: MyScreen.getScreenWidth(context) *
-                                          (228 / 294),
-                                      height:
-                                          MyScreen.getScreenHeight(context) *
-                                              (30 / 1063.6),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  (258 / 490.9)),
-                                          Text("Forgot Password?",
-                                              style: TextStyle(
-                                                  color: MyColors.middleRed,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          (15 / 1063.6))),
-                                        ],
-                                      )),
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (233 / 294),
+                                    alignment: Alignment.centerRight,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (30 / 683.4285714285714),
+                                    child: TextButton(
+                                      child: Text(
+                                        'Forgot Password?',
+                                        style: TextStyle(
+                                            color: MyColors.middleRed,
+                                            fontSize: MyScreen.getScreenHeight(
+                                                    context) *
+                                                (17 / 1063.6)),
+                                      ),
+                                      onPressed: () => Navigator.pushNamed(
+                                          context,
+                                          MyRoutes.MyForgotPasswordScreen1),
+                                    ),
+                                  ),
                                   SizedBox(
                                       height:
                                           MyScreen.getScreenHeight(context) *
@@ -308,12 +303,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                             child: Container(
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            (15 / 553)),
+                                                borderRadius: BorderRadius
+                                                    .circular(MyScreen
+                                                            .getScreenHeight(
+                                                                context) *
+                                                        (15 / 553)),
                                                 color: MyColors.scarlet,
                                               ),
                                             ),
@@ -323,11 +317,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            (11 / 553))),
+                                                    fontSize: MyScreen
+                                                            .getScreenHeight(
+                                                                context) *
+                                                        (11 / 553))),
                                           )
                                         ],
                                       ),
@@ -380,11 +373,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 children: [
                                                   Container(
                                                     width: 20,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            (45 / 1063.6),
+                                                    height: MyScreen
+                                                            .getScreenHeight(
+                                                                context) *
+                                                        (45 / 1063.6),
                                                     alignment: Alignment.center,
                                                     child: Icon(
                                                       Icons.account_circle,
@@ -407,10 +399,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
+                                                            fontSize: MyScreen
+                                                                    .getScreenHeight(
+                                                                        context) *
                                                                 (11 / 553))),
                                                   ),
                                                 ],
