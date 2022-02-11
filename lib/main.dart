@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: MyRoutes.MyLogin,
+      initialRoute: MyRoutes.MySalesOrder,
       routes: {
         MyRoutes.MYSplashScreen: (context) => SplashScreen(),
         MyRoutes.MyLogin: (context) => LoginScreen(),
