@@ -161,7 +161,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
       home: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: MyColors.scarlet, size: 30),
+              icon: Icon(Icons.arrow_back,
+                  color: MyColors.scarlet,
+                  size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               onPressed: () {
                 Navigator.pop(context, true);
               },

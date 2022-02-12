@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
+import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/myTypeAhead.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({Key? key}) : super(key: key);
@@ -16,9 +19,8 @@ class SalesOrderScreen extends StatefulWidget {
 class _SalesOrderScreenState extends State<SalesOrderScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   DateTime? _dateTime;
-  final df = new DateFormat('dd-MM-yyyy');
-
-  double _animatedHeight = 100.0;
+  final df = DateFormat('dd-MM-yyyy');
+  double? _animatedHeight;
   var quantity = [
     '',
     'Qty',
@@ -31,224 +33,231 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     'Total',
     '210'
   ];
-  final _textEditingController = TextEditingController();
-  var customer = ['abc', 'xav', 'aaa'];
+
+  late MyTypeAhead customer;
+  late MyTypeAhead billing_address;
+  late MyTypeAhead shipping_address;
+  late MyTypeAhead manufacturing_branch;
   void placeOrder(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      print(_formKey.currentState!.value);
-    }
+    if ((!customer.isEmpty() &&
+        !billing_address.isEmpty() &&
+        !shipping_address.isEmpty() &&
+        !manufacturing_branch.isEmpty())) {}
+  }
+
+  List? data;
+  Future<String> loadJsonData() async {
+    Database_customer.runTempQuery();
+    var jsonText = await rootBundle.loadString('assets/data/Customer.json');
+    setState(() => data = json.decode(jsonText));
+    data!.forEach((element) {
+      Database_customer.addEmp(element);
+    });
+    return 'success';
+  }
+
+  var _customers = Database_customer();
+  List<String> customer_list = [];
+  readData() {
+    _customers.get_customerIds();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //loadJsonData();
+    readData();
   }
 
   @override
   Widget build(BuildContext context) {
+    customer = MyTypeAhead(
+        itemList: Database_customer.codes, message: "Please Enter Customer ID");
+    billing_address =
+        MyTypeAhead(itemList: [], message: "Please Enter Billing Address");
+    shipping_address =
+        MyTypeAhead(itemList: [], message: "Please Enter Shipping Address");
+    manufacturing_branch =
+        MyTypeAhead(itemList: [], message: "Please Enter Manufacturing Branch");
+    _animatedHeight = MyScreen.getScreenHeight(context) * (185 / 1063.9);
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: Text("Place Sales Order",
+              style: TextStyle(color: MyColors.scarlet, fontSize: 25)),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back,
+                color: MyColors.scarlet,
+                size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
+          actions: [
+            Material(
+              child: InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: MyColors.richBlackFogra,
+                    border: Border.all(color: MyColors.richBlackFogra),
+                  ),
+                  child: Icon(Icons.more_vert,
+                      color: MyColors.scarlet,
+                      size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+                ),
+                onTap: () {
+                  Navigator.pop(context, true);
+                },
+              ),
+            ),
+          ],
+          backgroundColor: MyColors.richBlackFogra,
+        ),
         backgroundColor: MyColors.richBlackFogra,
         body: SingleChildScrollView(
             child: FormBuilder(
           key: _formKey,
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
-                child: Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        child: InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: MyColors.richBlackFogra,
-                              border:
-                                  Border.all(color: MyColors.richBlackFogra),
-                            ),
-                            child: Icon(Icons.arrow_back,
-                                color: MyColors.scarlet, size: 30),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context, true);
-                          },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text("Place Sales Order",
-                          style:
-                              TextStyle(color: MyColors.scarlet, fontSize: 25)),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Material(
-                        child: InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: MyColors.richBlackFogra,
-                              border:
-                                  Border.all(color: MyColors.richBlackFogra),
-                            ),
-                            child: Icon(Icons.more_vert,
-                                color: MyColors.scarlet, size: 30),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context, true);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                padding: EdgeInsets.fromLTRB(
+                    0, MyScreen.getScreenHeight(context) * (5 / 1063.6), 0, 0),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(color: MyColors.scarlet),
                   ),
                 ),
               ),
+              // Date Container
+              Container(
+                height: 35,
+                padding: EdgeInsets.fromLTRB(
+                    MyScreen.getScreenWidth(context) * (310 / 490.9), 0, 0, 0),
+                alignment: Alignment.centerRight,
+                child: Row(
+                  children: [
+                    Text(
+                      "Date: ",
+                      style: TextStyle(
+                          color: MyColors.pewterBlue,
+                          fontSize: MyScreen.getScreenHeight(context) *
+                              (20 / 1063.6)),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      height: MyScreen.getScreenHeight(context) * (32 / 1063.6),
+                      width: MyScreen.getScreenWidth(context) * (63 / 294),
+                      child: FormBuilderTextField(
+                        name: 'order_date',
+                        enabled: false,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: MyColors.richBlackFogra)),
+                        ),
+                        initialValue: (df.format(new DateTime.now())),
+                        style: TextStyle(
+                            color: MyColors.pewterBlue,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (20 / 1063.6)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Form
               Padding(
-                  padding: EdgeInsets.fromLTRB(250, 20, 0, 5),
-                  child: Stack(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child: FormBuilderTextField(
-                          name: 'order_date',
-                          enabled: false,
-                          initialValue:
-                              "Date:" + (df.format(new DateTime.now())),
+                padding: EdgeInsets.fromLTRB(
+                    MyScreen.getScreenWidth(context) * (15 / 490.9),
+                    0,
+                    MyScreen.getScreenWidth(context) * (15 / 490.9),
+                    0),
+                child: Column(
+                  children: [
+                    // Type Ahead Example
+                    // Error here, the item selected from dropdown is not being replaced
+                    // on the textfield.
+                    // Spacing to be kept between Field Name & Field Input
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Customer Input
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Customer *",
                           style: TextStyle(
                               color: MyColors.pewterBlue,
                               fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                        ),
-                      ),
-                    ],
-                  )),
-              Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                child: Column(
-                  children: [
-                    Container(
-                      color: MyColors.scarlet,
-                      child: TypeAheadField(
-                        suggestionsCallback: (pattern) => customer.where(
-                            (item) => item
-                                .toLowerCase()
-                                .startsWith(pattern.toLowerCase())),
-                        itemBuilder: (_, String item) =>
-                            ListTile(title: Text(item)),
-                        onSuggestionSelected: (String val) {
-                          this._textEditingController.text = val;
-                          print(val);
-                        },
-                        getImmediateSuggestions: true,
-                      ),
+                                  (20 / 1063.6))),
                     ),
-                    SizedBox(height: 30),
+                    customer,
+                    // Spacing to be kept between Field Name & Field Input
                     SizedBox(
-                      width: 300,
-                      height: 15,
-                      child: Text("Customer *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue, fontSize: 15)),
-                    ),
-                    SizedBox(height: 10),
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Billing Address Input
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                        name: 'cutomer_id',
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: MyColors.pewterBlue)),
-                        ),
-                        style: TextStyle(
-                            color: MyColors.middleRed,
-                            fontSize: MyScreen.getScreenHeight(context) *
-                                (25 / 1063.6)),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please Enter Customer ID";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: 300,
-                      height: 15,
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Billing Address *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue, fontSize: 15)),
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
                     ),
-                    SizedBox(height: 10),
+                    billing_address,
+                    // SizedBox(
+                    //   width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    //   height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                    //   child: FormBuilderTextField(
+                    //     name: 'billing_address',
+                    //     decoration: InputDecoration(
+                    //       enabledBorder: UnderlineInputBorder(
+                    //           borderSide:
+                    //               BorderSide(color: MyColors.pewterBlue)),
+                    //     ),
+                    //     style: TextStyle(
+                    //         color: MyColors.middleRed,
+                    //         fontSize: MyScreen.getScreenHeight(context) *
+                    //             (25 / 1063.6)),
+                    //     validator: (value) {
+                    //       if (value == null || value.isEmpty) {
+                    //         return "Please Enter Billing Address";
+                    //       }
+                    //       return null;
+                    //     },
+                    //   ),
+                    // ),
+                    // Spacing to be kept between Field Name & Field Input
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Shipping Address Input
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                        name: 'billing_address',
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: MyColors.pewterBlue)),
-                        ),
-                        style: TextStyle(
-                            color: MyColors.middleRed,
-                            fontSize: MyScreen.getScreenHeight(context) *
-                                (25 / 1063.6)),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please Enter Billing Address";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: 300,
-                      height: 15,
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Shipping Address *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue, fontSize: 15)),
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
                     ),
-                    SizedBox(height: 10),
+                    shipping_address,
+                    // Spacing to be kept between Field Name & Field Input
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Phone Number (Load by default)
+                    // Inside Container needs to be auto filled, and width still
+                    // needs to be made dynamic.
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                        name: 'shipping_address',
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: MyColors.pewterBlue)),
-                        ),
-                        style: TextStyle(
-                            color: MyColors.middleRed,
-                            fontSize: MyScreen.getScreenHeight(context) *
-                                (25 / 1063.6)),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please Enter Shipping Adress";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: 300,
-                      height: 15,
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Row(children: [
-                        Text("Phone *",
+                        Text("Phone: ",
                             style: TextStyle(
-                                color: MyColors.pewterBlue, fontSize: 15)),
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (17 / 1063.6))),
                         Container(
                           width: 200,
                           child: FormBuilderTextField(
@@ -259,19 +268,28 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                       BorderSide(color: MyColors.pewterBlue)),
                             ),
                             style: TextStyle(
-                                color: MyColors.middleRed, fontSize: 15),
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (17 / 1063.6)),
                           ),
                         ),
                       ]),
                     ),
-                    SizedBox(height: 10),
+                    // Spacing to be kept between Field Name & Field Input
                     SizedBox(
-                      width: 300,
-                      height: 15,
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Email ID (Load by default)
+                    // Inside Container needs to be auto filled, and width still
+                    // needs to be made dynamic.
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Row(children: [
-                        Text("Email *",
+                        Text("Email: ",
                             style: TextStyle(
-                                color: MyColors.pewterBlue, fontSize: 15)),
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (17 / 1063.6))),
                         Container(
                           width: 200,
                           child: FormBuilderTextField(
@@ -287,49 +305,37 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         ),
                       ]),
                     ),
-                    SizedBox(height: 10),
+                    // Spacing to be kept between Field Name & Field Input
                     SizedBox(
-                      width: 300,
-                      height: 15,
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Manufacturing Branch Input
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Manufacturing Branch *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue, fontSize: 15)),
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
                     ),
-                    SizedBox(height: 10),
+                    manufacturing_branch,
+                    // Spacing to be kept between Field Name & Field Input
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Order Required By Input
+                    // Check if calendar icon is having any on pressed action
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Order Required By *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                        name: 'manufacturing_branch',
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: MyColors.pewterBlue)),
-                        ),
-                        style: TextStyle(
-                            color: MyColors.middleRed,
-                            fontSize: MyScreen.getScreenHeight(context) *
-                                (25 / 1063.6)),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please Enter Manufacturing Branch";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: 300,
-                      height: 17,
-                      child: Text("Order Required By *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue, fontSize: 15)),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: 300,
-                      height: 20,
                       child: FormBuilderDateTimePicker(
                         inputType: InputType.date,
                         format: DateFormat('dd-MM-yyyy'),
@@ -340,32 +346,60 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             fontSize: MyScreen.getScreenHeight(context) *
                                 (25 / 1063.6)),
                         decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: MyColors.pewterBlue)),
                           suffixIcon: Icon(Icons.calendar_today,
-                              color: MyColors.pewterBlue, size: 20),
+                              color: MyColors.pewterBlue,
+                              size: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6)),
                           fillColor: MyColors.grullo,
                         ),
                         initialValue: DateTime.now(),
                       ),
                     ),
+                    // Item List & Add Item
                     Padding(
-                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                      child: Stack(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text("Item List",
-                                style: TextStyle(color: MyColors.pewterBlue)),
-                          ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: Text("Add Item +",
-                                style: TextStyle(color: MyColors.pewterBlue)),
-                          )
-                        ],
+                      padding: EdgeInsets.fromLTRB(
+                          MyScreen.getScreenWidth(context) * (15 / 490.9),
+                          MyScreen.getScreenHeight(context) * (15 / 1063.6),
+                          MyScreen.getScreenWidth(context) * (15 / 490.9),
+                          0),
+                      child: SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Stack(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Item List",
+                                  style: TextStyle(
+                                      color: MyColors.pewterBlue,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (17 / 1063.6))),
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Text("Add Item +",
+                                  style: TextStyle(
+                                      color: MyColors.pewterBlue,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (17 / 1063.6))),
+                            )
+                          ],
+                        ),
                       ),
                     ),
+                    // Item Input Container
                     Padding(
-                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      padding: EdgeInsets.fromLTRB(
+                          MyScreen.getScreenWidth(context) * (15 / 490.9),
+                          MyScreen.getScreenHeight(context) * (15 / 1063.6),
+                          MyScreen.getScreenWidth(context) * (15 / 490.9),
+                          0),
                       child: Column(
                         children: [
                           Container(
@@ -373,18 +407,27 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                               border: Border.all(color: MyColors.pewterBlue),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            width: 300,
+                            width:
+                                MyScreen.getScreenWidth(context) * (228 / 294),
                             child: Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(
+                                  MyScreen.getScreenHeight(context) *
+                                      (5 / 1063.6)),
                               child: Column(children: [
+                                // Sr No + Item name + Dropdown Arrow
                                 Stack(
                                   children: [
                                     Container(
                                       alignment: Alignment.centerLeft,
                                       child: Text("1",
                                           style: TextStyle(
-                                              color: MyColors.pewterBlue)),
+                                              color: MyColors.pewterBlue,
+                                              fontSize:
+                                                  MyScreen.getScreenHeight(
+                                                          context) *
+                                                      (20 / 1063.6))),
                                     ),
+                                    // Replace with form input field
                                     Positioned.fill(
                                       child: Align(
                                         alignment: Alignment.topCenter,
@@ -407,52 +450,85 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                     Positioned(
                                       right: 0,
                                       child: Container(
-                                        height: 40,
+                                        height:
+                                            MyScreen.getScreenHeight(context) *
+                                                (40 / 1063.6),
                                         alignment: Alignment.topRight,
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
                                               _animatedHeight != 0.0
                                                   ? _animatedHeight = 0.0
-                                                  : _animatedHeight = 100.0;
+                                                  : _animatedHeight =
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (185 / 1063.6);
                                             });
                                           },
                                           child: Icon(Icons.keyboard_arrow_down,
                                               color: MyColors.pewterBlue,
-                                              size: 20),
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (27 / 1063.6)),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
                                 AnimatedContainer(
-                                  duration: Duration(milliseconds: 120),
+                                  duration: const Duration(milliseconds: 120),
                                   height: _animatedHeight,
                                   child: Stack(
                                     children: [
+                                      // Price & Unit
                                       Row(
                                         children: [
-                                          SizedBox(width: 50),
+                                          // Spacing to be kept between Field Name & Field Input
+                                          SizedBox(
+                                              height: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (25 / 1063.6)),
+                                          SizedBox(
+                                              width: MyScreen.getScreenWidth(
+                                                      context) *
+                                                  (70 / 490.9)),
                                           Text("Price: \$ XX.XX",
                                               style: TextStyle(
-                                                  color: MyColors.pewterBlue)),
-                                          SizedBox(width: 30),
+                                                  color: MyColors.pewterBlue,
+                                                  fontSize:
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (15 / 1063.6))),
+                                          SizedBox(
+                                              width: MyScreen.getScreenWidth(
+                                                      context) *
+                                                  (50 / 490.9)),
                                           Text("Unit: Packet",
                                               style: TextStyle(
-                                                  color: MyColors.pewterBlue)),
+                                                  color: MyColors.pewterBlue,
+                                                  fontSize:
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (15 / 1063.6))),
                                         ],
                                       ),
                                       Positioned(
-                                        top: 30,
-                                        left: 100,
+                                        top: MyScreen.getScreenHeight(context) *
+                                            (30 / 1063.6),
+                                        left: MyScreen.getScreenWidth(context) *
+                                            (50 / 490.9),
                                         child: Container(
                                           constraints: BoxConstraints(
-                                            maxHeight: 100,
-                                            maxWidth: 100,
+                                            maxHeight: MyScreen.getScreenHeight(
+                                                    context) *
+                                                (165 / 1063.6),
+                                            maxWidth: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (100 / 490.9),
                                           ),
                                           color: MyColors.richBlackFogra,
                                           child: GridView.count(
-                                            padding: EdgeInsets.all(0),
+                                            padding: const EdgeInsets.all(0),
                                             crossAxisCount: 2,
                                             crossAxisSpacing: 4,
                                             mainAxisSpacing: 8,
@@ -462,7 +538,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                               return Text(quantity[index],
                                                   style: TextStyle(
                                                       color:
-                                                          MyColors.pewterBlue));
+                                                          MyColors.pewterBlue,
+                                                      fontSize: MyScreen
+                                                              .getScreenHeight(
+                                                                  context) *
+                                                          (15 / 1063.6)));
                                             }),
                                           ),
                                         ),
@@ -479,29 +559,37 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
-              InkWell(
-                child: Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                            MyScreen.getScreenHeight(context) * (10 / 1063.6)),
-                        color: MyColors.middleRed,
+              // Spacing between Sign order button and form
+              SizedBox(
+                  height: MyScreen.getScreenHeight(context) * (20 / 1063.6)),
+              // Sign Order Button
+              SizedBox(
+                width: MyScreen.getScreenWidth(context) * (85 / 294),
+                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                child: InkWell(
+                  child: Stack(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              MyScreen.getScreenHeight(context) *
+                                  (10 / 1063.6)),
+                          color: MyColors.middleRed,
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: Text("Create Profile",
-                          style: TextStyle(
-                              color: MyColors.scarlet,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (30 / 1063.6),
-                              fontWeight: FontWeight.bold)),
-                    )
-                  ],
+                      Center(
+                        child: Text("Sign Order",
+                            style: TextStyle(
+                                color: MyColors.richBlackFogra,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (17 / 1063.6),
+                                fontWeight: FontWeight.bold)),
+                      )
+                    ],
+                  ),
+                  onTap: () => placeOrder(context),
                 ),
-                onTap: () => placeOrder(context),
               ),
             ],
           ),
