@@ -5,4 +5,5 @@ class MyRoutes {
   static final MySalesOrder = '/salesOrderScreen';
   static final MyForgotPasswordScreen1 = '/forgotPasswordScreen1';
   static final MyForgotPasswordScreen2 = '/forgotPasswordScreen2';
+  static final MyAdminHome = '/adminHome';
 }

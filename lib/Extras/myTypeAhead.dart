@@ -9,10 +9,18 @@ import 'myScreen.dart';
 class MyTypeAhead extends StatefulWidget {
   List<String> itemList;
   String message;
-  MyTypeAhead({required this.itemList, required this.message});
+  int isCustomer;
+  bool isEnabled;
+  MyTypeAhead({
+    required this.itemList,
+    required this.message,
+    required this.isCustomer,
+    required this.isEnabled,
+  });
   @override
   _MyTypeAheadState createState() => _MyTypeAheadState();
   var isEmpty;
+  var getValue;
 }
 
 class _MyTypeAheadState extends State<MyTypeAhead> {
@@ -28,12 +36,16 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
         return false;
       }
     };
+    widget.getValue = () {
+      return this._textEditingController.text.toString();
+    };
     return Container(
       width: MyScreen.getScreenWidth(context) * (228 / 294),
       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
       color: MyColors.richBlackFogra,
       child: TypeAheadField(
         textFieldConfiguration: TextFieldConfiguration(
+            enabled: widget.isEnabled,
             controller: _textEditingController,
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
@@ -49,7 +61,7 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
         ),
         onSuggestionSelected: (String val) {
           _textEditingController.text = val;
-          print(val);
+          setState(() {});
         },
         getImmediateSuggestions: true,
         hideOnEmpty: false,

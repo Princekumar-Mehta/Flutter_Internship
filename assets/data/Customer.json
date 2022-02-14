@@ -14,7 +14,7 @@
     "crd_Day": 29,
     "crd_Amt": 7500,
     "gL_Acc": 47345,
-    "active": false
+    "active": "false"
   },
   {
     "code": "DST8619",
@@ -31,7 +31,7 @@
     "crd_Day": 31,
     "crd_Amt": 9000,
     "gL_Acc": 498010,
-    "active": true
+    "active": "true"
   },
   {
     "code": "DST8731",
@@ -48,7 +48,7 @@
     "crd_Day": 40,
     "crd_Amt": 5000,
     "gL_Acc": 446544,
-    "active": false
+    "active": "false"
   },
   {
     "code": "DST3795",
@@ -65,7 +65,7 @@
     "crd_Day": 32,
     "crd_Amt": 7500,
     "gL_Acc": 445307,
-    "active": false
+    "active": "false"
   },
   {
     "code": "DST8096",
@@ -82,7 +82,7 @@
     "crd_Day": 29,
     "crd_Amt": 7500,
     "gL_Acc": 491497,
-    "active": false
+    "active": "false"
   },
   {
     "code": "DST5239",
@@ -99,6 +99,6 @@
     "crd_Day": 25,
     "crd_Amt": 5000,
     "gL_Acc": 454298,
-    "active": true
+    "active": "true"
   }
 ]

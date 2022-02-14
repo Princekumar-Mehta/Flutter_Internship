@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
+import 'package:project_v3/Database/db_Customer_branch.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
@@ -33,7 +31,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     'Total',
     '210'
   ];
-
+  String phone_number = "+91 XXXXX XXXXX";
+  String email = "example@example.com";
   late MyTypeAhead customer;
   late MyTypeAhead billing_address;
   late MyTypeAhead shipping_address;
@@ -45,46 +44,73 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         !manufacturing_branch.isEmpty())) {}
   }
 
-  List? data;
-  Future<String> loadJsonData() async {
-    Database_customer.runTempQuery();
-    var jsonText = await rootBundle.loadString('assets/data/Customer.json');
-    setState(() => data = json.decode(jsonText));
-    data!.forEach((element) {
-      Database_customer.addEmp(element);
-    });
-    return 'success';
-  }
-
-  var _customers = Database_customer();
-  List<String> customer_list = [];
-  readData() {
-    _customers.get_customerIds();
-  }
-
   @override
   void initState() {
     super.initState();
-    //loadJsonData();
-    readData();
+    Database_customer.insertData();
+    var _customers = Database_customer();
+    _customers.get_customerIds();
+    Database_customerBranch.insertData();
   }
 
+  bool? isCustomerId = false;
   @override
   Widget build(BuildContext context) {
+    try {
+      if (customer.getValue().toString().length == 7) {
+        isCustomerId = true;
+        var _customerBranches = Database_customerBranch();
+        _customerBranches.get_customerBranches(customer.getValue().toString());
+      } else {
+        isCustomerId = false;
+      }
+
+      if (Database_customerBranch.bill_branch_codes
+          .contains(billing_address.getValue().toString())) {
+        Database_customerBranch.get_customerBranchContact(
+            billing_address.getValue().toString());
+        phone_number = Database_customerBranch.iphone_number;
+        email = Database_customerBranch.iemail;
+      }
+    } catch (e) {}
     customer = MyTypeAhead(
-        itemList: Database_customer.codes, message: "Please Enter Customer ID");
-    billing_address =
-        MyTypeAhead(itemList: [], message: "Please Enter Billing Address");
-    shipping_address =
-        MyTypeAhead(itemList: [], message: "Please Enter Shipping Address");
-    manufacturing_branch =
-        MyTypeAhead(itemList: [], message: "Please Enter Manufacturing Branch");
+      itemList: Database_customer.codes,
+      message: "Please Enter Customer ID",
+      isCustomer: 0,
+      isEnabled: true,
+    );
+    billing_address = MyTypeAhead(
+      itemList: Database_customerBranch.bill_branch_codes,
+      message: "Please Enter Billing Address",
+      isCustomer: 1,
+      isEnabled: isCustomerId!,
+    );
+    shipping_address = MyTypeAhead(
+      itemList: Database_customerBranch.ship_branch_codes,
+      message: "Please Enter Shipping Address",
+      isCustomer: 1,
+      isEnabled: isCustomerId!,
+    );
+    manufacturing_branch = manufacturing_branch = MyTypeAhead(
+      itemList: [],
+      message: "Please Enter Manufacturing Branch",
+      isCustomer: 1,
+      isEnabled: true,
+    );
     _animatedHeight = MyScreen.getScreenHeight(context) * (185 / 1063.9);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          shape: Border(
+            bottom: BorderSide(
+              color: MyColors.scarlet,
+              width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+            ),
+          ),
           title: Text("Place Sales Order",
-              style: TextStyle(color: MyColors.scarlet, fontSize: 25)),
+              style: TextStyle(
+                  color: MyColors.scarlet,
+                  fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
           centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back,
@@ -120,15 +146,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           key: _formKey,
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    0, MyScreen.getScreenHeight(context) * (5 / 1063.6), 0, 0),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: MyColors.scarlet),
-                  ),
-                ),
-              ),
               // Date Container
               Container(
                 height: 35,
@@ -207,28 +224,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                   (20 / 1063.6))),
                     ),
                     billing_address,
-                    // SizedBox(
-                    //   width: MyScreen.getScreenWidth(context) * (228 / 294),
-                    //   height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                    //   child: FormBuilderTextField(
-                    //     name: 'billing_address',
-                    //     decoration: InputDecoration(
-                    //       enabledBorder: UnderlineInputBorder(
-                    //           borderSide:
-                    //               BorderSide(color: MyColors.pewterBlue)),
-                    //     ),
-                    //     style: TextStyle(
-                    //         color: MyColors.middleRed,
-                    //         fontSize: MyScreen.getScreenHeight(context) *
-                    //             (25 / 1063.6)),
-                    //     validator: (value) {
-                    //       if (value == null || value.isEmpty) {
-                    //         return "Please Enter Billing Address";
-                    //       }
-                    //       return null;
-                    //     },
-                    //   ),
-                    // ),
+
                     // Spacing to be kept between Field Name & Field Input
                     SizedBox(
                         height: MyScreen.getScreenHeight(context) * (6 / 553)),
@@ -252,28 +248,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Row(children: [
-                        Text("Phone: ",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (17 / 1063.6))),
-                        Container(
-                          width: 200,
-                          child: FormBuilderTextField(
-                            name: 'phone',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (17 / 1063.6)),
-                          ),
-                        ),
-                      ]),
+                      child: Text("Phone: $phone_number",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (17 / 1063.6))),
                     ),
                     // Spacing to be kept between Field Name & Field Input
                     SizedBox(
@@ -285,24 +264,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Row(children: [
-                        Text("Email: ",
+                        Text("Email: $email",
                             style: TextStyle(
                                 color: MyColors.pewterBlue,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (17 / 1063.6))),
-                        Container(
-                          width: 200,
-                          child: FormBuilderTextField(
-                            name: 'email',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.middleRed, fontSize: 15),
-                          ),
-                        ),
                       ]),
                     ),
                     // Spacing to be kept between Field Name & Field Input

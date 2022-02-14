@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/routes.dart';
+import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
 import 'package:project_v3/screens/forgotPasswordScreen2.dart';
 import 'package:project_v3/screens/loginScreen.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySalesOrder: (context) => SalesOrderScreen(),
         MyRoutes.MyForgotPasswordScreen1: (context) => ForgotPasswordScreen1(),
         MyRoutes.MyForgotPasswordScreen2: (context) => ForgotPasswordScreen2(),
+        MyRoutes.MyAdminHome: (context) => adminHome(),
       },
     );
   }
