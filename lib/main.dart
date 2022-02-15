@@ -7,6 +7,7 @@ import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
+import 'package:project_v3/temp/temp_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: MyRoutes.MySalesOrder,
       routes: {
+        MyRoutes.MyTempScreen: (context) => DynamicForms(),
         MyRoutes.MYSplashScreen: (context) => SplashScreen(),
         MyRoutes.MyLogin: (context) => LoginScreen(),
         MyRoutes.MySignUpEmail: (context) => SignUpEmail(),

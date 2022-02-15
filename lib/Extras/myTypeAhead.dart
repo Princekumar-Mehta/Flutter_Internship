@@ -9,12 +9,10 @@ import 'myScreen.dart';
 class MyTypeAhead extends StatefulWidget {
   List<String> itemList;
   String message;
-  int isCustomer;
   bool isEnabled;
   MyTypeAhead({
     required this.itemList,
     required this.message,
-    required this.isCustomer,
     required this.isEnabled,
   });
   @override

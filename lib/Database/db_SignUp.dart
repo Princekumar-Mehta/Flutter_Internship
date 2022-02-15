@@ -21,8 +21,8 @@ class Database_signUp {
 
   static print_emps() async {
     final users = await DatabaseHelper.instance.getEmployees();
-    print(users);
-    for (int i = 0; i < users.length; i++) print(users[i].toMap());
+    // print(users);
+    // for (int i = 0; i < users.length; i++) print(users[i].toMap());
   }
 
   static getEmp({required String email, required int id}) async {

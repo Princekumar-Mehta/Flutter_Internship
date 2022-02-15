@@ -13,8 +13,8 @@ class Database_customer {
 
   static print_customer() async {
     final customers = await DatabaseHelper.instance.getCustomers();
-    print(customers);
-    for (int i = 0; i < customers.length; i++) print(customers[i].toMap());
+    // print(customers);
+    //for (int i = 0; i < customers.length; i++) print(customers[i].toMap());
   }
 
   get_customerIds() async {
@@ -22,13 +22,13 @@ class Database_customer {
     customers.forEach((element) {
       codes.add(element.code!);
     });
-    print(codes);
+    //print(codes);
   }
 
   static insertData() async {
     bool isData = await DatabaseHelper.instance.isCustomerTableContainData();
     if (isData == false) {
-      print("customer data insert");
+      //  print("customer data insert");
       List? data;
       var jsonText = await rootBundle.loadString('assets/data/Customer.json');
       data = json.decode(jsonText);

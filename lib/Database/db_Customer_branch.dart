@@ -28,18 +28,18 @@ class Database_customerBranch {
       ship_branch_codes
           .add(element.branch_code! + " : " + element.branch_Name!);
     });
-    print(ship_branch_codes);
+    // print(ship_branch_codes);
   }
 
   static get_customerBranchContact(String branch) async {
-    print("hello customer branch class");
+    // print("hello customer branch class");
     final bill_branch = await DatabaseHelper.instance
         .getCustomerBranchContact(branch.substring(0, 5));
-    print(branch.substring(0, 5));
+    //print(branch.substring(0, 5));
     bill_branch.forEach((element) {
       iphone_number = element.branch_Phone.toString();
       iemail = element.branch_Email.toString();
-      print(iphone_number + iemail);
+      //  print(iphone_number + iemail);
       return;
     });
   }
@@ -48,7 +48,7 @@ class Database_customerBranch {
     bool isData =
         await DatabaseHelper.instance.isCustomerBranchTableContainData();
     if (isData == false) {
-      print("customer branches data insert");
+      // print("customer branches data insert");
       List? data;
       var jsonText =
           await rootBundle.loadString('assets/data/CustomerBranch.json');

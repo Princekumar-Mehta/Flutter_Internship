@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/routes.dart';
 
 class adminHome extends StatelessWidget {
   const adminHome({Key? key}) : super(key: key);
@@ -35,7 +36,6 @@ class adminHome extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: MyColors.richBlackFogra,
-                    border: Border.all(color: MyColors.richBlackFogra),
                   ),
                   child: Icon(Icons.sync,
                       color: MyColors.scarlet,
@@ -53,6 +53,7 @@ class adminHome extends StatelessWidget {
         body: SingleChildScrollView(
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
                   height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
@@ -75,150 +76,634 @@ class adminHome extends StatelessWidget {
                     children: [
                       // Order Summary
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(
-                            Icons.timeline,
-                            size: MyScreen.getScreenHeight(context) *
-                                (30 / 1063.6),
-                            color: MyColors.black,
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.timeline,
+                                textDirection: TextDirection.rtl,
+                                size: MyScreen.getScreenHeight(context) *
+                                    (30 / 1063.6),
+                                color: MyColors.black,
+                              ),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (10 / 490.9),
+                              ),
+                              Text("Order Summary",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (22 / 1063.6),
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.black,
+                                  )),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (12 / 490.9),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            width:
-                                MyScreen.getScreenWidth(context) * (15 / 490.9),
+                            width: MyScreen.getScreenWidth(context) *
+                                (172 / 490.9),
                           ),
-                          Text("Order Summary",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (22 / 1063.6),
-                                fontWeight: FontWeight.bold,
-                                color: MyColors.black,
-                              )),
+                          InkWell(
+                            onTap: () {},
+                            child: Text("View All",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (12 / 1063.6),
+                                  fontWeight: FontWeight.bold,
+                                  color: MyColors.black,
+                                )),
+                          ),
                         ],
                       ),
+                      // Underline
                       Container(
                         color: MyColors.black,
                         height:
                             MyScreen.getScreenHeight(context) * (3 / 1063.6),
                       ),
+                      // White Space
                       SizedBox(
                         height:
                             MyScreen.getScreenHeight(context) * (10 / 1063.6),
                       ),
                       // Main
+                      SizedBox(
+                        height:
+                            MyScreen.getScreenHeight(context) * (86 / 1063.6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.timelapse,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (2 / 1063.6),
+                                  ),
+                                  Text("Processing Orders",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.radio_button_checked,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Fulfilled Orders",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.timer,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Pending Orders",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+                ),
+                // Outer Shell
+                Container(
+                  padding: EdgeInsets.fromLTRB(
+                      MyScreen.getScreenWidth(context) * (10 / 490.9),
+                      MyScreen.getScreenHeight(context) * (5 / 1063.6),
+                      MyScreen.getScreenWidth(context) * (10 / 490.9),
+                      MyScreen.getScreenHeight(context) * (5 / 1063.6)),
+                  height: MyScreen.getScreenHeight(context) * (139 / 1063.6),
+                  width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+                  decoration: BoxDecoration(
+                    color: MyColors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        MyScreen.getScreenHeight(context) * (15 / 1063.6))),
+                  ),
+                  child: Column(
+                    children: [
+                      // Employee Master
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          Row(
                             children: [
-                              Container(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (53 / 490.9),
-                                height: MyScreen.getScreenWidth(context) *
-                                    (53 / 490.9),
-                                decoration: BoxDecoration(
-                                  color: MyColors.scarlet,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          MyScreen.getScreenHeight(context) *
-                                              (10 / 1063.6))),
-                                ),
-                                child: Icon(
-                                  Icons.timelapse,
-                                  size: MyScreen.getScreenHeight(context) *
-                                      (30 / 1063.6),
-                                  color: MyColors.black,
-                                ),
+                              Icon(
+                                Icons.work,
+                                textDirection: TextDirection.rtl,
+                                size: MyScreen.getScreenHeight(context) *
+                                    (30 / 1063.6),
+                                color: MyColors.black,
                               ),
                               SizedBox(
-                                height: MyScreen.getScreenHeight(context) *
-                                    (2 / 1063.6),
+                                width: MyScreen.getScreenWidth(context) *
+                                    (10 / 490.9),
                               ),
-                              Text("Processing Orders",
+                              Text("Employee Master",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize:
                                         MyScreen.getScreenHeight(context) *
-                                            (12 / 1063.6),
+                                            (22 / 1063.6),
                                     fontWeight: FontWeight.bold,
                                     color: MyColors.black,
                                   )),
                             ],
                           ),
-                          Column(
-                            children: [
-                              Container(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (53 / 490.9),
-                                height: MyScreen.getScreenWidth(context) *
-                                    (53 / 490.9),
-                                decoration: BoxDecoration(
-                                  color: MyColors.scarlet,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          MyScreen.getScreenHeight(context) *
-                                              (10 / 1063.6))),
-                                ),
-                                child: Icon(
-                                  Icons.radio_button_checked,
-                                  size: MyScreen.getScreenHeight(context) *
-                                      (30 / 1063.6),
-                                  color: MyColors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                height: MyScreen.getScreenWidth(context) *
-                                    (2 / 490.9),
-                              ),
-                              Text("Fulfilled Orders",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize:
-                                        MyScreen.getScreenHeight(context) *
-                                            (12 / 1063.6),
-                                    fontWeight: FontWeight.bold,
-                                    color: MyColors.black,
-                                  )),
-                            ],
+                          SizedBox(
+                            width: MyScreen.getScreenWidth(context) *
+                                (172 / 490.9),
                           ),
-                          Column(
-                            children: [
-                              Container(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (53 / 490.9),
-                                height: MyScreen.getScreenWidth(context) *
-                                    (53 / 490.9),
-                                decoration: BoxDecoration(
-                                  color: MyColors.scarlet,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          MyScreen.getScreenHeight(context) *
-                                              (10 / 1063.6))),
-                                ),
-                                child: Icon(
-                                  Icons.timer,
-                                  size: MyScreen.getScreenHeight(context) *
-                                      (30 / 1063.6),
+                          InkWell(
+                            onTap: () {},
+                            child: Text("View All",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (12 / 1063.6),
+                                  fontWeight: FontWeight.bold,
                                   color: MyColors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                height: MyScreen.getScreenWidth(context) *
-                                    (2 / 490.9),
-                              ),
-                              Text("Pending Orders",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize:
-                                        MyScreen.getScreenHeight(context) *
-                                            (12 / 1063.6),
-                                    fontWeight: FontWeight.bold,
-                                    color: MyColors.black,
-                                  )),
-                            ],
+                                )),
                           ),
                         ],
+                      ),
+                      // Underline
+                      Container(
+                        color: MyColors.black,
+                        height:
+                            MyScreen.getScreenHeight(context) * (3 / 1063.6),
+                      ),
+                      // White space
+                      SizedBox(
+                        height:
+                            MyScreen.getScreenHeight(context) * (10 / 1063.6),
+                      ),
+                      // Main
+                      SizedBox(
+                        height:
+                            MyScreen.getScreenHeight(context) * (86 / 1063.6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MySignUpEmail);
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.group_add,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (2 / 1063.6),
+                                  ),
+                                  Text("Add Employee",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.work_off,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Leave Requests",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.edit_location,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Edit Employee",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+                ),
+                // Outer Shell
+                Container(
+                  padding: EdgeInsets.fromLTRB(
+                      MyScreen.getScreenWidth(context) * (10 / 490.9),
+                      MyScreen.getScreenHeight(context) * (5 / 1063.6),
+                      MyScreen.getScreenWidth(context) * (10 / 490.9),
+                      MyScreen.getScreenHeight(context) * (5 / 1063.6)),
+                  height: MyScreen.getScreenHeight(context) * (139 / 1063.6),
+                  width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+                  decoration: BoxDecoration(
+                    color: MyColors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        MyScreen.getScreenHeight(context) * (15 / 1063.6))),
+                  ),
+                  child: Column(
+                    children: [
+                      // Item Master
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.view_carousel,
+                                textDirection: TextDirection.rtl,
+                                size: MyScreen.getScreenHeight(context) *
+                                    (30 / 1063.6),
+                                color: MyColors.black,
+                              ),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (10 / 490.9),
+                              ),
+                              Text("Item Master",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (22 / 1063.6),
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.black,
+                                  )),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (42 / 490.9),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: MyScreen.getScreenWidth(context) *
+                                (172 / 490.9),
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: Text("View All",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (12 / 1063.6),
+                                  fontWeight: FontWeight.bold,
+                                  color: MyColors.black,
+                                )),
+                          ),
+                        ],
+                      ),
+                      // Underline
+                      Container(
+                        color: MyColors.black,
+                        height:
+                            MyScreen.getScreenHeight(context) * (3 / 1063.6),
+                      ),
+                      // White space
+                      SizedBox(
+                        height:
+                            MyScreen.getScreenHeight(context) * (10 / 1063.6),
+                      ),
+                      // Main
+                      SizedBox(
+                        height:
+                            MyScreen.getScreenHeight(context) * (86 / 1063.6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.all_inbox,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (2 / 1063.6),
+                                  ),
+                                  Text("Add Item",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.show_chart,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Analytic Report",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.swap_horiz,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Inventory",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'customer.dart';
 import 'customer_branch.dart';
 import 'employee.dart';
+import 'item.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
@@ -81,6 +82,20 @@ class DatabaseHelper {
      active TEXT
     )
     ''');
+    await db.execute('''
+    CREATE TABLE items(
+      code TEXT PRIMARY KEY,
+   hsn_Code INTEGER,
+   item_Name TEXT,
+   grp TEXT, 
+   sub_Group TEXT,
+   item_Type TEXT,
+   unit_Item INTEGER,
+   barcode INTEGER,
+   pur_Item TEXT,
+   sell_Item TEXT
+    )
+    ''');
   }
 
   Future<List<Employee>> getEmployees() async {
@@ -136,14 +151,14 @@ class DatabaseHelper {
     List<Customer> CustomersList = customers.isNotEmpty
         ? customers.map((c) => Customer.fromMap((c))).toList()
         : [];
-    print(CustomersList.toString());
+    // print(CustomersList.toString());
     return CustomersList;
   }
 
   Future<bool> isCustomerTableContainData() async {
     Database db = await instance.database;
     var customers = await db.query('customers');
-    print(customers.isNotEmpty);
+    // print(customers.isNotEmpty);
     return customers.isNotEmpty;
   }
 
@@ -202,8 +217,8 @@ class DatabaseHelper {
     List<Customer_Branch> Customer_BranchList = customer_branch.isNotEmpty
         ? customer_branch.map((c) => Customer_Branch.fromMap((c))).toList()
         : [];
-    print("hello db class contant");
-    print(Customer_BranchList);
+    // print("hello db class contant");
+    // print(Customer_BranchList);
     return Customer_BranchList;
   }
 
@@ -227,5 +242,26 @@ class DatabaseHelper {
       if (empList.isEmpty) return null;
       return empList[0];
     }
+  }
+
+  Future<int> addItem(Item item) async {
+    Database db = await instance.database;
+    return await db.insert('items', item.toMap());
+  }
+
+  Future<List<Item>> getItems() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> items = await db.rawQuery("SELECT * FROM items");
+    List<Item> ItemList =
+        items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
+    // print("hello db class contant");
+    // print(Customer_BranchList);
+    return ItemList;
+  }
+
+  Future<bool> isItemTableContainData() async {
+    Database db = await instance.database;
+    var customers = await db.query('items');
+    return customers.isNotEmpty;
   }
 }
