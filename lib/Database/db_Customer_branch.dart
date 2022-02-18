@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import 'customer_branch.dart';
 import 'database_helper.dart';
 
 class Database_customerBranch {
@@ -10,23 +9,19 @@ class Database_customerBranch {
   static List<String> ship_branch_codes = [];
   static String iphone_number = "";
   static String iemail = "";
-  static addCustomerBranch(Map<String, dynamic> customer_branch) async {
-    await DatabaseHelper.instance
-        .addCustomerBranch(Customer_Branch.fromMap(customer_branch));
-  }
 
   get_customerBranches(String customer_code) async {
     final bill_branches = await DatabaseHelper.instance
         .getCustomerBranches(0, customer_code); // 0 for bill type, 1 ship type
     bill_branches.forEach((element) {
       bill_branch_codes
-          .add(element.branch_code! + " : " + element.branch_Name!);
+          .add(element.branch_Code! + " : " + element.branch_Name!);
     });
     final ship_branches = await DatabaseHelper.instance
         .getCustomerBranches(1, customer_code); // 0 for bill type, 1 ship type
     ship_branches.forEach((element) {
       ship_branch_codes
-          .add(element.branch_code! + " : " + element.branch_Name!);
+          .add(element.branch_Code! + " : " + element.branch_Name!);
     });
     // print(ship_branch_codes);
   }
@@ -48,13 +43,15 @@ class Database_customerBranch {
     bool isData =
         await DatabaseHelper.instance.isCustomerBranchTableContainData();
     if (isData == false) {
-      // print("customer branches data insert");
+      print("customer branches data insert");
       List? data;
       var jsonText =
           await rootBundle.loadString('assets/data/CustomerBranch.json');
       data = json.decode(jsonText);
-      data!.forEach((element) {
-        Database_customerBranch.addCustomerBranch(element);
+      data!.forEach((element) async {
+        print(element);
+        print("\n");
+        await DatabaseHelper.instance.addCustomerBranch(element);
       });
     }
   }

@@ -1,6 +1,6 @@
-class Customer_Branch {
+class CustomerBranch {
   String? code;
-  String? branch_code;
+  String? branch_Code;
   String? branch_Type;
   String? branch_Name;
   String? address1;
@@ -19,9 +19,9 @@ class Customer_Branch {
   String? isDefault;
   String? active;
 
-  Customer_Branch({
+  CustomerBranch({
     this.code,
-    this.branch_code,
+    this.branch_Code,
     this.branch_Type,
     this.branch_Name,
     this.address1,
@@ -44,7 +44,7 @@ class Customer_Branch {
   Map<String, dynamic> toMap() {
     return {
       'code': this.code,
-      'branch_code': this.branch_code,
+      'branch_Code': this.branch_Code,
       'branch_Type': this.branch_Type,
       'branch_Name': this.branch_Name,
       'address1': this.address1,
@@ -65,10 +65,10 @@ class Customer_Branch {
     };
   }
 
-  factory Customer_Branch.fromMap(Map<String, dynamic> map) {
-    return Customer_Branch(
+  factory CustomerBranch.fromMap(Map<String, dynamic> map) {
+    return CustomerBranch(
       code: map['code'] as String,
-      branch_code: map['branch_code'] as String,
+      branch_Code: map['branch_Code'] as String,
       branch_Type: map['branch_Type'] as String,
       branch_Name: map['branch_Name'] as String,
       address1: map['address1'] as String,

@@ -59,29 +59,29 @@ class DatabaseHelper {
      active TEXT
     )
     ''');
-    await db.execute('''
-    CREATE TABLE customers_branches(
-     code TEXT,
-     branch_Code TEXT PRIMARY KEY,
-     branch_Type TEXT,
-     branch_Name TEXT,
-     address1 TEXT,
-     address2 TEXT,
-     location TEXT,
-     city TEXT,
-     state TEXT,
-     country TEXT,
-     post_Code INTEGER,
-     contact_Person TEXT,
-     branch_Email TEXT,
-     branch_Phone TEXT,
-     gstin TEXT,
-     pan TEXT,
-     composite_Scheme TEXT,
-     isDefault TEXT,
-     active TEXT
-    )
-    ''');
+    // await db.execute('''
+    // CREATE TABLE customers_branches(
+    //  code TEXT,
+    //  branch_Code TEXT PRIMARY KEY,
+    //  branch_Type TEXT,
+    //  branch_Name TEXT,
+    //  address1 TEXT,
+    //  address2 TEXT,
+    //  location TEXT,
+    //  city TEXT,
+    //  state TEXT,
+    //  country TEXT,
+    //  post_Code INTEGER,
+    //  contact_Person TEXT,
+    //  branch_Email TEXT,
+    //  branch_Phone TEXT,
+    //  gstin TEXT,
+    //  pan TEXT,
+    //  composite_Scheme TEXT,
+    //  isDefault TEXT,
+    //  active TEXT
+    // )
+    // ''');
     await db.execute('''
     CREATE TABLE items(
       code TEXT PRIMARY KEY,
@@ -148,6 +148,7 @@ class DatabaseHelper {
   Future<List<Customer>> getCustomers() async {
     Database db = await instance.database;
     var customers = await db.query('customers');
+    print(customers);
     List<Customer> CustomersList = customers.isNotEmpty
         ? customers.map((c) => Customer.fromMap((c))).toList()
         : [];
@@ -187,61 +188,42 @@ class DatabaseHelper {
     return customers.isNotEmpty;
   }
 
-  Future<int> addCustomerBranch(Customer_Branch customerBranch) async {
+  Future<int> addCustomerBranch(Map<String, dynamic> customerBranch) async {
     Database db = await instance.database;
-    return await db.insert('customers_branches', customerBranch.toMap());
+    return await db.insert('customers_branches', customerBranch);
   }
 
-  Future<List<Customer_Branch>> getCustomerBranches(
+  Future<List<CustomerBranch>> getCustomerBranches(
       int branchType, String customer_code) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> customers;
+    List<Map<String, dynamic>> customer_branches;
+
     if (branchType == 0) {
-      customers = await db.rawQuery(
+      customer_branches = await db.rawQuery(
           "SELECT * FROM customers_branches where code = '$customer_code' and branch_Type = 'Bill To / Ship To' or branch_Type = 'Bill To' order by branch_code;");
     } else {
-      customers = await db.rawQuery(
-          "SELECT * FROM customers_branches where branch_Type = 'Bill To / Ship To' or branch_Type = 'Ship To' order by branch_code;");
+      customer_branches = await db.rawQuery(
+          "SELECT * FROM customers_branches where code = '$customer_code' and branch_Type = 'Bill To / Ship To' or branch_Type = 'Ship To' order by branch_code;");
     }
-    List<Customer_Branch> Customer_BranchList = customers.isNotEmpty
-        ? customers.map((c) => Customer_Branch.fromMap((c))).toList()
+    List<CustomerBranch> Customer_BranchList = customer_branches.isNotEmpty
+        ? customer_branches.map((c) => CustomerBranch.fromMap((c))).toList()
         : [];
     return Customer_BranchList;
   }
 
-  Future<List<Customer_Branch>> getCustomerBranchContact(
+  Future<List<CustomerBranch>> getCustomerBranchContact(
       String branch_code) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> customer_branch = await db.rawQuery(
         "SELECT * FROM customers_branches where branch_Code = '$branch_code'");
-    List<Customer_Branch> Customer_BranchList = customer_branch.isNotEmpty
-        ? customer_branch.map((c) => Customer_Branch.fromMap((c))).toList()
-        : [];
+    // List<Customer_Branch>  Customer_BranchList = customer_branch.isNotEmpty
+    //     ? customer_branch.map((c) => Customer_Branch.fromMap((c))).toList()
+    //     : [];
+    List<CustomerBranch> Customer_BranchList = [];
+    print(CustomerBranch.fromMap((customer_branch[0])));
     // print("hello db class contant");
     // print(Customer_BranchList);
     return Customer_BranchList;
-  }
-
-  Future<Customer_Branch?> getCustomerBranch(
-      {required String email, required int id}) async {
-    Database db = await instance.database;
-    if (email != '') {
-      var emp = await db
-          .query('customers_branches', where: 'email = ?', whereArgs: [email]);
-      List<Customer_Branch> empList = emp.isNotEmpty
-          ? emp.map((c) => Customer_Branch.fromMap((c))).toList()
-          : [];
-      if (empList.isEmpty) return null;
-      return empList[0];
-    } else {
-      var emp = await db
-          .query('customers_branches', where: 'id = ?', whereArgs: [id]);
-      List<Customer_Branch> empList = emp.isNotEmpty
-          ? emp.map((c) => Customer_Branch.fromMap((c))).toList()
-          : [];
-      if (empList.isEmpty) return null;
-      return empList[0];
-    }
   }
 
   Future<int> addItem(Item item) async {
