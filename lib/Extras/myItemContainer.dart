@@ -1,49 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_item.dart';
+import 'package:project_v3/Database/order.dart';
 
 import 'myColors.dart';
 import 'myScreen.dart';
 import 'myTypeAhead.dart';
 
 class MyItemContainer extends StatefulWidget {
-  const MyItemContainer({Key? key}) : super(key: key);
-
+  Order? order = Order();
   @override
   _MyItemContainerState createState() => _MyItemContainerState();
+
+  Order getOrder() {
+    return order!;
+  }
 }
 
 class _MyItemContainerState extends State<MyItemContainer> {
   double? _animatedHeight;
-  var quantity = [
-    '',
-    'Qty',
-    'Packet',
-    '1',
-    'Patti',
-    '5',
-    'Box',
-    '10',
-    'Total',
-    '210'
-  ];
-  var _calculated = [
-    'Subtotal',
-    '5067.30',
-    'Tax',
-    '609.00',
-    'Total',
-    '5676.30'
-  ];
-  List<MyTypeAhead>? order_item_name;
-  int? _counter;
   @override
   void initState() {
     Database_Item.insertData();
-    var _items = Database_Item();
-    _items.get_Items();
     _animatedHeight = -1;
-    _counter = 0;
-    order_item_name = [];
   }
 
   @override
@@ -71,16 +49,20 @@ class _MyItemContainerState extends State<MyItemContainer> {
                         fontSize:
                             MyScreen.getScreenHeight(context) * (17 / 1063.6))),
               ),
-              Container(
+              SizedBox(
                 height: MyScreen.getScreenHeight(context) * (32 / 1063.6),
                 child: InkWell(
                   onTap: () {
                     setState(() {
-                      order_item_name!.add(MyTypeAhead(
+                      widget.order!.item_name!.add(MyTypeAhead(
                           itemList: Database_Item.item_names,
                           message: "Please Enter Item Name",
                           isEnabled: true));
-                      _counter = _counter! + 1;
+                      widget.order!.packet!.add("0");
+                      widget.order!.patti!.add("0");
+                      widget.order!.box!.add("0");
+                      widget.order!.counter = widget.order!.counter! + 1;
+                      print(widget.order!.counter);
                     });
                   },
                   child: Container(
@@ -92,7 +74,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                 (17 / 1063.6))),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -100,7 +82,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
       //items
       ListView.builder(
           shrinkWrap: true,
-          itemCount: _counter,
+          itemCount: widget.order!.counter,
           itemBuilder: (context, index) {
             return Container(
               child: _row(index),
@@ -112,16 +94,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
   _row(int key) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          MyScreen.getScreenWidth(context) * (15 / 490.9),
-          MyScreen.getScreenHeight(context) * (15 / 1063.6),
-          MyScreen.getScreenWidth(context) * (15 / 490.9),
-          0),
+          0, MyScreen.getScreenHeight(context) * (15 / 1063.6), 0, 0),
       child: Column(
         children: [
           Container(
             decoration: BoxDecoration(
               border: Border.all(color: MyColors.pewterBlue),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(
+                  MyScreen.getScreenHeight(context) * (10 / 1063.6)),
             ),
             width: MyScreen.getScreenWidth(context) * (228 / 294),
             child: Padding(
@@ -147,8 +127,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                           alignment: Alignment.topCenter,
                           child: Container(
                             alignment: Alignment.center,
-                            width: 200,
-                            child: order_item_name![key],
+                            width: MyScreen.getScreenWidth(context) *
+                                (200 / 490.9),
+                            child: widget.order!.item_name![key],
                           ),
                         ),
                       ),
@@ -185,34 +166,38 @@ class _MyItemContainerState extends State<MyItemContainer> {
                     children: [
                       // Price & Unit
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          // Spacing to be kept between Field Name & Field Input
-                          SizedBox(
-                              height: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          SizedBox(
-                              width: MyScreen.getScreenWidth(context) *
-                                  (70 / 490.9)),
-                          Text("Price: \$ XX.XX",
+                          Text("Net Weight: " + (true ? "XX" : "YY"),
+                              // (widget.order!.item_name![key] == null
+                              //     ? Database_Item.item_names.contains(widget
+                              //             .order!.item_name![key]
+                              //             .getValue())
+                              //         ? Database_Item()
+                              //             .get_Items()['net_Weight']
+                              //         : "XX"
+                              //     : "XX"),
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
                                   fontSize: MyScreen.getScreenHeight(context) *
-                                      (19 / 1063.6))),
-                          SizedBox(
-                              width: MyScreen.getScreenWidth(context) *
-                                  (50 / 490.9)),
+                                      (16 / 1063.6))),
+                          Text("MRP: \u{20B9} XX.XX",
+                              style: TextStyle(
+                                  color: MyColors.pewterBlue,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (16 / 1063.6))),
                           Text("Unit: Packet",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
                                   fontSize: MyScreen.getScreenHeight(context) *
-                                      (19 / 1063.6))),
+                                      (16 / 1063.6))),
                         ],
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MyScreen.getScreenWidth(context) * (20 / 490.9),
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                            MyScreen.getScreenWidth(context) * (20 / 490.9),
+                            MyScreen.getScreenWidth(context) * (5 / 490.9),
                             MyScreen.getScreenHeight(context) * (5 / 1063.6)),
                         child: Row(
                           children: [
@@ -231,12 +216,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -250,7 +233,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                         height:
@@ -264,17 +247,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -294,7 +274,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                       ),
@@ -306,12 +286,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -325,7 +303,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                         height:
@@ -339,17 +317,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -362,6 +337,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (50 / 490.9),
                                         child: Center(
                                           child: TextFormField(
+                                            onChanged: (value) {
+                                              widget.order!.packet![key] =
+                                                  value;
+                                            },
                                             initialValue: "0",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -369,7 +348,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                       ),
@@ -386,7 +365,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
-                                                      (19 / 1069.9)),
+                                                      (16 / 1069.9)),
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -401,7 +380,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
-                                                      (19 / 1069.9)),
+                                                      (16 / 1069.9)),
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -415,12 +394,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -434,7 +411,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                         height:
@@ -448,17 +425,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -471,6 +445,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (50 / 490.9),
                                         child: Center(
                                           child: TextFormField(
+                                            onChanged: (value) {
+                                              widget.order!.box![key] = value;
+                                            },
                                             initialValue: "0",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -478,7 +455,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                       ),
@@ -503,7 +480,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
-                                                      (19 / 1069.9)),
+                                                      (16 / 1069.9)),
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -526,7 +503,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
-                                                      (19 / 1069.9)),
+                                                      (16 / 1069.9)),
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -540,26 +517,24 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                         )),
                                         child: Center(
                                           child: Text(
-                                            "Patti",
+                                            "Box",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: MyColors.pewterBlue,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                         height:
@@ -573,17 +548,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -596,6 +568,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (50 / 490.9),
                                         child: Center(
                                           child: TextFormField(
+                                            onChanged: (value) {
+                                              widget.order!.patti![key] = value;
+                                            },
                                             initialValue: "0",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -603,7 +578,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                       ),
@@ -620,7 +595,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
-                                                      (19 / 1069.9)),
+                                                      (16 / 1069.9)),
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -635,7 +610,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
-                                                      (19 / 1069.9)),
+                                                      (16 / 1069.9)),
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -649,17 +624,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           bottom: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -673,7 +645,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                         height:
@@ -687,22 +659,18 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           bottom: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            //                   <--- left side
                                             color: MyColors.pewterBlue,
                                             width: 1.0,
                                           ),
@@ -715,14 +683,14 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (50 / 490.9),
                                         child: Center(
                                           child: Text(
-                                            "XX",
+                                            "XXX",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: MyColors.pewterBlue,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
-                                                        (22 / 1069.9)),
+                                                        (18 / 1069.9)),
                                           ),
                                         ),
                                       ),
@@ -733,7 +701,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                             ),
                             SizedBox(
                               width: MyScreen.getScreenWidth(context) *
-                                  (12 / 490.9),
+                                  (15 / 490.9),
                             ),
                             Column(
                               children: [
@@ -773,7 +741,19 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             MyScreen.getScreenHeight(context) *
                                                 (40 / 1063.6)),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    setState(() {
+                                      widget.order!.item_name!.removeAt(key);
+                                      // widget.order!.price!.removeAt(key);
+                                      // widget.order!.packet!.removeAt(key);
+                                      // widget.order!.box!.removeAt(key);
+                                      // widget.order!.patti!.removeAt(key);
+                                      // widget.order!.tax!.removeAt(key);
+                                      // widget.order!.total!.removeAt(key);
+                                      widget.order!.counter =
+                                          widget.order!.counter! - 1;
+                                    });
+                                  },
                                 ),
                               ],
                             ),

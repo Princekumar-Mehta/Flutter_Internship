@@ -3,6 +3,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
+import 'package:project_v3/Database/db_item.dart';
+import 'package:project_v3/Database/order.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myItemContainer.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -26,28 +28,39 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   late MyTypeAhead billing_address;
   late MyTypeAhead shipping_address;
   late MyTypeAhead manufacturing_branch;
+  MyItemContainer? getOrders;
+  late Order order;
   void placeOrder(BuildContext context) {
     if ((!customer.isEmpty() &&
         !billing_address.isEmpty() &&
         !shipping_address.isEmpty() &&
         !manufacturing_branch.isEmpty())) {}
+    order = getOrders!.getOrder();
+    order.print_order();
   }
 
   @override
   void initState() {
     super.initState();
+    getOrders = MyItemContainer();
     Database_customer.insertData();
     var _customers = Database_customer();
     _customers.get_customerIds();
     Database_customerBranch.insertData();
+    var _items = Database_Item();
+    _items.get_Items();
+    print("inti state called");
   }
 
   void fetch_contact() async {
     Map<String, String> branch_contact = await Database_customerBranch()
         .get_customerBranchContact(billing_address.getValue().toString());
-    print(branch_contact);
-    phone_number = branch_contact['phone']!;
-    email = branch_contact['email']!;
+    if (phone_number != branch_contact['phone']! ||
+        email != branch_contact['email']!) {
+      phone_number = branch_contact['phone']!;
+      email = branch_contact['email']!;
+      setState(() {});
+    }
   }
 
   bool? isCustomerId = false;
@@ -314,11 +327,12 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       ),
                     ),
                     // Item List & Add Item
-                    MyItemContainer(),
+                    getOrders!,
                     // Item Input Container
                   ],
                 ),
               ),
+
               // Spacing between Sign order button and form
               SizedBox(
                   height: MyScreen.getScreenHeight(context) * (20 / 1063.6)),
