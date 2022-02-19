@@ -26,31 +26,32 @@ class Database_customerBranch {
     // print(ship_branch_codes);
   }
 
-  static get_customerBranchContact(String branch) async {
+  Future<Map<String, String>> get_customerBranchContact(String branch) async {
     // print("hello customer branch class");
     final bill_branch = await DatabaseHelper.instance
         .getCustomerBranchContact(branch.substring(0, 5));
     //print(branch.substring(0, 5));
+    // print(bill_branch);
     bill_branch.forEach((element) {
       iphone_number = element.branch_Phone.toString();
       iemail = element.branch_Email.toString();
-      //  print(iphone_number + iemail);
-      return;
     });
+    // print(iphone_number + "   " + iemail);
+    return {'phone': iphone_number, 'email': iemail};
   }
 
   static insertData() async {
     bool isData =
         await DatabaseHelper.instance.isCustomerBranchTableContainData();
     if (isData == false) {
-      print("customer branches data insert");
+      //  print("customer branches data insert");
       List? data;
       var jsonText =
           await rootBundle.loadString('assets/data/CustomerBranch.json');
       data = json.decode(jsonText);
       data!.forEach((element) async {
-        print(element);
-        print("\n");
+        //  print(element);
+        // print("\n");
         await DatabaseHelper.instance.addCustomerBranch(element);
       });
     }

@@ -42,6 +42,14 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     Database_customerBranch.insertData();
   }
 
+  void fetch_contact() async {
+    Map<String, String> branch_contact = await Database_customerBranch()
+        .get_customerBranchContact(billing_address.getValue().toString());
+    print(branch_contact);
+    phone_number = branch_contact['phone']!;
+    email = branch_contact['email']!;
+  }
+
   bool? isCustomerId = false;
   @override
   Widget build(BuildContext context) {
@@ -56,10 +64,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
       if (Database_customerBranch.bill_branch_codes
           .contains(billing_address.getValue().toString())) {
-        Database_customerBranch.get_customerBranchContact(
-            billing_address.getValue().toString());
-        phone_number = Database_customerBranch.iphone_number;
-        email = Database_customerBranch.iemail;
+        fetch_contact();
       }
     } catch (e) {}
     customer = MyTypeAhead(

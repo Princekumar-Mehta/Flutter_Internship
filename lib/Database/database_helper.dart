@@ -59,29 +59,29 @@ class DatabaseHelper {
      active TEXT
     )
     ''');
-    // await db.execute('''
-    // CREATE TABLE customers_branches(
-    //  code TEXT,
-    //  branch_Code TEXT PRIMARY KEY,
-    //  branch_Type TEXT,
-    //  branch_Name TEXT,
-    //  address1 TEXT,
-    //  address2 TEXT,
-    //  location TEXT,
-    //  city TEXT,
-    //  state TEXT,
-    //  country TEXT,
-    //  post_Code INTEGER,
-    //  contact_Person TEXT,
-    //  branch_Email TEXT,
-    //  branch_Phone TEXT,
-    //  gstin TEXT,
-    //  pan TEXT,
-    //  composite_Scheme TEXT,
-    //  isDefault TEXT,
-    //  active TEXT
-    // )
-    // ''');
+    await db.execute('''
+    CREATE TABLE customers_branches(
+     code TEXT,
+     branch_Code TEXT PRIMARY KEY,
+     branch_Type TEXT,
+     branch_Name TEXT,
+     address1 TEXT,
+     address2 TEXT,
+     location TEXT,
+     city TEXT,
+     state TEXT,
+     country TEXT,
+     post_Code INTEGER,
+     contact_Person TEXT,
+     branch_Email TEXT,
+     branch_Phone TEXT,
+     gstin TEXT,
+     pan TEXT,
+     composite_Scheme TEXT,
+     isDefault TEXT,
+     active TEXT
+    )
+    ''');
     await db.execute('''
     CREATE TABLE items(
       code TEXT PRIMARY KEY,
@@ -148,7 +148,7 @@ class DatabaseHelper {
   Future<List<Customer>> getCustomers() async {
     Database db = await instance.database;
     var customers = await db.query('customers');
-    print(customers);
+    //   print(customers);
     List<Customer> CustomersList = customers.isNotEmpty
         ? customers.map((c) => Customer.fromMap((c))).toList()
         : [];
@@ -216,11 +216,10 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map<String, dynamic>> customer_branch = await db.rawQuery(
         "SELECT * FROM customers_branches where branch_Code = '$branch_code'");
-    // List<Customer_Branch>  Customer_BranchList = customer_branch.isNotEmpty
-    //     ? customer_branch.map((c) => Customer_Branch.fromMap((c))).toList()
-    //     : [];
-    List<CustomerBranch> Customer_BranchList = [];
-    print(CustomerBranch.fromMap((customer_branch[0])));
+    List<CustomerBranch> Customer_BranchList = customer_branch.isNotEmpty
+        ? customer_branch.map((c) => CustomerBranch.fromMap((c))).toList()
+        : [];
+    //  print(CustomerBranch.fromMap((customer_branch[0])));
     // print("hello db class contant");
     // print(Customer_BranchList);
     return Customer_BranchList;
