@@ -4,7 +4,6 @@ import 'package:project_v3/Database/order.dart';
 
 import 'myColors.dart';
 import 'myScreen.dart';
-import 'myTypeAhead.dart';
 
 class MyItemContainer extends StatefulWidget {
   Order? order = Order();
@@ -54,15 +53,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                 child: InkWell(
                   onTap: () {
                     setState(() {
-                      widget.order!.item_name!.add(MyTypeAhead(
-                          itemList: Database_Item.item_names,
-                          message: "Please Enter Item Name",
-                          isEnabled: true));
-                      widget.order!.packet!.add("0");
-                      widget.order!.patti!.add("0");
-                      widget.order!.box!.add("0");
-                      widget.order!.counter = widget.order!.counter! + 1;
-                      print(widget.order!.counter);
+                      widget.order!.addItem(context);
                     });
                   },
                   child: Container(
@@ -121,7 +112,6 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
-                      // Replace with form input field
                       Positioned.fill(
                         child: Align(
                           alignment: Alignment.topCenter,
@@ -168,24 +158,36 @@ class _MyItemContainerState extends State<MyItemContainer> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("Net Weight: " + (true ? "XX" : "YY"),
-                              // (widget.order!.item_name![key] == null
-                              //     ? Database_Item.item_names.contains(widget
-                              //             .order!.item_name![key]
-                              //             .getValue())
-                              //         ? Database_Item()
-                              //             .get_Items()['net_Weight']
-                              //         : "XX"
-                              //     : "XX"),
+                          Text("Net Weight:",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (16 / 1063.6))),
-                          Text("MRP: \u{20B9} XX.XX",
+                          Container(
+                            height: 16,
+                            width: 30,
+                            child: widget.order!.giveTextFormField(
+                              widget.order!.netWeight![key],
+                              context,
+                              myAlign: TextAlign.left,
+                              isEditable: false,
+                            ),
+                          ),
+                          Text("MRP: \u{20B9}",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (16 / 1063.6))),
+                          Container(
+                            height: 16,
+                            width: 30,
+                            child: widget.order!.giveTextFormField(
+                              widget.order!.price![key],
+                              context,
+                              myAlign: TextAlign.left,
+                              isEditable: false,
+                            ),
+                          ),
                           Text("Unit: Packet",
                               style: TextStyle(
                                   color: MyColors.pewterBlue,
@@ -336,20 +338,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             MyScreen.getScreenWidth(context) *
                                                 (50 / 490.9),
                                         child: Center(
-                                          child: TextFormField(
-                                            onChanged: (value) {
-                                              widget.order!.packet![key] =
-                                                  value;
-                                            },
-                                            initialValue: "0",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: MyColors.pewterBlue,
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (18 / 1069.9)),
-                                          ),
+                                          child: widget.order!
+                                              .giveTextFormField(
+                                                  widget.order!.packet![key],
+                                                  context),
                                         ),
                                       ),
                                       SizedBox(
@@ -372,15 +364,12 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (75 / 490.9),
                                       ),
                                       Container(
+                                        height: 16,
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "2546.00",
-                                          style: TextStyle(
-                                              color: MyColors.pewterBlue,
-                                              fontSize:
-                                                  MyScreen.getScreenHeight(
-                                                          context) *
-                                                      (16 / 1069.9)),
+                                        child: widget.order!.giveTextFormField(
+                                          widget.order!.subTotal![key],
+                                          context,
+                                          isEditable: false,
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
@@ -444,19 +433,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             MyScreen.getScreenWidth(context) *
                                                 (50 / 490.9),
                                         child: Center(
-                                          child: TextFormField(
-                                            onChanged: (value) {
-                                              widget.order!.box![key] = value;
-                                            },
-                                            initialValue: "0",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: MyColors.pewterBlue,
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (18 / 1069.9)),
-                                          ),
+                                          child: widget.order!
+                                              .giveTextFormField(
+                                                  widget.order!.patti![key],
+                                                  context),
                                         ),
                                       ),
                                       SizedBox(
@@ -487,6 +467,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (75 / 490.9),
                                       ),
                                       Container(
+                                        height: 15,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
@@ -496,15 +477,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                           ),
                                         ),
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "546.00",
-                                          style: TextStyle(
-                                              color: MyColors.pewterBlue,
-                                              fontSize:
-                                                  MyScreen.getScreenHeight(
-                                                          context) *
-                                                      (16 / 1069.9)),
-                                        ),
+                                        child: widget.order!.giveTextFormField(
+                                            widget.order!.tax![key], context,
+                                            isEditable: false),
                                         width:
                                             MyScreen.getScreenWidth(context) *
                                                 (75 / 490.9),
@@ -567,20 +542,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             MyScreen.getScreenWidth(context) *
                                                 (50 / 490.9),
                                         child: Center(
-                                          child: TextFormField(
-                                            onChanged: (value) {
-                                              widget.order!.patti![key] = value;
-                                            },
-                                            initialValue: "0",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: MyColors.pewterBlue,
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (18 / 1069.9)),
-                                          ),
-                                        ),
+                                            child: widget.order!
+                                                .giveTextFormField(
+                                                    widget.order!.box![key],
+                                                    context)),
                                       ),
                                       SizedBox(
                                         width:
@@ -602,16 +567,11 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (75 / 490.9),
                                       ),
                                       Container(
+                                        height: 16,
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "3092.00",
-                                          style: TextStyle(
-                                              color: MyColors.pewterBlue,
-                                              fontSize:
-                                                  MyScreen.getScreenHeight(
-                                                          context) *
-                                                      (16 / 1069.9)),
-                                        ),
+                                        child: widget.order!.giveTextFormField(
+                                            widget.order!.total![key], context,
+                                            isEditable: false),
                                         width:
                                             MyScreen.getScreenWidth(context) *
                                                 (75 / 490.9),
@@ -682,15 +642,11 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             MyScreen.getScreenWidth(context) *
                                                 (50 / 490.9),
                                         child: Center(
-                                          child: Text(
-                                            "XXX",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: MyColors.pewterBlue,
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (18 / 1069.9)),
+                                          child:
+                                              widget.order!.giveTextFormField(
+                                            widget.order!.totalItem![key],
+                                            context,
+                                            isEditable: false,
                                           ),
                                         ),
                                       ),
@@ -722,7 +678,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             MyScreen.getScreenHeight(context) *
                                                 (35 / 1063.6)),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.order!.saveItem(key);
+                                  },
                                 ),
                                 SizedBox(
                                   height: MyScreen.getScreenHeight(context) *
@@ -743,15 +701,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                   ),
                                   onTap: () {
                                     setState(() {
-                                      widget.order!.item_name!.removeAt(key);
-                                      // widget.order!.price!.removeAt(key);
-                                      // widget.order!.packet!.removeAt(key);
-                                      // widget.order!.box!.removeAt(key);
-                                      // widget.order!.patti!.removeAt(key);
-                                      // widget.order!.tax!.removeAt(key);
-                                      // widget.order!.total!.removeAt(key);
-                                      widget.order!.counter =
-                                          widget.order!.counter! - 1;
+                                      widget.order!.deleteItem(key);
                                     });
                                   },
                                 ),

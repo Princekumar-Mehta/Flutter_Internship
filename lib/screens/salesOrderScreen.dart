@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
@@ -9,6 +10,7 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myItemContainer.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
+import 'package:project_v3/Extras/pdf_api.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({Key? key}) : super(key: key);
@@ -30,13 +32,16 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   late MyTypeAhead manufacturing_branch;
   MyItemContainer? getOrders;
   late Order order;
-  void placeOrder(BuildContext context) {
+  Future<void> placeOrder(BuildContext context) async {
     if ((!customer.isEmpty() &&
         !billing_address.isEmpty() &&
         !shipping_address.isEmpty() &&
         !manufacturing_branch.isEmpty())) {}
     order = getOrders!.getOrder();
     order.print_order();
+    PdfApi.generatePDF(
+        order: order,
+        imageSignature: await rootBundle.load('assets/images/DIMS.png'));
   }
 
   @override
@@ -144,230 +149,250 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         ),
         backgroundColor: MyColors.richBlackFogra,
         body: SingleChildScrollView(
-            child: FormBuilder(
-          key: _formKey,
-          child: Column(
-            children: [
-              // Date Container
-              Container(
-                height: 35,
-                padding: EdgeInsets.fromLTRB(
-                    MyScreen.getScreenWidth(context) * (310 / 490.9), 0, 0, 0),
-                alignment: Alignment.centerRight,
-                child: Row(
-                  children: [
-                    Text(
-                      "Date: ",
-                      style: TextStyle(
-                          color: MyColors.pewterBlue,
-                          fontSize: MyScreen.getScreenHeight(context) *
-                              (20 / 1063.6)),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: MyScreen.getScreenHeight(context) * (32 / 1063.6),
-                      width: MyScreen.getScreenWidth(context) * (63 / 294),
-                      child: FormBuilderTextField(
-                        name: 'order_date',
-                        enabled: false,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: MyColors.richBlackFogra)),
-                        ),
-                        initialValue: (df.format(new DateTime.now())),
+          child: FormBuilder(
+            key: _formKey,
+            child: Column(
+              children: [
+                // Date Container
+                Container(
+                  height: 35,
+                  padding: EdgeInsets.fromLTRB(
+                      MyScreen.getScreenWidth(context) * (310 / 490.9),
+                      0,
+                      0,
+                      0),
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    children: [
+                      Text(
+                        "Date: ",
                         style: TextStyle(
                             color: MyColors.pewterBlue,
                             fontSize: MyScreen.getScreenHeight(context) *
                                 (20 / 1063.6)),
                       ),
-                    ),
-                  ],
+                      Container(
+                        alignment: Alignment.center,
+                        height:
+                            MyScreen.getScreenHeight(context) * (32 / 1063.6),
+                        width: MyScreen.getScreenWidth(context) * (63 / 294),
+                        child: FormBuilderTextField(
+                          name: 'order_date',
+                          enabled: false,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.richBlackFogra)),
+                          ),
+                          initialValue: (df.format(new DateTime.now())),
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // Form
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    MyScreen.getScreenWidth(context) * (15 / 490.9),
-                    0,
-                    MyScreen.getScreenWidth(context) * (15 / 490.9),
-                    0),
-                child: Column(
-                  children: [
-                    // Type Ahead Example
-                    // Error here, the item selected from dropdown is not being replaced
-                    // on the textfield.
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Customer Input
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Customer *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    customer,
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Billing Address Input
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Billing Address *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    billing_address,
+                // Form
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MyScreen.getScreenWidth(context) * (15 / 490.9),
+                      0,
+                      MyScreen.getScreenWidth(context) * (15 / 490.9),
+                      0),
+                  child: Column(
+                    children: [
+                      // Type Ahead Example
+                      // Error here, the item selected from dropdown is not being replaced
+                      // on the textfield.
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Customer Input
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Customer *",
+                            style: TextStyle(
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      customer,
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Billing Address Input
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Billing Address *",
+                            style: TextStyle(
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      billing_address,
 
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Shipping Address Input
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Shipping Address *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    shipping_address,
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Phone Number (Load by default)
-                    // Inside Container needs to be auto filled, and width still
-                    // needs to be made dynamic.
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Phone: $phone_number",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (17 / 1063.6))),
-                    ),
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Email ID (Load by default)
-                    // Inside Container needs to be auto filled, and width still
-                    // needs to be made dynamic.
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Row(children: [
-                        Text("Email: $email",
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Shipping Address Input
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Shipping Address *",
+                            style: TextStyle(
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      shipping_address,
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Phone Number (Load by default)
+                      // Inside Container needs to be auto filled, and width still
+                      // needs to be made dynamic.
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Phone: $phone_number",
                             style: TextStyle(
                                 color: MyColors.pewterBlue,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (17 / 1063.6))),
-                      ]),
-                    ),
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Manufacturing Branch Input
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Manufacturing Branch *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    manufacturing_branch,
-                    // Spacing to be kept between Field Name & Field Input
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    // Order Required By Input
-                    // Check if calendar icon is having any on pressed action
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Order Required By *",
-                          style: TextStyle(
-                              color: MyColors.pewterBlue,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderDateTimePicker(
-                        inputType: InputType.date,
-                        format: DateFormat('dd-MM-yyyy'),
-                        firstDate: DateTime.now(),
-                        name: 'date',
-                        style: TextStyle(
-                            color: MyColors.pewterBlue,
-                            fontSize: MyScreen.getScreenHeight(context) *
-                                (25 / 1063.6)),
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: MyColors.pewterBlue)),
-                          suffixIcon: Icon(Icons.calendar_today,
-                              color: MyColors.pewterBlue,
-                              size: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6)),
-                          fillColor: MyColors.grullo,
-                        ),
-                        initialValue: DateTime.now(),
                       ),
-                    ),
-                    // Item List & Add Item
-                    getOrders!,
-                    // Item Input Container
-                  ],
-                ),
-              ),
-
-              // Spacing between Sign order button and form
-              SizedBox(
-                  height: MyScreen.getScreenHeight(context) * (20 / 1063.6)),
-              // Sign Order Button
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (85 / 294),
-                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                child: InkWell(
-                  child: Stack(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              MyScreen.getScreenHeight(context) *
-                                  (10 / 1063.6)),
-                          color: MyColors.middleRed,
-                        ),
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Email ID (Load by default)
+                      // Inside Container needs to be auto filled, and width still
+                      // needs to be made dynamic.
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Row(children: [
+                          Text("Email: $email",
+                              style: TextStyle(
+                                  color: MyColors.pewterBlue,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (17 / 1063.6))),
+                        ]),
                       ),
-                      Center(
-                        child: Text("Sign Order",
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Manufacturing Branch Input
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Manufacturing Branch *",
                             style: TextStyle(
-                                color: MyColors.richBlackFogra,
+                                color: MyColors.pewterBlue,
                                 fontSize: MyScreen.getScreenHeight(context) *
-                                    (17 / 1063.6),
-                                fontWeight: FontWeight.bold)),
-                      )
+                                    (20 / 1063.6))),
+                      ),
+                      manufacturing_branch,
+                      // Spacing to be kept between Field Name & Field Input
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      // Order Required By Input
+                      // Check if calendar icon is having any on pressed action
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Order Required By *",
+                            style: TextStyle(
+                                color: MyColors.pewterBlue,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                        child: FormBuilderDateTimePicker(
+                          inputType: InputType.date,
+                          format: DateFormat('dd-MM-yyyy'),
+                          firstDate: DateTime.now(),
+                          name: 'date',
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                            suffixIcon: Icon(Icons.calendar_today,
+                                color: MyColors.pewterBlue,
+                                size: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6)),
+                            fillColor: MyColors.grullo,
+                          ),
+                          initialValue: DateTime.now(),
+                        ),
+                      ),
+                      // Item List & Add Item
+                      getOrders!,
+                      // Item Input Container
                     ],
                   ),
-                  onTap: () => placeOrder(context),
                 ),
-              ),
-            ],
+
+                // Spacing between Sign order button and form
+                SizedBox(
+                    height: MyScreen.getScreenHeight(context) * (20 / 1063.6)),
+                // Sign Order Button
+                SizedBox(
+                  width: MyScreen.getScreenWidth(context) * (85 / 294),
+                  height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                  child: InkWell(
+                    child: Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                MyScreen.getScreenHeight(context) *
+                                    (10 / 1063.6)),
+                            color: MyColors.middleRed,
+                          ),
+                        ),
+                        Center(
+                          child: Text("Sign Order",
+                              style: TextStyle(
+                                  color: MyColors.richBlackFogra,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (17 / 1063.6),
+                                  fontWeight: FontWeight.bold)),
+                        )
+                      ],
+                    ),
+                    onTap: () => placeOrder(context),
+                  ),
+                ),
+              ],
+            ),
           ),
-        )),
+        ),
       ),
     );
   }

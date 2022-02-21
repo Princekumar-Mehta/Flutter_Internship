@@ -1,7 +1,10 @@
 //import 'dart:html';
 
+import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:project_v3/Database/order.dart';
+import 'package:project_v3/Extras/pdf_api.dart';
 
 class Send_Mail {
   static send_mail(String email, String message_value) async {
@@ -9,16 +12,18 @@ class Send_Mail {
     String password = "Pam@2020";
 
     final smtpServer = gmail(username, password);
-    // Use the SmtpServer class to configure an SMTP server:
-    // final smtpServer = SmtpServer('smtp.domain.com');
-    // See the named arguments of SmtpServer for further configuration
-    // options.
+
+    //load image in file
+    final byteData = await rootBundle.load('assets/images/DIMS.png');
+    final file =
+        await PdfApi.generatePDF(order: Order(), imageSignature: byteData);
 
     // Create our message.
     final message = Message()
       ..from = Address(username, 'Your name')
       ..recipients.add(email)
       ..subject = 'OTP For Email Verification'
+      ..attachments = [FileAttachment(file)]
       ..html = ""
           "<h3>$message_value</h3>"
           "";

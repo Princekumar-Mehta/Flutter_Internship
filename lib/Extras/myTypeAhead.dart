@@ -19,15 +19,16 @@ class MyTypeAhead extends StatefulWidget {
   _MyTypeAheadState createState() => _MyTypeAheadState();
   var isEmpty;
   var getValue;
+  var setValue;
 }
 
 class _MyTypeAheadState extends State<MyTypeAhead> {
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     widget.isEmpty = () {
-      if (this._textEditingController.text.isEmpty) {
+      if (_textEditingController.text.isEmpty) {
         Utility.showMessage(context, widget.message);
         return true;
       } else {
@@ -35,14 +36,19 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
       }
     };
     widget.getValue = () {
-      return this._textEditingController.text.toString();
+      return _textEditingController.text.toString();
     };
+    widget.setValue = (String newValue) {
+      _textEditingController.text = newValue;
+    };
+
     return Container(
       width: MyScreen.getScreenWidth(context) * (228 / 294),
       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
       color: MyColors.richBlackFogra,
       child: TypeAheadField(
         textFieldConfiguration: TextFieldConfiguration(
+            scrollPadding: EdgeInsets.only(bottom: 300),
             enabled: widget.isEnabled,
             controller: _textEditingController,
             decoration: InputDecoration(
@@ -63,7 +69,7 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
         },
         getImmediateSuggestions: true,
         hideOnEmpty: false,
-        noItemsFoundBuilder: (context) => Padding(
+        noItemsFoundBuilder: (context) => const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text('No item found'),
         ),

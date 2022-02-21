@@ -240,6 +240,17 @@ class DatabaseHelper {
     return ItemList;
   }
 
+  Future<List<Item>> getItem(String item_Name) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> items =
+        await db.rawQuery("SELECT * FROM items where item_Name = '$item_Name'");
+    List<Item> ItemList =
+        items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
+    // print("hello db class contant");
+    // print(Customer_BranchList);
+    return ItemList;
+  }
+
   Future<bool> isItemTableContainData() async {
     Database db = await instance.database;
     var customers = await db.query('items');

@@ -20,6 +20,12 @@ class Database_Item {
     print(item_names);
   }
 
+  Future<Item> get_Item(String item_name) async {
+    final items = await DatabaseHelper.instance
+        .getItem(item_name); // 0 for bill type, 1 ship type
+    return items[0];
+  }
+
   static insertData() async {
     bool isData = await DatabaseHelper.instance.isItemTableContainData();
     if (isData == false) {
