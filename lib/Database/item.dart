@@ -9,7 +9,8 @@ class Item {
   int? barcode;
   String? pur_Item;
   String? sell_Item;
-
+  int? price;
+  int? net_Weight;
   Item({
     this.code,
     this.hsn_Code,
@@ -21,6 +22,8 @@ class Item {
     this.barcode,
     this.pur_Item,
     this.sell_Item,
+    this.price,
+    this.net_Weight,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,6 +38,8 @@ class Item {
       'barcode': this.barcode,
       'pur_Item': this.pur_Item,
       'sell_Item': this.sell_Item,
+      'price': this.price,
+      'net_Weight': this.net_Weight,
     };
   }
 
@@ -50,6 +55,8 @@ class Item {
       barcode: map['barcode'] as int,
       pur_Item: map['pur_Item'] as String,
       sell_Item: map['sell_Item'] as String,
+      price: map['price'] as int,
+      net_Weight: map['net_Weight'] as int,
     );
   }
 }

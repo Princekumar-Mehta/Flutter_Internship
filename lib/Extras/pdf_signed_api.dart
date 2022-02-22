@@ -1,14 +1,17 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/order.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-class PdfApi {
+class PdfApi_Signed {
   static Future<File> generatePDF({
     required Order order,
+    required ByteData imageSignature,
   }) async {
     // order.print_order();
     /*print(order.item_name![0].getValue().toString());
@@ -18,6 +21,7 @@ class PdfApi {
     final page = document.pages.add();
 
     drawGrid(page, order);
+    drawSignature(page, imageSignature);
     return saveFile(document);
   }
 
@@ -125,6 +129,25 @@ class PdfApi {
     print("Created...");
   }
 
+  static void drawSignature(PdfPage page, ByteData imageSignature) {
+    final pageSize = page.getClientSize();
+    final PdfBitmap image = PdfBitmap(imageSignature.buffer.asUint8List());
+
+    final price = '2501';
+    final now = DateFormat.yMMMEd().format(DateTime.now());
+    final signatureText = '''Total: $price \n Date: $now''';
+
+    page.graphics.drawString(
+      signatureText,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      format: PdfStringFormat(alignment: PdfTextAlignment.left),
+      bounds: Rect.fromLTWH(pageSize.width - 240, pageSize.height - 200, 0, 0),
+    );
+
+    page.graphics.drawImage(image,
+        Rect.fromLTWH(pageSize.width - 120, pageSize.height - 200, 100, 40));
+  }
+
   static Future<File> saveFile(PdfDocument document) async {
     final path = await getApplicationDocumentsDirectory();
     // Might have replace path for above method
@@ -135,7 +158,6 @@ class PdfApi {
     print("path for file " + file.path);
 
     file.writeAsBytes(document.save());
-
     document.dispose();
 
     return file;

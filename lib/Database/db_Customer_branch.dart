@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+import 'customer_branch.dart';
 import 'database_helper.dart';
 
 class Database_customerBranch {
@@ -24,6 +25,13 @@ class Database_customerBranch {
           .add(element.branch_Code! + " : " + element.branch_Name!);
     });
     // print(ship_branch_codes);
+  }
+
+  Future<CustomerBranch> get_customerBranch(String branch_Code) async {
+    print(branch_Code);
+    final customerBranch =
+        await DatabaseHelper.instance.getCustomerBranch(branch_Code);
+    return customerBranch[0];
   }
 
   Future<Map<String, String>> get_customerBranchContact(String branch) async {

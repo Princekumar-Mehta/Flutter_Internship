@@ -9,7 +9,9 @@
     "unit_Item": 3,
     "barcode": 841253650,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":20,
+"net_Weight":60
   },
   {
     "code": "I4356",
@@ -21,7 +23,9 @@
     "unit_Item": 3,
     "barcode": 388359648,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":10,
+"net_Weight":60
   },
   {
     "code": "I4402",
@@ -33,7 +37,9 @@
     "unit_Item": 3,
     "barcode": 47940388,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":15,
+"net_Weight":40
   },
   {
     "code": "I9428",
@@ -45,7 +51,9 @@
     "unit_Item": 3,
     "barcode": 889738454,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":25,
+"net_Weight":50
   },
   {
     "code": "I7838",
@@ -57,7 +65,9 @@
     "unit_Item": 3,
     "barcode": 163263679,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":5,
+"net_Weight":50
   },
   {
     "code": "I6109",
@@ -69,7 +79,9 @@
     "unit_Item": 3,
     "barcode": 447070334,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":35,
+"net_Weight":50
   },
   {
     "code": "I2885",
@@ -81,6 +93,8 @@
     "unit_Item": 3,
     "barcode": 993421408,
     "pur_Item": "true",
-    "sell_Item": "true"
+   "sell_Item": "true",
+"price":5,
+"net_Weight":30
   }
 ]

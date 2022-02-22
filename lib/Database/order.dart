@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
+import 'package:project_v3/Extras/utility.dart';
 
+import 'customer.dart';
+import 'customer_branch.dart';
 import 'db_item.dart';
 import 'item.dart';
 
@@ -18,6 +21,10 @@ class Order {
   List<TextEditingController>? total;
   List<TextEditingController>? totalItem;
   List<TextEditingController>? tax;
+  Customer customer = Customer();
+  CustomerBranch billing_branch = CustomerBranch();
+  CustomerBranch shipping_branch = CustomerBranch();
+  late List<Item> item_detials;
   int? counter;
 
   Order() {
@@ -32,6 +39,7 @@ class Order {
     total = [];
     totalItem = [];
     tax = [];
+    item_detials = [];
   }
   print_order() {
     List<Map<String, dynamic>> my_order = [];
@@ -47,6 +55,7 @@ class Order {
         'total': total![i],
         'totalItem': totalItem![i],
         'tax': tax![i],
+        'item_details': item_detials[i],
       };
       my_order.add({
         'item_no': i,
@@ -59,6 +68,8 @@ class Order {
   giveTextFormField(mycontroller, context,
       {isEditable = true, myAlign = TextAlign.right}) {
     return TextFormField(
+      decoration:
+          InputDecoration(contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 13)),
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -87,6 +98,7 @@ class Order {
     subTotal!.add(TextEditingController(text: "0"));
     total!.add(TextEditingController(text: "0"));
     totalItem!.add(TextEditingController(text: "0"));
+    item_detials.add(Item());
     counter = counter! + 1;
     print(counter);
   }
@@ -103,6 +115,7 @@ class Order {
       subTotal![i].text = subTotal![i + 1].text;
       total![i].text = total![i + 1].text;
       totalItem![i].text = totalItem![i + 1].text;
+      item_detials[i] = item_detials[i + 1];
     }
 
     item_name!.removeAt(key);
@@ -115,30 +128,52 @@ class Order {
     subTotal!.removeAt(key);
     total!.removeAt(key);
     totalItem!.removeAt(key);
+    item_detials.removeAt(key);
     counter = counter! - 1;
   }
 
-  saveItem(key) async {
-    Item item = await Database_Item().get_Item(item_name![key].getValue());
-    print("hsn code of selected item is :" + item.hsn_Code.toString());
-    packet![key].text = "0";
-    patti![key].text = "0";
-    box![key].text = "0";
-    price![key].text = "0";
-    netWeight![key].text = "0";
+  fillIfNull(key) {
+    if (packet![key].text.toString().isEmpty) {
+      packet![key].text = "0";
+    }
+    if (patti![key].text.toString().isEmpty) {
+      patti![key].text = "0";
+    }
+    if (box![key].text.toString().isEmpty) {
+      box![key].text = "0";
+    }
+  }
+
+  saveItem(key, BuildContext context) async {
+    if (item_name![key].getValue().toString().isEmpty) {
+      Utility.showMessage(context, "Please enter Item Name");
+      fillIfNull(key);
+      return;
+    }
+    item_detials[key] =
+        await Database_Item().get_Item(item_name![key].getValue());
+    print("hsn code of selected item is :" +
+        item_detials[key].hsn_Code.toString());
+    print("code of selected item is :" + item_detials[key].code.toString());
+    // Logic for 0s or blank in
+    fillIfNull(key);
+
+    price![key].text = item_detials[key].price.toString();
+    netWeight![key].text = item_detials[key].net_Weight.toString();
     tax![key].text = "0";
     subTotal![key].text = "0";
-    total![key].text = "0";
-    totalItem![key].text = "0";
     totalItem![key].text = (int.parse(packet![key].text.toString()) +
-            int.parse(patti![key].text.toString()) +
-            int.parse(box![key].text.toString()))
+            (int.parse(patti![key].text.toString()) * 5) +
+            (int.parse(box![key].text.toString()) * 3 * 5))
         .toString();
-    subTotal![key].text =
-        (double.parse(totalItem![key].text.toString()) * 100).toString();
-    tax![key].text = (double.parse(subTotal![key].text) * 0.23).toString();
-    total![key].text = (double.parse(subTotal![key].text.toString()) +
-            double.parse(tax![key].text.toString()))
-        .toString();
+    subTotal![key].text = (double.parse(totalItem![key].text.toString()) *
+            item_detials[key].price!)
+        .toStringAsFixed(2);
+    tax![key].text =
+        (double.parse(subTotal![key].text.toString()) * (.120182346))
+            .toStringAsFixed(2);
+    total![key].text = (double.parse(tax![key].text.toString()) +
+            double.parse(subTotal![key].text.toString()))
+        .toStringAsFixed(2);
   }
 }

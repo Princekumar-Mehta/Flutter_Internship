@@ -93,7 +93,9 @@ class DatabaseHelper {
    unit_Item INTEGER,
    barcode INTEGER,
    pur_Item TEXT,
-   sell_Item TEXT
+   sell_Item TEXT,
+   price INTEGER,
+   net_Weight INTEGER
     )
     ''');
   }
@@ -148,38 +150,26 @@ class DatabaseHelper {
   Future<List<Customer>> getCustomers() async {
     Database db = await instance.database;
     var customers = await db.query('customers');
-    //   print(customers);
     List<Customer> CustomersList = customers.isNotEmpty
         ? customers.map((c) => Customer.fromMap((c))).toList()
         : [];
-    // print(CustomersList.toString());
     return CustomersList;
+  }
+
+  Future<List<Customer>> getCustomer(String customer_Code) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customer = await db
+        .rawQuery("SELECT * FROM customers where code = '$customer_Code'");
+    List<Customer> CustomerList = customer.isNotEmpty
+        ? customer.map((c) => Customer.fromMap((c))).toList()
+        : [];
+    return CustomerList;
   }
 
   Future<bool> isCustomerTableContainData() async {
     Database db = await instance.database;
     var customers = await db.query('customers');
-    // print(customers.isNotEmpty);
     return customers.isNotEmpty;
-  }
-
-  Future<Customer?> getCustomer(
-      {required String email, required int id}) async {
-    Database db = await instance.database;
-    if (email != '') {
-      var emp =
-          await db.query('customers', where: 'email = ?', whereArgs: [email]);
-      List<Customer> empList =
-          emp.isNotEmpty ? emp.map((c) => Customer.fromMap((c))).toList() : [];
-      if (empList.isEmpty) return null;
-      return empList[0];
-    } else {
-      var emp = await db.query('customers', where: 'id = ?', whereArgs: [id]);
-      List<Customer> empList =
-          emp.isNotEmpty ? emp.map((c) => Customer.fromMap((c))).toList() : [];
-      if (empList.isEmpty) return null;
-      return empList[0];
-    }
   }
 
   Future<bool> isCustomerBranchTableContainData() async {
@@ -211,6 +201,16 @@ class DatabaseHelper {
     return Customer_BranchList;
   }
 
+  Future<List<CustomerBranch>> getCustomerBranch(String branch_Code) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customerBranch = await db.rawQuery(
+        "SELECT * FROM customers_branches where branch_Code = '$branch_Code'");
+    List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
+        ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
+        : [];
+    return CustomerBranchList;
+  }
+
   Future<List<CustomerBranch>> getCustomerBranchContact(
       String branch_code) async {
     Database db = await instance.database;
@@ -219,9 +219,6 @@ class DatabaseHelper {
     List<CustomerBranch> Customer_BranchList = customer_branch.isNotEmpty
         ? customer_branch.map((c) => CustomerBranch.fromMap((c))).toList()
         : [];
-    //  print(CustomerBranch.fromMap((customer_branch[0])));
-    // print("hello db class contant");
-    // print(Customer_BranchList);
     return Customer_BranchList;
   }
 
@@ -235,8 +232,6 @@ class DatabaseHelper {
     List<Map<String, dynamic>> items = await db.rawQuery("SELECT * FROM items");
     List<Item> ItemList =
         items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
-    // print("hello db class contant");
-    // print(Customer_BranchList);
     return ItemList;
   }
 
@@ -246,8 +241,6 @@ class DatabaseHelper {
         await db.rawQuery("SELECT * FROM items where item_Name = '$item_Name'");
     List<Item> ItemList =
         items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
-    // print("hello db class contant");
-    // print(Customer_BranchList);
     return ItemList;
   }
 

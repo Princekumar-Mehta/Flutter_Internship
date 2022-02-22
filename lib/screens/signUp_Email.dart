@@ -112,21 +112,23 @@ class _SignUpEmailState extends State<SignUpEmail> {
       int? id = emp!.id;
       final emp_detials = emp.toMap();
       Send_Mail.send_mail(
-          _formKey.currentState?.value['email'],
-          "Name: " +
-              emp_detials['name'] +
-              "<br>" +
-              "Employee ID: " +
-              emp_detials['id'].toString() +
-              "<br>" +
-              "Email: " +
-              emp_detials['email'] +
-              "<br>"
-                  "Password: " +
-              emp_detials['password'] +
-              "<br>"
-                  "Role: " +
-              emp_detials['role']);
+        _formKey.currentState?.value['email'],
+        "OTP For Verification",
+        "Name: " +
+            emp_detials['name'] +
+            "<br>" +
+            "Employee ID: " +
+            emp_detials['id'].toString() +
+            "<br>" +
+            "Email: " +
+            emp_detials['email'] +
+            "<br>"
+                "Password: " +
+            emp_detials['password'] +
+            "<br>"
+                "Role: " +
+            emp_detials['role'],
+      );
       await showIdOtp(
           context,
           "Employee ID: " +

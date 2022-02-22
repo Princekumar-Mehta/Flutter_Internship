@@ -1,29 +1,22 @@
-//import 'dart:html';
+import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:project_v3/Database/order.dart';
-import 'package:project_v3/Extras/pdf_api.dart';
 
 class Send_Mail {
-  static send_mail(String email, String message_value) async {
+  static send_mail(String email, String subject, String message_value,
+      {File? file, int? isFile = 0}) async {
     String username = "pam2020se@gmail.com";
     String password = "Pam@2020";
 
     final smtpServer = gmail(username, password);
 
-    //load image in file
-    final byteData = await rootBundle.load('assets/images/DIMS.png');
-    final file =
-        await PdfApi.generatePDF(order: Order(), imageSignature: byteData);
-
     // Create our message.
     final message = Message()
       ..from = Address(username, 'Your name')
       ..recipients.add(email)
-      ..subject = 'OTP For Email Verification'
-      ..attachments = [FileAttachment(file)]
+      ..subject = subject
+      ..attachments = isFile == 0 ? [] : [FileAttachment(file!)]
       ..html = ""
           "<h3>$message_value</h3>"
           "";

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
@@ -11,6 +10,8 @@ import 'package:project_v3/Extras/myItemContainer.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
 import 'package:project_v3/Extras/pdf_api.dart';
+
+import 'confirmSalesOrder.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({Key? key}) : super(key: key);
@@ -36,12 +37,22 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     if ((!customer.isEmpty() &&
         !billing_address.isEmpty() &&
         !shipping_address.isEmpty() &&
-        !manufacturing_branch.isEmpty())) {}
-    order = getOrders!.getOrder();
-    order.print_order();
-    PdfApi.generatePDF(
-        order: order,
-        imageSignature: await rootBundle.load('assets/images/DIMS.png'));
+        !manufacturing_branch.isEmpty())) {
+      order = getOrders!.getOrder();
+      order.customer = await Database_customer()
+          .get_customer(customer.getValue().toString());
+      order.billing_branch = await Database_customerBranch().get_customerBranch(
+          (billing_address.getValue().toString()).substring(0, 5));
+      order.shipping_branch = await Database_customerBranch()
+          .get_customerBranch(
+              shipping_address.getValue().toString().substring(0, 5));
+      order.print_order();
+      final file = await PdfApi.generatePDF(order: order);
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConfirmOrder(order: order, file: file)));
+    }
   }
 
   @override
@@ -198,9 +209,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 // Form
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                      MyScreen.getScreenWidth(context) * (15 / 490.9),
+                      MyScreen.getScreenWidth(context) * (40 / 490.9),
                       0,
-                      MyScreen.getScreenWidth(context) * (15 / 490.9),
+                      MyScreen.getScreenWidth(context) * (40 / 490.9),
                       0),
                   child: Column(
                     children: [

@@ -219,7 +219,7 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                             emp.password = pwd1;
                             Database_signUp.updateEmp(emp);
                             print(email);
-                            Send_Mail.send_mail(email,
+                            Send_Mail.send_mail(email, "OTP For Verification",
                                 "Your password is changed, IF it was not you, then click on forgot password and reset it");
                           },
                         ),

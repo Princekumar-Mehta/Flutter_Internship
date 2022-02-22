@@ -152,7 +152,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
                   height: _animatedHeight,
-                  child: Stack(
+                  child: Column(
                     children: [
                       // Price & Unit
                       Row(
@@ -198,7 +198,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MyScreen.getScreenWidth(context) * (20 / 490.9),
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                            MyScreen.getScreenHeight(context) * (10 / 1063.6),
                             MyScreen.getScreenWidth(context) * (5 / 490.9),
                             MyScreen.getScreenHeight(context) * (5 / 1063.6)),
                         child: Row(
@@ -373,7 +373,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         ),
                                         width:
                                             MyScreen.getScreenWidth(context) *
-                                                (75 / 490.9),
+                                                (80 / 490.9),
                                       ),
                                     ],
                                   ),
@@ -467,7 +467,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (75 / 490.9),
                                       ),
                                       Container(
-                                        height: 15,
+                                        height: 20,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
@@ -482,7 +482,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             isEditable: false),
                                         width:
                                             MyScreen.getScreenWidth(context) *
-                                                (75 / 490.9),
+                                                (80 / 490.9),
                                       ),
                                     ],
                                   ),
@@ -574,7 +574,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             isEditable: false),
                                         width:
                                             MyScreen.getScreenWidth(context) *
-                                                (75 / 490.9),
+                                                (80 / 490.9),
                                       ),
                                     ],
                                   ),
@@ -661,10 +661,6 @@ class _MyItemContainerState extends State<MyItemContainer> {
                             ),
                             Column(
                               children: [
-                                SizedBox(
-                                  height: MyScreen.getScreenHeight(context) *
-                                      (30 / 1063.6),
-                                ),
                                 InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -679,7 +675,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (35 / 1063.6)),
                                   ),
                                   onTap: () {
-                                    widget.order!.saveItem(key);
+                                    widget.order!.saveItem(key, context);
                                   },
                                 ),
                                 SizedBox(

@@ -135,7 +135,9 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
                               return;
                             } else {
                               int otp = 1000 + Random().nextInt(9999 - 1000);
-                              Send_Mail.send_mail(email.text.toString(),
+                              Send_Mail.send_mail(
+                                  email.text.toString(),
+                                  "OTP For Verification",
                                   "OTP is: " + otp.toString());
                               await Navigator.push(
                                   context,

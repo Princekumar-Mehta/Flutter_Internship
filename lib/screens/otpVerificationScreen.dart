@@ -270,7 +270,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         print(email);
                         otp_mail =
                             (1000 + Random().nextInt(9999 - 1000)).toString();
-                        Send_Mail.send_mail(email, "OTP is:" + (otp_mail));
+                        Send_Mail.send_mail(email, "OTP For Verification",
+                            "OTP is:" + (otp_mail));
                         showMessage(context, "Resend OTP successful", "none");
                       },
                       child: const Text("Resend"),
