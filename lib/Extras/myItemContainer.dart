@@ -25,6 +25,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
 
   @override
   Widget build(BuildContext context) {
+    print("current is ${widget.order!.current}");
     _animatedHeight = _animatedHeight == -1
         ? MyScreen.getScreenHeight(context) * (245 / 1063.9)
         : _animatedHeight;
@@ -51,9 +52,15 @@ class _MyItemContainerState extends State<MyItemContainer> {
               SizedBox(
                 height: MyScreen.getScreenHeight(context) * (32 / 1063.6),
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    bool isOkay = true;
+                    if (widget.order!.current != -1) {
+                      isOkay = await widget.order!
+                          .saveItem(widget.order!.current, context);
+                      print(isOkay);
+                    }
                     setState(() {
-                      widget.order!.addItem(context);
+                      if (isOkay) widget.order!.addItem(context);
                     });
                   },
                   child: Container(
@@ -130,16 +137,28 @@ class _MyItemContainerState extends State<MyItemContainer> {
                               MyScreen.getScreenHeight(context) * (40 / 1063.6),
                           alignment: Alignment.topRight,
                           child: GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              bool isOkay = true;
+                              int old_current = widget.order!.current;
+                              if (widget.order!.current == key ||
+                                  widget.order!.current != -1) {
+                                isOkay =
+                                    await widget.order!.saveItem(key, context);
+                              }
                               setState(() {
-                                _animatedHeight != 0.0
-                                    ? _animatedHeight = 0.0
-                                    : _animatedHeight =
-                                        MyScreen.getScreenHeight(context) *
-                                            (245 / 1063.6);
+                                if (old_current == key && isOkay) {
+                                  widget.order!.current = -1;
+                                } else {
+                                  if (isOkay) {
+                                    widget.order!.current = key;
+                                  }
+                                }
                               });
                             },
-                            child: Icon(Icons.keyboard_arrow_down,
+                            child: Icon(
+                                widget.order!.current != key
+                                    ? Icons.keyboard_arrow_down
+                                    : Icons.keyboard_arrow_up,
                                 color: MyColors.pewterBlue,
                                 size: MyScreen.getScreenHeight(context) *
                                     (45 / 1063.6)),
@@ -151,7 +170,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
-                  height: _animatedHeight,
+                  height: widget.order!.current != key ? 0.0 : _animatedHeight,
                   child: Column(
                     children: [
                       // Price & Unit
@@ -675,7 +694,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                                 (35 / 1063.6)),
                                   ),
                                   onTap: () {
-                                    widget.order!.saveItem(key, context);
+                                    setState(() {
+                                      widget.order!
+                                          .saveItem(key, context, close: false);
+                                    });
                                   },
                                 ),
                                 SizedBox(

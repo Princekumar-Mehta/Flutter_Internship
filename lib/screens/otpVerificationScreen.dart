@@ -2,12 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project_v3/Database/db_SignUp.dart';
-import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
-import 'package:project_v3/routes.dart';
 
 import 'forgotPasswordScreen2.dart';
 
@@ -56,13 +53,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             child: const Text('Okay'),
             onPressed: () async {
               Navigator.pop(c, false);
-              if (nextScreen == 'login') {
-                await Navigator.pushNamed(context, MyRoutes.MyLogin);
-                Employee? emp;
-                emp = await Database_signUp.getEmp(email: email, id: 0);
-                emp!.status = 'Admin-Side Verification Pending';
-                Database_signUp.updateEmp(emp);
-              }
             },
           ),
         ],
@@ -236,9 +226,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                               ForgotPasswordScreen2(
                                                 email: email,
                                               )));
-                                } else if (previous == "login") {
-                                  showMessage(context,
-                                      "Email Verification Successful", "login");
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
                                 } else {
                                   showMessage(context, "Wrong OTP", "none");
                                 }

@@ -3,6 +3,7 @@ import 'package:project_v3/routes.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
 import 'package:project_v3/screens/forgotPasswordScreen2.dart';
+import 'package:project_v3/screens/leaveRequestScreen.dart';
 import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: MyRoutes.MySalesOrder,
+      initialRoute: MyRoutes.MyLogin,
       routes: {
         //  MyRoutes.MyTempScreen: (context) => DynamicForms(),
         MyRoutes.MYSplashScreen: (context) => SplashScreen(),
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyForgotPasswordScreen1: (context) => ForgotPasswordScreen1(),
         MyRoutes.MyForgotPasswordScreen2: (context) => ForgotPasswordScreen2(),
         MyRoutes.MyAdminHome: (context) => adminHome(),
+        MyRoutes.MyLeaveRequest: (context) => LeaveRequest(),
       },
     );
   }

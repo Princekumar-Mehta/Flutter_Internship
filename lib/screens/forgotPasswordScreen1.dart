@@ -129,7 +129,8 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
                             ],
                           ),
                           onTap: () async {
-                            if (await Utility.isExist(email.text.toString())) {
+                            if (await Utility.isNotExist(
+                                email.text.toString())) {
                               showMessage(context,
                                   "This is not a registered email\nPlease Try again");
                               return;

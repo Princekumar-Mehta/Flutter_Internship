@@ -401,7 +401,10 @@ class adminHome extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MyLeaveRequest);
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,

@@ -21,6 +21,7 @@ class Order {
   List<TextEditingController>? total;
   List<TextEditingController>? totalItem;
   List<TextEditingController>? tax;
+  int current = -1;
   Customer customer = Customer();
   CustomerBranch billing_branch = CustomerBranch();
   CustomerBranch shipping_branch = CustomerBranch();
@@ -100,6 +101,7 @@ class Order {
     totalItem!.add(TextEditingController(text: "0"));
     item_detials.add(Item());
     counter = counter! + 1;
+    current = counter! - 1;
     print(counter);
   }
 
@@ -130,6 +132,7 @@ class Order {
     totalItem!.removeAt(key);
     item_detials.removeAt(key);
     counter = counter! - 1;
+    current = counter! - 1;
   }
 
   fillIfNull(key) {
@@ -144,18 +147,14 @@ class Order {
     }
   }
 
-  saveItem(key, BuildContext context) async {
+  Future<bool> saveItem(key, BuildContext context, {bool close = true}) async {
     if (item_name![key].getValue().toString().isEmpty) {
       Utility.showMessage(context, "Please enter Item Name");
       fillIfNull(key);
-      return;
+      return false;
     }
     item_detials[key] =
         await Database_Item().get_Item(item_name![key].getValue());
-    print("hsn code of selected item is :" +
-        item_detials[key].hsn_Code.toString());
-    print("code of selected item is :" + item_detials[key].code.toString());
-    // Logic for 0s or blank in
     fillIfNull(key);
 
     price![key].text = item_detials[key].price.toString();
@@ -175,5 +174,11 @@ class Order {
     total![key].text = (double.parse(tax![key].text.toString()) +
             double.parse(subTotal![key].text.toString()))
         .toStringAsFixed(2);
+    if (totalItem![key].text.toString() == "0") {
+      Utility.showMessage(context, "Please Fill Qty");
+      return false;
+    }
+    current = -1;
+    return true;
   }
 }

@@ -6,6 +6,6 @@ class MyRoutes {
   static final MyForgotPasswordScreen1 = '/forgotPasswordScreen1';
   static final MyForgotPasswordScreen2 = '/forgotPasswordScreen2';
   static final MyAdminHome = '/adminHome';
-
+  static final MyLeaveRequest = '/leaveRequestScreen';
   static final MyTempScreen = '/tempScreen';
 }

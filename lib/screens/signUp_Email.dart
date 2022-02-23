@@ -11,6 +11,7 @@ import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 class SignUpEmail extends StatefulWidget {
   const SignUpEmail({Key? key}) : super(key: key);
@@ -87,6 +88,11 @@ class _SignUpEmailState extends State<SignUpEmail> {
   moveToHome(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      String email = _formKey.currentState!.value['email'];
+      if (!await Utility.isNotExist(email)) {
+        showMessage(context, "User Already Exist");
+        return;
+      }
       if (_formKey.currentState!.value['password_1'] !=
           _formKey.currentState!.value['password_2']) {
         showMessage(context, "Both Password Should match");
@@ -96,7 +102,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
         LoadImage();
       }
       String name = _formKey.currentState!.value['full_name'];
-      String email = _formKey.currentState!.value['email'];
       String password = _formKey.currentState!.value['password_1'];
       String role = _formKey.currentState!.value['role'];
       await Database_signUp.addEmp(
@@ -113,7 +118,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
       final emp_detials = emp.toMap();
       Send_Mail.send_mail(
         _formKey.currentState?.value['email'],
-        "OTP For Verification",
+        "Access Profile and Reset Your Password",
         "Name: " +
             emp_detials['name'] +
             "<br>" +
@@ -127,7 +132,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
             emp_detials['password'] +
             "<br>"
                 "Role: " +
-            emp_detials['role'],
+            emp_detials['role'] +
+            "<br>",
       );
       await showIdOtp(
           context,
@@ -305,6 +311,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (50 / 1063.6),
                           child: FormBuilderTextField(
                             name: 'password_1',
+                            initialValue: "Dims@123",
                             obscureText: _isObscure,
                             style: TextStyle(
                                 color: MyColors.middleRed,
@@ -369,6 +376,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (50 / 1063.6),
                           child: FormBuilderTextField(
                             name: 'password_2',
+                            initialValue: "Dims@123",
                             obscureText: _isObscure2,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(

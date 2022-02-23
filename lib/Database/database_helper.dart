@@ -110,6 +110,9 @@ class DatabaseHelper {
 
   Future<Employee?> getEmp({required String email, required int id}) async {
     Database db = await instance.database;
+    print("here ${email == ''}");
+    print(email);
+    print(id);
     if (email != '') {
       var emp =
           await db.query('employees', where: 'email = ?', whereArgs: [email]);

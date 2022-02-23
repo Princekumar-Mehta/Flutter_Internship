@@ -4,6 +4,7 @@ import 'package:project_v3/Database/db_SignUp.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 
 import '../routes.dart';
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
       RegExp _numeric = RegExp(r'^-?[0-9]+$');
       String? id = _formKey.currentState?.value['email_or_id'].toString();
       Employee? emp;
-      if (await Utility.isExist(id.toString())) {
+      if (await Utility.isNotExist(id.toString())) {
         showMessage(
             context, "This is not a registered email\nPlease Try again");
         return;
@@ -81,9 +82,9 @@ class _LoginScreenState extends State<LoginScreen> {
         showMessage(context, 'Wrong Password');
         return;
       }
-
+      MyDrawer.emp = emp;
       await Future.delayed(const Duration(seconds: 1));
-      await Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+      await Navigator.pushNamed(context, MyRoutes.MyLeaveRequest);
       _formKey.currentState!.reset();
     }
   }
