@@ -70,6 +70,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
             child: const Text('Okay'),
             onPressed: () async {
               Navigator.pop(c, false);
+              Navigator.pop(context);
             },
           ),
         ],

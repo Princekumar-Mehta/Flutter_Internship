@@ -34,15 +34,15 @@ class Send_Mail {
     // Sending multiple messages with the same connection
     //
     // Create a smtp client that will persist the connection
-    var connection = PersistentConnection(smtpServer);
+    //var connection = PersistentConnection(smtpServer);
 
     // Send the first message
-    await connection.send(message);
+    //await connection.send(message);
 
     // send the equivalent message
     //await connection.send(equivalentMessage);
 
     // close the connection
-    await connection.close();
+    //await connection.close();
   }
 }

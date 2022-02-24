@@ -108,6 +108,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ],
                           onChanged: (String value) {
                             if (value.toString().length != 0) {
+                              //print("go to 2");
                               otp_user1.text = otp_user1.text.toString()[0];
                               FocusScope.of(context)
                                   .requestFocus(textFocusNode2);
@@ -141,9 +142,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ],
                           onChanged: (String value) {
                             if (value.toString().length != 0) {
+                              //print("go to 3");
                               otp_user2.text = otp_user2.text.toString()[0];
                               FocusScope.of(context)
                                   .requestFocus(textFocusNode3);
+                            } else {
+                              FocusScope.of(context)
+                                  .requestFocus(textFocusNode1);
                             }
                           },
                         ),
@@ -166,8 +171,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 borderSide:
                                     BorderSide(color: MyColors.scarlet)),
                           ),
-                          controller: otp_user3,
                           focusNode: textFocusNode3,
+                          controller: otp_user3,
                           keyboardType: const TextInputType.numberWithOptions(),
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(RegExp('[0-9]')),
@@ -175,8 +180,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           onChanged: (String value) {
                             if (value.toString().length != 0) {
                               otp_user3.text = otp_user3.text.toString()[0];
+                              //print("go to 4");
                               FocusScope.of(context)
                                   .requestFocus(textFocusNode4);
+                            } else {
+                              FocusScope.of(context)
+                                  .requestFocus(textFocusNode2);
                             }
                           },
                         ),
@@ -206,7 +215,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                           ],
                           onChanged: (String value) async {
-                            FocusScope.of(context).requestFocus(textFocusNode1);
+                            //FocusScope.of(context).requestFocus(textFocusNode1);
                             if (value.toString().length != 0) {
                               otp_user4.text = otp_user4.text.toString()[0];
                               if (otp_user1.text.toString().length == 0 ||
@@ -228,11 +237,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                               )));
                                   Navigator.pop(context);
                                   Navigator.pop(context);
-                                } else {
-                                  showMessage(context, "Wrong OTP", "none");
                                 }
+                              } else {
+                                showMessage(context, "Wrong OTP", "none");
+                                FocusScope.of(context)
+                                    .requestFocus(textFocusNode1);
                               }
                               clearAll();
+                            } else {
+                              FocusScope.of(context)
+                                  .requestFocus(textFocusNode3);
                             }
                           },
                         ),
@@ -248,6 +262,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     TextButton(
                       onPressed: () {
                         clearAll();
+                        FocusScope.of(context).requestFocus(textFocusNode1);
                       },
                       child: const Text("Reset"),
                     ),
@@ -262,6 +277,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         Send_Mail.send_mail(email, "OTP For Verification",
                             "OTP is:" + (otp_mail));
                         showMessage(context, "Resend OTP successful", "none");
+                        clearAll();
+                        FocusScope.of(context).requestFocus(textFocusNode1);
                       },
                       child: const Text("Resend"),
                     ),

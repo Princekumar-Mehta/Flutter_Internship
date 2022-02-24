@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:project_v3/Database/employee.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'customer.dart';
@@ -110,9 +112,6 @@ class DatabaseHelper {
 
   Future<Employee?> getEmp({required String email, required int id}) async {
     Database db = await instance.database;
-    print("here ${email == ''}");
-    print(email);
-    print(id);
     if (email != '') {
       var emp =
           await db.query('employees', where: 'email = ?', whereArgs: [email]);
@@ -139,6 +138,11 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db
         .update('employees', emp.toMap(), where: 'id = ?', whereArgs: [emp.id]);
+  }
+
+  Future<void> insertAdminIfNot() async {
+    Database db = await instance.database;
+    if (await Utility.isNotExist("1")) await Utility.insert_Admin();
   }
 
   Future<void> Temp_Query() async {

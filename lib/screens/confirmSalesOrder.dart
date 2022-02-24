@@ -138,6 +138,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
         "Order Confirmed", "Your order is confirmed",
         file: file, isFile: 1);
     await OpenFile.open(file.path);
+    print(widget.order);
     Navigator.pop(context);
     Navigator.pop(context);
     Navigator.pushNamed(context, MyRoutes.MySalesOrder);

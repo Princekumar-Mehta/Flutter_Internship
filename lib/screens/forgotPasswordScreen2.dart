@@ -32,9 +32,10 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
         content: Text(message),
         actions: [
           TextButton(
-            child: const Text('Okay'),
-            onPressed: () => Navigator.pop(c, false),
-          ),
+              child: const Text('Okay'),
+              onPressed: () => {
+                    Navigator.pop(c, false),
+                  }),
         ],
       ),
     );
@@ -220,21 +221,29 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                 final pwd2 = password2.text.toString();
                                 print(pwd1);
                                 print(pwd2);
+                                RegExp _original = RegExp(r'(dims@)');
                                 if (pwd1 != pwd2) {
                                   showMessage(
                                       context, "Both Password Should Match");
                                   return;
+                                } else if (_original
+                                    .hasMatch(pwd1.toLowerCase())) {
+                                  showMessage(context,
+                                      "Please change the password for security reasons");
+                                  _formKey.currentState!.reset();
+                                  return;
+                                } else {
+                                  Employee emp =
+                                      await Utility.getEmployee(email);
+                                  emp.password = pwd1;
+                                  Database_signUp.updateEmp(emp);
+                                  Send_Mail.send_mail(
+                                      email,
+                                      "Password Reset Successful",
+                                      "Your password is changed, If it was not you, then click on forgot password and reset it");
+                                  Navigator.of(context).popUntil(
+                                      ModalRoute.withName(MyRoutes.MyLogin));
                                 }
-                                Employee emp = await Utility.getEmployee(email);
-                                emp.password = pwd1;
-                                Database_signUp.updateEmp(emp);
-                                print(email);
-                                Send_Mail.send_mail(
-                                    email,
-                                    "Password Reset Successful",
-                                    "Your password is changed, IF it was not you, then click on forgot password and reset it");
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, MyRoutes.MyLogin);
                               }
                             },
                           ),

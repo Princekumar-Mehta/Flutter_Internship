@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:project_v3/Database/database_helper.dart';
 import 'package:project_v3/Database/db_SignUp.dart';
 import 'package:project_v3/Database/employee.dart';
+import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -18,8 +22,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Employee? emp;
+  int? otp;
   final _formKey = GlobalKey<FormBuilderState>();
-  void showMessage(BuildContext context, String message) {
+  void showMessage(BuildContext context, String message,
+      {bool forcedPassword = false}) {
     showDialog<bool>(
       context: context,
       builder: (c) => AlertDialog(
@@ -27,50 +34,42 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Text(message),
         actions: [
           TextButton(
-            child: const Text('Okay'),
-            onPressed: () => Navigator.pop(c, false),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> showIdOtp(
-    BuildContext context,
-    String message,
-    String email,
-    int id,
-    int otp,
-  ) async {
-    showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: const Text('Alert'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            child: const Text('Okay'),
-            onPressed: () async {
-              Navigator.pop(c, false);
-              await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OtpVerificationScreen(
-                          email: email, otp: otp, previous: "login")));
-            },
-          ),
+              child: const Text('Okay'),
+              onPressed: () async => {
+                    if (forcedPassword)
+                      {
+                        otp = 1000 + Random().nextInt(9999 - 1000),
+                        Send_Mail.send_mail(
+                            emp!.email.toString(),
+                            "OTP For Verification",
+                            "OTP is: " + otp.toString()),
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OtpVerificationScreen(
+                                      email: emp!.email.toString(),
+                                      otp: otp!,
+                                      previous: "forgot password",
+                                    ))),
+                        Navigator.pop(c, false),
+                      }
+                    else
+                      {
+                        Navigator.pop(c, false),
+                      }
+                  }),
         ],
       ),
     );
   }
 
   moveToHome(BuildContext context) async {
+    DatabaseHelper.instance.insertAdminIfNot();
     await Database_signUp.print_emps();
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       RegExp _numeric = RegExp(r'^-?[0-9]+$');
       String? id = _formKey.currentState?.value['email_or_id'].toString();
-      Employee? emp;
       if (await Utility.isNotExist(id.toString())) {
         showMessage(
             context, "This is not a registered email\nPlease Try again");
@@ -78,14 +77,31 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         emp = await Utility.getEmployee(id.toString());
       }
-      if (_formKey.currentState?.value['password'].toString() != emp.password) {
+      print(emp!.password);
+      if (_formKey.currentState?.value['password'].toString() !=
+          emp!.password) {
         showMessage(context, 'Wrong Password');
         return;
+      } else if (_formKey.currentState?.value['password'].toString() ==
+              emp!.password &&
+          emp!.password == 'Dims@123') {
+        showMessage(context, "Please reset your password to proceed further.",
+            forcedPassword: true);
+        _formKey.currentState!.reset();
+      } else {
+        MyDrawer.emp = emp!;
+        await Future.delayed(const Duration(seconds: 1));
+        if (emp!.role == "Admin") {
+          await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
+        } else {
+          await Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+        }
+        _formKey.currentState!.reset();
       }
-      MyDrawer.emp = emp;
+      /*MyDrawer.emp = emp;
       await Future.delayed(const Duration(seconds: 1));
-      await Navigator.pushNamed(context, MyRoutes.MyLeaveRequest);
-      _formKey.currentState!.reset();
+      await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
+      _formKey.currentState!.reset();*/
     }
   }
 
@@ -262,12 +278,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   SizedBox(
                                       height:
                                           MyScreen.getScreenHeight(context) *
-                                              (27 / 1063.6)),
+                                              (80 / 1063.6)),
                                   SizedBox(
                                     width: MyScreen.getScreenWidth(context) *
                                         (228 / 294),
                                     height: MyScreen.getScreenHeight(context) *
-                                        (45 / 1063.6),
+                                        (60 / 1063.6),
                                     child: InkWell(
                                       child: Stack(
                                         children: [
@@ -304,87 +320,87 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height:
                                           MyScreen.getScreenHeight(context) *
                                               (10 / 1063.6)),
-                                  Text(
-                                    'or',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (20 / 1063.6),
-                                      color: MyColors.black,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          MyScreen.getScreenHeight(context) *
-                                              (10 / 1063.6)),
-                                  SizedBox(
-                                      height:
-                                          MyScreen.getScreenHeight(context) *
-                                              (10 / 1063.6)),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          width:
-                                              MyScreen.getScreenWidth(context) *
-                                                  (228 / 294),
-                                          height: MyScreen.getScreenHeight(
-                                                  context) *
-                                              (45 / 1063.6),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                MyScreen.getScreenHeight(
-                                                        context) *
-                                                    (5 / 553)),
-                                            color: MyColors.black,
-                                          ),
-                                          child: InkWell(
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    width:
-                                                        MyScreen.getScreenWidth(
-                                                                context) *
-                                                            (50 / 490.9),
-                                                    height: MyScreen
-                                                            .getScreenHeight(
-                                                                context) *
-                                                        (45 / 1063.6),
-                                                    alignment: Alignment.center,
-                                                    child: Icon(
-                                                      Icons.account_circle,
-                                                      size: MyScreen
-                                                              .getScreenWidth(
-                                                                  context) *
-                                                          (35 / 490.9),
-                                                      color: MyColors.white,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MyScreen.getScreenWidth(
-                                                                context) *
-                                                            (130 / 490.9),
-                                                  ),
-                                                  Center(
-                                                    child: Text("Sign Up",
-                                                        style: TextStyle(
-                                                            color:
-                                                                MyColors.white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: MyScreen
-                                                                    .getScreenHeight(
-                                                                        context) *
-                                                                (11 / 553))),
-                                                  ),
-                                                ],
-                                              ),
-                                              onTap: () => Navigator.pushNamed(
-                                                  context,
-                                                  MyRoutes.MySignUpEmail))),
-                                    ],
-                                  ),
+                                  // Text(
+                                  //   'or',
+                                  //   style: TextStyle(
+                                  //     fontWeight: FontWeight.bold,
+                                  //     fontSize:
+                                  //         MyScreen.getScreenHeight(context) *
+                                  //             (20 / 1063.6),
+                                  //     color: MyColors.black,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(
+                                  //     height:
+                                  //         MyScreen.getScreenHeight(context) *
+                                  //             (10 / 1063.6)),
+                                  // SizedBox(
+                                  //     height:
+                                  //         MyScreen.getScreenHeight(context) *
+                                  //             (10 / 1063.6)),
+                                  // Row(
+                                  //   children: [
+                                  //     Container(
+                                  //         width:
+                                  //             MyScreen.getScreenWidth(context) *
+                                  //                 (228 / 294),
+                                  //         height: MyScreen.getScreenHeight(
+                                  //                 context) *
+                                  //             (45 / 1063.6),
+                                  //         decoration: BoxDecoration(
+                                  //           borderRadius: BorderRadius.circular(
+                                  //               MyScreen.getScreenHeight(
+                                  //                       context) *
+                                  //                   (5 / 553)),
+                                  //           color: MyColors.black,
+                                  //         ),
+                                  //         child: InkWell(
+                                  //             child: Stack(
+                                  //               children: [
+                                  //                 Container(
+                                  //                   width:
+                                  //                       MyScreen.getScreenWidth(
+                                  //                               context) *
+                                  //                           (50 / 490.9),
+                                  //                   height: MyScreen
+                                  //                           .getScreenHeight(
+                                  //                               context) *
+                                  //                       (45 / 1063.6),
+                                  //                   alignment: Alignment.center,
+                                  //                   child: Icon(
+                                  //                     Icons.account_circle,
+                                  //                     size: MyScreen
+                                  //                             .getScreenWidth(
+                                  //                                 context) *
+                                  //                         (35 / 490.9),
+                                  //                     color: MyColors.white,
+                                  //                   ),
+                                  //                 ),
+                                  //                 SizedBox(
+                                  //                   width:
+                                  //                       MyScreen.getScreenWidth(
+                                  //                               context) *
+                                  //                           (130 / 490.9),
+                                  //                 ),
+                                  //                 Center(
+                                  //                   child: Text("Sign Up",
+                                  //                       style: TextStyle(
+                                  //                           color:
+                                  //                               MyColors.white,
+                                  //                           fontWeight:
+                                  //                               FontWeight.bold,
+                                  //                           fontSize: MyScreen
+                                  //                                   .getScreenHeight(
+                                  //                                       context) *
+                                  //                               (11 / 553))),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //             onTap: () => Navigator.pushNamed(
+                                  //                 context,
+                                  //                 MyRoutes.MySignUpEmail))),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),

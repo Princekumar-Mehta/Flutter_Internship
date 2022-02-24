@@ -155,6 +155,23 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 },
               ),
             ),
+            Material(
+              child: InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: MyColors.richBlackFogra,
+                    border: Border.all(color: MyColors.richBlackFogra),
+                  ),
+                  child: Icon(Icons.refresh,
+                      color: MyColors.scarlet,
+                      size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+                ),
+                onTap: () {
+                  setState(() {});
+                },
+              ),
+            ),
+            SizedBox(width: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
           ],
           backgroundColor: MyColors.richBlackFogra,
         ),

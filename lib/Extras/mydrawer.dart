@@ -5,6 +5,8 @@ import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 
+import '../routes.dart';
+
 class MyDrawer extends StatelessWidget {
   static Employee emp = Employee();
   @override
@@ -54,7 +56,7 @@ class MyDrawer extends StatelessWidget {
             iconColor: MyColors.scarlet,
             title: const Text('Home'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, MyRoutes.MyAdminHome);
             },
           ),
           ListTile(
@@ -76,7 +78,8 @@ class MyDrawer extends StatelessWidget {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
+              Navigator.of(context)
+                  .popUntil(ModalRoute.withName(MyRoutes.MyLogin));
             },
           ),
           SizedBox(
