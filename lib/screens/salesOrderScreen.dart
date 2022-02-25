@@ -3,15 +3,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
+import 'package:project_v3/Database/db_final_individual_order.dart';
+import 'package:project_v3/Database/db_final_order.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/order.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myItemContainer.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
-import 'package:project_v3/Extras/pdf_api.dart';
-
-import 'confirmSalesOrder.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({Key? key}) : super(key: key);
@@ -47,12 +46,16 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           .get_customerBranch(
               shipping_address.getValue().toString().substring(0, 5));
       order.manufacturing_Branch = manufacturing_branch.getValue();
-      order.print_order();
-      final file = await PdfApi.generatePDF(order: order);
-      await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ConfirmOrder(order: order, file: file)));
+      _formKey.currentState!.save();
+      order.OrderBydate = _formKey.currentState!.value['order_date'];
+      order.addToDatabase();
+      Database_Final_Order().getFinalOrders();
+      Database_Final_Individual_Order().getFinalIndividualOrders();
+      // final file = await PdfApi.generatePDF(order: order);
+      // await Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ConfirmOrder(order: order, file: file)));
     }
   }
 
@@ -66,7 +69,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     Database_customerBranch.insertData();
     var _items = Database_Item();
     _items.get_Items();
-    print("inti state called");
+    //  print("inti state called");
   }
 
   void fetch_contact() async {
@@ -82,7 +85,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   bool? isCustomerId = false;
   @override
   Widget build(BuildContext context) {
-    print("hello");
+    //  print("hello");
     try {
       if (customer.getValue().toString().length == 7) {
         isCustomerId = true;

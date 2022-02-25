@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project_v3/Database/db_final_individual_order.dart';
+import 'package:project_v3/Database/db_final_order.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
@@ -28,9 +30,10 @@ class Order {
   CustomerBranch billing_branch = CustomerBranch();
   CustomerBranch shipping_branch = CustomerBranch();
   String manufacturing_Branch = "";
+  String OrderBydate = "";
   late List<Item> item_detials;
   int? counter;
-
+  int final_total = 0;
   Order() {
     counter = 0;
     item_name = [];
@@ -61,6 +64,8 @@ class Order {
         'totalItem': totalItem![i].text.toString(),
         'tax': tax![i].text.toString(),
       };
+      final_total =
+          final_total + double.parse(total![i].text.toString()).round();
       my_order.add({
         'item_no': i,
         "order": json,
@@ -82,6 +87,31 @@ class Order {
     };
     var encoder = JsonEncoder.withIndent("   ");
     //  print(encoder.convert(final_order));
+  }
+
+  addToDatabase() async {
+    for (int i = 0; i < counter!; i++) {
+      final_total =
+          final_total + double.parse(total![i].text.toString()).round();
+    }
+    int order_Id = (await Database_Final_Order().getFinalOrdersLastId()) + 1;
+    Database_Final_Order.addFinalOrder(
+        customer_Code: customer.code!,
+        billing_Branch_Code: billing_branch.branch_Code!,
+        shipping_Branch_Code: shipping_branch.branch_Code!,
+        manufacturing_Branch_Code: manufacturing_Branch,
+        order_Id: order_Id,
+        total: final_total,
+        order_by_date: OrderBydate);
+    for (int i = 0; i < counter!; i++) {
+      Database_Final_Individual_Order.addFinalIndividualOrder(
+          order_Id: order_Id,
+          packet: int.parse(packet![i].text),
+          patti: int.parse(patti![i].text),
+          box: int.parse(box![i].text),
+          item_Code: item_detials[i].code!);
+    }
+    final_total = 0;
   }
 
   giveTextFormField(mycontroller, context,

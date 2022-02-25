@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/employee.dart';
+import 'package:project_v3/Database/final_individual_order.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'customer.dart';
 import 'customer_branch.dart';
 import 'employee.dart';
+import 'final_order.dart';
 import 'item.dart';
 
 class DatabaseHelper {
@@ -98,6 +100,28 @@ class DatabaseHelper {
    sell_Item TEXT,
    price INTEGER,
    net_Weight INTEGER
+    )
+    ''');
+    await db.execute('''
+    CREATE TABLE final_order(
+       order_Id INTEGER PRIMARY KEY AUTOINCREMENT,
+       customer_Code TEXT,
+       billing_Branch_Code TEXT,
+       shipping_Branch_Code TEXT,
+       manufacturing_Branch_Code TEXT,
+       total INTEGER,
+       order_by_date TEXT,
+       status TEXT
+    )
+    ''');
+    await db.execute('''
+    CREATE TABLE final_individual_order(
+       individual_order_Id INTEGER PRIMARY KEY AUTOINCREMENT,
+       order_Id INTEGER,
+       packet INTEGER,
+       patti INTEGER,
+       box INTEGER,
+       item_Code TEXT
     )
     ''');
   }
@@ -255,5 +279,50 @@ class DatabaseHelper {
     Database db = await instance.database;
     var customers = await db.query('items');
     return customers.isNotEmpty;
+  }
+
+  Future<int> addFinalOrder(FinalOrder final_order) async {
+    Database db = await instance.database;
+    return await db.insert('final_order', final_order.toMap());
+  }
+
+  Future<List<FinalOrder>> getFinalOrder() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_orders =
+        await db.rawQuery("SELECT * FROM final_order");
+    List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+        ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+        : [];
+    return FinalOrderList;
+  }
+
+  Future<FinalOrder> getFinalOrderLastId() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_orders =
+        await db.rawQuery("SELECT * FROM final_order order by order_Id DESC");
+    List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+        ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+        : [];
+    return FinalOrderList[0];
+  }
+
+  Future<int> addFinalIndividualOrder(
+      FinalIndividualOrder final_individual_order) async {
+    Database db = await instance.database;
+    return await db.insert(
+        'final_individual_order', final_individual_order.toMap());
+  }
+
+  Future<List<FinalIndividualOrder>> getFinalIndividualOrder() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_individual_orders =
+        await db.rawQuery("SELECT * FROM final_individual_order");
+    List<FinalIndividualOrder> FinalIndividualOrderList =
+        final_individual_orders.isNotEmpty
+            ? final_individual_orders
+                .map((c) => FinalIndividualOrder.fromMap((c)))
+                .toList()
+            : [];
+    return FinalIndividualOrderList;
   }
 }

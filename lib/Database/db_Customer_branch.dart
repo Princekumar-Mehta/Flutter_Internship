@@ -28,7 +28,7 @@ class Database_customerBranch {
   }
 
   Future<CustomerBranch> get_customerBranch(String branch_Code) async {
-    print(branch_Code);
+    // print(branch_Code);
     final customerBranch =
         await DatabaseHelper.instance.getCustomerBranch(branch_Code);
     return customerBranch[0];
