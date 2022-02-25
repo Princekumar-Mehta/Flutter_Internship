@@ -12,12 +12,14 @@ class Database_Item {
   }
 
   get_Items() async {
-    final items = await DatabaseHelper.instance
-        .getItems(); // 0 for bill type, 1 ship type
-    items.forEach((element) {
-      item_names.add(element.item_Name!);
-    });
-    print(item_names);
+    if (item_names.length == 0) {
+      final items = await DatabaseHelper.instance
+          .getItems(); // 0 for bill type, 1 ship type
+      items.forEach((element) {
+        item_names.add(element.item_Name!);
+      });
+      print(item_names);
+    }
   }
 
   Future<Item> get_Item(String item_name) async {

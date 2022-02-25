@@ -111,7 +111,10 @@ class adminHome extends StatelessWidget {
                                 (172 / 490.9),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.MySalesOrder);
+                            },
                             child: Text("View All",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(

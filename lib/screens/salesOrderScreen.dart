@@ -46,6 +46,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
       order.shipping_branch = await Database_customerBranch()
           .get_customerBranch(
               shipping_address.getValue().toString().substring(0, 5));
+      order.manufacturing_Branch = manufacturing_branch.getValue();
       order.print_order();
       final file = await PdfApi.generatePDF(order: order);
       await Navigator.push(
@@ -75,13 +76,13 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         email != branch_contact['email']!) {
       phone_number = branch_contact['phone']!;
       email = branch_contact['email']!;
-      setState(() {});
     }
   }
 
   bool? isCustomerId = false;
   @override
   Widget build(BuildContext context) {
+    print("hello");
     try {
       if (customer.getValue().toString().length == 7) {
         isCustomerId = true;
@@ -89,8 +90,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         _customerBranches.get_customerBranches(customer.getValue().toString());
       } else {
         isCustomerId = false;
+        billing_address.setValue("");
+        shipping_address.setValue("");
       }
-
       if (Database_customerBranch.bill_branch_codes
           .contains(billing_address.getValue().toString())) {
         fetch_contact();
@@ -139,39 +141,23 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
             },
           ),
           actions: [
-            Material(
-              child: InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: MyColors.richBlackFogra,
-                    border: Border.all(color: MyColors.richBlackFogra),
-                  ),
-                  child: Icon(Icons.more_vert,
-                      color: MyColors.scarlet,
-                      size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-                ),
-                onTap: () {
-                  Navigator.pop(context, true);
-                },
-              ),
+            IconButton(
+              icon: Icon(Icons.more_vert,
+                  color: MyColors.scarlet,
+                  size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
             ),
-            Material(
-              child: InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: MyColors.richBlackFogra,
-                    border: Border.all(color: MyColors.richBlackFogra),
-                  ),
-                  child: Icon(Icons.refresh,
-                      color: MyColors.scarlet,
-                      size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-                ),
-                onTap: () {
-                  setState(() {});
-                },
-              ),
+            IconButton(
+              icon: Icon(Icons.refresh,
+                  color: MyColors.scarlet,
+                  size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+              onPressed: () {
+                setState(() {});
+                setState(() {});
+              },
             ),
-            SizedBox(width: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
           ],
           backgroundColor: MyColors.richBlackFogra,
         ),

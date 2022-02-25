@@ -64,7 +64,7 @@ class PdfApi_Signed {
       row.cells[11].value = order.total![i].text.toString();
     }
 
-    final row1 = grid.rows.add();
+    /*final row1 = grid.rows.add();
     row1.cells[0].value = '1';
     row1.cells[1].value = 'I4578';
     row1.cells[2].value = 'Simply Salted';
@@ -104,7 +104,7 @@ class PdfApi_Signed {
     row3.cells[8].value = '210';
     row3.cells[9].value = '5067.30';
     row3.cells[10].value = '609.00';
-    row3.cells[11].value = '5676.30';
+    row3.cells[11].value = '5676.30';*/
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
 
@@ -121,31 +121,31 @@ class PdfApi_Signed {
             PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
       }
     }
-    print("Drawing....");
     grid.draw(
       page: page,
-      bounds: Rect.fromLTWH(0, 40, 0, 0),
+      bounds: Rect.fromLTWH(0, 100, 0, 0),
     )!;
-    print("Created...");
   }
 
   static void drawSignature(PdfPage page, ByteData imageSignature) {
     final pageSize = page.getClientSize();
     final PdfBitmap image = PdfBitmap(imageSignature.buffer.asUint8List());
 
-    final price = '2501';
     final now = DateFormat.yMMMEd().format(DateTime.now());
-    final signatureText = '''Total: $price \n Date: $now''';
+    final signatureText = '''Confirmation Signature: \nDate: $now''';
 
     page.graphics.drawString(
       signatureText,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       format: PdfStringFormat(alignment: PdfTextAlignment.left),
-      bounds: Rect.fromLTWH(pageSize.width - 240, pageSize.height - 200, 0, 0),
+      bounds: Rect.fromLTWH(pageSize.width - 240, 45, 0, 0),
+      /*bounds: Rect.fromLTWH(pageSize.width - 240, pageSize.height - 200, 0, 0),*/
     );
 
-    page.graphics.drawImage(image,
-        Rect.fromLTWH(pageSize.width - 120, pageSize.height - 200, 100, 40));
+    page.graphics.drawImage(
+        image, Rect.fromLTWH(pageSize.width - 120, 45, 100, 40)
+        /*Rect.fromLTWH(pageSize.width - 120, pageSize.height - 200, 100, 40)*/
+        );
   }
 
   static Future<File> saveFile(PdfDocument document) async {

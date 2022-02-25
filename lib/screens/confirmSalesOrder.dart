@@ -2,9 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
 import 'package:project_v3/Database/order.dart';
-import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/pdf_signed_api.dart';
@@ -131,17 +129,17 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
       order: widget.order,
       imageSignature: imageSignature!,
     );
-    Send_Mail.send_mail(widget.order.billing_branch.branch_Email!,
-        "Order Confirmed", "Your order is confirmed",
-        file: file, isFile: 1);
-    Send_Mail.send_mail(widget.order.shipping_branch.branch_Email!,
-        "Order Confirmed", "Your order is confirmed",
-        file: file, isFile: 1);
-    await OpenFile.open(file.path);
-    print(widget.order);
+    // Send_Mail.send_mail(widget.order.billing_branch.branch_Email!,
+    //     "Order Confirmed", "Your order is confirmed",
+    //     file: file, isFile: 1);
+    // Send_Mail.send_mail(widget.order.shipping_branch.branch_Email!,
+    //     "Order Confirmed", "Your order is confirmed",
+    //     file: file, isFile: 1);
+    // await OpenFile.open(file.path);
+    print(widget.order.print_order());
     Navigator.pop(context);
     Navigator.pop(context);
     Navigator.pushNamed(context, MyRoutes.MySalesOrder);
-    print(file.path);
+    // print(file.path);
   }
 }

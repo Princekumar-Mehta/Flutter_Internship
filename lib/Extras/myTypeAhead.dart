@@ -24,7 +24,7 @@ class MyTypeAhead extends StatefulWidget {
 
 class _MyTypeAheadState extends State<MyTypeAhead> {
   final TextEditingController _textEditingController = TextEditingController();
-
+  bool isChanged = true;
   @override
   Widget build(BuildContext context) {
     widget.isEmpty = () {
@@ -41,7 +41,6 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
     widget.setValue = (String newValue) {
       _textEditingController.text = newValue;
     };
-
     return Container(
       width: MyScreen.getScreenWidth(context) * (228 / 294),
       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
@@ -52,6 +51,7 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
             enabled: widget.isEnabled,
             controller: _textEditingController,
             decoration: InputDecoration(
+              focusColor: isChanged ? MyColors.middleRed : MyColors.scarlet,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: MyColors.pewterBlue)),
             ),

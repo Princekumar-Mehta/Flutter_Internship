@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project_v3/Extras/myColors.dart';
@@ -25,6 +27,7 @@ class Order {
   Customer customer = Customer();
   CustomerBranch billing_branch = CustomerBranch();
   CustomerBranch shipping_branch = CustomerBranch();
+  String manufacturing_Branch = "";
   late List<Item> item_detials;
   int? counter;
 
@@ -41,29 +44,44 @@ class Order {
     totalItem = [];
     tax = [];
     item_detials = [];
+    manufacturing_Branch = "";
   }
   print_order() {
     List<Map<String, dynamic>> my_order = [];
     for (int i = 0; i < counter!; i++) {
       Map<String, dynamic> json = {
-        'item_name': item_name![i],
-        'packet': packet![i],
-        'patti': patti![i],
-        'box': box![i],
-        'price': price![i],
-        'netWeight': netWeight![i],
-        'subTotal': subTotal![i],
-        'total': total![i],
-        'totalItem': totalItem![i],
-        'tax': tax![i],
-        'item_details': item_detials[i],
+        'item_Name': item_name![i].getValue(),
+        'packet': packet![i].text.toString(),
+        'patti': patti![i].text.toString(),
+        'box': box![i].text.toString(),
+        'price': price![i].text.toString(),
+        'netWeight': netWeight![i].text.toString(),
+        'subTotal': subTotal![i].text.toString(),
+        'total': total![i].text.toString(),
+        'totalItem': totalItem![i].text.toString(),
+        'tax': tax![i].text.toString(),
       };
       my_order.add({
         'item_no': i,
         "order": json,
       });
     }
-    print(my_order);
+    String orders = my_order.toString();
+    List<String> ordersL1 = (orders.split("}}"));
+    for (int i = 0; i < ordersL1.length; i++) {
+      print(ordersL1[i]);
+      print("\n");
+    }
+
+    Map<String, dynamic> final_order = {
+      'customer_Code': customer.code,
+      'billing_Branch': billing_branch.branch_Code,
+      'shipping_Branch': shipping_branch.branch_Code,
+      'manufacturing_Branch': manufacturing_Branch,
+      'order': my_order.toString(),
+    };
+    var encoder = JsonEncoder.withIndent("   ");
+    //  print(encoder.convert(final_order));
   }
 
   giveTextFormField(mycontroller, context,
@@ -181,4 +199,6 @@ class Order {
     current = -1;
     return true;
   }
+
+  convertToFinalOrder() {}
 }
