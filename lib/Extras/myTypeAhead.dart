@@ -65,7 +65,9 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
         ),
         onSuggestionSelected: (String val) {
           _textEditingController.text = val;
-          setState(() {});
+          Future.delayed(Duration(milliseconds: 500), () {
+            setState(() {});
+          });
         },
         getImmediateSuggestions: true,
         hideOnEmpty: false,

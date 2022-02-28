@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/routes.dart';
@@ -229,7 +230,13 @@ class adminHome extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var _pendingOrders = Database_ApproveOrders();
+                                if (await _pendingOrders.getPendingOrders()) {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyApproveOrder);
+                                }
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,

@@ -7,6 +7,8 @@ class FinalOrder {
   int total;
   String order_by_date;
   String status;
+  String file_Address;
+  int salesperson_Code;
   FinalOrder({
     required this.customer_Code,
     required this.billing_Branch_Code,
@@ -16,6 +18,8 @@ class FinalOrder {
     required this.total,
     required this.order_by_date,
     required this.status,
+    required this.file_Address,
+    required this.salesperson_Code,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +32,8 @@ class FinalOrder {
       'total': this.total,
       'order_by_date': this.order_by_date,
       'status': this.status,
+      'file_Address': this.file_Address,
+      'salesperson_Code': this.salesperson_Code,
     };
   }
 
@@ -41,6 +47,8 @@ class FinalOrder {
       total: map['total'] as int,
       order_by_date: map['order_by_date'] as String,
       status: map['status'] as String,
+      file_Address: map['file_Address'] as String,
+      salesperson_Code: map['salesperson_Code'] as int,
     );
   }
 }

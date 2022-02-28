@@ -7,5 +7,7 @@ class MyRoutes {
   static final MyForgotPasswordScreen2 = '/forgotPasswordScreen2';
   static final MyAdminHome = '/adminHome';
   static final MyLeaveRequest = '/leaveRequestScreen';
+  static final MyApproveOrder = '/approveOrderScreen';
+  static final MyLeaveRequestForm = '/leaveRequestForm';
   static final MyTempScreen = '/tempScreen';
 }

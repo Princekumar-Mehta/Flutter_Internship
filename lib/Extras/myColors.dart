@@ -8,5 +8,6 @@ class MyColors {
   static Color scarlet = const Color(0xBFF42C04);
   static Color black = const Color(0xFF000000);
   static Color white = const Color(0xFFFFFFFF);
+  static Color red = const Color(0xFFFF0000);
   static Color grey = const Color(0xFFC4C4C4);
 }

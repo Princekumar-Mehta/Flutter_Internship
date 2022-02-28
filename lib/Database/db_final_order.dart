@@ -11,16 +11,21 @@ class Database_Final_Order {
     required int order_Id,
     required int total,
     required String order_by_date,
+    required String file_Address,
+    required int salesperson_Code,
   }) async {
     await DatabaseHelper.instance.addFinalOrder(FinalOrder(
-        customer_Code: customer_Code,
-        billing_Branch_Code: billing_Branch_Code,
-        shipping_Branch_Code: shipping_Branch_Code,
-        manufacturing_Branch_Code: manufacturing_Branch_Code,
-        order_Id: order_Id,
-        total: total,
-        order_by_date: order_by_date,
-        status: "Pending_Admin"));
+      customer_Code: customer_Code,
+      billing_Branch_Code: billing_Branch_Code,
+      shipping_Branch_Code: shipping_Branch_Code,
+      manufacturing_Branch_Code: manufacturing_Branch_Code,
+      order_Id: order_Id,
+      total: total,
+      order_by_date: order_by_date,
+      status: "Pending_Admin",
+      file_Address: file_Address,
+      salesperson_Code: salesperson_Code,
+    ));
   }
 
   void getFinalOrders() async {
@@ -33,9 +38,9 @@ class Database_Final_Order {
 
   Future<int> getFinalOrdersLastId() async {
     final finalOrders = await DatabaseHelper.instance.getFinalOrderLastId();
-    if (finalOrders == null)
-      return 1;
+    if (finalOrders.isEmpty)
+      return 0;
     else
-      return finalOrders.order_Id;
+      return finalOrders[0].order_Id;
   }
 }

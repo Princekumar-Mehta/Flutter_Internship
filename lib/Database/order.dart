@@ -12,6 +12,7 @@ import 'package:project_v3/Extras/utility.dart';
 import 'customer.dart';
 import 'customer_branch.dart';
 import 'db_item.dart';
+import 'employee.dart';
 import 'item.dart';
 
 class Order {
@@ -25,6 +26,8 @@ class Order {
   List<TextEditingController>? total;
   List<TextEditingController>? totalItem;
   List<TextEditingController>? tax;
+  String file_Address = "";
+  Employee salesPerson = Employee();
   int current = -1;
   Customer customer = Customer();
   CustomerBranch billing_branch = CustomerBranch();
@@ -102,7 +105,9 @@ class Order {
         manufacturing_Branch_Code: manufacturing_Branch,
         order_Id: order_Id,
         total: final_total,
-        order_by_date: OrderBydate);
+        order_by_date: OrderBydate,
+        file_Address: file_Address,
+        salesperson_Code: salesPerson.id! );
     for (int i = 0; i < counter!; i++) {
       Database_Final_Individual_Order.addFinalIndividualOrder(
           order_Id: order_Id,

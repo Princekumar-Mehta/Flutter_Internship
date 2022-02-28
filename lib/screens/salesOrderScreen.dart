@@ -3,14 +3,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
-import 'package:project_v3/Database/db_final_individual_order.dart';
-import 'package:project_v3/Database/db_final_order.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/order.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myItemContainer.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/pdf_api.dart';
+
+import 'confirmSalesOrder.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({Key? key}) : super(key: key);
@@ -48,14 +50,12 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
       order.manufacturing_Branch = manufacturing_branch.getValue();
       _formKey.currentState!.save();
       order.OrderBydate = _formKey.currentState!.value['order_date'];
-      order.addToDatabase();
-      Database_Final_Order().getFinalOrders();
-      Database_Final_Individual_Order().getFinalIndividualOrders();
-      // final file = await PdfApi.generatePDF(order: order);
-      // await Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => ConfirmOrder(order: order, file: file)));
+      order.salesPerson = MyDrawer.emp;
+      final file = await PdfApi.generatePDF(order: order);
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConfirmOrder(order: order, file: file)));
     }
   }
 
@@ -157,7 +157,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   color: MyColors.scarlet,
                   size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               onPressed: () {
-                setState(() {});
                 setState(() {});
               },
             ),

@@ -111,7 +111,9 @@ class DatabaseHelper {
        manufacturing_Branch_Code TEXT,
        total INTEGER,
        order_by_date TEXT,
-       status TEXT
+       status TEXT,
+       file_Address TEXT,
+       salesperson_Code INTEGER
     )
     ''');
     await db.execute('''
@@ -296,14 +298,14 @@ class DatabaseHelper {
     return FinalOrderList;
   }
 
-  Future<FinalOrder> getFinalOrderLastId() async {
+  Future<List<FinalOrder>> getFinalOrderLastId() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> final_orders =
         await db.rawQuery("SELECT * FROM final_order order by order_Id DESC");
     List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
         ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
         : [];
-    return FinalOrderList[0];
+    return FinalOrderList;
   }
 
   Future<int> addFinalIndividualOrder(
@@ -311,6 +313,17 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.insert(
         'final_individual_order', final_individual_order.toMap());
+  }
+
+  Future<List<FinalOrder>> getPendingOrders() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_orders =
+        await db.rawQuery("SELECT * FROM final_order order by order_Id DESC");
+    List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+        ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+        : [];
+    print(FinalOrderList);
+    return FinalOrderList;
   }
 
   Future<List<FinalIndividualOrder>> getFinalIndividualOrder() async {
