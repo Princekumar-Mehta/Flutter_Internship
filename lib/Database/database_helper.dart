@@ -382,4 +382,18 @@ class DatabaseHelper {
     print(LeaveRequestList);
     return LeaveRequestList;
   }
+
+  Future<String> getLastLeaveRequest(int emp_id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> leave_request = await db.rawQuery(
+        "SELECT * FROM leave_requests where status = 'Approved' and emp_id = emp_id order by todate DESC");
+    List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
+        ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
+        : [];
+    if (LeaveRequestList.isEmpty)
+      return "";
+    else {
+      return LeaveRequestList[0].todate!;
+    }
+  }
 }

@@ -43,11 +43,14 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
   applyLeave(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      String reasondesc = _formKey.currentState!.value['reason_desc'] == null
+      String reasondesc = _formKey.currentState!.value['reason_desc'] == null ||
+              _formKey.currentState!.value['reason_desc'].toString().isEmpty
           ? "None"
           : _formKey.currentState!.value['reason_desc'].toString();
-      String fromdate = _formKey.currentState!.value['date'].toString();
-      String todate = _formKey.currentState!.value['dateto'].toString();
+      String fromdate =
+          _formKey.currentState!.value['date'].toString().split(" ")[0];
+      String todate =
+          _formKey.currentState!.value['dateto'].toString().split(" ")[0];
       print({_reason, reasondesc, fromdate, todate});
       var temp = _reason.toString().split('.');
       String reason = temp[1];
