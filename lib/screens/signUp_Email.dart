@@ -26,12 +26,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
   bool _isObscure = true;
   bool _isObscure2 = true;
   String dropdownvalue = 'Select an Option';
-  var items = [
-    'Salesperson',
-    'Regional Manager',
-    'Area Manager',
-    'General Manager',
-  ];
   Future<void> showMessage(
     BuildContext context,
     String message,

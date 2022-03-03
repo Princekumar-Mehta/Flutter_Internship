@@ -11,6 +11,7 @@ class adminHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // DatabaseHelper.instance.Temp_Query();
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(

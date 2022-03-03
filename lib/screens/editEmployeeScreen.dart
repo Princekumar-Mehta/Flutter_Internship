@@ -25,12 +25,6 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   bool _isObscure = true;
   bool _isObscure2 = true;
   String dropdownvalue = 'Select an Option';
-  var items = [
-    'Salesperson',
-    'Regional Manager',
-    'Area Manager',
-    'General Manager',
-  ];
   Future<void> showMessage(
     BuildContext context,
     String message,
@@ -151,6 +145,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.emp.role);
     if (_pickedImage == null) {
       LoadImage();
     }
@@ -449,6 +444,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                 });
                               },
                               items: <String>[
+                                'Admin',
                                 'Salesperson',
                                 'Regional Manager',
                                 'Area Manager',

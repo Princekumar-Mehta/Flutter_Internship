@@ -72,4 +72,23 @@ class Utility {
       ),
     );
   }
+
+  static formatDate(date) {
+    return date.split(" ")[0].split("-");
+  }
+
+  static calculateDifferenceDays(fromDate, toDate) {
+    int fromYear = int.parse(fromDate[0]);
+    int fromMonth = int.parse(fromDate[1]);
+    int fromDay = int.parse(fromDate[2]);
+    int toYear = int.parse(toDate[0]);
+    int toMonth = int.parse(toDate[1]);
+    int toDay = int.parse(toDate[2]);
+    final date1 = DateTime(fromYear, fromMonth, fromDay);
+    final date2 = DateTime(toYear, toMonth, toDay);
+    final difference = date2.difference(date1).inDays + 1;
+    final String months = (difference / 30.44).toStringAsFixed(0);
+    final String weekorday = (difference / 7).toStringAsFixed(0);
+    return {'difference': difference, 'weekorday': weekorday, 'months': months};
+  }
 }

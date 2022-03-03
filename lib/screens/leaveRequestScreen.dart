@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
+import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
+
+import '../routes.dart';
 
 class LeaveRequest extends StatefulWidget {
   const LeaveRequest({Key? key}) : super(key: key);
@@ -66,7 +72,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                   shrinkWrap: true,
                   itemCount: Database_leaveRequest.leaveRequests.length,
                   itemBuilder: (context, index) {
-                    print(Database_leaveRequest.leaveRequests[index]);
+                    //print(Database_leaveRequest.leaveRequests[index]);
                     return Container(
                       child: _row(index),
                     );
@@ -78,49 +84,25 @@ class _LeaveRequestState extends State<LeaveRequest> {
     );
   }
 
-  formatDate(date) {
-    return date.split(" ")[0].split("-");
-  }
-
-  calculateAgo(lastToDate) {
-    int lastYear = int.parse(lastToDate[0]);
-    int lastMonth = int.parse(lastToDate[1]);
-    int lastDay = int.parse(lastToDate[2]);
-    final date1 = DateTime(lastYear, lastMonth, lastDay);
-    final date2 = DateTime.now();
-    print(date1);
-    print(date2);
-    final difference = date2.difference(date1).inDays;
-    print(difference);
-    final String weekorday = (difference / 7).toStringAsFixed(0);
-    return {'difference': difference, 'weekorday': weekorday};
-  }
-
-  calculateDaysRequested(fromDate, toDate) {
-    int fromYear = int.parse(fromDate[0]);
-    int fromMonth = int.parse(fromDate[1]);
-    int fromDay = int.parse(fromDate[2]);
-    int toYear = int.parse(toDate[0]);
-    int toMonth = int.parse(toDate[1]);
-    int toDay = int.parse(toDate[2]);
-    final date1 = DateTime(fromYear, fromMonth, fromDay);
-    final date2 = DateTime(toYear, toMonth, toDay);
-    final difference = date2.difference(date1).inDays + 1;
-    final String months = (difference / 30.44).toStringAsFixed(0);
-    final String weekorday = (difference / 7).toStringAsFixed(0);
-    return {'difference': difference, 'weekorday': weekorday, 'months': months};
+  pendingLeaves(totalLeaves) {
+    int difference = 30 - int.parse(totalLeaves.toString());
+    return difference;
   }
 
   _row(int key) {
-    var lastToDate = formatDate(
+    var lastToDate = Utility.formatDate(
         Database_leaveRequest.lastApprovedLeaveRequests[key] == ""
             ? DateTime.now().add(const Duration(days: 2)).toString()
             : Database_leaveRequest.lastApprovedLeaveRequests[key]);
-    var calculatedAgo = calculateAgo(lastToDate);
-    var toDate = formatDate(Database_leaveRequest.leaveRequests[key].todate!);
+    // var calculatedAgo = calculateAgo(lastToDate);
+    var toDate =
+        Utility.formatDate(Database_leaveRequest.leaveRequests[key].todate!);
     var fromDate =
-        formatDate(Database_leaveRequest.leaveRequests[key].fromdate!);
-    var daysRequested = calculateDaysRequested(fromDate, toDate);
+        Utility.formatDate(Database_leaveRequest.leaveRequests[key].fromdate!);
+    var daysRequested = Utility.calculateDifferenceDays(fromDate, toDate);
+    var totalLeaves = Database_leaveRequest.totalApprovedLeaveRequests[key];
+    var remLeaves = pendingLeaves(totalLeaves);
+    print(remLeaves);
     return Column(
       children: [
         Row(
@@ -149,12 +131,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           height:
                               MyScreen.getScreenWidth(context) * (50 / 490.9),
                           color: MyColors.richBlackFogra,
-                          child: Icon(
-                            Icons.person,
-                            color: MyColors.white,
-                            size: MyScreen.getScreenHeight(context) *
-                                (35 / 1063.6),
-                          ),
+                          child: Image.file(File(Database_leaveRequest
+                              .empleave[key].profile_pic!)),
                         ),
                         SizedBox(
                           width:
@@ -229,14 +207,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                       (29 / 1063.6),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    (calculatedAgo['difference'] == -1)
-                                        ? ""
-                                        : (int.parse(calculatedAgo[
-                                                    'weekorday']) ==
-                                                0
-                                            ? calculatedAgo['difference']
-                                                .toString()
-                                            : calculatedAgo['weekorday']),
+                                    Database_leaveRequest
+                                        .lastApprovedLeaveRequests[key],
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize:
@@ -245,26 +217,26 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  height: MyScreen.getScreenHeight(context) *
-                                      (29 / 1063.6),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    (calculatedAgo['difference'] == -1)
-                                        ? " Not Taken"
-                                        : (int.parse(calculatedAgo[
-                                                    'weekorday']) ==
-                                                0
-                                            ? " days ago"
-                                            : " weeks ago"),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (16 / 1063.6),
-                                    ),
-                                  ),
-                                ),
+                                // Container(
+                                //   height: MyScreen.getScreenHeight(context) *
+                                //       (29 / 1063.6),
+                                //   alignment: Alignment.center,
+                                //   child: Text(
+                                //     (calculatedAgo['difference'] == -1)
+                                //         ? " Not Taken"
+                                //         : (int.parse(calculatedAgo[
+                                //                     'weekorday']) ==
+                                //                 0
+                                //             ? " days ago"
+                                //             : " weeks ago"),
+                                //     style: TextStyle(
+                                //       fontWeight: FontWeight.bold,
+                                //       fontSize:
+                                //           MyScreen.getScreenHeight(context) *
+                                //               (16 / 1063.6),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
@@ -289,7 +261,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   (40 / 490.9),
                               color: MyColors.richBlackFogra,
                               child: Text(
-                                "20",
+                                remLeaves.toString(),
                                 style: TextStyle(
                                   color: MyColors.white,
                                   fontWeight: FontWeight.bold,
@@ -322,7 +294,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   (40 / 490.9),
                               color: MyColors.richBlackFogra,
                               child: Text(
-                                "10",
+                                totalLeaves.toString(),
                                 style: TextStyle(
                                   color: MyColors.white,
                                   fontWeight: FontWeight.bold,
@@ -346,6 +318,16 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           ],
                         ),
                         InkWell(
+                          onTap: () async {
+                            if (await Database_leaveRequest()
+                                .CancelLeaveRequest(key)) {
+                              Send_Mail.send_mail(
+                                  Database_leaveRequest.empleave[key].email!,
+                                  "Leave Cancelled",
+                                  "Your Leave has been cancelled.");
+                              setState(() {});
+                            }
+                          },
                           child: Container(
                             width:
                                 MyScreen.getScreenWidth(context) * (40 / 490.9),
@@ -361,6 +343,22 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           ),
                         ),
                         InkWell(
+                          onTap: () async {
+                            if (await Database_leaveRequest()
+                                .ApproveLeaveRequest(key)) {
+                              Send_Mail.send_mail(
+                                  Database_leaveRequest.empleave[key].email!,
+                                  "Leave Confirmed",
+                                  "Your Leave has been approved.");
+
+                              if (await Database_leaveRequest()
+                                  .getAllRequest()) {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MyLeaveRequest);
+                                Navigator.pop(context);
+                              }
+                            }
+                          },
                           child: Container(
                             width:
                                 MyScreen.getScreenWidth(context) * (40 / 490.9),

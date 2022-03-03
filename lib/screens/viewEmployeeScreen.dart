@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Extras/myColors.dart';
@@ -79,7 +81,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
-            height: MyScreen.getScreenHeight(context) * (160 / 1063.6),
+            height: MyScreen.getScreenHeight(context) * (80 / 1063.6),
             child: Padding(
               padding: EdgeInsets.fromLTRB(
                   MyScreen.getScreenWidth(context) * (10.0 / 490.9),
@@ -95,12 +97,8 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                         width: MyScreen.getScreenWidth(context) * (50 / 490.9),
                         height: MyScreen.getScreenWidth(context) * (50 / 490.9),
                         color: MyColors.richBlackFogra,
-                        child: Icon(
-                          Icons.person,
-                          color: MyColors.white,
-                          size:
-                              MyScreen.getScreenHeight(context) * (35 / 1063.6),
-                        ),
+                        child: Image.file(
+                            File(Database_signUp.emps[key].profile_pic!)),
                       ),
                       SizedBox(
                         width: MyScreen.getScreenWidth(context) * (10 / 490.9),
@@ -111,6 +109,22 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                         children: [
                           Row(
                             children: [
+                              Text(
+                                Database_signUp.emps[key].id!.toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6),
+                                ),
+                              ),
+                              Text(
+                                ") ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6),
+                                ),
+                              ),
                               Text(
                                 Database_signUp.emps[key].name!,
                                 style: TextStyle(
@@ -128,16 +142,20 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                           Row(
                             children: [
                               Icon(
-                                Icons.location_on,
+                                Icons.theater_comedy,
                                 size: MyScreen.getScreenHeight(context) *
-                                    (18 / 1063.6),
+                                    (25 / 1063.6),
+                              ),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (10 / 490.9),
                               ),
                               Text(
-                                Database_signUp.emps[key].name!,
+                                Database_signUp.emps[key].role!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
-                                      (13 / 1063.6),
+                                      (15 / 1063.6),
                                 ),
                               ),
                               SizedBox(
@@ -151,7 +169,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           MyScreen.getScreenHeight(context) *
-                                              (13 / 1063.6),
+                                              (15 / 1063.6),
                                     ),
                                   ),
                                   onTap: () async {

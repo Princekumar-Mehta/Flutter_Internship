@@ -195,6 +195,7 @@ class DatabaseHelper {
 
   Future<void> Temp_Query() async {
     Database db = await instance.database;
+    await db.rawQuery("DELETE FROM leave_requests");
   }
 
   Future<int> addCustomer(Customer customer) async {
@@ -386,7 +387,7 @@ class DatabaseHelper {
   Future<String> getLastLeaveRequest(int emp_id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> leave_request = await db.rawQuery(
-        "SELECT * FROM leave_requests where status = 'Approved' and emp_id = emp_id order by todate DESC");
+        "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = emp_id order by todate DESC");
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
@@ -395,5 +396,22 @@ class DatabaseHelper {
     else {
       return LeaveRequestList[0].todate!;
     }
+  }
+
+  Future<List<LeaveRequest>> getTotalLeaveRequest(int emp_id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> leave_request = await db.rawQuery(
+        "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = emp_id");
+    List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
+        ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
+        : [];
+    print(LeaveRequestList);
+    return LeaveRequestList;
+  }
+
+  updateLeaveRequest(LeaveRequest leaveRequest) async {
+    Database db = await instance.database;
+    await db.rawQuery(
+        "UPDATE leave_requests SET status = '${leaveRequest.status}' where request_Id = ${leaveRequest.request_Id}");
   }
 }

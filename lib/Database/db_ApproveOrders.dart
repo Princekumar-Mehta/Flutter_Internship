@@ -12,6 +12,8 @@ class Database_ApproveOrders {
   static List<Customer> customers = [];
   Future<bool> getPendingOrders() async {
     pendingOrders = await DatabaseHelper.instance.getPendingOrders();
+    shipping_Branches = [];
+    customers = [];
     for (int i = 0; i < pendingOrders.length; i++) {
       shipping_Branches.add(await Database_customerBranch()
           .get_customerBranch(pendingOrders[i].shipping_Branch_Code));

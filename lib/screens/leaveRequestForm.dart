@@ -5,6 +5,7 @@ import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 enum ReasonSelected { self, family, vacation, leave, civil, other }
 
@@ -51,7 +52,13 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
           _formKey.currentState!.value['date'].toString().split(" ")[0];
       String todate =
           _formKey.currentState!.value['dateto'].toString().split(" ")[0];
-      print({_reason, reasondesc, fromdate, todate});
+      int days = Utility.calculateDifferenceDays(Utility.formatDate(fromdate),
+          Utility.formatDate(todate))["difference"];
+      if (days <= 0) {
+        showMessage(context, "To Date can't  be older than from Date");
+        return;
+      }
+      print({_reason, reasondesc, fromdate, todate, days});
       var temp = _reason.toString().split('.');
       String reason = temp[1];
       int emp_id = MyDrawer.emp.id!;
@@ -60,10 +67,10 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
           reason: reason,
           reason_desc: reasondesc,
           fromdate: fromdate,
+          days: days,
           todate: todate,
           emp_id: emp_id,
           status: "Pending");
-      print(Database_leaveRequest().getAllRequest());
     }
   }
 
@@ -306,6 +313,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                             inputType: InputType.date,
                             format: DateFormat('dd-MM-yyyy'),
                             firstDate: DateTime.now(),
+                            initialValue: DateTime.now(),
                             name: 'dateto',
                             style: TextStyle(
                                 color: MyColors.pewterBlue,
@@ -321,7 +329,6 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                                       (20 / 1063.6)),
                               fillColor: MyColors.grullo,
                             ),
-                            initialValue: DateTime.now(),
                           ),
                         ),
                         SizedBox(
