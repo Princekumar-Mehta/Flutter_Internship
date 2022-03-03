@@ -10,6 +10,7 @@ import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
+import 'package:project_v3/screens/viewEmployeeScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyLeaveRequest: (context) => LeaveRequest(),
         MyRoutes.MyApproveOrder: (context) => ApproveOrder(),
         MyRoutes.MyLeaveRequestForm: (context) => LeaveRequestForm(),
+        MyRoutes.MyEditEmployeeScreen: (context) => ViewEmployeeScreen(),
       },
     );
   }

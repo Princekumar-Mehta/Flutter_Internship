@@ -2,25 +2,24 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
-import 'package:project_v3/Extras/utility.dart';
 
-class SignUpEmail extends StatefulWidget {
-  const SignUpEmail({Key? key}) : super(key: key);
+import '../routes.dart';
 
+class EditEmployeeScreen extends StatefulWidget {
+  Employee emp;
+  EditEmployeeScreen({required this.emp});
   @override
-  _SignUpEmailState createState() => _SignUpEmailState();
+  _EditEmployeeScreenState createState() => _EditEmployeeScreenState();
 }
 
-class _SignUpEmailState extends State<SignUpEmail> {
+class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   File? _pickedImage;
   bool _isObscure = true;
@@ -71,6 +70,12 @@ class _SignUpEmailState extends State<SignUpEmail> {
             onPressed: () async {
               Navigator.pop(c, false);
               Navigator.pop(context);
+              Navigator.pop(context);
+              var _db_employee = Database_signUp();
+              if (await _db_employee.getAllEmp()) {
+                print(Database_signUp.emps);
+                Navigator.pushNamed(context, MyRoutes.MyEditEmployeeScreen);
+              }
             },
           ),
         ],
@@ -90,10 +95,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       String email = _formKey.currentState!.value['email'];
-      if (!await Utility.isNotExist(email)) {
-        showMessage(context, "User Already Exist");
-        return;
-      }
       if (_formKey.currentState!.value['password_1'] !=
           _formKey.currentState!.value['password_2']) {
         showMessage(context, "Both Password Should match");
@@ -102,17 +103,13 @@ class _SignUpEmailState extends State<SignUpEmail> {
       if (_pickedImage == null) {
         LoadImage();
       }
-      String name = _formKey.currentState!.value['full_name'];
-      String password = _formKey.currentState!.value['password_1'];
-      String role = _formKey.currentState!.value['role'];
-      await Database_signUp.addEmp(
-        profile_pic: _pickedImage!.path,
-        name: name,
-        email: email,
-        password: password,
-        role: role,
-        status: "Approved",
-      );
+      widget.emp.name = _formKey.currentState!.value['full_name'];
+      widget.emp.email = _formKey.currentState!.value['email'];
+      widget.emp.password = _formKey.currentState!.value['password_1'];
+      widget.emp.role = _formKey.currentState!.value['role'];
+      widget.emp.profile_pic = _pickedImage!.path;
+      await Database_signUp().updateEmp(widget.emp);
+      setState(() {});
       Employee? emp = await Database_signUp.getEmp(email: email, id: 0);
       int otp = 1000 + Random().nextInt(9999 - 1000);
       int? id = emp!.id;
@@ -147,18 +144,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
     }
   }
 
-  Future<File> getImageFileFromAssets(String path) async {
-    final byteData = await rootBundle.load('assets/$path');
-
-    final file = File('${(await getTemporaryDirectory()).path}/DIMS.png');
-    await file.writeAsBytes(byteData.buffer
-        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-    return file;
-  }
-
   Future<void> LoadImage() async {
-    _pickedImage = await getImageFileFromAssets('images/DIMS.png');
+    _pickedImage = File(widget.emp.profile_pic!);
     print(_pickedImage);
   }
 
@@ -231,6 +218,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           height:
                               MyScreen.getScreenHeight(context) * (50 / 1063.6),
                           child: FormBuilderTextField(
+                            initialValue: widget.emp.name,
                             name: 'full_name',
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -268,6 +256,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (50 / 1063.6),
                           child: FormBuilderTextField(
                               name: 'email',
+                              initialValue: widget.emp.email,
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide:
@@ -312,7 +301,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (50 / 1063.6),
                           child: FormBuilderTextField(
                             name: 'password_1',
-                            initialValue: "Dims@123",
+                            initialValue: widget.emp.password,
                             obscureText: _isObscure,
                             style: TextStyle(
                                 color: MyColors.middleRed,
@@ -377,7 +366,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (50 / 1063.6),
                           child: FormBuilderTextField(
                             name: 'password_2',
-                            initialValue: "Dims@123",
+                            initialValue: widget.emp.password,
                             obscureText: _isObscure2,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
@@ -438,6 +427,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             height: 60,
                             child: FormBuilderDropdown<String>(
                               name: 'role',
+                              initialValue: widget.emp.role,
                               validator: (value) {
                                 if (value.toString() == "Select an Option") {
                                   return "Please select a role";
@@ -502,7 +492,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                   ),
                                 ),
                                 Center(
-                                  child: Text("Create Profile",
+                                  child: Text("Update Profile",
                                       style: TextStyle(
                                           color: MyColors.richBlackFogra,
                                           fontSize: MyScreen.getScreenHeight(

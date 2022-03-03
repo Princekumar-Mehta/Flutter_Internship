@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_SignUp.dart';
+import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
@@ -236,7 +236,7 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                   Employee emp =
                                       await Utility.getEmployee(email);
                                   emp.password = pwd1;
-                                  Database_signUp.updateEmp(emp);
+                                  Database_signUp().updateEmp(emp);
                                   Send_Mail.send_mail(
                                       email,
                                       "Password Reset Successful",

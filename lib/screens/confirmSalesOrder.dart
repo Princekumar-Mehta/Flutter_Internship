@@ -9,7 +9,6 @@ import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/pdf_signed_api.dart';
-import 'package:project_v3/routes.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
@@ -125,7 +124,6 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
   }
 
   Future onSubmit() async {
-    print('here');
     final image = await keySignaturePad.currentState?.toImage();
     final imageSignature = await image!.toByteData(format: ImageByteFormat.png);
     final file = await PdfApi_Signed.generatePDF(
@@ -133,10 +131,10 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
       imageSignature: imageSignature!,
     );
     Send_Mail.send_mail(widget.order.billing_branch.branch_Email!,
-        "Order Confirmed", "Your order is confirmed",
+        "Order Submitted", "Your order is Submitted",
         file: file, isFile: 1);
     Send_Mail.send_mail(widget.order.shipping_branch.branch_Email!,
-        "Order Confirmed", "Your order is confirmed",
+        "Order Submitted", "Your order is Submitted",
         file: file, isFile: 1);
     widget.order.file_Address = file.path;
     widget.order.addToDatabase();

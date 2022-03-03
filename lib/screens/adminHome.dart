@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
+import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/routes.dart';
@@ -146,7 +148,6 @@ class adminHome extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             InkWell(
-                              onTap: () {},
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -411,9 +412,12 @@ class adminHome extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, MyRoutes.MyLeaveRequest);
+                              onTap: () async {
+                                if (await Database_leaveRequest()
+                                    .getAllRequest()) {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyLeaveRequest);
+                                }
                               },
                               child: Column(
                                 mainAxisAlignment:
@@ -456,7 +460,14 @@ class adminHome extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var _db_employee = Database_signUp();
+                                if (await _db_employee.getAllEmp()) {
+                                  print(Database_signUp.emps);
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyEditEmployeeScreen);
+                                }
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -590,7 +601,10 @@ class adminHome extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MyLeaveRequestForm);
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,

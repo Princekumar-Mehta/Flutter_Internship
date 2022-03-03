@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -17,6 +18,7 @@ class LeaveRequestForm extends StatefulWidget {
 class _LeaveRequestFormState extends State<LeaveRequestForm> {
   final _formKey = GlobalKey<FormBuilderState>();
   ReasonSelected? _reason = ReasonSelected.self;
+
   Future<void> showMessage(
     BuildContext context,
     String message,
@@ -36,6 +38,30 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
         ],
       ),
     );
+  }
+
+  applyLeave(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      String reasondesc = _formKey.currentState!.value['reason_desc'] == null
+          ? "None"
+          : _formKey.currentState!.value['reason_desc'].toString();
+      String fromdate = _formKey.currentState!.value['date'].toString();
+      String todate = _formKey.currentState!.value['dateto'].toString();
+      print({_reason, reasondesc, fromdate, todate});
+      var temp = _reason.toString().split('.');
+      String reason = temp[1];
+      int emp_id = MyDrawer.emp.id!;
+
+      Database_leaveRequest.addRequest(
+          reason: reason,
+          reason_desc: reasondesc,
+          fromdate: fromdate,
+          todate: todate,
+          emp_id: emp_id,
+          status: "Pending");
+      print(Database_leaveRequest().getAllRequest());
+    }
   }
 
   @override
@@ -318,7 +344,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                                   ),
                                 ),
                                 Center(
-                                  child: Text("Create Profile",
+                                  child: Text("Apply for Leave",
                                       style: TextStyle(
                                           color: MyColors.richBlackFogra,
                                           fontSize: MyScreen.getScreenHeight(
@@ -328,7 +354,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                                 )
                               ],
                             ),
-                            onTap: () => {_formKey.currentState!.validate()},
+                            onTap: () => applyLeave(context),
                           ),
                         ),
                       ],

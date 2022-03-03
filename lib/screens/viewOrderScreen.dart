@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -16,9 +17,18 @@ class viewOrder extends StatefulWidget {
 class _viewOrderState extends State<viewOrder> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
+    return SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back,
+                  color: MyColors.scarlet,
+                  size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+            ),
+          ),
           body: Column(children: [
             SizedBox(
               height: MyScreen.getScreenHeight(context) * (650 / 1063.6),
@@ -27,7 +37,6 @@ class _viewOrderState extends State<viewOrder> {
             ),
           ]),
         ),
-      ),
-    );
+      );
   }
 }

@@ -2,6 +2,7 @@ import 'database_helper.dart';
 import 'employee.dart';
 
 class Database_signUp {
+  static List<Employee> emps = [];
   static addEmp({
     required String name,
     required String profile_pic,
@@ -30,14 +31,14 @@ class Database_signUp {
     return emp;
   }
 
-  static updateEmp(Employee emp) async {
-    await DatabaseHelper.instance.update(Employee(
-        profile_pic: emp.profile_pic,
-        id: emp.id,
-        name: emp.name,
-        email: emp.email,
-        password: emp.password,
-        role: emp.role,
-        status: emp.status));
+  Future<bool> getAllEmp() async {
+    emps = (await DatabaseHelper.instance.getAllEmp())!;
+    return true;
+  }
+
+  Future<bool> updateEmp(Employee emp) async {
+    await DatabaseHelper.instance.update(emp);
+    if (await Database_signUp().getAllEmp()) return true;
+    return false;
   }
 }

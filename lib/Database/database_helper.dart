@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Database/final_individual_order.dart';
+import 'package:project_v3/Database/leave_request.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -126,6 +127,17 @@ class DatabaseHelper {
        item_Code TEXT
     )
     ''');
+    await db.execute('''
+    CREATE TABLE leave_requests(
+       request_Id INTEGER PRIMARY KEY AUTOINCREMENT,
+       reason TEXT,
+       reason_desc TEXT,
+       fromdate TEXT,
+       todate TEXT,
+       emp_id INTEGER,
+       status TEXT
+    )
+    ''');
   }
 
   Future<List<Employee>> getEmployees() async {
@@ -153,6 +165,16 @@ class DatabaseHelper {
       if (empList.isEmpty) return null;
       return empList[0];
     }
+  }
+
+  Future<List<Employee>?> getAllEmp() async {
+    Database db = await instance.database;
+    var emp = await db.query('employees');
+    ;
+    List<Employee> empList =
+        emp.isNotEmpty ? emp.map((c) => Employee.fromMap((c))).toList() : [];
+    if (empList.isEmpty) return null;
+    return empList;
   }
 
   Future<int> addEmp(Employee emp) async {
@@ -317,8 +339,8 @@ class DatabaseHelper {
 
   Future<List<FinalOrder>> getPendingOrders() async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> final_orders =
-        await db.rawQuery("SELECT * FROM final_order order by order_Id DESC");
+    List<Map<String, dynamic>> final_orders = await db
+        .rawQuery("SELECT * FROM final_order where status = 'Pending_Admin'");
     List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
         ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
         : [];
@@ -337,5 +359,27 @@ class DatabaseHelper {
                 .toList()
             : [];
     return FinalIndividualOrderList;
+  }
+
+  Future<int> updateOrder(FinalOrder finalOrder) async {
+    Database db = await instance.database;
+    return await db.update('final_order', finalOrder.toMap(),
+        where: 'order_Id = ?', whereArgs: [finalOrder.order_Id]);
+  }
+
+  Future<int> addRequest(LeaveRequest request) async {
+    Database db = await instance.database;
+    return await db.insert('leave_requests', request.toMap());
+  }
+
+  Future<List<LeaveRequest>> getAllLeaveRequest() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> leave_request = await db
+        .rawQuery("SELECT * FROM leave_requests where status = 'Pending'");
+    List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
+        ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
+        : [];
+    print(LeaveRequestList);
+    return LeaveRequestList;
   }
 }
