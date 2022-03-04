@@ -349,15 +349,26 @@ class DatabaseHelper {
     return FinalOrderList;
   }
 
-  Future<List<FinalOrder>> getProcessingOrders(int emp_id) async {
+  Future<List<FinalOrder>> getProcessingOrders(
+      int emp_id, String emp_role) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> final_orders = await db.rawQuery(
-        "SELECT * FROM final_order where status = 'Processing' and salesperson_Code = $emp_id");
-    List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
-        ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
-        : [];
-    print(FinalOrderList);
-    return FinalOrderList;
+    if (emp_role == "Admin") {
+      List<Map<String, dynamic>> final_orders = await db
+          .rawQuery("SELECT * FROM final_order where status = 'Processing'");
+      List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+          ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+          : [];
+      print(FinalOrderList);
+      return FinalOrderList;
+    } else {
+      List<Map<String, dynamic>> final_orders = await db.rawQuery(
+          "SELECT * FROM final_order where status = 'Processing' and salesperson_Code = $emp_id");
+      List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+          ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+          : [];
+      print(FinalOrderList);
+      return FinalOrderList;
+    }
   }
 
   Future<List<FinalIndividualOrder>> getFinalIndividualOrder() async {

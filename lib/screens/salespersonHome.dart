@@ -345,8 +345,8 @@ class SalespersonHome extends StatelessWidget {
                           InkWell(
                             onTap: () async {
                               var _pendingOrders = Database_ApproveOrders();
-                              if (await _pendingOrders
-                                  .getProcessingOrders(MyDrawer.emp.id!)) {
+                              if (await _pendingOrders.getProcessingOrders(
+                                  MyDrawer.emp.id!, MyDrawer.emp.role!)) {
                                 Navigator.pushNamed(
                                     context, MyRoutes.MyProcessingOrders);
                               }

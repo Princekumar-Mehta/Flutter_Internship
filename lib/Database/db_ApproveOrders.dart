@@ -24,9 +24,9 @@ class Database_ApproveOrders {
     return true;
   }
 
-  Future<bool> getProcessingOrders(int emp_id) async {
+  Future<bool> getProcessingOrders(int emp_id, String emp_role) async {
     processingOrders =
-        await DatabaseHelper.instance.getProcessingOrders(emp_id);
+        await DatabaseHelper.instance.getProcessingOrders(emp_id, emp_role);
     shipping_Branches = [];
     customers = [];
     for (int i = 0; i < processingOrders.length; i++) {

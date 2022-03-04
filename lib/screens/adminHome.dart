@@ -150,6 +150,14 @@ class adminHome extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             InkWell(
+                              onTap: () async {
+                                var _pendingOrders = Database_ApproveOrders();
+                                if (await _pendingOrders.getProcessingOrders(
+                                    MyDrawer.emp.id!, MyDrawer.emp.role!)) {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyProcessingOrders);
+                                }
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
