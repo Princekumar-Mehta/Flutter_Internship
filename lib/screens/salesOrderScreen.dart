@@ -215,10 +215,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       0),
                   child: Column(
                     children: [
-                      // Type Ahead Example
-                      // Error here, the item selected from dropdown is not being replaced
-                      // on the textfield.
-                      // Spacing to be kept between Field Name & Field Input
                       SizedBox(
                           height:
                               MyScreen.getScreenHeight(context) * (6 / 553)),

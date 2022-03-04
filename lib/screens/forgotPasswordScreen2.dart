@@ -6,8 +6,6 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/utility.dart';
 
-import '../routes.dart';
-
 class ForgotPasswordScreen2 extends StatefulWidget {
   final email;
   const ForgotPasswordScreen2({Key? key, this.email}) : super(key: key);
@@ -241,8 +239,7 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                       email,
                                       "Password Reset Successful",
                                       "Your password is changed, If it was not you, then click on forgot password and reset it");
-                                  Navigator.of(context).popUntil(
-                                      ModalRoute.withName(MyRoutes.MyLogin));
+                                  Navigator.of(context).pop();
                                 }
                               }
                             },

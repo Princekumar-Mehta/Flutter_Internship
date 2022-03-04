@@ -56,7 +56,12 @@ class MyDrawer extends StatelessWidget {
             iconColor: MyColors.scarlet,
             title: const Text('Home'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, MyRoutes.MyAdminHome);
+              if (emp.role == "Admin") {
+                Navigator.pushReplacementNamed(context, MyRoutes.MyAdminHome);
+              } else {
+                Navigator.pushReplacementNamed(
+                    context, MyRoutes.MySalespersonHome);
+              }
             },
           ),
           ListTile(
