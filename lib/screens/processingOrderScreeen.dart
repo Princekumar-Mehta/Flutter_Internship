@@ -2,20 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
-import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/screens/viewOrderScreen.dart';
 
-class ApproveOrder extends StatefulWidget {
-  const ApproveOrder({Key? key}) : super(key: key);
+class ProcessingOrder extends StatefulWidget {
+  const ProcessingOrder({Key? key}) : super(key: key);
 
   @override
-  State<ApproveOrder> createState() => _ApproveOrderState();
+  State<ProcessingOrder> createState() => _ProcessingOrderState();
 }
 
-class _ApproveOrderState extends State<ApproveOrder> {
+class _ProcessingOrderState extends State<ProcessingOrder> {
   @override
   initState() {
     super.initState();
@@ -31,7 +30,7 @@ class _ApproveOrderState extends State<ApproveOrder> {
             width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
           ),
         ),
-        title: Text("Approve Orders",
+        title: Text("Processing Orders",
             style: TextStyle(
                 color: MyColors.white,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
@@ -52,7 +51,7 @@ class _ApproveOrderState extends State<ApproveOrder> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Database_ApproveOrders.pendingOrders.length,
+                  itemCount: Database_ApproveOrders.processingOrders.length,
                   itemBuilder: (context, index) {
                     return Container(
                       child: _row(index),
@@ -246,56 +245,6 @@ class _ApproveOrderState extends State<ApproveOrder> {
                           ),
                         ],
                       ),
-                      InkWell(
-                        onTap: () async {
-                          if (await Database_ApproveOrders()
-                              .CancelFinalOrder(key)) {
-                            setState(() {});
-                          }
-                          Send_Mail.send_mail(
-                              Database_ApproveOrders.customers[key].email!,
-                              "Order Cancelled",
-                              "Your Orders is Cancelled");
-                        },
-                        child: Container(
-                          width:
-                              MyScreen.getScreenWidth(context) * (40 / 490.9),
-                          height:
-                              MyScreen.getScreenWidth(context) * (40 / 490.9),
-                          color: MyColors.pewterBlue,
-                          child: Icon(
-                            Icons.cancel,
-                            color: MyColors.richBlackFogra,
-                            size: MyScreen.getScreenHeight(context) *
-                                (30 / 1063.6),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          if (await Database_ApproveOrders()
-                              .ApproveFinalOrder(key)) {
-                            Send_Mail.send_mail(
-                                Database_ApproveOrders.customers[key].email!,
-                                "Order Confirmed",
-                                "Your Orders is now under processing");
-                            setState(() {});
-                          }
-                        },
-                        child: Container(
-                          width:
-                              MyScreen.getScreenWidth(context) * (40 / 490.9),
-                          height:
-                              MyScreen.getScreenWidth(context) * (40 / 490.9),
-                          color: MyColors.scarlet,
-                          child: Icon(
-                            Icons.check,
-                            color: MyColors.richBlackFogra,
-                            size: MyScreen.getScreenHeight(context) *
-                                (30 / 1063.6),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   Container(
@@ -308,7 +257,7 @@ class _ApproveOrderState extends State<ApproveOrder> {
                       Row(
                         children: [
                           Text(
-                            Database_ApproveOrders.pendingOrders[key].total
+                            Database_ApproveOrders.processingOrders[key].total
                                 .toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -338,7 +287,8 @@ class _ApproveOrderState extends State<ApproveOrder> {
                         ),
                       ),
                       Text(
-                        Database_ApproveOrders.pendingOrders[key].order_by_date,
+                        Database_ApproveOrders
+                            .processingOrders[key].order_by_date,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:

@@ -92,16 +92,14 @@ class _LoginScreenState extends State<LoginScreen> {
         MyDrawer.emp = emp!;
         await Future.delayed(const Duration(seconds: 1));
         if (emp!.role == "Admin") {
+          print(emp!.role);
           await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
         } else {
-          await Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+          await Navigator.pushNamed(context, MyRoutes.MySalespersonHome);
+          print(emp!.role);
         }
         _formKey.currentState!.reset();
       }
-      /*MyDrawer.emp = emp;
-      await Future.delayed(const Duration(seconds: 1));
-      await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
-      _formKey.currentState!.reset();*/
     }
   }
 

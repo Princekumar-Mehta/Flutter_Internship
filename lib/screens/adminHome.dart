@@ -4,6 +4,7 @@ import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/routes.dart';
 
 class adminHome extends StatelessWidget {
@@ -602,9 +603,12 @@ class adminHome extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, MyRoutes.MyLeaveRequestForm);
+                              onTap: () async {
+                                if (await Database_leaveRequest()
+                                    .getAllRequestForEmp(MyDrawer.emp.id!)) {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyLeaveRequestForm);
+                                }
                               },
                               child: Column(
                                 mainAxisAlignment:
@@ -647,7 +651,10 @@ class adminHome extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MyLeaveRequestSummary);
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,

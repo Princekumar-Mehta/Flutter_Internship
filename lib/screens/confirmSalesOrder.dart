@@ -141,7 +141,6 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
     Database_Final_Order().getFinalOrders();
     Database_Final_Individual_Order().getFinalIndividualOrders();
     Navigator.pop(context);
-
     // print(file.path);
   }
 }

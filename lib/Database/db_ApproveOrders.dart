@@ -8,6 +8,7 @@ import 'database_helper.dart';
 
 class Database_ApproveOrders {
   static List<FinalOrder> pendingOrders = [];
+  static List<FinalOrder> processingOrders = [];
   static List<CustomerBranch> shipping_Branches = [];
   static List<Customer> customers = [];
   Future<bool> getPendingOrders() async {
@@ -19,6 +20,20 @@ class Database_ApproveOrders {
           .get_customerBranch(pendingOrders[i].shipping_Branch_Code));
       customers.add(await Database_customer()
           .get_customer(pendingOrders[i].customer_Code));
+    }
+    return true;
+  }
+
+  Future<bool> getProcessingOrders(int emp_id) async {
+    processingOrders =
+        await DatabaseHelper.instance.getProcessingOrders(emp_id);
+    shipping_Branches = [];
+    customers = [];
+    for (int i = 0; i < processingOrders.length; i++) {
+      shipping_Branches.add(await Database_customerBranch()
+          .get_customerBranch(processingOrders[i].shipping_Branch_Code));
+      customers.add(await Database_customer()
+          .get_customer(processingOrders[i].customer_Code));
     }
     return true;
   }

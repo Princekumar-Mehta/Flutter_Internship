@@ -11,7 +11,7 @@ class Database_Item {
     await DatabaseHelper.instance.addItem(Item.fromMap(order_item));
   }
 
-  get_Items() async {
+  Future<bool>get_Items() async {
     item_names = [];
     final items = await DatabaseHelper.instance
         .getItems(); // 0 for bill type, 1 ship type
@@ -19,6 +19,7 @@ class Database_Item {
       item_names.add(element.item_Name!);
     });
     print(item_names);
+    return true;
   }
 
   Future<Item> get_Item(String item_name) async {

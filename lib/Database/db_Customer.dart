@@ -22,15 +22,16 @@ class Database_customer {
     //for (int i = 0; i < customers.length; i++) print(customers[i].toMap());
   }
 
-  get_customerIds() async {
+  Future<bool> get_customerIds() async {
     final customers = await DatabaseHelper.instance.getCustomers();
     customers.forEach((element) {
       codes.add(element.code!);
     });
+    return true;
     //print(codes);
   }
 
-  static insertData() async {
+  Future<bool> insertData() async {
     bool isData = await DatabaseHelper.instance.isCustomerTableContainData();
     if (isData == false) {
       //  print("customer data insert");
@@ -41,5 +42,6 @@ class Database_customer {
         Database_customer.addCustomer(element);
       });
     }
+    return true;
   }
 }

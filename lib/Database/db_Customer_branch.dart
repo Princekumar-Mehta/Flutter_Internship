@@ -14,6 +14,8 @@ class Database_customerBranch {
   get_customerBranches(String customer_code) async {
     final bill_branches = await DatabaseHelper.instance
         .getCustomerBranches(0, customer_code); // 0 for bill type, 1 ship type
+    bill_branch_codes = [];
+    ship_branch_codes = [];
     bill_branches.forEach((element) {
       bill_branch_codes
           .add(element.branch_Code! + " : " + element.branch_Name!);
@@ -48,7 +50,7 @@ class Database_customerBranch {
     return {'phone': iphone_number, 'email': iemail};
   }
 
-  static insertData() async {
+  Future<bool> insertData() async {
     bool isData =
         await DatabaseHelper.instance.isCustomerBranchTableContainData();
     if (isData == false) {
@@ -63,5 +65,6 @@ class Database_customerBranch {
         await DatabaseHelper.instance.addCustomerBranch(element);
       });
     }
+    return true;
   }
 }

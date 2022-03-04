@@ -72,7 +72,6 @@ class _LeaveRequestState extends State<LeaveRequest> {
                   shrinkWrap: true,
                   itemCount: Database_leaveRequest.leaveRequests.length,
                   itemBuilder: (context, index) {
-                    //print(Database_leaveRequest.leaveRequests[index]);
                     return Container(
                       child: _row(index),
                     );

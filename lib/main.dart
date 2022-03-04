@@ -7,7 +7,10 @@ import 'package:project_v3/screens/forgotPasswordScreen2.dart';
 import 'package:project_v3/screens/leaveRequestForm.dart';
 import 'package:project_v3/screens/leaveRequestScreen.dart';
 import 'package:project_v3/screens/loginScreen.dart';
+import 'package:project_v3/screens/myLeaveRequestSummary.dart';
+import 'package:project_v3/screens/processingOrderScreeen.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
+import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
@@ -23,7 +26,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       initialRoute: MyRoutes.MyLogin,
       routes: {
         //  MyRoutes.MyTempScreen: (context) => DynamicForms(),
@@ -38,6 +40,9 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyApproveOrder: (context) => ApproveOrder(),
         MyRoutes.MyLeaveRequestForm: (context) => LeaveRequestForm(),
         MyRoutes.MyEditEmployeeScreen: (context) => ViewEmployeeScreen(),
+        MyRoutes.MyLeaveRequestSummary: (context) => myLeaveRequestSummary(),
+        MyRoutes.MySalespersonHome: (context) => SalespersonHome(),
+        MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
       },
     );
   }

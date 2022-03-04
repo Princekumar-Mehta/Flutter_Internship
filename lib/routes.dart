@@ -11,4 +11,7 @@ class MyRoutes {
   static final MyLeaveRequestForm = '/leaveRequestForm';
   static final MyTempScreen = '/tempScreen';
   static final MyEditEmployeeScreen = '/editEmployeeScreen';
+  static final MyLeaveRequestSummary = '/myLeaveRequestSummary';
+  static final MySalespersonHome = '/salespersonHome';
+  static final MyProcessingOrders = '/myProcessingOrders';
 }

@@ -9,6 +9,10 @@ class Database_leaveRequest {
   static List<Employee> empleave = [];
   static List<String> lastApprovedLeaveRequests = [];
   static List<int> totalApprovedLeaveRequests = [];
+
+  static List<LeaveRequest> leaveRequestsForEmp = [];
+  static int totalPendingLeaveRequestsForEmp = 0;
+  static int totalApprovedLeaveRequestsForEmp = 0;
   static addRequest({
     required String reason,
     required String reason_desc,
@@ -38,7 +42,7 @@ class Database_leaveRequest {
       lastApprovedLeaveRequests.add(await DatabaseHelper.instance
           .getLastLeaveRequest(leaveRequests[i].emp_id!));
       List<LeaveRequest> approvedLeaveRequest = await DatabaseHelper.instance
-          .getTotalLeaveRequest(leaveRequests[i].emp_id!);
+          .getTotalAcceptedLeaveRequest(leaveRequests[i].emp_id!);
       int leaveDays = 0;
 
       for (int j = 0; j < approvedLeaveRequest.length; j++) {
@@ -47,6 +51,35 @@ class Database_leaveRequest {
       print(
           leaveRequests[i].emp_id!.toString() + "#### " + leaveDays.toString());
       totalApprovedLeaveRequests.add(leaveDays);
+    }
+    return true;
+  }
+
+  Future<bool> getAllRequestForEmp(int emp_id) async {
+    leaveRequestsForEmp =
+        await DatabaseHelper.instance.getTotalLeaveRequest(emp_id);
+    totalApprovedLeaveRequestsForEmp = 0;
+    totalPendingLeaveRequestsForEmp = 0;
+    for (int i = 0; i < leaveRequestsForEmp.length; i++) {
+      List<LeaveRequest> approvedLeaveRequestForEmp = await DatabaseHelper
+          .instance
+          .getTotalAcceptedLeaveRequest(leaveRequestsForEmp[i].emp_id!);
+
+      int pendingLeaveDaysForEmp = 0;
+      for (int j = 0; j < leaveRequestsForEmp.length; j++) {
+        if (leaveRequestsForEmp[j].status == 'Pending') {
+          pendingLeaveDaysForEmp =
+              leaveRequestsForEmp[j].days! + pendingLeaveDaysForEmp;
+        }
+      }
+      totalPendingLeaveRequestsForEmp = (pendingLeaveDaysForEmp);
+
+      int approvedLeaveDaysForEmp = 0;
+      for (int j = 0; j < approvedLeaveRequestForEmp.length; j++) {
+        approvedLeaveDaysForEmp =
+            approvedLeaveRequestForEmp[j].days! + approvedLeaveDaysForEmp;
+      }
+      totalApprovedLeaveRequestsForEmp = (approvedLeaveDaysForEmp);
     }
     return true;
   }

@@ -354,7 +354,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                                   ),
                                 ),
                                 Center(
-                                  child: Text("Apply for Leave",
+                                  child: Text("Request Leave",
                                       style: TextStyle(
                                           color: MyColors.richBlackFogra,
                                           fontSize: MyScreen.getScreenHeight(

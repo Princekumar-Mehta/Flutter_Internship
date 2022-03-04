@@ -349,6 +349,17 @@ class DatabaseHelper {
     return FinalOrderList;
   }
 
+  Future<List<FinalOrder>> getProcessingOrders(int emp_id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_orders = await db.rawQuery(
+        "SELECT * FROM final_order where status = 'Processing' and salesperson_Code = $emp_id");
+    List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+        ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+        : [];
+    print(FinalOrderList);
+    return FinalOrderList;
+  }
+
   Future<List<FinalIndividualOrder>> getFinalIndividualOrder() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> final_individual_orders =
@@ -398,10 +409,21 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<LeaveRequest>> getTotalLeaveRequest(int emp_id) async {
+  Future<List<LeaveRequest>> getTotalAcceptedLeaveRequest(int emp_id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> leave_request = await db.rawQuery(
         "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = emp_id");
+    List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
+        ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
+        : [];
+    print(LeaveRequestList);
+    return LeaveRequestList;
+  }
+
+  Future<List<LeaveRequest>> getTotalLeaveRequest(int emp_id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> leave_request =
+        await db.rawQuery("SELECT * FROM leave_requests where emp_id = emp_id");
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];

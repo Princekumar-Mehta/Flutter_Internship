@@ -3,7 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
-import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/order.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myItemContainer.dart';
@@ -56,6 +55,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           context,
           MaterialPageRoute(
               builder: (context) => ConfirmOrder(order: order, file: file)));
+      Navigator.pop(context);
     }
   }
 
@@ -63,12 +63,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   void initState() {
     super.initState();
     getOrders = MyItemContainer();
-    Database_customer.insertData();
-    var _customers = Database_customer();
-    _customers.get_customerIds();
-    Database_customerBranch.insertData();
-    var _items = Database_Item();
-    _items.get_Items();
+
     //  print("inti state called");
   }
 
