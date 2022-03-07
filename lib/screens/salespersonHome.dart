@@ -119,7 +119,7 @@ class SalespersonHome extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, MyRoutes.MySignUpEmail);
+                                  context, MyRoutes.MyLeaveRequestForm);
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

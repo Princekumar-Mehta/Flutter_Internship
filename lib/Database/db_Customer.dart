@@ -13,7 +13,11 @@ class Database_customer {
 
   Future<Customer> get_customer(String customer_Code) async {
     final customers = await DatabaseHelper.instance.getCustomer(customer_Code);
-    return customers[0];
+    if (customers.isEmpty) {
+      return Customer(code: "DSTXXXX");
+    } else {
+      return customers[0];
+    }
   }
 
   static print_customer() async {

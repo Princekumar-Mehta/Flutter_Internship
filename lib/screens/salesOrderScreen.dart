@@ -10,6 +10,7 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/pdf_api.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 import 'confirmSalesOrder.dart';
 
@@ -39,23 +40,60 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         !shipping_address.isEmpty() &&
         !manufacturing_branch.isEmpty())) {
       order = getOrders!.getOrder();
-      order.customer = await Database_customer()
-          .get_customer(customer.getValue().toString());
-      order.billing_branch = await Database_customerBranch().get_customerBranch(
-          (billing_address.getValue().toString()).substring(0, 5));
-      order.shipping_branch = await Database_customerBranch()
-          .get_customerBranch(
-              shipping_address.getValue().toString().substring(0, 5));
-      order.manufacturing_Branch = manufacturing_branch.getValue();
-      _formKey.currentState!.save();
-      order.OrderBydate = _formKey.currentState!.value['order_date'];
-      order.salesPerson = MyDrawer.emp;
-      final file = await PdfApi.generatePDF(order: order);
-      await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ConfirmOrder(order: order, file: file)));
-      Navigator.pop(context);
+      order.customer = (await Database_customer()
+          .get_customer(customer.getValue().toString()));
+      if (order.customer.code == "DSTXXXX") {
+        Utility.showMessage(context,
+            "Customer Code is invalid. Please choose from the given dropdown.");
+      } else {
+        order.billing_branch = await Database_customerBranch()
+            .get_customerBranch(
+                (billing_address.getValue().toString()).substring(0, 5));
+        if (order.billing_branch.branch_Code == "BXXXX") {
+          Utility.showMessage(context,
+              "Billing Address is invalid. Please choose from the given dropdown.");
+        } else {
+          order.shipping_branch = await Database_customerBranch()
+              .get_customerBranch(
+                  shipping_address.getValue().toString().substring(0, 5));
+          if (order.shipping_branch.branch_Code == "BXXXX") {
+            Utility.showMessage(context,
+                "Shipping Address is invalid. Please choose from the given dropdown.");
+          } else {
+            if (order.shipping_branch.code == order.billing_branch.code) {
+              if (order.billing_branch.code == customer.getValue()) {
+                if (phone_number == order.billing_branch.branch_Phone &&
+                    email == order.billing_branch.branch_Email) {
+                  print(order.billing_branch.branch_Phone);
+                  print(order.billing_branch.branch_Email);
+                  print("Successful");
+                  order.manufacturing_Branch = manufacturing_branch.getValue();
+                  _formKey.currentState!.save();
+                  order.OrderBydate =
+                      _formKey.currentState!.value['order_date'];
+                  order.salesPerson = MyDrawer.emp;
+                  final file = await PdfApi.generatePDF(order: order);
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ConfirmOrder(order: order, file: file)));
+                  Navigator.pop(context);
+                } else {
+                  Utility.showMessage(context,
+                      "Mobile Number and Email ID have not been updated.\n\nPlease refresh the page and try again.");
+                }
+              } else {
+                Utility.showMessage(context,
+                    "Shipping Address and Billing Address do not match with available Customer Branches.\n\nPlease choose from the given dropdown.");
+              }
+            } else {
+              Utility.showMessage(context,
+                  "Shipping Address and Billing Address are not of the same Customer.\n\nPlease choose from the given dropdown.");
+            }
+          }
+        }
+      }
     }
   }
 

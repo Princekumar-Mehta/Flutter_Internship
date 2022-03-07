@@ -246,10 +246,10 @@ class DatabaseHelper {
 
     if (branchType == 0) {
       customer_branches = await db.rawQuery(
-          "SELECT * FROM customers_branches where code = '$customer_code' and branch_Type = 'Bill To / Ship To' or branch_Type = 'Bill To' order by branch_code;");
+          "SELECT * FROM customers_branches where code = '$customer_code' and (branch_Type = 'Bill To / Ship To' or branch_Type = 'Bill To') order by branch_code;");
     } else {
       customer_branches = await db.rawQuery(
-          "SELECT * FROM customers_branches where code = '$customer_code' and branch_Type = 'Bill To / Ship To' or branch_Type = 'Ship To' order by branch_code;");
+          "SELECT * FROM customers_branches where code = '$customer_code' and (branch_Type = 'Bill To / Ship To' or branch_Type = 'Ship To') order by branch_code;");
     }
     List<CustomerBranch> Customer_BranchList = customer_branches.isNotEmpty
         ? customer_branches.map((c) => CustomerBranch.fromMap((c))).toList()
@@ -345,7 +345,7 @@ class DatabaseHelper {
     List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
         ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
         : [];
-    print(FinalOrderList);
+    // print(FinalOrderList);
     return FinalOrderList;
   }
 
@@ -358,7 +358,7 @@ class DatabaseHelper {
       List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
           ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
           : [];
-      print(FinalOrderList);
+      // print(FinalOrderList);
       return FinalOrderList;
     } else {
       List<Map<String, dynamic>> final_orders = await db.rawQuery(
@@ -366,7 +366,7 @@ class DatabaseHelper {
       List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
           ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
           : [];
-      print(FinalOrderList);
+      // print(FinalOrderList);
       return FinalOrderList;
     }
   }
@@ -402,7 +402,7 @@ class DatabaseHelper {
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
-    print(LeaveRequestList);
+    // print(LeaveRequestList);
     return LeaveRequestList;
   }
 
@@ -427,7 +427,7 @@ class DatabaseHelper {
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
-    print(LeaveRequestList);
+    // print(LeaveRequestList);
     return LeaveRequestList;
   }
 
@@ -438,7 +438,7 @@ class DatabaseHelper {
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
-    print(LeaveRequestList);
+    // print(LeaveRequestList);
     return LeaveRequestList;
   }
 

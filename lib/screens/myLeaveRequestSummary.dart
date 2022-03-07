@@ -4,6 +4,8 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 
+import '../routes.dart';
+
 class myLeaveRequestSummary extends StatefulWidget {
   const myLeaveRequestSummary({Key? key}) : super(key: key);
 
@@ -338,6 +340,10 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
               width: MyScreen.getScreenWidth(context) * (85 / 294),
               height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
               child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, MyRoutes.MyLeaveRequestForm);
+                },
                 child: Stack(
                   children: [
                     Opacity(
@@ -362,7 +368,6 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
                     )
                   ],
                 ),
-                onTap: () {},
               ),
             ),
           ],
