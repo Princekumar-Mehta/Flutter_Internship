@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => OtpVerificationScreen(
                                       email: emp!.email.toString(),
                                       otp: otp!,
-                                      previous: "forgot password",
+                                      previous: "force reset",
                                     ))),
                         Navigator.pop(c, false),
                       }
@@ -64,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   moveToHome(BuildContext context) async {
-    DatabaseHelper.instance.insertAdminIfNot();
     await Database_signUp.print_emps();
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -91,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         MyDrawer.emp = emp!;
         await Future.delayed(const Duration(seconds: 1));
+        Navigator.pushReplacementNamed(context, MyRoutes.MyLogin);
         if (emp!.role == "Admin") {
           print(emp!.role);
           await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
@@ -98,7 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
           await Navigator.pushNamed(context, MyRoutes.MySalespersonHome);
           print(emp!.role);
         }
-        _formKey.currentState!.reset();
       }
     }
   }
@@ -106,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
+    DatabaseHelper.instance.insertAdminIfNot();
     return MaterialApp(
       home: Scaffold(
           backgroundColor: MyColors.richBlackFogra,
@@ -318,87 +318,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height:
                                           MyScreen.getScreenHeight(context) *
                                               (10 / 1063.6)),
-                                  // Text(
-                                  //   'or',
-                                  //   style: TextStyle(
-                                  //     fontWeight: FontWeight.bold,
-                                  //     fontSize:
-                                  //         MyScreen.getScreenHeight(context) *
-                                  //             (20 / 1063.6),
-                                  //     color: MyColors.black,
-                                  //   ),
-                                  // ),
-                                  // SizedBox(
-                                  //     height:
-                                  //         MyScreen.getScreenHeight(context) *
-                                  //             (10 / 1063.6)),
-                                  // SizedBox(
-                                  //     height:
-                                  //         MyScreen.getScreenHeight(context) *
-                                  //             (10 / 1063.6)),
-                                  // Row(
-                                  //   children: [
-                                  //     Container(
-                                  //         width:
-                                  //             MyScreen.getScreenWidth(context) *
-                                  //                 (228 / 294),
-                                  //         height: MyScreen.getScreenHeight(
-                                  //                 context) *
-                                  //             (45 / 1063.6),
-                                  //         decoration: BoxDecoration(
-                                  //           borderRadius: BorderRadius.circular(
-                                  //               MyScreen.getScreenHeight(
-                                  //                       context) *
-                                  //                   (5 / 553)),
-                                  //           color: MyColors.black,
-                                  //         ),
-                                  //         child: InkWell(
-                                  //             child: Stack(
-                                  //               children: [
-                                  //                 Container(
-                                  //                   width:
-                                  //                       MyScreen.getScreenWidth(
-                                  //                               context) *
-                                  //                           (50 / 490.9),
-                                  //                   height: MyScreen
-                                  //                           .getScreenHeight(
-                                  //                               context) *
-                                  //                       (45 / 1063.6),
-                                  //                   alignment: Alignment.center,
-                                  //                   child: Icon(
-                                  //                     Icons.account_circle,
-                                  //                     size: MyScreen
-                                  //                             .getScreenWidth(
-                                  //                                 context) *
-                                  //                         (35 / 490.9),
-                                  //                     color: MyColors.white,
-                                  //                   ),
-                                  //                 ),
-                                  //                 SizedBox(
-                                  //                   width:
-                                  //                       MyScreen.getScreenWidth(
-                                  //                               context) *
-                                  //                           (130 / 490.9),
-                                  //                 ),
-                                  //                 Center(
-                                  //                   child: Text("Sign Up",
-                                  //                       style: TextStyle(
-                                  //                           color:
-                                  //                               MyColors.white,
-                                  //                           fontWeight:
-                                  //                               FontWeight.bold,
-                                  //                           fontSize: MyScreen
-                                  //                                   .getScreenHeight(
-                                  //                                       context) *
-                                  //                               (11 / 553))),
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //             onTap: () => Navigator.pushNamed(
-                                  //                 context,
-                                  //                 MyRoutes.MySignUpEmail))),
-                                  //   ],
-                                  // ),
                                 ],
                               ),
                             ),

@@ -78,7 +78,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       MaterialPageRoute(
                           builder: (context) =>
                               ConfirmOrder(order: order, file: file)));
-                  Navigator.pop(context);
                 } else {
                   Utility.showMessage(context,
                       "Mobile Number and Email ID have not been updated.\n\nPlease refresh the page and try again.");

@@ -237,6 +237,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                               )));
                                   Navigator.pop(context);
                                   Navigator.pop(context);
+                                } else if (previous == "force reset") {
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ForgotPasswordScreen2(
+                                                email: email,
+                                              )));
+                                  Navigator.pop(context);
                                 }
                               } else {
                                 showMessage(context, "Wrong OTP", "none");

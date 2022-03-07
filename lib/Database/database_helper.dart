@@ -10,7 +10,6 @@ import 'package:sqflite/sqflite.dart';
 
 import 'customer.dart';
 import 'customer_branch.dart';
-import 'employee.dart';
 import 'final_order.dart';
 import 'item.dart';
 
@@ -42,7 +41,6 @@ class DatabaseHelper {
      password TEXT,
      role TEXT,
      status TEXT
-     profile_pic TEXT
     )
     ''');
     await db.execute('''

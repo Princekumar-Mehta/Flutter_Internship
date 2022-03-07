@@ -46,6 +46,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^19.4.53-beta
   syncfusion_flutter_signaturepad: ^19.4.53
   open_file: ^3.2.1
+  restart_app: ^1.1.0
 
 dev_dependencies:
   flutter_test:

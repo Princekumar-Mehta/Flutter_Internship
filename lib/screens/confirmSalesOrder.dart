@@ -46,6 +46,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
+                    height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
@@ -140,6 +141,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
     widget.order.addToDatabase();
     Database_Final_Order().getFinalOrders();
     Database_Final_Individual_Order().getFinalIndividualOrders();
+    Navigator.pop(context);
     Navigator.pop(context);
     // print(file.path);
   }

@@ -28,6 +28,7 @@ class Database_customer {
 
   Future<bool> get_customerIds() async {
     final customers = await DatabaseHelper.instance.getCustomers();
+    codes = [];
     customers.forEach((element) {
       codes.add(element.code!);
     });
