@@ -2,9 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 import 'forgotPasswordScreen2.dart';
 
@@ -246,6 +250,62 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                                 email: email,
                                               )));
                                   Navigator.pop(context);
+                                } else if (previous == "edit employee") {
+                                  Employee emp = await Utility.getEmployee(
+                                      MyDrawer.emp.email.toString());
+                                  emp.email = email;
+                                  Database_signUp().updateEmp(emp);
+                                  Send_Mail.send_mail(
+                                    MyDrawer.emp.email.toString(),
+                                    "Profile & Email Updated",
+                                    "If you did not perform the changes we recommend resetting your password.<br>Name: " +
+                                        MyDrawer.emp.name.toString() +
+                                        "<br>" +
+                                        "Employee ID: " +
+                                        MyDrawer.emp.id.toString() +
+                                        "<br>" +
+                                        "Email: " +
+                                        email +
+                                        "<br>"
+                                            "Password: " +
+                                        MyDrawer.emp.password.toString() +
+                                        "<br>"
+                                            "Role: " +
+                                        MyDrawer.emp.role.toString() +
+                                        "<br>",
+                                  );
+                                  MyDrawer.emp = emp;
+                                  Send_Mail.send_mail(
+                                    email,
+                                    "Profile & Email Updated",
+                                    "If you did not perform the changes we recommend resetting your password.<br>Name: " +
+                                        MyDrawer.emp.name.toString() +
+                                        "<br>" +
+                                        "Employee ID: " +
+                                        MyDrawer.emp.id.toString() +
+                                        "<br>" +
+                                        "Email: " +
+                                        email +
+                                        "<br>"
+                                            "Password: " +
+                                        MyDrawer.emp.password.toString() +
+                                        "<br>"
+                                            "Role: " +
+                                        MyDrawer.emp.role.toString() +
+                                        "<br>",
+                                  );
+                                  // Logic to refresh Drawer data
+                                  if (MyDrawer.emp.role.toString() == "Admin") {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  } else {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  }
+                                  Utility.showMessage(
+                                      context, "Profile & Email Updated");
+                                  // Logic to save info from edit employee screen to db
                                 }
                               } else {
                                 showMessage(context, "Wrong OTP", "none");

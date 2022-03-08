@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/screens/editEmployeeScreen.dart';
 
 import '../routes.dart';
 
@@ -68,11 +69,13 @@ class MyDrawer extends StatelessWidget {
             leading: const Icon(Icons.account_circle),
             iconColor: MyColors.scarlet,
             title: const Text('Profile'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+            onTap: () async {
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditEmployeeScreen(
+                            emp: MyDrawer.emp,
+                          )));
             },
           ),
           ListTile(
@@ -92,7 +95,7 @@ class MyDrawer extends StatelessWidget {
           ),
           Center(
             child: Column(
-              children: [
+              children: const [
                 Text('v 1.0.4'),
                 Text('Developed by Shivaay Software Services'),
               ],

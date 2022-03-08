@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
-import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/routes.dart';
+
+import 'editEmployeeScreen.dart';
 
 class SalespersonHome extends StatelessWidget {
   const SalespersonHome({Key? key}) : super(key: key);
@@ -207,12 +208,12 @@ class SalespersonHome extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () async {
-                              var _db_employee = Database_signUp();
-                              if (await _db_employee.getAllEmp()) {
-                                print(Database_signUp.emps);
-                                Navigator.pushNamed(
-                                    context, MyRoutes.MyEditEmployeeScreen);
-                              }
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditEmployeeScreen(
+                                            emp: MyDrawer.emp,
+                                          )));
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -35,12 +35,6 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                 color: MyColors.white,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        /*leading: IconButton(
-            icon: Icon(Icons.menu,
-                color: MyColors.scarlet,
-                size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-            onPressed: () {},
-          ),*/
         backgroundColor: MyColors.richBlackFogra,
       ),
       drawer: MyDrawer(),
@@ -178,8 +172,9 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 EditEmployeeScreen(
-                                                    emp: Database_signUp
-                                                        .emps[key])));
+                                                  emp:
+                                                      Database_signUp.emps[key],
+                                                )));
                                   }),
                             ],
                           ),
