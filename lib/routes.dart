@@ -14,4 +14,5 @@ class MyRoutes {
   static final MyLeaveRequestSummary = '/myLeaveRequestSummary';
   static final MySalespersonHome = '/salespersonHome';
   static final MyProcessingOrders = '/myProcessingOrders';
+  static final MySalespersonAttendance = '/mySalespersonAttendance';
 }

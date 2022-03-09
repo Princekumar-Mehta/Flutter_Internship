@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Database/db_Customer.dart';
@@ -90,7 +91,10 @@ class SalespersonHome extends StatelessWidget {
                               MyScreen.getScreenWidth(context) * (172 / 490.9),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, MyRoutes.MySalespersonAttendance);
+                          },
                           child: Text("View All",
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -114,146 +118,155 @@ class SalespersonHome extends StatelessWidget {
                     // Main
                     SizedBox(
                       height: MyScreen.getScreenHeight(context) * (86 / 1063.6),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, MyRoutes.MyLeaveRequestForm);
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: MyScreen.getScreenWidth(context) *
-                                      (53 / 490.9),
-                                  height: MyScreen.getScreenWidth(context) *
-                                      (53 / 490.9),
-                                  decoration: BoxDecoration(
-                                    color: MyColors.scarlet,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            MyScreen.getScreenHeight(context) *
-                                                (10 / 1063.6))),
-                                  ),
-                                  child: Icon(
-                                    Icons.time_to_leave,
-                                    size: MyScreen.getScreenHeight(context) *
-                                        (30 / 1063.6),
-                                    color: MyColors.black,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: MyScreen.getScreenHeight(context) *
-                                      (2 / 1063.6),
-                                ),
-                                Text("Request Leave",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (12 / 1063.6),
-                                      fontWeight: FontWeight.bold,
-                                      color: MyColors.black,
-                                    )),
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              if (await Database_leaveRequest()
-                                  .getAllRequestForEmp(MyDrawer.emp.id!)) {
+                      child: SingleChildScrollView(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
                                 Navigator.pushNamed(
-                                    context, MyRoutes.MyLeaveRequestSummary);
-                              }
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: MyScreen.getScreenWidth(context) *
-                                      (53 / 490.9),
-                                  height: MyScreen.getScreenWidth(context) *
-                                      (53 / 490.9),
-                                  decoration: BoxDecoration(
-                                    color: MyColors.scarlet,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            MyScreen.getScreenHeight(context) *
-                                                (10 / 1063.6))),
-                                  ),
-                                  child: Icon(
-                                    Icons.work_off,
-                                    size: MyScreen.getScreenHeight(context) *
-                                        (30 / 1063.6),
-                                    color: MyColors.black,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: MyScreen.getScreenWidth(context) *
-                                      (2 / 490.9),
-                                ),
-                                Text("Leave Requests",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (12 / 1063.6),
-                                      fontWeight: FontWeight.bold,
+                                    context, MyRoutes.MyLeaveRequestForm);
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.time_to_leave,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
                                       color: MyColors.black,
-                                    )),
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditEmployeeScreen(
-                                            emp: MyDrawer.emp,
-                                          )));
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: MyScreen.getScreenWidth(context) *
-                                      (53 / 490.9),
-                                  height: MyScreen.getScreenWidth(context) *
-                                      (53 / 490.9),
-                                  decoration: BoxDecoration(
-                                    color: MyColors.scarlet,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (2 / 1063.6),
+                                  ),
+                                  Text("Request Leave",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
                                             MyScreen.getScreenHeight(context) *
-                                                (10 / 1063.6))),
-                                  ),
-                                  child: Icon(
-                                    Icons.edit_location,
-                                    size: MyScreen.getScreenHeight(context) *
-                                        (30 / 1063.6),
-                                    color: MyColors.black,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: MyScreen.getScreenWidth(context) *
-                                      (2 / 490.9),
-                                ),
-                                Text("Edit Employee",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (12 / 1063.6),
-                                      fontWeight: FontWeight.bold,
-                                      color: MyColors.black,
-                                    )),
-                              ],
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            InkWell(
+                              onTap: () async {
+                                if (await Database_leaveRequest()
+                                    .getAllRequestForEmp(MyDrawer.emp.id!)) {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyLeaveRequestSummary);
+                                }
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.work_off,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Leave Requests",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditEmployeeScreen(
+                                              emp: MyDrawer.emp,
+                                            )));
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (53 / 490.9),
+                                    decoration: BoxDecoration(
+                                      color: MyColors.scarlet,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (10 / 1063.6))),
+                                    ),
+                                    child: Icon(
+                                      Icons.edit_location,
+                                      size: MyScreen.getScreenHeight(context) *
+                                          (30 / 1063.6),
+                                      color: MyColors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MyScreen.getScreenWidth(context) *
+                                        (2 / 490.9),
+                                  ),
+                                  Text("Edit Employee",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (12 / 1063.6),
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.black,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

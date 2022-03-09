@@ -46,89 +46,96 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
             ),
             backgroundColor: MyColors.richBlackFogra,
           ),
-          body: Column(
-            children: [
-              SizedBox(
-                height: MyScreen.getScreenHeight(context) * (577 / 1063.6),
-                width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
-                child: SfPdfViewer.file((widget.file)),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: MyColors.pewterBlue,
-                          width: 1.0,
+          body: SizedBox(
+            height: MyScreen.getScreenHeight(context) * (1063.6 / 1063.6),
+            width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MyScreen.getScreenHeight(context) * (577 / 1063.6),
+                  width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
+                  child: SfPdfViewer.file((widget.file)),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: MyColors.pewterBlue,
+                            width: 1.0,
+                          ),
                         ),
                       ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Confirm Order and Sign Below",
-                      style: TextStyle(
-                        color: MyColors.black,
-                        fontSize:
-                            MyScreen.getScreenHeight(context) * (20 / 1063.6),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: MyColors.pewterBlue,
-                          width: 1.0,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Confirm Order and Sign Below",
+                        style: TextStyle(
+                          color: MyColors.black,
+                          fontSize:
+                              MyScreen.getScreenHeight(context) * (20 / 1063.6),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                      width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
                     ),
-                    height: MyScreen.getScreenHeight(context) * (295 / 1063.6),
-                    width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
-                    child: SfSignaturePad(
-                      key: keySignaturePad,
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: MyColors.pewterBlue,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      height:
+                          MyScreen.getScreenHeight(context) * (295 / 1063.6),
+                      width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
+                      child: SfSignaturePad(
+                        key: keySignaturePad,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: MyScreen.getScreenWidth(context) / 2,
-                    color: MyColors.scarlet,
-                    child: TextButton(
-                        onPressed: onSubmit,
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(
-                              color: MyColors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (16 / 1063.6)),
-                        )),
-                  ),
-                  Container(
-                    width: MyScreen.getScreenWidth(context) / 2,
-                    color: MyColors.grullo,
-                    child: TextButton(
-                        onPressed: _handleClearButtonPressed,
-                        child: Text(
-                          "Clear",
-                          style: TextStyle(
-                              color: MyColors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (16 / 1063.6)),
-                        )),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      height: MyScreen.getScreenHeight(context) * (62 / 1063.6),
+                      width: MyScreen.getScreenWidth(context) / 2,
+                      color: MyColors.scarlet,
+                      child: TextButton(
+                          onPressed: onSubmit,
+                          child: Text(
+                            "Submit",
+                            style: TextStyle(
+                                color: MyColors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (16 / 1063.6)),
+                          )),
+                    ),
+                    Container(
+                      height: MyScreen.getScreenHeight(context) * (62 / 1063.6),
+                      width: MyScreen.getScreenWidth(context) / 2,
+                      color: MyColors.grullo,
+                      child: TextButton(
+                          onPressed: _handleClearButtonPressed,
+                          child: Text(
+                            "Clear",
+                            style: TextStyle(
+                                color: MyColors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (16 / 1063.6)),
+                          )),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

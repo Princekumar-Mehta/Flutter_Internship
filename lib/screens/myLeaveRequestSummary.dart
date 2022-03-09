@@ -3,6 +3,7 @@ import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 import '../routes.dart';
 
@@ -178,8 +179,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    Database_leaveRequest
-                                        .totalPendingLeaveRequestsForEmp
+                                    (Utility.totalLeaves -
+                                            Database_leaveRequest
+                                                .totalPendingLeaveRequestsForEmp)
                                         .toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,

@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
+import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/screens/viewOrderScreen.dart';
+
+import '../routes.dart';
 
 class ProcessingOrder extends StatefulWidget {
   const ProcessingOrder({Key? key}) : super(key: key);
@@ -70,7 +73,10 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: MyColors.grey,
+              color: Database_ApproveOrders.processingOrders[key].status !=
+                      "Rejected"
+                  ? MyColors.grey
+                  : Colors.red,
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
@@ -156,7 +162,7 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                                   ),
                                   onTap: () async {
                                     final file = File(Database_ApproveOrders
-                                        .pendingOrders[key].file_Address);
+                                        .processingOrders[key].file_Address);
                                     await Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -245,6 +251,103 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                           ),
                         ],
                       ),
+                      (Database_ApproveOrders.processingOrders[key].status !=
+                                  "Fulfilled" &&
+                              Database_ApproveOrders
+                                      .processingOrders[key].status !=
+                                  "Rejected")
+                          ? InkWell(
+                              onTap: () async {
+                                if (await Database_ApproveOrders()
+                                    .RejectOrder(key)) {
+                                  Send_Mail.send_mail(
+                                      Database_ApproveOrders
+                                          .customers[key].email!,
+                                      "Order Cancelled",
+                                      "Your following order is cancelled.<br><br><u>Order Details</u><br>Order ID: " +
+                                          Database_ApproveOrders
+                                              .processingOrders[key].order_Id
+                                              .toString() +
+                                          "<br>Total: " +
+                                          Database_ApproveOrders
+                                              .processingOrders[key].total
+                                              .toString());
+                                  Navigator.pop(context);
+                                  var _processingOrders =
+                                      Database_ApproveOrders();
+                                  if (await _processingOrders
+                                      .getProcessingOrders(MyDrawer.emp.id!,
+                                          MyDrawer.emp.role!)) {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.MyProcessingOrders);
+                                  }
+                                }
+                              },
+                              child: Container(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (40 / 490.9),
+                                height: MyScreen.getScreenWidth(context) *
+                                    (40 / 490.9),
+                                color: MyColors.pewterBlue,
+                                child: Icon(
+                                  Icons.cancel,
+                                  color: MyColors.richBlackFogra,
+                                  size: MyScreen.getScreenHeight(context) *
+                                      (30 / 1063.6),
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              height: MyScreen.getScreenHeight(context) *
+                                  (0 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  (0 / 1063.6),
+                            ),
+                      (Database_ApproveOrders.processingOrders[key].status !=
+                                  "Fulfilled" &&
+                              Database_ApproveOrders
+                                      .processingOrders[key].status !=
+                                  "Rejected")
+                          ? InkWell(
+                              onTap: () async {
+                                if (await Database_ApproveOrders()
+                                    .FulfilledOrder(key)) {
+                                  Send_Mail.send_mail(
+                                      Database_ApproveOrders
+                                          .customers[key].email!,
+                                      "Order Delivered",
+                                      "Your Order has been delivered");
+                                  Navigator.pop(context);
+                                  var _processingOrders =
+                                      Database_ApproveOrders();
+                                  if (await _processingOrders
+                                      .getProcessingOrders(MyDrawer.emp.id!,
+                                          MyDrawer.emp.role!)) {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.MyProcessingOrders);
+                                  }
+                                }
+                              },
+                              child: Container(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (40 / 490.9),
+                                height: MyScreen.getScreenWidth(context) *
+                                    (40 / 490.9),
+                                color: MyColors.scarlet,
+                                child: Icon(
+                                  Icons.check,
+                                  color: MyColors.richBlackFogra,
+                                  size: MyScreen.getScreenHeight(context) *
+                                      (30 / 1063.6),
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              height: MyScreen.getScreenHeight(context) *
+                                  (0 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  (0 / 1063.6),
+                            ),
                     ],
                   ),
                   Container(

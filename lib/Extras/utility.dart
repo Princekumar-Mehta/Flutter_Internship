@@ -8,6 +8,8 @@ import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/employee.dart';
 
 class Utility {
+  static int totalLeaves = 30;
+
   static Future<File> getImageFileFromAssets(String path) async {
     final byteData = await rootBundle.load('assets/$path');
 

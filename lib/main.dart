@@ -10,6 +10,7 @@ import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
+import 'package:project_v3/screens/salespersonAttendance.dart';
 import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyLeaveRequestSummary: (context) => myLeaveRequestSummary(),
         MyRoutes.MySalespersonHome: (context) => SalespersonHome(),
         MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
+        MyRoutes.MySalespersonAttendance: (context) => SalespersonAttendance(),
       },
     );
   }

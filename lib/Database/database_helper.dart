@@ -361,10 +361,18 @@ class DatabaseHelper {
       return FinalOrderList;
     } else {
       List<Map<String, dynamic>> final_orders = await db.rawQuery(
-          "SELECT * FROM final_order where status = 'Processing' and salesperson_Code = $emp_id");
+          "SELECT * FROM final_order where status = 'Processing' and salesperson_Code = $emp_id order by order_by_date asc");
+      List<Map<String, dynamic>> fulfilled_orders = await db.rawQuery(
+          "SELECT * FROM final_order where (status = 'Fulfilled' or status = 'Rejected') and salesperson_Code = $emp_id order by order_by_date desc");
       List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
           ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
           : [];
+      List<FinalOrder> FulfilledOrderList = fulfilled_orders.isNotEmpty
+          ? fulfilled_orders.map((c) => FinalOrder.fromMap((c))).toList()
+          : [];
+      for (int i = 0; i < FulfilledOrderList.length; i++) {
+        FinalOrderList.add(FulfilledOrderList[i]);
+      }
       // print(FinalOrderList);
       return FinalOrderList;
     }

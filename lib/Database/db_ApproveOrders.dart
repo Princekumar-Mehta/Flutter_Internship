@@ -15,11 +15,13 @@ class Database_ApproveOrders {
     pendingOrders = await DatabaseHelper.instance.getPendingOrders();
     shipping_Branches = [];
     customers = [];
-    for (int i = 0; i < pendingOrders.length; i++) {
-      shipping_Branches.add(await Database_customerBranch()
-          .get_customerBranch(pendingOrders[i].shipping_Branch_Code));
-      customers.add(await Database_customer()
-          .get_customer(pendingOrders[i].customer_Code));
+    if (pendingOrders.length != 0) {
+      for (int i = 0; i < pendingOrders.length; i++) {
+        shipping_Branches.add(await Database_customerBranch()
+            .get_customerBranch(pendingOrders[i].shipping_Branch_Code));
+        customers.add(await Database_customer()
+            .get_customer(pendingOrders[i].customer_Code));
+      }
     }
     return true;
   }
@@ -38,17 +40,27 @@ class Database_ApproveOrders {
     return true;
   }
 
+  Future<bool> FulfilledOrder(key) async {
+    processingOrders[key].status = 'Fulfilled';
+    DatabaseHelper.instance.updateOrder(processingOrders[key]);
+    return true;
+  }
+
+  Future<bool> RejectOrder(key) async {
+    processingOrders[key].status = 'Rejected';
+    DatabaseHelper.instance.updateOrder(processingOrders[key]);
+    return true;
+  }
+
   Future<bool> ApproveFinalOrder(key) async {
     pendingOrders[key].status = 'Processing';
     DatabaseHelper.instance.updateOrder(pendingOrders[key]);
-    if (await Database_ApproveOrders().getPendingOrders()) return true;
-    return false;
+    return true;
   }
 
   Future<bool> CancelFinalOrder(key) async {
     pendingOrders[key].status = 'Rejected';
     DatabaseHelper.instance.updateOrder(pendingOrders[key]);
-    if (await Database_ApproveOrders().getPendingOrders()) return true;
-    return false;
+    return true;
   }
 }

@@ -252,12 +252,17 @@ class _ApproveOrderState extends State<ApproveOrder> {
                         onTap: () async {
                           if (await Database_ApproveOrders()
                               .CancelFinalOrder(key)) {
-                            setState(() {});
+                            Send_Mail.send_mail(
+                                Database_ApproveOrders.customers[key].email!,
+                                "Order Cancelled",
+                                "Your Order is Cancelled");
+                            Navigator.pop(context);
+                            var _pendingOrders = Database_ApproveOrders();
+                            if (await _pendingOrders.getPendingOrders()) {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.MyApproveOrder);
+                            }
                           }
-                          Send_Mail.send_mail(
-                              Database_ApproveOrders.customers[key].email!,
-                              "Order Cancelled",
-                              "Your Orders is Cancelled");
                         },
                         child: Container(
                           width:
@@ -280,7 +285,7 @@ class _ApproveOrderState extends State<ApproveOrder> {
                             Send_Mail.send_mail(
                                 Database_ApproveOrders.customers[key].email!,
                                 "Order Confirmed",
-                                "Your Orders is now under processing");
+                                "Your Order is now under processing");
                             Navigator.pop(context);
                             var _pendingOrders = Database_ApproveOrders();
                             if (await _pendingOrders.getPendingOrders()) {

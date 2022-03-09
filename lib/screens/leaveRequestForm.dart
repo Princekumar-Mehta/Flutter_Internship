@@ -7,6 +7,8 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 
+import '../routes.dart';
+
 enum ReasonSelected { self, family, vacation, leave, civil, other }
 
 class LeaveRequestForm extends StatefulWidget {
@@ -41,7 +43,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
     );
   }
 
-  applyLeave(BuildContext context) {
+  applyLeave(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       String reasondesc = _formKey.currentState!.value['reason_desc'] == null ||
@@ -71,6 +73,10 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
           todate: todate,
           emp_id: emp_id,
           status: "Pending");
+      Navigator.pop(context);
+      if (await Database_leaveRequest().getAllRequestForEmp(MyDrawer.emp.id!)) {
+        Navigator.pushNamed(context, MyRoutes.MyLeaveRequestSummary);
+      }
     }
   }
 
