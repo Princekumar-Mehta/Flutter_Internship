@@ -352,9 +352,9 @@ class _LeaveRequestState extends State<LeaveRequest> {
 
                               if (await Database_leaveRequest()
                                   .getAllRequest()) {
+                                Navigator.pop(context);
                                 Navigator.pushNamed(
                                     context, MyRoutes.MyLeaveRequest);
-                                Navigator.pop(context);
                               }
                             }
                           },

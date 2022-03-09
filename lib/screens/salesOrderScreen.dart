@@ -69,10 +69,13 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   print("Successful");
                   order.manufacturing_Branch = manufacturing_branch.getValue();
                   _formKey.currentState!.save();
-                  order.OrderBydate =
-                      _formKey.currentState!.value['order_date'];
+                  order.OrderBydate = _formKey
+                      .currentState!.value['order_by_date']
+                      .toString()
+                      .split(" ")[0];
                   order.salesPerson = MyDrawer.emp;
                   final file = await PdfApi.generatePDF(order: order);
+                  print("Date is :" + order.OrderBydate);
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -376,7 +379,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                           inputType: InputType.date,
                           format: DateFormat('dd-MM-yyyy'),
                           firstDate: DateTime.now(),
-                          name: 'date',
+                          name: 'order_by_date',
                           style: TextStyle(
                               color: MyColors.pewterBlue,
                               fontSize: MyScreen.getScreenHeight(context) *

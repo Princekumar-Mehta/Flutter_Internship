@@ -35,10 +35,21 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back,
+                  color: MyColors.scarlet,
+                  size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            backgroundColor: MyColors.richBlackFogra,
+          ),
           body: Column(
             children: [
               SizedBox(
-                height: MyScreen.getScreenHeight(context) * (650 / 1063.6),
+                height: MyScreen.getScreenHeight(context) * (577 / 1063.6),
                 width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
                 child: SfPdfViewer.file((widget.file)),
               ),

@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySalesOrder: (context) => SalesOrderScreen(),
         MyRoutes.MyForgotPasswordScreen1: (context) => ForgotPasswordScreen1(),
         MyRoutes.MyForgotPasswordScreen2: (context) => ForgotPasswordScreen2(),
-        MyRoutes.MyAdminHome: (context) => adminHome(),
+        MyRoutes.MyAdminHome: (context) => AdminHome(),
         MyRoutes.MyLeaveRequest: (context) => LeaveRequest(),
         MyRoutes.MyApproveOrder: (context) => ApproveOrder(),
         MyRoutes.MyLeaveRequestForm: (context) => LeaveRequestForm(),

@@ -7,8 +7,8 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/routes.dart';
 
-class adminHome extends StatelessWidget {
-  const adminHome({Key? key}) : super(key: key);
+class AdminHome extends StatelessWidget {
+  const AdminHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

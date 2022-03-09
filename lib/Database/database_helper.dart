@@ -133,7 +133,8 @@ class DatabaseHelper {
        fromdate TEXT,
        todate TEXT,
        emp_id INTEGER,
-       status TEXT
+       status TEXT,
+       days INTEGER
     )
     ''');
   }

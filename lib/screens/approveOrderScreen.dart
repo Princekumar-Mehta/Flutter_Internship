@@ -8,6 +8,8 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/screens/viewOrderScreen.dart';
 
+import '../routes.dart';
+
 class ApproveOrder extends StatefulWidget {
   const ApproveOrder({Key? key}) : super(key: key);
 
@@ -279,7 +281,12 @@ class _ApproveOrderState extends State<ApproveOrder> {
                                 Database_ApproveOrders.customers[key].email!,
                                 "Order Confirmed",
                                 "Your Orders is now under processing");
-                            setState(() {});
+                            Navigator.pop(context);
+                            var _pendingOrders = Database_ApproveOrders();
+                            if (await _pendingOrders.getPendingOrders()) {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.MyApproveOrder);
+                            }
                           }
                         },
                         child: Container(

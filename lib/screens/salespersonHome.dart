@@ -163,7 +163,7 @@ class SalespersonHome extends StatelessWidget {
                           InkWell(
                             onTap: () async {
                               if (await Database_leaveRequest()
-                                  .getAllRequest()) {
+                                  .getAllRequestForEmp(MyDrawer.emp.id!)) {
                                 Navigator.pushNamed(
                                     context, MyRoutes.MyLeaveRequestSummary);
                               }
