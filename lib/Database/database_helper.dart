@@ -4,12 +4,14 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Database/final_individual_order.dart';
+import 'package:project_v3/Database/hourly_attendance.dart';
 import 'package:project_v3/Database/leave_request.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'customer.dart';
 import 'customer_branch.dart';
+import 'daily_attendance.dart';
 import 'final_order.dart';
 import 'item.dart';
 
@@ -38,8 +40,10 @@ class DatabaseHelper {
      id INTEGER PRIMARY KEY AUTOINCREMENT,
      name TEXT,
      email TEXT,
+     phone TEXT,
      password TEXT,
      role TEXT,
+     managerid TEXT,
      status TEXT
     )
     ''');
@@ -135,6 +139,24 @@ class DatabaseHelper {
        emp_id INTEGER,
        status TEXT,
        days INTEGER
+    )
+    ''');
+    await db.execute('''
+    CREATE TABLE hourly_attendance(
+      hourly_attendace_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      emp_id INTEGER,
+      date TEXT,
+      time TEXT,
+      latitude TEXT,
+      longitude TEXT
+    )
+    ''');
+    await db.execute('''
+    CREATE TABLE daily_attendance(
+      daily_attendance_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      emp_id INTEGER,
+      date TEXT,
+      hours TEXT
     )
     ''');
   }
@@ -453,5 +475,43 @@ class DatabaseHelper {
     Database db = await instance.database;
     await db.rawQuery(
         "UPDATE leave_requests SET status = '${leaveRequest.status}' where request_Id = ${leaveRequest.request_Id}");
+  }
+
+  Future<int> addHourlyAttendance(Hourly_Attendance hourly_attendance) async {
+    Database db = await instance.database;
+    return await db.insert('hourly_attendance', hourly_attendance.toMap());
+  }
+
+  Future<List<Hourly_Attendance>> getHourlyAttendance(
+      int emp_id, String date) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> hourly_attendance = await db.rawQuery(
+        "SELECT * FROM hourly_attendance where (emp_id = $emp_id and date = '$date')");
+    List<Hourly_Attendance> HourlyAttendanceList = hourly_attendance.isNotEmpty
+        ? hourly_attendance.map((c) => Hourly_Attendance.fromMap((c))).toList()
+        : [];
+    return HourlyAttendanceList;
+  }
+
+  Future<int> addDailyAttendance(Daily_Attendance daily_attendance) async {
+    Database db = await instance.database;
+    return await db.insert('daily_attendance', daily_attendance.toMap());
+  }
+
+  updateDailyAttendance(Daily_Attendance daily_attendance) async {
+    Database db = await instance.database;
+    await db.rawQuery(
+        "UPDATE daily_attendance SET hours = '${daily_attendance.hours}' where date = ${daily_attendance.date}");
+  }
+
+  Future<List<Daily_Attendance>> getDailyAttendance(
+      int emp_id, String date) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> daily_attendance = await db.rawQuery(
+        "SELECT * FROM daily_attendance where (emp_id = $emp_id and date = '$date')");
+    List<Daily_Attendance> DailyAttendanceList = daily_attendance.isNotEmpty
+        ? daily_attendance.map((c) => Daily_Attendance.fromMap((c))).toList()
+        : [];
+    return DailyAttendanceList;
   }
 }

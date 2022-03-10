@@ -3,16 +3,20 @@ class Employee {
   int? id;
   String? name;
   String? email;
+  String? phone;
   String? password;
   String? role;
+  String? managerid;
   String? status;
   Employee(
       {this.profile_pic,
       this.id,
       this.name,
       this.email,
+      this.phone,
       this.password,
       this.role,
+      this.managerid,
       this.status});
 
   factory Employee.fromMap(Map<String, dynamic> json) => Employee(
@@ -20,8 +24,10 @@ class Employee {
       id: json['id'],
       name: json['name'],
       email: json['email'],
+      phone: json['phone'],
       password: json['password'],
       role: json['role'],
+      managerid: json['managerid'],
       status: json['status']);
   Map<String, dynamic> toMap() {
     return {
@@ -29,8 +35,10 @@ class Employee {
       'id': id,
       'name': name,
       'email': email,
+      'phone': phone,
       'password': password,
       'role': role,
+      'managerid': managerid,
       'status': status
     };
   }

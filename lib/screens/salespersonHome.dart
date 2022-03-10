@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
+import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
@@ -354,9 +355,16 @@ class SalespersonHome extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, MyRoutes.MySalespersonAttendance);
+                            onTap: () async {
+                              if (await Database_Hourly_Attendance()
+                                  .getHourlyAttendance(
+                                      MyDrawer.emp.id!,
+                                      DateTime.now()
+                                          .toString()
+                                          .split(" ")[0])) {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MySalespersonAttendance);
+                              }
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

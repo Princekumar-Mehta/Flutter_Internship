@@ -25,8 +25,19 @@ class Utility {
     Database_signUp.addEmp(
         name: "Admin",
         email: "pam2020se@gmail.com",
+        phone: "1234567890",
         password: "Admin@123",
         role: "Admin",
+        managerid: "2",
+        status: "Approved",
+        profile_pic: _pickedImage.path);
+    Database_signUp.addEmp(
+        name: "Prince Mehta",
+        email: "18bce111@nirmauni.ac.in",
+        phone: "1234567890",
+        password: "Manager@123",
+        role: "General Manager",
+        managerid: "2",
         status: "Approved",
         profile_pic: _pickedImage.path);
   }

@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:project_v3/Database/db_daily_attendance.dart';
+import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SalespersonAttendance extends StatefulWidget {
@@ -14,11 +17,105 @@ class SalespersonAttendance extends StatefulWidget {
 
 class _SalespersonAttendanceState extends State<SalespersonAttendance> {
   List<TableRow> tableRows = [];
+  String firsttime = "";
+  String lasttime = "";
+  String meridian = "";
+  addHourlyAttendance() async {
+    if (Database_Hourly_Attendance.hourly_attendance.length > 0) {
+      String previousTime = Database_Hourly_Attendance
+          .hourly_attendance[
+              Database_Hourly_Attendance.hourly_attendance.length - 1]
+          .time;
+      String currentTime =
+          DateTime.now().toString().split(" ")[1].substring(0, 5);
+      print(previousTime);
+      print(currentTime);
+      int hourdifference = int.parse(previousTime.split(":")[1]) <=
+              int.parse(currentTime.split(":")[1])
+          ? int.parse(currentTime.split(":")[0]) -
+              int.parse(previousTime.split(":")[0])
+          : int.parse(currentTime.split(":")[0]) -
+              int.parse(previousTime.split(":")[0]) -
+              1;
+
+      int minutedifference = int.parse(previousTime.split(":")[1]) <=
+              int.parse(currentTime.split(":")[1])
+          ? int.parse(currentTime.split(":")[1]) -
+              int.parse(previousTime.split(":")[1])
+          : 60 -
+              (int.parse(previousTime.split(":")[1]) -
+                  int.parse(currentTime.split(":")[1]));
+      print(hourdifference.toString());
+      print(minutedifference.toString());
+      if (hourdifference < 1 && minutedifference < 59) {
+        Utility.showMessage(
+            context, "Please Try After ${60 - minutedifference} minutes");
+        return;
+      }
+    }
+
+    Position position = await _determinePosition();
+    String latitude = position.latitude.toStringAsFixed(6);
+    String longitude = position.longitude.toStringAsFixed(6);
+    print("Latitude: " + latitude);
+    print("Longitude: " + longitude);
+    String time = DateTime.now().toString().split(" ")[1].substring(0, 5);
+    String date = DateTime.now().toString().split(" ")[0];
+
+    if (int.parse(time.substring(0, 2)) < 12) {
+      meridian = "AM";
+    } else {
+      meridian = "PM";
+    }
+    print("Date: " + date + "\n");
+    print("Time: " + time + " " + meridian);
+    Database_Hourly_Attendance.addHourlyAttendance(
+      emp_id: MyDrawer.emp.id!,
+      date: date,
+      time: time,
+      latitude: latitude,
+      longitude: longitude,
+    );
+    // Navigator.pop(context);
+    if (await Database_Hourly_Attendance().getHourlyAttendance(
+        MyDrawer.emp.id!, DateTime.now().toString().split(" ")[0])) {
+      // Navigator.pushNamed(context, MyRoutes.MySalespersonAttendance);
+      setState(() {});
+    }
+  }
+
+  updateDailyAttendance(int i) {
+    lasttime = Database_Hourly_Attendance.hourly_attendance[i].time;
+    // print(firsttime);
+    //  print(lasttime);
+    int hourdifference = int.parse(firsttime.split(":")[1]) <=
+            int.parse(lasttime.split(":")[1])
+        ? int.parse(lasttime.split(":")[0]) - int.parse(firsttime.split(":")[0])
+        : int.parse(lasttime.split(":")[0]) -
+            int.parse(firsttime.split(":")[0]) -
+            1;
+    //print(hourdifference.toString());
+    int minutedifference = int.parse(firsttime.split(":")[1]) <=
+            int.parse(lasttime.split(":")[1])
+        ? int.parse(lasttime.split(":")[1]) - int.parse(firsttime.split(":")[1])
+        : 60 -
+            (int.parse(firsttime.split(":")[1]) -
+                int.parse(lasttime.split(":")[1]));
+    // print(minutedifference.toString());
+    String hours =
+        hourdifference.toString() + ":" + minutedifference.toString();
+    // print("Hours: " + hours);
+    String date = DateTime.now().toString().split(" ")[0];
+    Database_Daily_Attendance().updateDailyAttendance(
+        emp_id: MyDrawer.emp.id!, date: date, hours: hours);
+  }
 
   @override
   Widget build(BuildContext context) {
     tableRows = [];
-    for (int i = -1; i < 8; i++) {
+    for (int i = -1;
+        i < Database_Hourly_Attendance.hourly_attendance.length;
+        i++) {
       if (i == -1) {
         tableRows.add(TableRow(children: [
           Column(children: [
@@ -53,10 +150,48 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
           ]),
         ]));
       } else {
+        if (i == 0) {
+          firsttime = Database_Hourly_Attendance.hourly_attendance[i].time;
+        } else if (i ==
+            Database_Hourly_Attendance.hourly_attendance.length - 1) {
+          updateDailyAttendance(i);
+        }
         tableRows.add(TableRow(children: [
           Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  Database_Hourly_Attendance.hourly_attendance[i].time + " ",
+                  style: TextStyle(
+                    color: MyColors.white,
+                    fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                int.parse(Database_Hourly_Attendance.hourly_attendance[i].time
+                            .split(":")[0]) <
+                        12
+                    ? Text("AM",
+                        style: TextStyle(
+                          color: MyColors.white,
+                          fontSize:
+                              MyScreen.getScreenHeight(context) * (18 / 1063.6),
+                          fontWeight: FontWeight.bold,
+                        ))
+                    : Text("PM",
+                        style: TextStyle(
+                          color: MyColors.white,
+                          fontSize:
+                              MyScreen.getScreenHeight(context) * (18 / 1063.6),
+                          fontWeight: FontWeight.bold,
+                        )),
+              ],
+            ),
+          ]),
+          Column(children: [
             Text(
-              "XX:XX AM/PM",
+              Database_Hourly_Attendance.hourly_attendance[i].latitude,
               style: TextStyle(
                 color: MyColors.white,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
@@ -66,17 +201,7 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
           ]),
           Column(children: [
             Text(
-              "123.666666",
-              style: TextStyle(
-                color: MyColors.white,
-                fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ]),
-          Column(children: [
-            Text(
-              "123.666666",
+              Database_Hourly_Attendance.hourly_attendance[i].longitude,
               style: TextStyle(
                 color: MyColors.white,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
@@ -241,30 +366,13 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                   ),
                 ),
                 SizedBox(
-                  height: MyScreen.getScreenHeight(context) * (550 / 1063.6),
+                  height: MyScreen.getScreenHeight(context) * (40 / 1063.6),
                 ),
                 SizedBox(
                   width: MyScreen.getScreenWidth(context) * (130 / 294),
                   height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                   child: InkWell(
-                    onTap: () async {
-                      Position position = await _determinePosition();
-                      print(
-                          "Latitude: " + position.latitude.toStringAsFixed(6));
-                      print("Longitude: " +
-                          position.longitude.toStringAsFixed(6));
-                      String time = DateTime.now()
-                          .toString()
-                          .split(" ")[1]
-                          .substring(0, 5);
-                      String meridian = "";
-                      if (int.parse(time.substring(0, 2)) < 12) {
-                        meridian = "AM";
-                      } else {
-                        meridian = "PM";
-                      }
-                      print("Time: " + time + " " + meridian);
-                    },
+                    onTap: () => addHourlyAttendance(),
                     child: Stack(
                       children: [
                         Opacity(

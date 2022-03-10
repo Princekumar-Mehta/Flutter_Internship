@@ -7,16 +7,20 @@ class Database_signUp {
     required String name,
     required String profile_pic,
     required String email,
+    required String phone,
     required String password,
     required String role,
+    required String managerid,
     required String status,
   }) async {
     await DatabaseHelper.instance.addEmp(Employee(
         profile_pic: profile_pic,
         name: name,
         email: email,
+        phone: phone,
         password: password,
         role: role,
+        managerid: managerid,
         status: status));
   }
 

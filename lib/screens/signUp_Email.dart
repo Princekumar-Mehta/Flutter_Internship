@@ -97,14 +97,18 @@ class _SignUpEmailState extends State<SignUpEmail> {
         LoadImage();
       }
       String name = _formKey.currentState!.value['full_name'];
+      String phone = _formKey.currentState!.value['phone'];
       String password = _formKey.currentState!.value['password_1'];
       String role = _formKey.currentState!.value['role'];
+      String managerid = "2";
       await Database_signUp.addEmp(
         profile_pic: _pickedImage!.path,
         name: name,
         email: email,
+        phone: phone,
         password: password,
         role: role,
+        managerid: managerid,
         status: "Approved",
       );
       Employee? emp = await Database_signUp.getEmp(email: email, id: 0);
@@ -278,6 +282,44 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                   return "Please Enter Email ID";
                                 } else if (!regexem.hasMatch(value)) {
                                   return "Enter Proper Email ID";
+                                }
+                                return null;
+                              }),
+                        ),
+                        SizedBox(
+                            height:
+                                MyScreen.getScreenHeight(context) * (6 / 553)),
+                        SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (228 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                          child: Text("Mobile Number *",
+                              style: TextStyle(
+                                  color: MyColors.pewterBlue,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6))),
+                        ),
+                        SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (228 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                          child: FormBuilderTextField(
+                              name: 'phone',
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: MyColors.pewterBlue)),
+                              ),
+                              style: TextStyle(
+                                  color: MyColors.middleRed,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (25 / 1063.6)),
+                              validator: (value) {
+                                RegExp regexem = RegExp(r'^[0-9]{10}$');
+                                if (value == null || value.isEmpty) {
+                                  return "Please Enter Mobile Number";
+                                } else if (!regexem.hasMatch(value)) {
+                                  return "Enter Valid Mobile Number";
                                 }
                                 return null;
                               }),
