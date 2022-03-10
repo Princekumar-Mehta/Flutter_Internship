@@ -1,14 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../routes.dart';
+class SalespersonAttendance extends StatefulWidget {
+  @override
+  State<SalespersonAttendance> createState() => _SalespersonAttendanceState();
+}
 
-class SalespersonAttendance extends StatelessWidget {
+class _SalespersonAttendanceState extends State<SalespersonAttendance> {
   List<TableRow> tableRows = [];
+
   @override
   Widget build(BuildContext context) {
     tableRows = [];
@@ -166,22 +172,24 @@ class SalespersonAttendance extends StatelessWidget {
                                           MyScreen.getScreenHeight(context) *
                                               (8 / 1063.6),
                                     ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.phone,
-                                          size: MyScreen.getScreenHeight(
-                                                  context) *
-                                              (25 / 1063.6),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                              MyScreen.getScreenWidth(context) *
-                                                  (10 / 490.9),
-                                        ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Text(
+                                    InkWell(
+                                      onTap: () {
+                                        launch("tel:1234567891");
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.phone,
+                                            size: MyScreen.getScreenHeight(
+                                                    context) *
+                                                (25 / 1063.6),
+                                          ),
+                                          SizedBox(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (10 / 490.9),
+                                          ),
+                                          Text(
                                             "12345 67891",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -191,13 +199,13 @@ class SalespersonAttendance extends StatelessWidget {
                                                       (15 / 1063.6),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                              MyScreen.getScreenWidth(context) *
-                                                  (125 / 490.9),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (125 / 490.9),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -239,9 +247,23 @@ class SalespersonAttendance extends StatelessWidget {
                   width: MyScreen.getScreenWidth(context) * (130 / 294),
                   height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, MyRoutes.MyLeaveRequestForm);
+                    onTap: () async {
+                      Position position = await _determinePosition();
+                      print(
+                          "Latitude: " + position.latitude.toStringAsFixed(6));
+                      print("Longitude: " +
+                          position.longitude.toStringAsFixed(6));
+                      String time = DateTime.now()
+                          .toString()
+                          .split(" ")[1]
+                          .substring(0, 5);
+                      String meridian = "";
+                      if (int.parse(time.substring(0, 2)) < 12) {
+                        meridian = "AM";
+                      } else {
+                        meridian = "PM";
+                      }
+                      print("Time: " + time + " " + meridian);
                     },
                     child: Stack(
                       children: [
@@ -262,7 +284,7 @@ class SalespersonAttendance extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Icon(
-                                Icons.my_location_rounded,
+                                Icons.location_history,
                                 size: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6),
                                 color: MyColors.richBlackFogra,
@@ -287,5 +309,26 @@ class SalespersonAttendance extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error("Location Service are disabled");
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error("Location permission denied");
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error("Location Permission are permanently denied");
+    }
+    Position position = await Geolocator.getCurrentPosition();
+    return position;
   }
 }
