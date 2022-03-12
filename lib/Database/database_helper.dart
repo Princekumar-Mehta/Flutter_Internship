@@ -44,7 +44,8 @@ class DatabaseHelper {
      password TEXT,
      role TEXT,
      managerid TEXT,
-     status TEXT
+     status TEXT,
+    darkTheme INTEGER
     )
     ''');
     await db.execute('''

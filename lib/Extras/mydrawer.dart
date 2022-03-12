@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -42,14 +43,22 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.search),
+            leading: const Icon(Icons.dark_mode),
             iconColor: MyColors.scarlet,
-            title: const Text('Search'),
+            title: const Text('Theme'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              if (MyDrawer.emp.darkTheme == 1) {
+                MyColors().lightTheme();
+                MyDrawer.emp.darkTheme = 0;
+                Database_signUp().updateEmp(MyDrawer.emp);
+              } else {
+                MyColors().darkTheme();
+                MyDrawer.emp.darkTheme = 1;
+                Database_signUp().updateEmp(MyDrawer.emp);
+              }
+              Navigator.of(context)
+                  .popUntil(ModalRoute.withName(MyRoutes.MyLogin));
+              Navigator.pushReplacementNamed(context, MyRoutes.MyLogin);
             },
           ),
           ListTile(

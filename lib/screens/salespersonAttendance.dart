@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_daily_attendance.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
@@ -9,6 +10,8 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../routes.dart';
 
 class SalespersonAttendance extends StatefulWidget {
   @override
@@ -267,8 +270,8 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                   height: MyScreen.getScreenWidth(context) *
                                       (50 / 490.9),
                                   color: MyColors.richBlackFogra,
-                                  child: Image.file(
-                                      File(MyDrawer.emp.profile_pic!)),
+                                  child: Image.file(File(
+                                      Database_signUp.manager.profile_pic!)),
                                 ),
                                 SizedBox(
                                   width: MyScreen.getScreenWidth(context) *
@@ -282,7 +285,7 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                     Row(
                                       children: [
                                         Text(
-                                          MyDrawer.emp.name!,
+                                          Database_signUp.manager.name!,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: MyScreen.getScreenHeight(
@@ -315,7 +318,7 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                                 (10 / 490.9),
                                           ),
                                           Text(
-                                            "12345 67891",
+                                            Database_signUp.manager.phone!,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize:
@@ -327,8 +330,35 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                           SizedBox(
                                             width: MyScreen.getScreenWidth(
                                                     context) *
-                                                (125 / 490.9),
+                                                (100 / 490.9),
                                           ),
+                                          MyDrawer.emp.role != "Salesperson"
+                                              ? InkWell(
+                                                  onTap: () async {
+                                                    if (await Database_Hourly_Attendance()
+                                                        .getHourlyAttendance(
+                                                            MyDrawer.emp.id!,
+                                                            DateTime.now()
+                                                                .toString()
+                                                                .split(
+                                                                    " ")[0])) {
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          MyRoutes.MyMapScreen);
+                                                    }
+                                                  },
+                                                  child:
+                                                      Text("View Live Location",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: MyScreen
+                                                                    .getScreenHeight(
+                                                                        context) *
+                                                                (15 / 1063.6),
+                                                          )),
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     ),

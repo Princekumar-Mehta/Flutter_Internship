@@ -89,6 +89,12 @@ class _LoginScreenState extends State<LoginScreen> {
         _formKey.currentState!.reset();
       } else {
         MyDrawer.emp = emp!;
+        print(emp!.darkTheme);
+        if (emp!.darkTheme! == 1) {
+          MyColors().darkTheme();
+        } else {
+          MyColors().lightTheme();
+        }
         await Future.delayed(const Duration(seconds: 1));
         Navigator.pushReplacementNamed(context, MyRoutes.MyLogin);
         if (emp!.role == "Admin") {
@@ -108,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
     DatabaseHelper.instance.insertAdminIfNot();
     return MaterialApp(
       home: Scaffold(
-          backgroundColor: MyColors.richBlackFogra,
+          backgroundColor: MyColors.loginPageColor,
           body: SizedBox(
             width: MyScreen.getScreenWidth(context),
             height: MyScreen.getScreenHeight(context),

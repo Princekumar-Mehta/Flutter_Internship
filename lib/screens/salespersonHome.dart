@@ -325,8 +325,14 @@ class SalespersonHome extends StatelessWidget {
                               MyScreen.getScreenWidth(context) * (172 / 490.9),
                         ),
                         InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+                          onTap: () async {
+                            if (await Database_Hourly_Attendance()
+                                .getHourlyAttendance(MyDrawer.emp.id!,
+                                    DateTime.now().toString().split(" ")[0])) {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.MyMapScreen);
+                            }
+                            ;
                           },
                           child: Text("View All",
                               textAlign: TextAlign.center,

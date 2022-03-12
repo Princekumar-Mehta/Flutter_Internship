@@ -3,6 +3,7 @@ import 'employee.dart';
 
 class Database_signUp {
   static List<Employee> emps = [];
+  static Employee manager = Employee();
   static addEmp({
     required String name,
     required String profile_pic,
@@ -12,6 +13,7 @@ class Database_signUp {
     required String role,
     required String managerid,
     required String status,
+    required int darkTheme,
   }) async {
     await DatabaseHelper.instance.addEmp(Employee(
         profile_pic: profile_pic,
@@ -21,7 +23,8 @@ class Database_signUp {
         password: password,
         role: role,
         managerid: managerid,
-        status: status));
+        status: status,
+        darkTheme: darkTheme));
   }
 
   static print_emps() async {
@@ -32,6 +35,10 @@ class Database_signUp {
 
   static getEmp({required String email, required int id}) async {
     final emp = await DatabaseHelper.instance.getEmp(email: email, id: id);
+    if (emp != null) {
+      manager = (await DatabaseHelper.instance
+          .getEmp(email: "", id: int.parse(emp.managerid!)))!;
+    }
     return emp;
   }
 

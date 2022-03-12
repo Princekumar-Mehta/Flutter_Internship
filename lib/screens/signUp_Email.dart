@@ -110,6 +110,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
         role: role,
         managerid: managerid,
         status: "Approved",
+        darkTheme: 1,
       );
       Employee? emp = await Database_signUp.getEmp(email: email, id: 0);
       int otp = 1000 + Random().nextInt(9999 - 1000);

@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/screens/editEmployeeScreen.dart';
+
+import '../routes.dart';
 
 class ViewEmployeeScreen extends StatefulWidget {
   const ViewEmployeeScreen({Key? key}) : super(key: key);
@@ -127,6 +130,31 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                       (20 / 1063.6),
                                 ),
                               ),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (40 / 490.9),
+                              ),
+                              Database_signUp.emps[key].role! == "Salesperson"
+                                  ? InkWell(
+                                      onTap: () async {
+                                        if (await Database_Hourly_Attendance()
+                                            .getHourlyAttendance(
+                                                MyDrawer.emp.id!,
+                                                DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0])) {
+                                          Navigator.pushNamed(
+                                              context, MyRoutes.MyMapScreen);
+                                        }
+                                      },
+                                      child: Text("View Live Location",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: MyScreen.getScreenHeight(
+                                                    context) *
+                                                (15 / 1063.6),
+                                          )))
+                                  : Container(),
                             ],
                           ),
                           SizedBox(

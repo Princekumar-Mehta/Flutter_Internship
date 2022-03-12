@@ -7,6 +7,7 @@ import 'package:project_v3/screens/forgotPasswordScreen2.dart';
 import 'package:project_v3/screens/leaveRequestForm.dart';
 import 'package:project_v3/screens/leaveRequestScreen.dart';
 import 'package:project_v3/screens/loginScreen.dart';
+import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
@@ -23,7 +24,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySalespersonHome: (context) => SalespersonHome(),
         MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
         MyRoutes.MySalespersonAttendance: (context) => SalespersonAttendance(),
+        MyRoutes.MyMapScreen: (context) => MapSample(),
       },
     );
   }

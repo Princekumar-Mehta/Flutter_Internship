@@ -8,6 +8,7 @@ class Employee {
   String? role;
   String? managerid;
   String? status;
+  int? darkTheme;
   Employee(
       {this.profile_pic,
       this.id,
@@ -17,18 +18,21 @@ class Employee {
       this.password,
       this.role,
       this.managerid,
-      this.status});
+      this.status,
+      this.darkTheme});
 
   factory Employee.fromMap(Map<String, dynamic> json) => Employee(
-      profile_pic: json['profile_pic'],
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      password: json['password'],
-      role: json['role'],
-      managerid: json['managerid'],
-      status: json['status']);
+        profile_pic: json['profile_pic'],
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        phone: json['phone'],
+        password: json['password'],
+        role: json['role'],
+        managerid: json['managerid'],
+        status: json['status'],
+        darkTheme: json['darkTheme'],
+      );
   Map<String, dynamic> toMap() {
     return {
       'profile_pic': profile_pic,
@@ -39,7 +43,8 @@ class Employee {
       'password': password,
       'role': role,
       'managerid': managerid,
-      'status': status
+      'status': status,
+      'darkTheme': darkTheme
     };
   }
 }
