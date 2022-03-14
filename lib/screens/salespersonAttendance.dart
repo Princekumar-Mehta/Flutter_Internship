@@ -307,7 +307,7 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                       child: Row(
                                         children: [
                                           Icon(
-                                            Icons.phone,
+                                            Icons.phone_outlined,
                                             size: MyScreen.getScreenHeight(
                                                     context) *
                                                 (25 / 1063.6),

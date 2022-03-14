@@ -29,7 +29,7 @@ class MyColors {
     pewterBlue = const Color(0xFF88A2AA);
     grullo = const Color(0xFFADA296);
     middleRed = const Color(0xFFE2856E);
-    richBlackFogra = const Color(0xFF7DC3F5);
+    richBlackFogra = const Color(0xFF0F1A20);
     scarlet = const Color(0xBFF42C04);
     black = const Color(0xFF000000);
     white = const Color(0xFFFFFFFF);

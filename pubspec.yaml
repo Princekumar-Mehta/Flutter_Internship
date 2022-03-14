@@ -51,6 +51,7 @@ dependencies:
   google_maps_flutter: ^2.1.2
   http: ^0.13.4
   url_launcher: ^6.0.20
+  pie_chart: ^5.1.0
 
 dev_dependencies:
   flutter_test:

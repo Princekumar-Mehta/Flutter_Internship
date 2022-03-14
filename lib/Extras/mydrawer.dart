@@ -43,7 +43,13 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.dark_mode),
+            leading: MyDrawer.emp.darkTheme == 1
+                ? const Icon(
+                    Icons.brightness_4,
+                  )
+                : const Icon(
+                    Icons.brightness_7,
+                  ),
             iconColor: MyColors.scarlet,
             title: const Text('Theme'),
             onTap: () {

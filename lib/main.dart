@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/routes.dart';
+import 'package:project_v3/screens/addItem.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
@@ -10,6 +11,7 @@ import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
+import 'package:project_v3/screens/reportItemWise.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/salespersonAttendance.dart';
 import 'package:project_v3/screens/salespersonHome.dart';
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
         MyRoutes.MySalespersonAttendance: (context) => SalespersonAttendance(),
         MyRoutes.MyMapScreen: (context) => MapSample(),
+        MyRoutes.MyAddItemScreen: (context) => AddItem(),
+        MyRoutes.MyReportItemWiseScreen: (context) => ReportItemWise(),
       },
     );
   }

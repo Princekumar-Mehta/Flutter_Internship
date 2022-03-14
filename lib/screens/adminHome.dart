@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
+import 'package:project_v3/Database/db_report.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -579,11 +580,13 @@ class AdminHome extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () async {
-                              if (await Database_leaveRequest()
-                                  .getAllRequestForEmp(MyDrawer.emp.id!)) {
-                                Navigator.pushNamed(
-                                    context, MyRoutes.MyLeaveRequestForm);
-                              }
+                              Navigator.pushNamed(
+                                  context, MyRoutes.MyAddItemScreen);
+                              // if (await Database_leaveRequest()
+                              //     .getAllRequestForEmp(MyDrawer.emp.id!)) {
+                              //   Navigator.pushNamed(
+                              //       context, MyRoutes.MyLeaveRequestForm);
+                              // }
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -624,9 +627,11 @@ class AdminHome extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, MyRoutes.MyLeaveRequestSummary);
+                            onTap: () async {
+                              if (await Database_Report().getItemWiseReport()) {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MyReportItemWiseScreen);
+                              }
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

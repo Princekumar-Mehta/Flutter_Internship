@@ -307,7 +307,8 @@ class DatabaseHelper {
 
   Future<List<Item>> getItems() async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> items = await db.rawQuery("SELECT * FROM items");
+    List<Map<String, dynamic>> items =
+        await db.rawQuery("SELECT * FROM items order by code ASC");
     List<Item> ItemList =
         items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
     return ItemList;
@@ -358,6 +359,17 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.insert(
         'final_individual_order', final_individual_order.toMap());
+  }
+
+  Future<List<FinalIndividualOrder>> getFinalIndividualOrderByItemId(
+      String item_Code) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> orders = await db.rawQuery(
+        "SELECT * FROM final_individual_order where item_Code = '$item_Code'");
+    List<FinalIndividualOrder> OrderList = orders.isNotEmpty
+        ? orders.map((c) => FinalIndividualOrder.fromMap((c))).toList()
+        : [];
+    return OrderList;
   }
 
   Future<List<FinalOrder>> getPendingOrders() async {

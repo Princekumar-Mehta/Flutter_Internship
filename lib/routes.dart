@@ -16,4 +16,6 @@ class MyRoutes {
   static final MyProcessingOrders = '/myProcessingOrders';
   static final MySalespersonAttendance = '/mySalespersonAttendance';
   static final MyMapScreen = '/myMapScreen';
+  static final MyAddItemScreen = '/myAddItemScreen';
+  static final MyReportItemWiseScreen = '/myReportItemWiseScreen';
 }
