@@ -39,10 +39,12 @@ class Database_Report {
     sales_salesperson_wise = [];
     salespersons = await DatabaseHelper.instance.getSalespersons();
     for (int j = 0; j < salespersons.length; j++) {
+      print(salespersons[j].name! + "\n");
       List<FinalOrder> orders = await DatabaseHelper.instance
           .getFinalOrderByItemId(salespersons[j].id.toString());
       int sales = 0;
       for (int i = 0; i < orders.length; i++) {
+        print(orders[i].total.toString() + "\n");
         sales = sales + orders[i].total;
       }
       sales_salesperson_wise.add(sales);

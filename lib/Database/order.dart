@@ -93,11 +93,13 @@ class Order {
   }
 
   addToDatabase() async {
+    final_total = 0;
     for (int i = 0; i < counter!; i++) {
       final_total =
           final_total + double.parse(total![i].text.toString()).round();
     }
     int order_Id = (await Database_Final_Order().getFinalOrdersLastId()) + 1;
+    print("totla is " + final_total.toString());
     Database_Final_Order.addFinalOrder(
         customer_Code: customer.code!,
         billing_Branch_Code: billing_branch.branch_Code!,
@@ -107,7 +109,7 @@ class Order {
         total: final_total,
         order_by_date: OrderBydate,
         file_Address: file_Address,
-        salesperson_Code: salesPerson.id! );
+        salesperson_Code: salesPerson.id!);
     for (int i = 0; i < counter!; i++) {
       Database_Final_Individual_Order.addFinalIndividualOrder(
           order_Id: order_Id,

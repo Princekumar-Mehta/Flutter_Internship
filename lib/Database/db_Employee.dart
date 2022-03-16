@@ -4,6 +4,7 @@ import 'employee.dart';
 class Database_signUp {
   static List<Employee> emps = [];
   static Employee manager = Employee();
+  static List<Employee> salespersons = [];
   static addEmp({
     required String name,
     required String profile_pic,

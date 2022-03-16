@@ -65,524 +65,489 @@ class _AddItemState extends State<AddItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: MyColors.scarlet,
-                size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-          ),
-          title: Text("Add Item",
-              style: TextStyle(
-                  color: MyColors.white,
-                  fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
-          centerTitle: true,
-          backgroundColor: MyColors.richBlackFogra,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
         ),
+        title: Text("Add Item",
+            style: TextStyle(
+                color: MyColors.white,
+                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+        centerTitle: true,
         backgroundColor: MyColors.richBlackFogra,
-        body: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              alignment: Alignment.center,
-              child: Stack(children: [
-                FormBuilder(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenWidth(context) * (70 / 640)),
-                      // SizedBox(
-                      //   width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      //   height:
-                      //       MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      //   child: Text("Item Code *",
-                      //       style: TextStyle(
-                      //           color: MyColors.pewterBlue,
-                      //           fontSize: MyScreen.getScreenHeight(context) *
-                      //               (20 / 1063.6))),
-                      // ),
-                      // SizedBox(
-                      //   width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      //   height:
-                      //       MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      //   child: FormBuilderTextField(
-                      //     name: 'code',
-                      //     decoration: InputDecoration(
-                      //       enabledBorder: UnderlineInputBorder(
-                      //           borderSide:
-                      //               BorderSide(color: MyColors.pewterBlue)),
-                      //     ),
-                      //     style: TextStyle(
-                      //         color: MyColors.middleRed,
-                      //         fontSize: MyScreen.getScreenHeight(context) *
-                      //             (25 / 1063.6)),
-                      //     validator: (value) {
-                      //       RegExp regexcode = RegExp(r'^I[0-9]{4}$');
-                      //       if (value == null || value.isEmpty) {
-                      //         return "Please Enter Item Code";
-                      //       } else if (!regexcode.hasMatch(value)) {
-                      //         return "Enter Proper Item Code";
-                      //       }
-                      //       return null;
-                      //     },
-                      //   ),
-                      // ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("HSN Code *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'hsn_Code',
-                            initialValue: "15151515",
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              RegExp regexhsn = RegExp(r'^[0-9]{8}$');
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter HSN Code";
-                              } else if (!regexhsn.hasMatch(value)) {
-                                return "Enter Proper HSN Code";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Item Name *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'item_Name',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Item Name";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Group Name *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'grp',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Group Name";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Sub Group Name *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'sub_Group',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Sub Group Name";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Item Type *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'item_Type',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Item Type";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Number of Units (Ex: 2 [Packet, Box]) *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'unit_Item',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Number of Units";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Barcode *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'barcode',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              RegExp regexbarcode = RegExp(r'^[0-9]{9}$');
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Barcode";
-                              } else if (!regexbarcode.hasMatch(value)) {
-                                return "Enter Proper Barcode";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: Theme(
-                          data: ThemeData(
-                            unselectedWidgetColor: MyColors.pewterBlue,
+      ),
+      backgroundColor: MyColors.richBlackFogra,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            alignment: Alignment.center,
+            child: Stack(children: [
+              FormBuilder(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                        height: MyScreen.getScreenWidth(context) * (70 / 640)),
+                    // SizedBox(
+                    //   width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    //   height:
+                    //       MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                    //   child: Text("Item Code *",
+                    //       style: TextStyle(
+                    //           color: MyColors.pewterBlue,
+                    //           fontSize: MyScreen.getScreenHeight(context) *
+                    //               (20 / 1063.6))),
+                    // ),
+                    // SizedBox(
+                    //   width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    //   height:
+                    //       MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                    //   child: FormBuilderTextField(
+                    //     name: 'code',
+                    //     decoration: InputDecoration(
+                    //       enabledBorder: UnderlineInputBorder(
+                    //           borderSide:
+                    //               BorderSide(color: MyColors.pewterBlue)),
+                    //     ),
+                    //     style: TextStyle(
+                    //         color: MyColors.middleRed,
+                    //         fontSize: MyScreen.getScreenHeight(context) *
+                    //             (25 / 1063.6)),
+                    //     validator: (value) {
+                    //       RegExp regexcode = RegExp(r'^I[0-9]{4}$');
+                    //       if (value == null || value.isEmpty) {
+                    //         return "Please Enter Item Code";
+                    //       } else if (!regexcode.hasMatch(value)) {
+                    //         return "Enter Proper Item Code";
+                    //       }
+                    //       return null;
+                    //     },
+                    //   ),
+                    // ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("HSN Code *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'hsn_Code',
+                          initialValue: "15151515",
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
                           ),
-                          child: CheckboxListTile(
-                            title: Text(
-                                'Purchase Item (Select if available for Purchase)',
-                                style: TextStyle(
-                                    color: MyColors.pewterBlue,
-                                    fontSize:
-                                        MyScreen.getScreenHeight(context) *
-                                            (20 / 1063.6))),
-                            value: checkedValue,
-                            onChanged: (value) {
-                              setState(() {
-                                checkedValue = !checkedValue;
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                            checkColor: MyColors.white,
-                            activeColor: MyColors.scarlet,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            RegExp regexhsn = RegExp(r'^[0-9]{8}$');
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter HSN Code";
+                            } else if (!regexhsn.hasMatch(value)) {
+                              return "Enter Proper HSN Code";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Item Name *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'item_Name',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
                           ),
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Item Name";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Group Name *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'grp',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Group Name";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Sub Group Name *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'sub_Group',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Sub Group Name";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Item Type *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'item_Type',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Item Type";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Number of Units (Ex: 2 [Packet, Box]) *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'unit_Item',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Number of Units";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Barcode *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'barcode',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            RegExp regexbarcode = RegExp(r'^[0-9]{9}$');
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Barcode";
+                            } else if (!regexbarcode.hasMatch(value)) {
+                              return "Enter Proper Barcode";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: Theme(
+                        data: ThemeData(
+                          unselectedWidgetColor: MyColors.pewterBlue,
+                        ),
+                        child: CheckboxListTile(
+                          title: Text(
+                              'Purchase Item (Select if available for Purchase)',
+                              style: TextStyle(
+                                  color: MyColors.pewterBlue,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6))),
+                          value: checkedValue,
+                          onChanged: (value) {
+                            setState(() {
+                              checkedValue = !checkedValue;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                          checkColor: MyColors.white,
+                          activeColor: MyColors.scarlet,
                         ),
                       ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: Theme(
-                          data: ThemeData(
-                            unselectedWidgetColor: MyColors.pewterBlue,
-                          ),
-                          child: CheckboxListTile(
-                            title: Text(
-                                'Sell Item (Select if available for Sales)',
-                                style: TextStyle(
-                                    color: MyColors.pewterBlue,
-                                    fontSize:
-                                        MyScreen.getScreenHeight(context) *
-                                            (20 / 1063.6))),
-                            value: checkedValue2,
-                            onChanged: (value) {
-                              setState(() {
-                                checkedValue2 = !checkedValue2;
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                            checkColor: MyColors.white,
-                            activeColor: MyColors.scarlet,
-                          ),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: Theme(
+                        data: ThemeData(
+                          unselectedWidgetColor: MyColors.pewterBlue,
+                        ),
+                        child: CheckboxListTile(
+                          title: Text(
+                              'Sell Item (Select if available for Sales)',
+                              style: TextStyle(
+                                  color: MyColors.pewterBlue,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6))),
+                          value: checkedValue2,
+                          onChanged: (value) {
+                            setState(() {
+                              checkedValue2 = !checkedValue2;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                          checkColor: MyColors.white,
+                          activeColor: MyColors.scarlet,
                         ),
                       ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (12 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (12 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Price *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'price',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Price";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Net Weight *",
+                          style: TextStyle(
+                              color: MyColors.pewterBlue,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'net_Weight',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Net Weight";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    // Button
+                    SizedBox(
                         height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Price *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'price',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Price";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Net Weight *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderTextField(
-                            name: 'net_Weight',
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Net Weight";
-                              }
-                              return null;
-                            }),
-                      ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      // Button
-                      SizedBox(
-                          height: MyScreen.getScreenHeight(context) *
-                              (60 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        MyScreen.getScreenHeight(context) *
-                                            (10 / 1063.6)),
-                                    color: MyColors.middleRed,
-                                  ),
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (85 / 294),
+                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                      child: InkWell(
+                        child: Stack(
+                          children: [
+                            Opacity(
+                              opacity: 0.8,
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      MyScreen.getScreenHeight(context) *
+                                          (10 / 1063.6)),
+                                  color: MyColors.middleRed,
                                 ),
                               ),
-                              Center(
-                                child: Text("Save Item",
-                                    style: TextStyle(
-                                        color: MyColors.richBlackFogra,
-                                        fontSize:
-                                            MyScreen.getScreenHeight(context) *
-                                                (17 / 1063.6),
-                                        fontWeight: FontWeight.bold)),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            addItem();
-                          },
+                            ),
+                            Center(
+                              child: Text("Save Item",
+                                  style: TextStyle(
+                                      color: MyColors.richBlackFogra,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (17 / 1063.6),
+                                      fontWeight: FontWeight.bold)),
+                            )
+                          ],
                         ),
+                        onTap: () {
+                          addItem();
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ]),
-            ),
+              ),
+            ]),
           ),
-        )); /*Scaffold(
+        ),
+      ),
+    ); /*Scaffold(
       appBar: AppBar(
         title: Text("Add Item"),
         centerTitle: true,

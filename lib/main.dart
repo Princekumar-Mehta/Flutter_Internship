@@ -3,6 +3,7 @@ import 'package:project_v3/routes.dart';
 import 'package:project_v3/screens/addItem.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
+import 'package:project_v3/screens/exploreAttendance.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
 import 'package:project_v3/screens/forgotPasswordScreen2.dart';
 import 'package:project_v3/screens/leaveRequestForm.dart';
@@ -50,8 +51,9 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySalespersonAttendance: (context) => SalespersonAttendance(),
         MyRoutes.MyMapScreen: (context) => MapSample(),
         MyRoutes.MyAddItemScreen: (context) => AddItem(),
+        MyRoutes.MyExploreAttendanceScreen: (context) => ExploreAttendance(),
         MyRoutes.MyReportItemWiseScreen1: (context) => ReportItemWise1(),
-        MyRoutes.MyReportItemWiseScreen1: (context) =>
+        MyRoutes.MyReportSalesSalespersonWiseScreen1: (context) =>
             ReportSalesSalespersonWise1(),
       },
     );
