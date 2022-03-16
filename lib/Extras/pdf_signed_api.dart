@@ -21,6 +21,7 @@ class PdfApi_Signed {
     final page = document.pages.add();
 
     drawGrid(page, order);
+    drawCompanyDetails(page, order);
     drawSignature(page, imageSignature);
     return saveFile(document);
   }
@@ -123,29 +124,189 @@ class PdfApi_Signed {
     }
     grid.draw(
       page: page,
-      bounds: Rect.fromLTWH(0, 100, 0, 0),
+      bounds: Rect.fromLTWH(0, 330, 0, 0),
     )!;
+  }
+
+  static void drawCompanyDetails(PdfPage page, Order order) {
+    String orderbillbranch = "Bill To: \n\n" +
+        order.billing_branch.branch_Name! +
+        "\n" +
+        order.billing_branch.address1!.substring(0, 35) +
+        "\n" +
+        order.billing_branch.address1!.substring(
+          35,
+        ) +
+        "\n" +
+        order.billing_branch.address2!.substring(0, 35) +
+        "\n" +
+        order.billing_branch.address2!.substring(
+          35,
+        ) +
+        "\n" +
+        order.billing_branch.city! +
+        ", " +
+        order.billing_branch.state! +
+        ",\n" +
+        order.billing_branch.country! +
+        ", " +
+        order.billing_branch.post_Code!.toString() +
+        "\n" +
+        "GST Number: " +
+        order.billing_branch.gstin!.toString() +
+        "\n\n" +
+        "Contact Person: " +
+        order.billing_branch.contact_Person! +
+        "\n" +
+        "Phone: " +
+        order.billing_branch.branch_Phone!.toString() +
+        "\n" +
+        "Email: " +
+        order.billing_branch.branch_Email! +
+        "\n";
+
+    String ordershipbranch = "Ship To: \n\n" +
+        order.shipping_branch.branch_Name! +
+        "\n" +
+        order.shipping_branch.address1!.substring(0, 35) +
+        "\n" +
+        order.shipping_branch.address1!.substring(
+          35,
+        ) +
+        "\n" +
+        order.shipping_branch.address2!.substring(0, 35) +
+        "\n" +
+        order.shipping_branch.address2!.substring(
+          35,
+        ) +
+        "\n" +
+        order.shipping_branch.city! +
+        ", " +
+        order.shipping_branch.state! +
+        ",\n" +
+        order.shipping_branch.country! +
+        ", " +
+        order.shipping_branch.post_Code!.toString() +
+        "\n" +
+        "GST Number: " +
+        order.shipping_branch.gstin!.toString() +
+        "\n\n" +
+        "Contact Person: " +
+        order.shipping_branch.contact_Person! +
+        "\n" +
+        "Phone: " +
+        order.shipping_branch.branch_Phone!.toString() +
+        "\n" +
+        "Email: " +
+        order.shipping_branch.branch_Email! +
+        "\n";
+
+    final now = DateFormat.yMMMEd().format(DateTime.now());
+    final orderid = "12323";
+    final companyText = '''
+    Balaji Wafers Private Limited,
+    Survey No.19, Vajdi (Vad), 
+    Kalawad Road, Ta. Lodhika, 
+    Dist. Rajkot - 360021, 
+    
+    State : Gujarat (India)
+    
+    ''';
+
+    /*final billingText = '''
+    Bill To:
+    
+    Gota Kirana Store,
+    Survey No.19, Vajdi (Vad), 
+    Kalawad Road, Ta. Lodhika, 
+    Dist. Rajkot - 360021, 
+    
+    State : Gujarat (India)
+    
+    ''';
+
+    final shippingText = '''
+    Ship To:
+    
+    Balaji Wafers Private Limited,
+    Survey No.19, Vajdi (Vad), 
+    Kalawad Road, Ta. Lodhika, 
+    Dist. Rajkot - 360021, 
+    
+    State : Gujarat (India)
+    
+    ''';*/
+
+    String timeText = "Date: " +
+        now +
+        "\n" +
+        "Invoice Number: " +
+        orderid +
+        "\n" +
+        "Employee Id: " +
+        order.salesPerson.id!.toString() +
+        "\n" +
+        "Total: " +
+        order.final_total.toString() +
+        "\n" +
+        "Signature of Retailer: ";
+
+    PdfFont font =
+        PdfStandardFont(PdfFontFamily.helvetica, 12, style: PdfFontStyle.bold);
+    PdfFont font2 = PdfStandardFont(PdfFontFamily.helvetica, 12);
+
+    PdfTextElement(
+            text: companyText,
+            font: font,
+            format: PdfStringFormat(alignment: PdfTextAlignment.left))
+        .draw(
+            page: page,
+            bounds: Rect.fromLTWH(0, 0, page.getClientSize().width / 2,
+                page.getClientSize().height / 2));
+
+    PdfTextElement(
+            text: timeText,
+            font: font,
+            format: PdfStringFormat(alignment: PdfTextAlignment.left))
+        .draw(
+            page: page,
+            bounds: Rect.fromLTWH(
+                page.getClientSize().width / 2,
+                0,
+                page.getClientSize().width / 2,
+                page.getClientSize().height / 2));
+
+    page.graphics.drawLine(
+        PdfPen(PdfColor(0, 0, 0), width: 2), Offset(0, 100), Offset(762, 100));
+
+    PdfTextElement(
+            text: orderbillbranch,
+            font: font2,
+            format: PdfStringFormat(alignment: PdfTextAlignment.left))
+        .draw(
+            page: page,
+            bounds: Rect.fromLTWH(10, 110, page.getClientSize().width / 2,
+                page.getClientSize().height / 2));
+
+    PdfTextElement(
+            text: ordershipbranch,
+            font: font2,
+            format: PdfStringFormat(alignment: PdfTextAlignment.left))
+        .draw(
+            page: page,
+            bounds: Rect.fromLTWH(260, 110, page.getClientSize().width / 2,
+                page.getClientSize().height / 2));
+
+    page.graphics.drawLine(
+        PdfPen(PdfColor(0, 0, 0), width: 2), Offset(0, 320), Offset(762, 320));
   }
 
   static void drawSignature(PdfPage page, ByteData imageSignature) {
     final pageSize = page.getClientSize();
     final PdfBitmap image = PdfBitmap(imageSignature.buffer.asUint8List());
 
-    final now = DateFormat.yMMMEd().format(DateTime.now());
-    final signatureText = '''Confirmation Signature: \nDate: $now''';
-
-    page.graphics.drawString(
-      signatureText,
-      PdfStandardFont(PdfFontFamily.helvetica, 12),
-      format: PdfStringFormat(alignment: PdfTextAlignment.left),
-      bounds: Rect.fromLTWH(pageSize.width - 240, 45, 0, 0),
-      /*bounds: Rect.fromLTWH(pageSize.width - 240, pageSize.height - 200, 0, 0),*/
-    );
-
-    page.graphics.drawImage(
-        image, Rect.fromLTWH(pageSize.width - 120, 45, 100, 40)
-        /*Rect.fromLTWH(pageSize.width - 120, pageSize.height - 200, 100, 40)*/
-        );
+    page.graphics
+        .drawImage(image, Rect.fromLTWH(pageSize.width - 110, 55, 100, 40));
   }
 
   static Future<File> saveFile(PdfDocument document) async {

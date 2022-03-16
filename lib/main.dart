@@ -11,7 +11,8 @@ import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
-import 'package:project_v3/screens/reportItemWise.dart';
+import 'package:project_v3/screens/reportItemWise1.dart';
+import 'package:project_v3/screens/reportSalesSalesPersonWise1.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/salespersonAttendance.dart';
 import 'package:project_v3/screens/salespersonHome.dart';
@@ -49,7 +50,9 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySalespersonAttendance: (context) => SalespersonAttendance(),
         MyRoutes.MyMapScreen: (context) => MapSample(),
         MyRoutes.MyAddItemScreen: (context) => AddItem(),
-        MyRoutes.MyReportItemWiseScreen: (context) => ReportItemWise(),
+        MyRoutes.MyReportItemWiseScreen1: (context) => ReportItemWise1(),
+        MyRoutes.MyReportItemWiseScreen1: (context) =>
+            ReportSalesSalespersonWise1(),
       },
     );
   }

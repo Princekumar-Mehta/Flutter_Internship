@@ -628,9 +628,14 @@ class AdminHome extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () async {
-                              if (await Database_Report().getItemWiseReport()) {
+                              // if (await Database_Report().getItemWiseReport()) {
+                              //   Navigator.pushNamed(
+                              //       context, MyRoutes.MyReportItemWiseScreen1);
+                              // }
+                              if (await Database_Report()
+                                  .getSalesperson_SalesReport()) {
                                 Navigator.pushNamed(
-                                    context, MyRoutes.MyReportItemWiseScreen);
+                                    context, MyRoutes.MyReportItemWiseScreen1);
                               }
                             },
                             child: Column(

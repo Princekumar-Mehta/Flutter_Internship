@@ -60,7 +60,7 @@ class PdfApi {
       row.cells[11].value = order.total![i].text.toString();
     }
 
-    final row1 = grid.rows.add();
+    /*final row1 = grid.rows.add();
     row1.cells[0].value = '1';
     row1.cells[1].value = 'I4578';
     row1.cells[2].value = 'Simply Salted';
@@ -100,7 +100,7 @@ class PdfApi {
     row3.cells[8].value = '210';
     row3.cells[9].value = '5067.30';
     row3.cells[10].value = '609.00';
-    row3.cells[11].value = '5676.30';
+    row3.cells[11].value = '5676.30';*/
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
 

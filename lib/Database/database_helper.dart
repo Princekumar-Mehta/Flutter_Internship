@@ -170,6 +170,16 @@ class DatabaseHelper {
     return employeesList;
   }
 
+  Future<List<Employee>> getSalespersons() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> salespersons = await db
+        .rawQuery("SELECT * FROM employees"); //where role = 'Salesperson'
+    List<Employee> SalespersonList = salespersons.isNotEmpty
+        ? salespersons.map((c) => Employee.fromMap((c))).toList()
+        : [];
+    return SalespersonList;
+  }
+
   Future<Employee?> getEmp({required String email, required int id}) async {
     Database db = await instance.database;
     if (email != '') {
@@ -368,6 +378,17 @@ class DatabaseHelper {
         "SELECT * FROM final_individual_order where item_Code = '$item_Code'");
     List<FinalIndividualOrder> OrderList = orders.isNotEmpty
         ? orders.map((c) => FinalIndividualOrder.fromMap((c))).toList()
+        : [];
+    return OrderList;
+  }
+
+  Future<List<FinalOrder>> getFinalOrderByItemId(
+      String salesperson_code) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> orders = await db.rawQuery(
+        "SELECT * FROM final_order where salesperson_Code = '$salesperson_code'");
+    List<FinalOrder> OrderList = orders.isNotEmpty
+        ? orders.map((c) => FinalOrder.fromMap((c))).toList()
         : [];
     return OrderList;
   }

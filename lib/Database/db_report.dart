@@ -1,10 +1,14 @@
 import 'database_helper.dart';
+import 'employee.dart';
 import 'final_individual_order.dart';
+import 'final_order.dart';
 import 'item.dart';
 
 class Database_Report {
   static List<Item> items = [];
   static List<int> sales_in_packet = [];
+  static List<Employee> salespersons = [];
+  static List<int> sales_salesperson_wise = [];
   Future<bool> getItemWiseReport() async {
     items = [];
     sales_in_packet = [];
@@ -25,6 +29,28 @@ class Database_Report {
       print(items[i].item_Name.toString() +
           " :: " +
           sales_in_packet[i].toString() +
+          "\n");
+    }
+    return true;
+  }
+
+  Future<bool> getSalesperson_SalesReport() async {
+    salespersons = [];
+    sales_salesperson_wise = [];
+    salespersons = await DatabaseHelper.instance.getSalespersons();
+    for (int j = 0; j < salespersons.length; j++) {
+      List<FinalOrder> orders = await DatabaseHelper.instance
+          .getFinalOrderByItemId(salespersons[j].id.toString());
+      int sales = 0;
+      for (int i = 0; i < orders.length; i++) {
+        sales = sales + orders[i].total;
+      }
+      sales_salesperson_wise.add(sales);
+    }
+    for (int i = 0; i < salespersons.length; i++) {
+      print(salespersons[i].role.toString() +
+          " :: " +
+          sales_salesperson_wise[i].toString() +
           "\n");
     }
     return true;
