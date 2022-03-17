@@ -19,6 +19,8 @@ class MyRoutes {
   static final MyAddItemScreen = '/myAddItemScreen';
   static final MyExploreAttendanceScreen = '/myExploreAttendanceScreen';
   static final MyReportItemWiseScreen1 = '/myReportItemWiseScreen1';
+  static final MySearchFunction = '/mySearchFunction';
   static final MyReportSalesSalespersonWiseScreen1 =
       '/myReportSalesSalespersonWiseScreen1';
+  static final MyUploadChequePhoto = '/myUploadChequePhoto';
 }

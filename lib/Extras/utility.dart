@@ -44,6 +44,39 @@ class Utility {
       profile_pic: _pickedImage.path,
       darkTheme: 1,
     );
+    Database_signUp.addEmp(
+      name: "Maurya Patel",
+      email: "18bce120@nirmauni.ac.in",
+      phone: "1234567890",
+      password: "Sales@123",
+      role: "Salesperson",
+      managerid: "2",
+      status: "Approved",
+      profile_pic: _pickedImage.path,
+      darkTheme: 1,
+    );
+    Database_signUp.addEmp(
+      name: "Dev Rami",
+      email: "malhar.shah16@gmail.com",
+      phone: "1234567890",
+      password: "Sales@123",
+      role: "Salesperson",
+      managerid: "2",
+      status: "Approved",
+      profile_pic: _pickedImage.path,
+      darkTheme: 1,
+    );
+    Database_signUp.addEmp(
+      name: "Malhar Shah",
+      email: "malhar.shah00@gmail.com",
+      phone: "1234567890",
+      password: "Sales@123",
+      role: "Salesperson",
+      managerid: "2",
+      status: "Approved",
+      profile_pic: _pickedImage.path,
+      darkTheme: 1,
+    );
   }
 
   static Future<Employee> getEmployee(String email_id) async {

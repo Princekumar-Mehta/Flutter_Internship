@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 
 class AddItem extends StatefulWidget {
@@ -68,20 +69,34 @@ class _AddItemState extends State<AddItem> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back,
-              color: MyColors.scarlet,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
               size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
           onPressed: () {
             Navigator.pop(context, true);
           },
         ),
+        shape: Border(
+          bottom: BorderSide(
+            color: MyColors.scarlet,
+            width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+          ),
+        ),
         title: Text("Add Item",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -93,50 +108,14 @@ class _AddItemState extends State<AddItem> {
                   children: [
                     SizedBox(
                         height: MyScreen.getScreenWidth(context) * (70 / 640)),
-                    // SizedBox(
-                    //   width: MyScreen.getScreenWidth(context) * (228 / 294),
-                    //   height:
-                    //       MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                    //   child: Text("Item Code *",
-                    //       style: TextStyle(
-                    //           color: MyColors.pewterBlue,
-                    //           fontSize: MyScreen.getScreenHeight(context) *
-                    //               (20 / 1063.6))),
-                    // ),
-                    // SizedBox(
-                    //   width: MyScreen.getScreenWidth(context) * (228 / 294),
-                    //   height:
-                    //       MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                    //   child: FormBuilderTextField(
-                    //     name: 'code',
-                    //     decoration: InputDecoration(
-                    //       enabledBorder: UnderlineInputBorder(
-                    //           borderSide:
-                    //               BorderSide(color: MyColors.pewterBlue)),
-                    //     ),
-                    //     style: TextStyle(
-                    //         color: MyColors.middleRed,
-                    //         fontSize: MyScreen.getScreenHeight(context) *
-                    //             (25 / 1063.6)),
-                    //     validator: (value) {
-                    //       RegExp regexcode = RegExp(r'^I[0-9]{4}$');
-                    //       if (value == null || value.isEmpty) {
-                    //         return "Please Enter Item Code";
-                    //       } else if (!regexcode.hasMatch(value)) {
-                    //         return "Enter Proper Item Code";
-                    //       }
-                    //       return null;
-                    //     },
-                    //   ),
-                    // ),
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("HSN Code *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -148,15 +127,19 @@ class _AddItemState extends State<AddItem> {
                           initialValue: "15151515",
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black)),
                           ),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -176,7 +159,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Item Name *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -187,11 +172,15 @@ class _AddItemState extends State<AddItem> {
                           name: 'item_Name',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black)),
                           ),
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -208,7 +197,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Group Name *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -219,11 +210,16 @@ class _AddItemState extends State<AddItem> {
                           name: 'grp',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -240,7 +236,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Sub Group Name *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -251,11 +249,16 @@ class _AddItemState extends State<AddItem> {
                           name: 'sub_Group',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -272,7 +275,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Item Type *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -283,11 +288,16 @@ class _AddItemState extends State<AddItem> {
                           name: 'item_Type',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -304,7 +314,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Number of Units (Ex: 2 [Packet, Box]) *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -315,15 +327,20 @@ class _AddItemState extends State<AddItem> {
                           name: 'unit_Item',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -340,7 +357,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Barcode *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -351,15 +370,20 @@ class _AddItemState extends State<AddItem> {
                           name: 'barcode',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -379,13 +403,17 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: Theme(
                         data: ThemeData(
-                          unselectedWidgetColor: MyColors.pewterBlue,
+                          unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
                         ),
                         child: CheckboxListTile(
                           title: Text(
                               'Purchase Item (Select if available for Purchase)',
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                           value: checkedValue,
@@ -396,7 +424,9 @@ class _AddItemState extends State<AddItem> {
                           },
                           controlAffinity: ListTileControlAffinity.leading,
                           checkColor: MyColors.white,
-                          activeColor: MyColors.scarlet,
+                          activeColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
                         ),
                       ),
                     ),
@@ -407,13 +437,17 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: Theme(
                         data: ThemeData(
-                          unselectedWidgetColor: MyColors.pewterBlue,
+                          unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
                         ),
                         child: CheckboxListTile(
                           title: Text(
                               'Sell Item (Select if available for Sales)',
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                           value: checkedValue2,
@@ -424,7 +458,9 @@ class _AddItemState extends State<AddItem> {
                           },
                           controlAffinity: ListTileControlAffinity.leading,
                           checkColor: MyColors.white,
-                          activeColor: MyColors.scarlet,
+                          activeColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
                         ),
                       ),
                     ),
@@ -435,7 +471,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Price *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -446,15 +484,20 @@ class _AddItemState extends State<AddItem> {
                           name: 'price',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -471,7 +514,9 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
                       child: Text("Net Weight *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6))),
                     ),
@@ -482,15 +527,20 @@ class _AddItemState extends State<AddItem> {
                           name: 'net_Weight',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -520,14 +570,18 @@ class _AddItemState extends State<AddItem> {
                                   borderRadius: BorderRadius.circular(
                                       MyScreen.getScreenHeight(context) *
                                           (10 / 1063.6)),
-                                  color: MyColors.middleRed,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.middleRed
+                                      : MyColors.scarlet,
                                 ),
                               ),
                             ),
                             Center(
                               child: Text("Save Item",
                                   style: TextStyle(
-                                      color: MyColors.richBlackFogra,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.richBlackFogra
+                                          : MyColors.white,
                                       fontSize:
                                           MyScreen.getScreenHeight(context) *
                                               (17 / 1063.6),

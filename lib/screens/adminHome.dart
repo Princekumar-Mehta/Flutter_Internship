@@ -25,6 +25,10 @@ class _AdminHomeState extends State<AdminHome> {
     // DatabaseHelper.instance.Temp_Query();
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -33,7 +37,9 @@ class _AdminHomeState extends State<AdminHome> {
         ),
         title: Text("Admin Home",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
         actions: [
@@ -41,10 +47,14 @@ class _AdminHomeState extends State<AdminHome> {
             child: InkWell(
               child: Container(
                 decoration: BoxDecoration(
-                  color: MyColors.richBlackFogra,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.richBlackFogra
+                      : MyColors.white,
                 ),
                 child: Icon(Icons.sync,
-                    color: MyColors.white,
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.white
+                        : MyColors.scarlet,
                     size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               ),
               onTap: () {
@@ -53,15 +63,20 @@ class _AdminHomeState extends State<AdminHome> {
             ),
           ),
         ],
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+
               SizedBox(
                 height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
               ),
@@ -79,7 +94,9 @@ class _AdminHomeState extends State<AdminHome> {
                 //height: MyScreen.getScreenHeight(context) * (139 / 1063.6),
                 width: MyScreen.getScreenWidth(context) * (460 / 490.9),
                 decoration: BoxDecoration(
-                  color: MyColors.white,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
                   borderRadius: BorderRadius.all(Radius.circular(
                       MyScreen.getScreenHeight(context) * (15 / 1063.6))),
                 ),
@@ -179,7 +196,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -191,7 +210,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -230,7 +251,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -242,7 +265,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -286,7 +311,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -298,7 +325,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -359,7 +388,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -371,7 +402,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -413,7 +446,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -425,7 +460,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -475,7 +512,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -487,7 +526,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -533,7 +574,9 @@ class _AdminHomeState extends State<AdminHome> {
                     MyScreen.getScreenHeight(context) * (5 / 1063.6)),
                 width: MyScreen.getScreenWidth(context) * (460 / 490.9),
                 decoration: BoxDecoration(
-                  color: MyColors.white,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
                   borderRadius: BorderRadius.all(Radius.circular(
                       MyScreen.getScreenHeight(context) * (15 / 1063.6))),
                 ),
@@ -624,7 +667,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -636,7 +681,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -681,7 +728,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -693,7 +742,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -738,7 +789,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -750,7 +803,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -810,7 +865,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -822,7 +879,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -871,7 +930,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -883,7 +944,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -928,7 +991,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -940,7 +1005,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -987,7 +1054,9 @@ class _AdminHomeState extends State<AdminHome> {
                 //height: MyScreen.getScreenHeight(context) * (139 / 1063.6),
                 width: MyScreen.getScreenWidth(context) * (460 / 490.9),
                 decoration: BoxDecoration(
-                  color: MyColors.white,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
                   borderRadius: BorderRadius.all(Radius.circular(
                       MyScreen.getScreenHeight(context) * (15 / 1063.6))),
                 ),
@@ -1087,7 +1156,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -1099,7 +1170,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -1146,7 +1219,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -1158,7 +1233,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -1196,7 +1273,9 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (53 / 490.9),
                                       decoration: BoxDecoration(
-                                        color: MyColors.scarlet,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(
                                                 MyScreen.getScreenHeight(
@@ -1208,7 +1287,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
-                                        color: MyColors.black,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
                                       ),
                                     ),
                                     SizedBox(
@@ -1247,15 +1328,8 @@ class _AdminHomeState extends State<AdminHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        var _pendingOrders =
-                                            Database_ApproveOrders();
-                                        if (await _pendingOrders
-                                            .getProcessingOrders(
-                                                MyDrawer.emp.id!,
-                                                MyDrawer.emp.role!)) {
-                                          Navigator.pushNamed(context,
-                                              MyRoutes.MyProcessingOrders);
-                                        }
+                                        Navigator.pushNamed(context,
+                                            MyRoutes.MyUploadChequePhoto);
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -1269,7 +1343,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -1281,7 +1357,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -1323,7 +1401,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -1335,7 +1415,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
@@ -1385,7 +1467,9 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
-                                              color: MyColors.scarlet,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
@@ -1397,7 +1481,9 @@ class _AdminHomeState extends State<AdminHome> {
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
-                                              color: MyColors.black,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
                                             ),
                                           ),
                                           SizedBox(
