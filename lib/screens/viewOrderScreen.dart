@@ -18,25 +18,37 @@ class _viewOrderState extends State<viewOrder> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back,
-                  color: MyColors.scarlet,
-                  size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back,
+                color: MyColors.white,
+                size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text("View Sales Order",
+              style: TextStyle(
+                  color: MyColors.white,
+                  fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+          centerTitle: true,
+          shape: Border(
+            bottom: BorderSide(
+              color: MyColors.scarlet,
+              width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
             ),
           ),
-          body: Column(children: [
-            SizedBox(
-              height: MyScreen.getScreenHeight(context) * (650 / 1063.6),
-              width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
-              child: SfPdfViewer.file((widget.file)),
-            ),
-          ]),
+          backgroundColor: MyColors.richBlackFogra,
         ),
-      );
+        body: Column(children: [
+          SizedBox(
+            height: MyScreen.getScreenHeight(context) * (650 / 1063.6),
+            width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
+            child: SfPdfViewer.file((widget.file)),
+          ),
+        ]),
+      ),
+    );
   }
 }

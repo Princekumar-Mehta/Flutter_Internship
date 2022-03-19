@@ -15,17 +15,19 @@ import 'forgotPasswordScreen2.dart';
 class OtpVerificationScreen extends StatefulWidget {
   final String email;
   final int otp;
+  final String old_email;
   final String previous;
   const OtpVerificationScreen(
       {Key? key,
       required this.email,
+      this.old_email = "",
       required this.otp,
       required this.previous})
       : super(key: key);
 
   @override
   _OtpVerificationScreenState createState() => _OtpVerificationScreenState(
-      otp_mail: otp, email: email, previous: previous);
+      otp_mail: otp, email: email, old_email: old_email, previous: previous);
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
@@ -39,9 +41,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   FocusNode textFocusNode4 = new FocusNode();
   var otp_mail;
   var email;
+  var old_email;
   var previous;
   _OtpVerificationScreenState(
-      {required this.otp_mail, required this.email, required this.previous});
+      {required this.otp_mail,
+      required this.old_email,
+      required this.email,
+      required this.previous});
   Future<void> showMessage(
     BuildContext context,
     String message,
@@ -252,46 +258,46 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                   Navigator.pop(context);
                                 } else if (previous == "edit employee") {
                                   Employee emp = await Utility.getEmployee(
-                                      MyDrawer.emp.email.toString());
+                                      old_email.toString());
                                   emp.email = email;
                                   Database_signUp().updateEmp(emp);
                                   Send_Mail.send_mail(
-                                    MyDrawer.emp.email.toString(),
+                                    emp.email.toString(),
                                     "Profile & Email Updated",
                                     "If you did not perform the changes we recommend resetting your password.<br>Name: " +
-                                        MyDrawer.emp.name.toString() +
+                                        emp.name.toString() +
                                         "<br>" +
                                         "Employee ID: " +
-                                        MyDrawer.emp.id.toString() +
+                                        emp.id.toString() +
                                         "<br>" +
                                         "Email: " +
                                         email +
                                         "<br>"
                                             "Password: " +
-                                        MyDrawer.emp.password.toString() +
+                                        emp.password.toString() +
                                         "<br>"
                                             "Role: " +
-                                        MyDrawer.emp.role.toString() +
+                                        emp.role.toString() +
                                         "<br>",
                                   );
-                                  MyDrawer.emp = emp;
+                                  emp = emp;
                                   Send_Mail.send_mail(
                                     email,
                                     "Profile & Email Updated",
                                     "If you did not perform the changes we recommend resetting your password.<br>Name: " +
-                                        MyDrawer.emp.name.toString() +
+                                        emp.name.toString() +
                                         "<br>" +
                                         "Employee ID: " +
-                                        MyDrawer.emp.id.toString() +
+                                        emp.id.toString() +
                                         "<br>" +
                                         "Email: " +
                                         email +
                                         "<br>"
                                             "Password: " +
-                                        MyDrawer.emp.password.toString() +
+                                        emp.password.toString() +
                                         "<br>"
                                             "Role: " +
-                                        MyDrawer.emp.role.toString() +
+                                        emp.role.toString() +
                                         "<br>",
                                   );
                                   // Logic to refresh Drawer data

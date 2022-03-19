@@ -11,6 +11,7 @@ import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 
 class SignUpEmail extends StatefulWidget {
@@ -169,17 +170,39 @@ class _SignUpEmailState extends State<SignUpEmail> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
+            shape: Border(
+              bottom: BorderSide(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.middleRed
+                    : MyColors.scarlet,
+                width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+              ),
+            ),
             leading: IconButton(
               icon: Icon(Icons.arrow_back,
-                  color: MyColors.scarlet,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.scarlet,
                   size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               onPressed: () {
                 Navigator.pop(context, true);
               },
             ),
-            backgroundColor: MyColors.richBlackFogra,
+            title: Text("Create Employee",
+                style: TextStyle(
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.white
+                        : MyColors.scarlet,
+                    fontSize:
+                        MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+            centerTitle: true,
+            backgroundColor: MyDrawer.emp.darkTheme == 1
+                ? MyColors.richBlackFogra
+                : MyColors.white,
           ),
-          backgroundColor: MyColors.richBlackFogra,
+          backgroundColor: MyDrawer.emp.darkTheme == 1
+              ? MyColors.richBlackFogra
+              : MyColors.white,
           body: SingleChildScrollView(
             child: Center(
               child: Container(
@@ -207,7 +230,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             bottom: 0,
                             right: 2,
                             child: Icon(Icons.add_circle,
-                                color: Colors.white,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.white
+                                    : MyColors.scarlet,
                                 size: MyScreen.getScreenWidth(context) *
                                     (22 / 360)),
                           )
@@ -221,7 +246,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (30 / 1063.6),
                           child: Text("Full Name *",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
@@ -233,11 +260,16 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             name: 'full_name',
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
+                                  borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                              )),
                             ),
                             style: TextStyle(
-                                color: MyColors.middleRed,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
@@ -257,7 +289,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (30 / 1063.6),
                           child: Text("Email Address *",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
@@ -269,11 +303,16 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               name: 'email',
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: MyColors.pewterBlue)),
+                                    borderSide: BorderSide(
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                )),
                               ),
                               style: TextStyle(
-                                  color: MyColors.middleRed,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.middleRed
+                                      : MyColors.scarlet,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (25 / 1063.6)),
                               validator: (value) {
@@ -296,7 +335,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (30 / 1063.6),
                           child: Text("Mobile Number *",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
@@ -308,11 +349,16 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               name: 'phone',
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: MyColors.pewterBlue)),
+                                    borderSide: BorderSide(
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                )),
                               ),
                               style: TextStyle(
-                                  color: MyColors.middleRed,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.middleRed
+                                      : MyColors.scarlet,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (25 / 1063.6)),
                               validator: (value) {
@@ -337,7 +383,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               children: [
                                 Text("Password *",
                                     style: TextStyle(
-                                        color: MyColors.pewterBlue,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
                                         fontSize:
                                             MyScreen.getScreenHeight(context) *
                                                 (20 / 1063.6))),
@@ -352,7 +400,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             initialValue: "Dims@123",
                             obscureText: _isObscure,
                             style: TextStyle(
-                                color: MyColors.middleRed,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
@@ -375,7 +425,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                     _isObscure
                                         ? Icons.visibility
                                         : Icons.visibility_off,
-                                    color: MyColors.pewterBlue,
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
                                     size: MyScreen.getScreenHeight(context) *
                                         (22 / 1063.6)),
                                 onPressed: () {
@@ -385,8 +437,11 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 },
                               ),
                               enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
+                                  borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                              )),
                             ),
                           ),
                         ),
@@ -402,7 +457,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               children: [
                                 Text("Confirm Password *",
                                     style: TextStyle(
-                                        color: MyColors.pewterBlue,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
                                         fontSize:
                                             MyScreen.getScreenHeight(context) *
                                                 (20 / 1063.6))),
@@ -423,7 +480,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                     _isObscure2
                                         ? Icons.visibility
                                         : Icons.visibility_off,
-                                    color: MyColors.pewterBlue,
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
                                     size: MyScreen.getScreenHeight(context) *
                                         (22 / 1063.6)),
                                 onPressed: () {
@@ -433,11 +492,16 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 },
                               ),
                               enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
+                                  borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                              )),
                             ),
                             style: TextStyle(
-                                color: MyColors.middleRed,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
@@ -457,7 +521,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               MyScreen.getScreenHeight(context) * (30 / 1063.6),
                           child: Text("Select Role *",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (20 / 1063.6))),
                         ),
@@ -465,14 +531,16 @@ class _SignUpEmailState extends State<SignUpEmail> {
                           Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 width: MyScreen.getScreenWidth(context) *
                                     (.75 / 294),
                               ),
                             ),
                             width:
                                 MyScreen.getScreenWidth(context) * (228 / 294),
-                            height: 60,
+                            height: 54,
                             child: FormBuilderDropdown<String>(
                               name: 'role',
                               validator: (value) {
@@ -481,15 +549,25 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 }
                                 return null;
                               },
-                              dropdownColor: MyColors.richBlackFogra,
+                              dropdownColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white,
                               iconSize: MyScreen.getScreenHeight(context) *
                                   (35 / 1063.6),
                               isExpanded: true,
                               isDense: true,
-                              iconDisabledColor: MyColors.pewterBlue,
-                              iconEnabledColor: MyColors.pewterBlue,
+                              iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               icon: const Icon(Icons.arrow_drop_down),
-                              style: TextStyle(color: MyColors.pewterBlue),
+                              style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                              ),
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownvalue = newValue!;
@@ -506,7 +584,9 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                   child: Center(
                                       child: Text(value,
                                           style: TextStyle(
-                                              color: MyColors.pewterBlue,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.pewterBlue
+                                                  : MyColors.black,
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
@@ -534,14 +614,18 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                       borderRadius: BorderRadius.circular(
                                           MyScreen.getScreenHeight(context) *
                                               (10 / 1063.6)),
-                                      color: MyColors.middleRed,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.middleRed
+                                          : MyColors.scarlet,
                                     ),
                                   ),
                                 ),
                                 Center(
                                   child: Text("Create Profile",
                                       style: TextStyle(
-                                          color: MyColors.richBlackFogra,
+                                          color: MyDrawer.emp.darkTheme == 1
+                                              ? MyColors.richBlackFogra
+                                              : MyColors.white,
                                           fontSize: MyScreen.getScreenHeight(
                                                   context) *
                                               (17 / 1063.6),

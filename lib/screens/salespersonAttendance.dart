@@ -125,7 +125,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
             Text(
               "Time",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -135,7 +137,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
             Text(
               "Latitude",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -145,7 +149,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
             Text(
               "Longitude",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -167,7 +173,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                 Text(
                   Database_Hourly_Attendance.hourly_attendance[i].time + " ",
                   style: TextStyle(
-                    color: MyColors.white,
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.white
+                        : MyColors.black,
                     fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                     fontWeight: FontWeight.bold,
                   ),
@@ -177,14 +185,18 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                         12
                     ? Text("AM",
                         style: TextStyle(
-                          color: MyColors.white,
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.white
+                              : MyColors.black,
                           fontSize:
                               MyScreen.getScreenHeight(context) * (18 / 1063.6),
                           fontWeight: FontWeight.bold,
                         ))
                     : Text("PM",
                         style: TextStyle(
-                          color: MyColors.white,
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.white
+                              : MyColors.black,
                           fontSize:
                               MyScreen.getScreenHeight(context) * (18 / 1063.6),
                           fontWeight: FontWeight.bold,
@@ -196,7 +208,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
             Text(
               Database_Hourly_Attendance.hourly_attendance[i].latitude,
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -206,7 +220,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
             Text(
               Database_Hourly_Attendance.hourly_attendance[i].longitude,
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -218,6 +234,10 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -226,13 +246,19 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
         ),
         title: Text("Salesperson Attendance",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
@@ -248,7 +274,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: MyColors.grey,
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.white
+                            : MyColors.grey,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       width: MyScreen.getScreenWidth(context) * (450 / 490.9),
@@ -389,7 +417,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                       2: FlexColumnWidth(2.5),
                     },
                     border: TableBorder.all(
-                        color: MyColors.grey,
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.white
+                            : MyColors.black,
                         style: BorderStyle.solid,
                         width: 1),
                     children: tableRows,
@@ -413,7 +443,9 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                               borderRadius: BorderRadius.circular(
                                   MyScreen.getScreenHeight(context) *
                                       (10 / 1063.6)),
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                             ),
                           ),
                         ),
@@ -425,11 +457,15 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                 Icons.location_history,
                                 size: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6),
-                                color: MyColors.richBlackFogra,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.richBlackFogra
+                                    : MyColors.white,
                               ),
                               Text("Log Current Location",
                                   style: TextStyle(
-                                      color: MyColors.richBlackFogra,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.richBlackFogra
+                                          : MyColors.white,
                                       fontSize:
                                           MyScreen.getScreenHeight(context) *
                                               (17 / 1063.6),

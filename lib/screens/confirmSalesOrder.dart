@@ -8,6 +8,7 @@ import 'package:project_v3/Database/order.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/pdf_signed_api.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
@@ -38,11 +39,23 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.arrow_back,
-                  color: MyColors.scarlet,
+                  color: MyColors.white,
                   size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               onPressed: () {
                 Navigator.pop(context);
               },
+            ),
+            title: Text("Confirm Sales Order",
+                style: TextStyle(
+                    color: MyColors.white,
+                    fontSize:
+                        MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+            centerTitle: true,
+            shape: Border(
+              bottom: BorderSide(
+                color: MyColors.scarlet,
+                width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+              ),
             ),
             backgroundColor: MyColors.richBlackFogra,
           ),

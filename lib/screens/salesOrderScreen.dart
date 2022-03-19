@@ -167,12 +167,16 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           ),
           title: Text("Place Sales Order",
               style: TextStyle(
-                  color: MyColors.scarlet,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.scarlet,
                   fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
           centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back,
-                color: MyColors.scarlet,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
             onPressed: () {
               Navigator.pop(context, true);
@@ -181,7 +185,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           actions: [
             IconButton(
               icon: Icon(Icons.more_vert,
-                  color: MyColors.scarlet,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.scarlet,
                   size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               onPressed: () {
                 Navigator.pop(context, true);
@@ -189,16 +195,22 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
             ),
             IconButton(
               icon: Icon(Icons.refresh,
-                  color: MyColors.scarlet,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.scarlet,
                   size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               onPressed: () {
                 setState(() {});
               },
             ),
           ],
-          backgroundColor: MyColors.richBlackFogra,
+          backgroundColor: MyDrawer.emp.darkTheme == 1
+              ? MyColors.richBlackFogra
+              : MyColors.white,
         ),
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
         body: SingleChildScrollView(
           child: FormBuilder(
             key: _formKey,
@@ -218,7 +230,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       Text(
                         "Date: ",
                         style: TextStyle(
-                            color: MyColors.pewterBlue,
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
                             fontSize: MyScreen.getScreenHeight(context) *
                                 (20 / 1063.6)),
                       ),
@@ -233,12 +247,17 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                           readOnly: true,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.richBlackFogra)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white,
+                            )),
                           ),
                           initialValue: (df.format(new DateTime.now())),
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (20 / 1063.6)),
                         ),
@@ -265,7 +284,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Customer *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -281,7 +302,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Billing Address *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -298,7 +321,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Shipping Address *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -316,7 +341,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Phone: $phone_number",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (17 / 1063.6))),
                       ),
@@ -334,7 +361,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         child: Row(children: [
                           Text("Email: $email",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (17 / 1063.6))),
                         ]),
@@ -350,7 +379,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Manufacturing Branch *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -367,7 +398,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Order Required By *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -381,15 +414,22 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                           firstDate: DateTime.now(),
                           name: 'order_by_date',
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                             suffixIcon: Icon(Icons.calendar_today,
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 size: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6)),
                             fillColor: MyColors.grullo,
@@ -420,13 +460,17 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             borderRadius: BorderRadius.circular(
                                 MyScreen.getScreenHeight(context) *
                                     (10 / 1063.6)),
-                            color: MyColors.middleRed,
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.middleRed
+                                : MyColors.scarlet,
                           ),
                         ),
                         Center(
                           child: Text("Sign Order",
                               style: TextStyle(
-                                  color: MyColors.richBlackFogra,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.richBlackFogra
+                                      : MyColors.white,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (17 / 1063.6),
                                   fontWeight: FontWeight.bold)),

@@ -36,13 +36,19 @@ class Database_ApproveOrders {
           .get_customerBranch(processingOrders[i].shipping_Branch_Code));
       customers.add(await Database_customer()
           .get_customer(processingOrders[i].customer_Code));
+      // print(processingOrders[i].shipping_Branch_Code +
+      //     " Path is :" +
+      //     processingOrders[i].chequePhotoPath);
     }
     return true;
   }
 
-  Future<bool> FulfilledOrder(key) async {
-    processingOrders[key].status = 'Fulfilled';
+  Future<bool> FulfilledOrder(key, path) async {
+    processingOrders[key].status = "Fulfilled";
     DatabaseHelper.instance.updateOrder(processingOrders[key]);
+    print("in side fulfil order: " + path);
+    DatabaseHelper.instance
+        .updateOrderChequePhoto(processingOrders[key].order_Id, path);
     return true;
   }
 

@@ -29,7 +29,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
             Text(
               "",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -39,7 +41,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
             Text(
               "Reason",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -49,7 +53,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
             Text(
               "From",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -59,7 +65,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
             Text(
               "To",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -69,7 +77,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
             Text(
               "Status",
               style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.black,
                 fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
                 fontWeight: FontWeight.bold,
               ),
@@ -82,6 +92,10 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
     }
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -90,13 +104,19 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
         ),
         title: Text("Leave Request Summary",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: Center(
         child: Column(
           children: [
@@ -113,7 +133,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
               height: MyScreen.getScreenHeight(context) * (139 / 1063.6),
               width: MyScreen.getScreenWidth(context) * (460 / 490.9),
               decoration: BoxDecoration(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(
                     MyScreen.getScreenHeight(context) * (15 / 1063.6))),
               ),
@@ -331,7 +353,11 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
                   4: FlexColumnWidth(2)
                 },
                 border: TableBorder.all(
-                    color: MyColors.grey, style: BorderStyle.solid, width: 1),
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.grey
+                        : MyColors.black,
+                    style: BorderStyle.solid,
+                    width: 1),
                 children: tableRows,
               ),
             ),
@@ -356,14 +382,18 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
                           borderRadius: BorderRadius.circular(
                               MyScreen.getScreenHeight(context) *
                                   (10 / 1063.6)),
-                          color: MyColors.middleRed,
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
                         ),
                       ),
                     ),
                     Center(
                       child: Text("Apply for Leave",
                           style: TextStyle(
-                              color: MyColors.richBlackFogra,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (17 / 1063.6),
                               fontWeight: FontWeight.bold)),
@@ -384,7 +414,8 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
         Text(
           (key + 1).toString(),
           style: TextStyle(
-            color: MyColors.white,
+            color:
+                MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.black,
             fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
             fontWeight: FontWeight.bold,
           ),
@@ -394,7 +425,8 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
         Text(
           Database_leaveRequest.leaveRequestsForEmp[key].reason!.toUpperCase(),
           style: TextStyle(
-            color: MyColors.white,
+            color:
+                MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.black,
             fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
             fontWeight: FontWeight.bold,
           ),
@@ -404,7 +436,8 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
         Text(
           Database_leaveRequest.leaveRequestsForEmp[key].fromdate!,
           style: TextStyle(
-            color: MyColors.white,
+            color:
+                MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.black,
             fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
             fontWeight: FontWeight.bold,
           ),
@@ -414,7 +447,8 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
         Text(
           Database_leaveRequest.leaveRequestsForEmp[key].todate!,
           style: TextStyle(
-            color: MyColors.white,
+            color:
+                MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.black,
             fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
             fontWeight: FontWeight.bold,
           ),
@@ -424,7 +458,8 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
         Text(
           Database_leaveRequest.leaveRequestsForEmp[key].status!,
           style: TextStyle(
-            color: MyColors.white,
+            color:
+                MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.black,
             fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
             fontWeight: FontWeight.bold,
           ),

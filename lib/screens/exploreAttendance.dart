@@ -26,6 +26,10 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -34,13 +38,19 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
         ),
         title: Text("Explore Attendance",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
@@ -74,7 +84,9 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
           Database_signUp.emps[key].role! == "Salesperson"
               ? Container(
                   decoration: BoxDecoration(
-                    color: MyColors.grey,
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.white
+                        : MyColors.grey,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   width: MyScreen.getScreenWidth(context) * (450 / 490.9),
@@ -179,7 +191,9 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
                   ),
                 )
               : Container(
-                  color: MyColors.white,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
                 ),
         ],
       ),

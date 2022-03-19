@@ -20,7 +20,6 @@ import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/searchFunction.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
-import 'package:project_v3/screens/uploadCheque.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
 
 void main() {
@@ -58,7 +57,6 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyReportSalesSalespersonWiseScreen1: (context) =>
             ReportSalesSalespersonWise1(),
         MyRoutes.MySearchFunction: (context) => SearchFunctions(),
-        MyRoutes.MyUploadChequePhoto: (context) => UploadChequePhoto(),
       },
     );
   }

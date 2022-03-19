@@ -43,6 +43,10 @@ class _LeaveRequestState extends State<LeaveRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -51,13 +55,19 @@ class _LeaveRequestState extends State<LeaveRequest> {
         ),
         title: Text("Leave Requests",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
@@ -108,8 +118,10 @@ class _LeaveRequestState extends State<LeaveRequest> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors.grey,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.grey,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               width: MyScreen.getScreenWidth(context) * (450 / 490.9),
               height: MyScreen.getScreenHeight(context) * (160 / 1063.6),
@@ -243,7 +255,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                       ],
                     ),
                     Container(
-                      color: MyColors.richBlackFogra,
+                      color: MyColors.black,
                       height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                     ),
                     Row(
@@ -258,7 +270,9 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   (40 / 490.9),
                               height: MyScreen.getScreenWidth(context) *
                                   (40 / 490.9),
-                              color: MyColors.richBlackFogra,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.middleRed,
                               child: Text(
                                 remLeaves.toString(),
                                 style: TextStyle(
@@ -291,7 +305,9 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   (40 / 490.9),
                               height: MyScreen.getScreenWidth(context) *
                                   (40 / 490.9),
-                              color: MyColors.richBlackFogra,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.middleRed,
                               child: Text(
                                 totalLeaves.toString(),
                                 style: TextStyle(
@@ -375,7 +391,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                       ],
                     ),
                     Container(
-                      color: MyColors.richBlackFogra,
+                      color: MyColors.black,
                       height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                     ),
                     Row(

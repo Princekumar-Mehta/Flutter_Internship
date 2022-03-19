@@ -22,5 +22,4 @@ class MyRoutes {
   static final MySearchFunction = '/mySearchFunction';
   static final MyReportSalesSalespersonWiseScreen1 =
       '/myReportSalesSalespersonWiseScreen1';
-  static final MyUploadChequePhoto = '/myUploadChequePhoto';
 }

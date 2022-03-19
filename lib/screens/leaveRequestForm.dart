@@ -84,6 +84,10 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color:
+                MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+          ),
           shape: Border(
             bottom: BorderSide(
               color: MyColors.scarlet,
@@ -92,288 +96,347 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
           ),
           title: Text("Leave Request Form",
               style: TextStyle(
-                  color: MyColors.white,
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.scarlet,
                   fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
           centerTitle: true,
-          backgroundColor: MyColors.richBlackFogra,
+          backgroundColor: MyDrawer.emp.darkTheme == 1
+              ? MyColors.richBlackFogra
+              : MyColors.white,
         ),
         drawer: MyDrawer(),
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
         body: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              alignment: Alignment.center,
-              child: Stack(children: [
-                FormBuilder(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenWidth(context) * (70 / 640)),
-                      Padding(
-                        padding: EdgeInsets.all(
-                            MyScreen.getScreenWidth(context) * (15 / 490.9)),
-                        child: Theme(
-                          data: ThemeData(
-                            unselectedWidgetColor: MyColors.pewterBlue,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                "Reason",
-                                style: TextStyle(
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (22 / 1063.6),
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.pewterBlue,
-                                ),
+          child: Container(
+            alignment: Alignment.center,
+            child: Stack(children: [
+              FormBuilder(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MyScreen.getScreenWidth(context) * (15 / 490.9)),
+                      child: Theme(
+                        data: ThemeData(
+                          unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Please Select Reason for Leave",
+                              style: TextStyle(
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (22 / 1063.6),
+                                fontWeight: FontWeight.bold,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                               ),
-                              ListTile(
-                                title: const Text('Sick - Self'),
-                                textColor: MyColors.pewterBlue,
-                                leading: Radio<ReasonSelected>(
-                                  value: ReasonSelected.self,
-                                  groupValue: _reason,
-                                  onChanged: (ReasonSelected? value) {
-                                    setState(() {
-                                      _reason = value;
-                                    });
-                                  },
-                                ),
+                            ),
+                            SizedBox(
+                              height: MyScreen.getScreenHeight(context) *
+                                  (15 / 1063.6),
+                            ),
+                            ListTile(
+                              title: const Text('Sick - Self'),
+                              textColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              selectedColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              leading: Radio<ReasonSelected>(
+                                value: ReasonSelected.self,
+                                groupValue: _reason,
+                                onChanged: (ReasonSelected? value) {
+                                  setState(() {
+                                    _reason = value;
+                                  });
+                                },
                               ),
-                              ListTile(
-                                title: const Text('Sick - Family'),
-                                textColor: MyColors.pewterBlue,
-                                leading: Radio<ReasonSelected>(
-                                  value: ReasonSelected.family,
-                                  groupValue: _reason,
-                                  onChanged: (ReasonSelected? value) {
-                                    setState(() {
-                                      _reason = value;
-                                    });
-                                  },
-                                ),
+                            ),
+                            ListTile(
+                              title: const Text('Sick - Family'),
+                              textColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              selectedColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              leading: Radio<ReasonSelected>(
+                                value: ReasonSelected.family,
+                                groupValue: _reason,
+                                onChanged: (ReasonSelected? value) {
+                                  setState(() {
+                                    _reason = value;
+                                  });
+                                },
                               ),
-                              ListTile(
-                                title: const Text('Vacation'),
-                                textColor: MyColors.pewterBlue,
-                                leading: Radio<ReasonSelected>(
-                                  value: ReasonSelected.vacation,
-                                  groupValue: _reason,
-                                  onChanged: (ReasonSelected? value) {
-                                    setState(() {
-                                      _reason = value;
-                                    });
-                                  },
-                                ),
+                            ),
+                            ListTile(
+                              title: const Text('Vacation'),
+                              textColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              selectedColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              leading: Radio<ReasonSelected>(
+                                value: ReasonSelected.vacation,
+                                groupValue: _reason,
+                                onChanged: (ReasonSelected? value) {
+                                  setState(() {
+                                    _reason = value;
+                                  });
+                                },
                               ),
-                              ListTile(
-                                title: const Text('Leave of Absence'),
-                                textColor: MyColors.pewterBlue,
-                                leading: Radio<ReasonSelected>(
-                                  value: ReasonSelected.leave,
-                                  groupValue: _reason,
-                                  onChanged: (ReasonSelected? value) {
-                                    setState(() {
-                                      _reason = value;
-                                    });
-                                  },
-                                ),
+                            ),
+                            ListTile(
+                              title: const Text('Leave of Absence'),
+                              textColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              selectedColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              leading: Radio<ReasonSelected>(
+                                value: ReasonSelected.leave,
+                                groupValue: _reason,
+                                onChanged: (ReasonSelected? value) {
+                                  setState(() {
+                                    _reason = value;
+                                  });
+                                },
                               ),
-                              ListTile(
-                                title: const Text('Civil/Jury Duty'),
-                                textColor: MyColors.pewterBlue,
-                                leading: Radio<ReasonSelected>(
-                                  value: ReasonSelected.civil,
-                                  groupValue: _reason,
-                                  onChanged: (ReasonSelected? value) {
-                                    setState(() {
-                                      _reason = value;
-                                    });
-                                  },
-                                ),
+                            ),
+                            ListTile(
+                              title: const Text('Civil/Jury Duty'),
+                              textColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              selectedColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              leading: Radio<ReasonSelected>(
+                                value: ReasonSelected.civil,
+                                groupValue: _reason,
+                                onChanged: (ReasonSelected? value) {
+                                  setState(() {
+                                    _reason = value;
+                                  });
+                                },
                               ),
-                              ListTile(
-                                title: const Text('Other'),
-                                textColor: MyColors.pewterBlue,
-                                leading: Radio<ReasonSelected>(
-                                  value: ReasonSelected.other,
-                                  groupValue: _reason,
-                                  onChanged: (ReasonSelected? value) {
-                                    setState(() {
-                                      _reason = value;
-                                      print(_reason);
-                                    });
-                                  },
-                                ),
+                            ),
+                            ListTile(
+                              title: const Text('Other'),
+                              textColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              selectedColor: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              leading: Radio<ReasonSelected>(
+                                value: ReasonSelected.other,
+                                groupValue: _reason,
+                                onChanged: (ReasonSelected? value) {
+                                  setState(() {
+                                    _reason = value;
+                                    print(_reason);
+                                  });
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                          height: MyScreen.getScreenHeight(context) *
-                              (30 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    ),
+                    SizedBox(
                         height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Reason (Please specify if selected Other)",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (100 / 1063.6),
-                        child: FormBuilderTextField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 3,
-                          name: 'reason_desc',
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(
-                                MyScreen.getScreenHeight(context) *
-                                    (8 / 1063.6)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
-                          ),
+                            MyScreen.getScreenHeight(context) * (15 / 1063.6)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Reason (Please specify if selected Other)",
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              if (_reason == ReasonSelected.other) {
-                                return "Please enter a short description for selecting Other";
-                              }
-                              return null;
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height:
+                          MyScreen.getScreenHeight(context) * (100 / 1063.6),
+                      child: FormBuilderTextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 3,
+                        name: 'reason_desc',
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(
+                              MyScreen.getScreenHeight(context) * (8 / 1063.6)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          )),
+                        ),
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.middleRed
+                                : MyColors.scarlet,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (25 / 1063.6)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            if (_reason == ReasonSelected.other) {
+                              return "Please enter a short description for selecting Other";
                             }
-                          },
-                        ),
+                            return null;
+                          }
+                        },
                       ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("From *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderDateTimePicker(
-                          inputType: InputType.date,
-                          format: DateFormat('dd-MM-yyyy'),
-                          firstDate: DateTime.now(),
-                          name: 'date',
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("From *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
-                            suffixIcon: Icon(Icons.calendar_today,
-                                color: MyColors.pewterBlue,
-                                size: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6)),
-                            fillColor: MyColors.grullo,
-                          ),
-                          initialValue: DateTime.now(),
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderDateTimePicker(
+                        inputType: InputType.date,
+                        format: DateFormat('dd-MM-yyyy'),
+                        firstDate: DateTime.now(),
+                        name: 'date',
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (25 / 1063.6)),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          )),
+                          suffixIcon: Icon(Icons.calendar_today,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              size: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6)),
+                          fillColor: MyColors.grullo,
                         ),
+                        initialValue: DateTime.now(),
                       ),
-                      SizedBox(
-                          height:
-                              MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("To *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                        child: FormBuilderDateTimePicker(
-                          inputType: InputType.date,
-                          format: DateFormat('dd-MM-yyyy'),
-                          firstDate: DateTime.now(),
-                          initialValue: DateTime.now(),
-                          name: 'dateto',
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("To *",
                           style: TextStyle(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
-                            suffixIcon: Icon(Icons.calendar_today,
-                                color: MyColors.pewterBlue,
-                                size: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6)),
-                            fillColor: MyColors.grullo,
-                          ),
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderDateTimePicker(
+                        inputType: InputType.date,
+                        format: DateFormat('dd-MM-yyyy'),
+                        firstDate: DateTime.now(),
+                        initialValue: DateTime.now(),
+                        name: 'dateto',
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (25 / 1063.6)),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          )),
+                          suffixIcon: Icon(Icons.calendar_today,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              size: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6)),
+                          fillColor: MyColors.grullo,
                         ),
                       ),
-                      SizedBox(
-                          height: MyScreen.getScreenHeight(context) *
-                              (60 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                    ),
+                    SizedBox(
                         height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        MyScreen.getScreenHeight(context) *
-                                            (10 / 1063.6)),
-                                    color: MyColors.middleRed,
-                                  ),
+                            MyScreen.getScreenHeight(context) * (40 / 1063.6)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (85 / 294),
+                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                      child: InkWell(
+                        child: Stack(
+                          children: [
+                            Opacity(
+                              opacity: 0.8,
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      MyScreen.getScreenHeight(context) *
+                                          (10 / 1063.6)),
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.middleRed
+                                      : MyColors.scarlet,
                                 ),
                               ),
-                              Center(
-                                child: Text("Request Leave",
-                                    style: TextStyle(
-                                        color: MyColors.richBlackFogra,
-                                        fontSize:
-                                            MyScreen.getScreenHeight(context) *
-                                                (17 / 1063.6),
-                                        fontWeight: FontWeight.bold)),
-                              )
-                            ],
-                          ),
-                          onTap: () => applyLeave(context),
+                            ),
+                            Center(
+                              child: Text("Request Leave",
+                                  style: TextStyle(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.richBlackFogra
+                                          : MyColors.white,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (17 / 1063.6),
+                                      fontWeight: FontWeight.bold)),
+                            )
+                          ],
                         ),
+                        onTap: () => applyLeave(context),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ]),
-            ),
+              ),
+            ]),
           ),
         ));
   }

@@ -5,6 +5,7 @@ import 'package:project_v3/Extras/utility.dart';
 
 import 'myColors.dart';
 import 'myScreen.dart';
+import 'mydrawer.dart';
 
 class MyTypeAhead extends StatefulWidget {
   List<String> itemList;
@@ -44,7 +45,9 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
     return Container(
       width: MyScreen.getScreenWidth(context) * (228 / 294),
       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-      color: MyColors.richBlackFogra,
+      color: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       child: TypeAheadField(
         textFieldConfiguration: TextFieldConfiguration(
             scrollPadding: EdgeInsets.only(bottom: 300),

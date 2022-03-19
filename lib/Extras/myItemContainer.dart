@@ -4,6 +4,7 @@ import 'package:project_v3/Database/order.dart';
 
 import 'myColors.dart';
 import 'myScreen.dart';
+import 'mydrawer.dart';
 
 class MyItemContainer extends StatefulWidget {
   Order? order = Order();
@@ -45,7 +46,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                 alignment: Alignment.centerLeft,
                 child: Text("Item List",
                     style: TextStyle(
-                        color: MyColors.pewterBlue,
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.pewterBlue
+                            : MyColors.black,
                         fontSize:
                             MyScreen.getScreenHeight(context) * (17 / 1063.6))),
               ),
@@ -67,7 +70,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                     alignment: Alignment.centerRight,
                     child: Text("Add Item +",
                         style: TextStyle(
-                            color: MyColors.pewterBlue,
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
                             fontSize: MyScreen.getScreenHeight(context) *
                                 (17 / 1063.6))),
                   ),
@@ -97,7 +102,11 @@ class _MyItemContainerState extends State<MyItemContainer> {
         children: [
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: MyColors.pewterBlue),
+              border: Border.all(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.pewterBlue
+                    : MyColors.black,
+              ),
               borderRadius: BorderRadius.circular(
                   MyScreen.getScreenHeight(context) * (10 / 1063.6)),
             ),
@@ -115,7 +124,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                         alignment: Alignment.centerLeft,
                         child: Text("${key + 1} Item:",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -159,7 +170,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                 widget.order!.current != key
                                     ? Icons.keyboard_arrow_down
                                     : Icons.keyboard_arrow_up,
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 size: MyScreen.getScreenHeight(context) *
                                     (45 / 1063.6)),
                           ),
@@ -179,7 +192,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                         children: [
                           Text("Net Weight:",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (16 / 1063.6))),
                           Container(
@@ -194,7 +209,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                           ),
                           Text("MRP: \u{20B9}",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (16 / 1063.6))),
                           Container(
@@ -209,7 +226,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                           ),
                           Text("Unit: Packet",
                               style: TextStyle(
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   fontSize: MyScreen.getScreenHeight(context) *
                                       (16 / 1063.6))),
                         ],
@@ -237,11 +256,15 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -250,7 +273,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             "Unit",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: MyColors.pewterBlue,
+                                                color:
+                                                    MyDrawer.emp.darkTheme == 1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
@@ -268,15 +294,21 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -291,7 +323,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             "Qty",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: MyColors.pewterBlue,
+                                                color:
+                                                    MyDrawer.emp.darkTheme == 1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
@@ -307,11 +342,15 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -320,7 +359,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             "Packet",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: MyColors.pewterBlue,
+                                                color:
+                                                    MyDrawer.emp.darkTheme == 1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
@@ -338,15 +380,21 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -372,7 +420,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         child: Text(
                                           "Subtotal",
                                           style: TextStyle(
-                                              color: MyColors.pewterBlue,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.pewterBlue
+                                                  : MyColors.black,
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
@@ -402,11 +452,15 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -415,7 +469,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             "Patti",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: MyColors.pewterBlue,
+                                                color:
+                                                    MyDrawer.emp.darkTheme == 1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
@@ -433,15 +490,21 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -467,7 +530,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: MyColors.pewterBlue,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.pewterBlue
+                                                  : MyColors.black,
                                               width: 1.0,
                                             ),
                                           ),
@@ -475,7 +540,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         child: Text(
                                           "Tax",
                                           style: TextStyle(
-                                              color: MyColors.pewterBlue,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.pewterBlue
+                                                  : MyColors.black,
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
@@ -490,7 +557,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
-                                              color: MyColors.pewterBlue,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.pewterBlue
+                                                  : MyColors.black,
                                               width: 1.0,
                                             ),
                                           ),
@@ -511,11 +580,15 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -524,7 +597,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             "Box",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: MyColors.pewterBlue,
+                                                color:
+                                                    MyDrawer.emp.darkTheme == 1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
@@ -542,15 +618,21 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -575,7 +657,9 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         child: Text(
                                           "Total",
                                           style: TextStyle(
-                                              color: MyColors.pewterBlue,
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.pewterBlue
+                                                  : MyColors.black,
                                               fontSize:
                                                   MyScreen.getScreenHeight(
                                                           context) *
@@ -603,15 +687,21 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           bottom: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -620,7 +710,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                             "Total",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: MyColors.pewterBlue,
+                                                color:
+                                                    MyDrawer.emp.darkTheme == 1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
                                                 fontSize:
                                                     MyScreen.getScreenHeight(
                                                             context) *
@@ -638,19 +731,27 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                         decoration: BoxDecoration(
                                             border: Border(
                                           left: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           top: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           bottom: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                           right: BorderSide(
-                                            color: MyColors.pewterBlue,
+                                            color: MyDrawer.emp.darkTheme == 1
+                                                ? MyColors.pewterBlue
+                                                : MyColors.black,
                                             width: 1.0,
                                           ),
                                         )),
@@ -683,12 +784,19 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                 InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: MyColors.richBlackFogra,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.richBlackFogra
+                                          : MyColors.white,
                                       border: Border.all(
-                                          color: MyColors.richBlackFogra),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.richBlackFogra
+                                            : MyColors.white,
+                                      ),
                                     ),
                                     child: Icon(Icons.save,
-                                        color: MyColors.pewterBlue,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (35 / 1063.6)),
@@ -707,12 +815,19 @@ class _MyItemContainerState extends State<MyItemContainer> {
                                 InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: MyColors.richBlackFogra,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.richBlackFogra
+                                          : MyColors.white,
                                       border: Border.all(
-                                          color: MyColors.richBlackFogra),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.richBlackFogra
+                                            : MyColors.white,
+                                      ),
                                     ),
                                     child: Icon(Icons.delete_forever,
-                                        color: MyColors.pewterBlue,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (40 / 1063.6)),

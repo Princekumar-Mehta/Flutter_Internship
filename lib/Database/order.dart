@@ -7,6 +7,7 @@ import 'package:project_v3/Database/db_final_order.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 
 import 'customer.dart';
@@ -124,8 +125,8 @@ class Order {
   giveTextFormField(mycontroller, context,
       {isEditable = true, myAlign = TextAlign.right}) {
     return TextFormField(
-      decoration:
-          InputDecoration(contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 13)),
+      decoration: const InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 13)),
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -135,7 +136,9 @@ class Order {
       textAlign: myAlign,
       readOnly: !isEditable,
       style: TextStyle(
-          color: MyColors.pewterBlue,
+          color: MyDrawer.emp.darkTheme == 1
+              ? MyColors.pewterBlue
+              : MyColors.black,
           fontSize: MyScreen.getScreenHeight(context) * (18 / 1069.9)),
     );
   }

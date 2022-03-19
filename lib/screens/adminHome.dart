@@ -76,7 +76,6 @@ class _AdminHomeState extends State<AdminHome> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-
               SizedBox(
                 height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
               ),
@@ -1327,10 +1326,7 @@ class _AdminHomeState extends State<AdminHome> {
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
-                                      onTap: () async {
-                                        Navigator.pushNamed(context,
-                                            MyRoutes.MyUploadChequePhoto);
-                                      },
+                                      onTap: () async {},
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,

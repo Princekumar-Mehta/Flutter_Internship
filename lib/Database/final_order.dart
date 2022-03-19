@@ -9,6 +9,7 @@ class FinalOrder {
   String status;
   String file_Address;
   int salesperson_Code;
+  String chequePhotoPath;
   FinalOrder({
     required this.customer_Code,
     required this.billing_Branch_Code,
@@ -20,6 +21,7 @@ class FinalOrder {
     required this.status,
     required this.file_Address,
     required this.salesperson_Code,
+    required this.chequePhotoPath,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,21 +36,22 @@ class FinalOrder {
       'status': this.status,
       'file_Address': this.file_Address,
       'salesperson_Code': this.salesperson_Code,
+      'chequePhotoPath': this.chequePhotoPath
     };
   }
 
   factory FinalOrder.fromMap(Map<String, dynamic> map) {
     return FinalOrder(
-      customer_Code: map['customer_Code'] as String,
-      billing_Branch_Code: map['billing_Branch_Code'] as String,
-      shipping_Branch_Code: map['shipping_Branch_Code'] as String,
-      manufacturing_Branch_Code: map['manufacturing_Branch_Code'] as String,
-      order_Id: map['order_Id'] as int,
-      total: map['total'] as int,
-      order_by_date: map['order_by_date'] as String,
-      status: map['status'] as String,
-      file_Address: map['file_Address'] as String,
-      salesperson_Code: map['salesperson_Code'] as int,
-    );
+        customer_Code: map['customer_Code'] as String,
+        billing_Branch_Code: map['billing_Branch_Code'] as String,
+        shipping_Branch_Code: map['shipping_Branch_Code'] as String,
+        manufacturing_Branch_Code: map['manufacturing_Branch_Code'] as String,
+        order_Id: map['order_Id'] as int,
+        total: map['total'] as int,
+        order_by_date: map['order_by_date'] as String,
+        status: map['status'] as String,
+        file_Address: map['file_Address'] as String,
+        salesperson_Code: map['salesperson_Code'] as int,
+        chequePhotoPath: map['chequePhotoPath'] as String);
   }
 }

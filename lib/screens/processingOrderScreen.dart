@@ -6,6 +6,7 @@ import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/screens/uploadCheque.dart';
 import 'package:project_v3/screens/viewOrderScreen.dart';
 
 import '../routes.dart';
@@ -21,12 +22,17 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
   @override
   initState() {
     super.initState();
+    //  DatabaseHelper.instance.Temp_Query();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -35,13 +41,19 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
         ),
         title: Text("Processing Orders",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
@@ -148,7 +160,7 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                               ),
                               SizedBox(
                                 width: MyScreen.getScreenWidth(context) *
-                                    (125 / 490.9),
+                                    (110 / 490.9),
                               ),
                               InkWell(
                                   child: Text(
@@ -169,6 +181,33 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                                             builder: (context) =>
                                                 viewOrder(file: file)));
                                   }),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (25 / 490.9),
+                              ),
+                              Database_ApproveOrders.processingOrders[key]
+                                          .chequePhotoPath ==
+                                      ""
+                                  ? Container()
+                                  : InkWell(
+                                      child: Text(
+                                        "View Cheque",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (13 / 1063.6),
+                                        ),
+                                      ),
+                                      onTap: () async {
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UploadChequePhoto(
+                                                      order_id: key,
+                                                    )));
+                                      }),
                             ],
                           ),
                         ],
@@ -176,7 +215,7 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                     ],
                   ),
                   Container(
-                    color: MyColors.richBlackFogra,
+                    color: MyColors.black,
                     height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                   ),
                   Row(
@@ -225,7 +264,9 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                                 MyScreen.getScreenWidth(context) * (40 / 490.9),
                             height:
                                 MyScreen.getScreenWidth(context) * (40 / 490.9),
-                            color: MyColors.richBlackFogra,
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.richBlackFogra
+                                : MyColors.middleRed,
                             child: Text(
                               Database_ApproveOrders.customers[key].crd_Day!
                                   .toString(),
@@ -252,10 +293,11 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                         ],
                       ),
                       (Database_ApproveOrders.processingOrders[key].status !=
-                                  "Fulfilled" &&
-                              Database_ApproveOrders
-                                      .processingOrders[key].status !=
-                                  "Rejected")
+                                      "Fulfilled" &&
+                                  Database_ApproveOrders
+                                          .processingOrders[key].status !=
+                                      "Rejected") &&
+                              MyDrawer.emp.role == "Salesperson"
                           ? InkWell(
                               onTap: () async {
                                 if (await Database_ApproveOrders()
@@ -304,29 +346,19 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                                   (0 / 1063.6),
                             ),
                       (Database_ApproveOrders.processingOrders[key].status !=
-                                  "Fulfilled" &&
-                              Database_ApproveOrders
-                                      .processingOrders[key].status !=
-                                  "Rejected")
+                                      "Fulfilled" &&
+                                  Database_ApproveOrders
+                                          .processingOrders[key].status !=
+                                      "Rejected") &&
+                              MyDrawer.emp.role == "Salesperson"
                           ? InkWell(
                               onTap: () async {
-                                if (await Database_ApproveOrders()
-                                    .FulfilledOrder(key)) {
-                                  Send_Mail.send_mail(
-                                      Database_ApproveOrders
-                                          .customers[key].email!,
-                                      "Order Delivered",
-                                      "Your Order has been delivered");
-                                  Navigator.pop(context);
-                                  var _processingOrders =
-                                      Database_ApproveOrders();
-                                  if (await _processingOrders
-                                      .getProcessingOrders(MyDrawer.emp.id!,
-                                          MyDrawer.emp.role!)) {
-                                    Navigator.pushNamed(
-                                        context, MyRoutes.MyProcessingOrders);
-                                  }
-                                }
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UploadChequePhoto(
+                                              order_id: key,
+                                            )));
                               },
                               child: Container(
                                 width: MyScreen.getScreenWidth(context) *
@@ -351,7 +383,7 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                     ],
                   ),
                   Container(
-                    color: MyColors.richBlackFogra,
+                    color: MyColors.black,
                     height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                   ),
                   Row(

@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String? id = _formKey.currentState?.value['email_or_id'].toString();
       if (await Utility.isNotExist(id.toString())) {
         showMessage(
-            context, "This is not a registered email\nPlease Try again");
+            context, "This is not a registered Email/Employee ID\nPlease Try again");
         return;
       } else {
         emp = await Utility.getEmployee(id.toString());

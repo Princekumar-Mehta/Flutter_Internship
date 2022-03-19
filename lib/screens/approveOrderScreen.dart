@@ -27,6 +27,10 @@ class _ApproveOrderState extends State<ApproveOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        ),
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
@@ -35,13 +39,19 @@ class _ApproveOrderState extends State<ApproveOrder> {
         ),
         title: Text("Approve Orders",
             style: TextStyle(
-                color: MyColors.white,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
       drawer: MyDrawer(),
-      backgroundColor: MyColors.richBlackFogra,
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
@@ -73,8 +83,9 @@ class _ApproveOrderState extends State<ApproveOrder> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: MyColors.grey,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color:
+                  MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.grey,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
             height: MyScreen.getScreenHeight(context) * (160 / 1063.6),
@@ -173,7 +184,7 @@ class _ApproveOrderState extends State<ApproveOrder> {
                     ],
                   ),
                   Container(
-                    color: MyColors.richBlackFogra,
+                    color: MyColors.black,
                     height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                   ),
                   Row(
@@ -311,7 +322,7 @@ class _ApproveOrderState extends State<ApproveOrder> {
                     ],
                   ),
                   Container(
-                    color: MyColors.richBlackFogra,
+                    color: MyColors.black,
                     height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                   ),
                   Row(

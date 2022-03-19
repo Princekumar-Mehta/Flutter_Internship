@@ -25,6 +25,7 @@ class Database_Final_Order {
       status: "Pending_Admin",
       file_Address: file_Address,
       salesperson_Code: salesperson_Code,
+      chequePhotoPath: "",
     ));
   }
 

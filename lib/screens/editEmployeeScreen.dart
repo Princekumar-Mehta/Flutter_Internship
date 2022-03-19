@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
@@ -88,7 +89,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
             child: const Text('Yes'),
             onPressed: () async {
               Navigator.pop(c, false);
-              MyDrawer.emp = widget.emp;
+              // MyDrawer.emp = widget.emp;
               Navigator.pop(context);
             },
           ),
@@ -118,8 +119,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       setState(() {});
       Employee? emp = await Database_signUp.getEmp(
           email: widget.emp.email.toString(), id: 0);
-      MyDrawer.emp = emp!;
-      if (MyDrawer.emp.email != email) {
+      if (MyDrawer.emp.id == emp!.id!) {
+        MyDrawer.emp = emp;
+      }
+      print(email);
+      if (widget.emp.email != email) {
         int otp = 1000 + Random().nextInt(9999 - 1000);
         Send_Mail.send_mail(
             email, "OTP For Verification", "OTP is: " + otp.toString());
@@ -129,6 +133,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 builder: (context) => OtpVerificationScreen(
                       email: email,
                       otp: otp,
+                      old_email: widget.emp.email!,
                       previous: "edit employee",
                     )));
       } else {
@@ -179,7 +184,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back,
-                color: MyColors.scarlet,
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
                 size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
@@ -201,9 +208,26 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
               }
             },
           ),
-          backgroundColor: MyColors.richBlackFogra,
+          shape: Border(
+            bottom: BorderSide(
+              color: MyColors.scarlet,
+              width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+            ),
+          ),
+          title: Text("Edit Employee Details",
+              style: TextStyle(
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.scarlet,
+                  fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+          centerTitle: true,
+          backgroundColor: MyDrawer.emp.darkTheme == 1
+              ? MyColors.richBlackFogra
+              : MyColors.white,
         ),
-        backgroundColor: MyColors.richBlackFogra,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
         body: SingleChildScrollView(
           child: Center(
             child: Container(
@@ -231,7 +255,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                           bottom: 0,
                           right: 2,
                           child: Icon(Icons.add_circle,
-                              color: Colors.white,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.white
+                                  : MyColors.scarlet,
                               size: MyScreen.getScreenWidth(context) *
                                   (22 / 360)),
                         )
@@ -245,7 +271,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Full Name *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -258,11 +286,16 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                           name: 'full_name',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -282,7 +315,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Email Address *",
                             style: TextStyle(
-                                color: MyColors.pewterBlue,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
@@ -295,11 +330,16 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             initialValue: widget.emp.email,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
+                                  borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                              )),
                             ),
                             style: TextStyle(
-                                color: MyColors.middleRed,
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
@@ -324,7 +364,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             children: [
                               Text("Password *",
                                   style: TextStyle(
-                                      color: MyColors.pewterBlue,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
                                       fontSize:
                                           MyScreen.getScreenHeight(context) *
                                               (20 / 1063.6))),
@@ -339,7 +381,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                           initialValue: widget.emp.password,
                           obscureText: _isObscure,
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -362,7 +406,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                   _isObscure
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   size: MyScreen.getScreenHeight(context) *
                                       (22 / 1063.6)),
                               onPressed: () {
@@ -372,8 +418,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               },
                             ),
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                         ),
                       ),
@@ -388,7 +437,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             children: [
                               Text("Confirm Password *",
                                   style: TextStyle(
-                                      color: MyColors.pewterBlue,
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
                                       fontSize:
                                           MyScreen.getScreenHeight(context) *
                                               (20 / 1063.6))),
@@ -409,7 +460,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                   _isObscure2
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: MyColors.pewterBlue,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
                                   size: MyScreen.getScreenHeight(context) *
                                       (22 / 1063.6)),
                               onPressed: () {
@@ -419,11 +472,16 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               },
                             ),
                             enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: MyColors.pewterBlue)),
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
                           ),
                           style: TextStyle(
-                              color: MyColors.middleRed,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
@@ -437,45 +495,79 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                       SizedBox(
                           height:
                               MyScreen.getScreenHeight(context) * (6 / 553)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                        child: Text("Select Role *",
-                            style: TextStyle(
-                                color: MyColors.pewterBlue,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6))),
-                      ),
-                      Stack(children: [
+                      MyDrawer.emp.role == 'Salesperson'
+                          ? SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (228 / 294),
+                              height: MyScreen.getScreenHeight(context) *
+                                  (30 / 1063.6),
+                              child: Text("Role: " + widget.emp.role!,
+                                  style: TextStyle(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (20 / 1063.6))),
+                            )
+                          : SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (228 / 294),
+                              height: MyScreen.getScreenHeight(context) *
+                                  (30 / 1063.6),
+                              child: Text("Select Role *",
+                                  style: TextStyle(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (20 / 1063.6))),
+                            ),
+                      MyDrawer.emp.role == 'Admin'
+                          ? Stack(children: [
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: MyColors.pewterBlue,
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
                               width: MyScreen.getScreenWidth(context) *
                                   (.75 / 294),
                             ),
                           ),
-                          width: MyScreen.getScreenWidth(context) * (228 / 294),
-                          height: 60,
+                          width: MyScreen.getScreenWidth(context) *
+                              (228 / 294),
+                          height: 54,
                           child: FormBuilderDropdown<String>(
                             name: 'role',
                             initialValue: widget.emp.role,
                             validator: (value) {
-                              if (value.toString() == "Select an Option") {
+                              if (value.toString() ==
+                                  "Select an Option") {
                                 return "Please select a role";
                               }
                               return null;
                             },
-                            dropdownColor: MyColors.richBlackFogra,
+                            dropdownColor: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.richBlackFogra
+                                : MyColors.white,
                             iconSize: MyScreen.getScreenHeight(context) *
                                 (35 / 1063.6),
                             isExpanded: true,
                             isDense: true,
-                            iconDisabledColor: MyColors.pewterBlue,
-                            iconEnabledColor: MyColors.pewterBlue,
+                            iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
                             icon: const Icon(Icons.arrow_drop_down),
-                            style: TextStyle(color: MyColors.pewterBlue),
+                            style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            ),
                             onChanged: (String? newValue) {
                               setState(() {
                                 dropdownvalue = newValue!;
@@ -487,21 +579,28 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               'Regional Manager',
                               'Area Manager',
                               'General Manager'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Center(
-                                    child: Text(value,
-                                        style: TextStyle(
-                                            color: MyColors.pewterBlue,
-                                            fontSize: MyScreen.getScreenHeight(
+                            ].map<DropdownMenuItem<String>>(
+                                    (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Center(
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                color:
+                                                MyDrawer.emp.darkTheme ==
+                                                    1
+                                                    ? MyColors.pewterBlue
+                                                    : MyColors.black,
+                                                fontSize:
+                                                MyScreen.getScreenHeight(
                                                     context) *
-                                                (20 / 1063.6)))),
-                              );
-                            }).toList(),
+                                                    (20 / 1063.6)))),
+                                  );
+                                }).toList(),
                           ),
                         )
-                      ]),
+                      ])
+                          : Container(),
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *
                               (60 / 1063.6)),
@@ -520,14 +619,18 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                     borderRadius: BorderRadius.circular(
                                         MyScreen.getScreenHeight(context) *
                                             (10 / 1063.6)),
-                                    color: MyColors.middleRed,
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.middleRed
+                                        : MyColors.scarlet,
                                   ),
                                 ),
                               ),
                               Center(
                                 child: Text("Update Profile",
                                     style: TextStyle(
-                                        color: MyColors.richBlackFogra,
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.richBlackFogra
+                                            : MyColors.white,
                                         fontSize:
                                             MyScreen.getScreenHeight(context) *
                                                 (17 / 1063.6),

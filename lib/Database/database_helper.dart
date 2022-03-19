@@ -117,7 +117,8 @@ class DatabaseHelper {
        order_by_date TEXT,
        status TEXT,
        file_Address TEXT,
-       salesperson_Code INTEGER
+       salesperson_Code INTEGER,
+       chequePhotoPath TEXT
     )
     ''');
     await db.execute('''
@@ -227,7 +228,7 @@ class DatabaseHelper {
 
   Future<void> Temp_Query() async {
     Database db = await instance.database;
-    await db.rawQuery("DELETE FROM leave_requests");
+    await db.rawQuery("UPDATE final_order SET status = 'Processing'");
   }
 
   Future<int> addCustomer(Customer customer) async {
@@ -451,6 +452,13 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.update('final_order', finalOrder.toMap(),
         where: 'order_Id = ?', whereArgs: [finalOrder.order_Id]);
+  }
+
+  updateOrderChequePhoto(int order_Id, String path) async {
+    Database db = await instance.database;
+    print("in database helper : " + path);
+    await db.rawQuery(
+        "UPDATE final_order SET chequePhotoPath = '${path}' where order_Id = ${order_Id}");
   }
 
   Future<int> addRequest(LeaveRequest request) async {
