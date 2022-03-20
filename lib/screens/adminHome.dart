@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
@@ -20,6 +21,22 @@ class _AdminHomeState extends State<AdminHome> {
   bool viewAll2 = false;
   bool viewAll3 = false;
   int _selectedIndex = 0;
+  final TextEditingController _textEditingController = TextEditingController();
+  bool isChanged = true;
+  var itemList = [
+    "Processing Orders",
+    "Add Employee",
+    "Pending Orders",
+    "Fulfilled Orders",
+    "Leave Request Form",
+    "My Leave Request Summary",
+    "Leave Requests",
+    "Edit Profile",
+    "View Employees",
+    "Explore Attendance",
+    "Add Item",
+    "Analytic Report"
+  ];
   @override
   Widget build(BuildContext context) {
     // DatabaseHelper.instance.Temp_Query();
@@ -76,6 +93,81 @@ class _AdminHomeState extends State<AdminHome> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              SizedBox(
+                height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+              ),
+              Container(
+                width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
+                ),
+                child: TypeAheadField(
+                  suggestionsCallback: (pattern) => itemList.where((item) =>
+                      item.toLowerCase().contains(pattern.toLowerCase())),
+                  textFieldConfiguration: TextFieldConfiguration(
+                      scrollPadding: const EdgeInsets.only(
+                        bottom: 300,
+                      ),
+                      controller: _textEditingController,
+                      decoration: InputDecoration(
+                        hintText: "Quick Search",
+                        suffixIcon: Icon(
+                          Icons.search,
+                          size:
+                              MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.scarlet
+                              : MyColors.white,
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(10, 13, 0, 0),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.richBlackFogra
+                                    : MyColors.white)),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.richBlackFogra
+                                    : MyColors.white)),
+                      ),
+                      style: TextStyle(
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
+                          fontSize: MyScreen.getScreenHeight(context) *
+                              (25 / 1063.6))),
+                  itemBuilder: (_, String item) => ListTile(
+                    title: Text(item),
+                  ),
+                  onSuggestionSelected: (String val) {
+                    _textEditingController.text = val;
+                    Future.delayed(Duration(milliseconds: 500), () async {
+                      if (val == "Processing Orders") {
+                        var _pendingOrders = Database_ApproveOrders();
+                        if (await _pendingOrders.getProcessingOrders(
+                            MyDrawer.emp.id!, MyDrawer.emp.role!)) {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyProcessingOrders);
+                        }
+                      } else if (val == "Add Employee") {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, MyRoutes.MySignUpEmail);
+                      }
+                    });
+                  },
+                  getImmediateSuggestions: true,
+                  hideOnEmpty: false,
+                  noItemsFoundBuilder: (context) => const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('No item found'),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
               ),

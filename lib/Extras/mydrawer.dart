@@ -81,15 +81,6 @@ class MyDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.search),
-            iconColor: MyColors.scarlet,
-            title: const Text('Search'),
-            onTap: () {
-              Navigator.pushReplacementNamed(
-                  context, MyRoutes.MySearchFunction);
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.account_circle),
             iconColor: MyColors.scarlet,
             title: const Text('Profile'),
