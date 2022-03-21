@@ -93,14 +93,15 @@ class Order {
     //  print(encoder.convert(final_order));
   }
 
-  addToDatabase() async {
+  addToDatabase(context) async {
     final_total = 0;
     for (int i = 0; i < counter!; i++) {
+      print(final_total);
       final_total =
           final_total + double.parse(total![i].text.toString()).round();
     }
     int order_Id = (await Database_Final_Order().getFinalOrdersLastId()) + 1;
-    print("totla is " + final_total.toString());
+    print("total is " + final_total.toString());
     Database_Final_Order.addFinalOrder(
         customer_Code: customer.code!,
         billing_Branch_Code: billing_branch.branch_Code!,
@@ -120,6 +121,7 @@ class Order {
           item_Code: item_detials[i].code!);
     }
     final_total = 0;
+    return true;
   }
 
   giveTextFormField(mycontroller, context,
@@ -239,6 +241,4 @@ class Order {
     current = -1;
     return true;
   }
-
-  convertToFinalOrder() {}
 }

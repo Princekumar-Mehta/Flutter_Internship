@@ -18,8 +18,7 @@ class MyRoutes {
   static final MyMapScreen = '/myMapScreen';
   static final MyAddItemScreen = '/myAddItemScreen';
   static final MyExploreAttendanceScreen = '/myExploreAttendanceScreen';
-  static final MyReportItemWiseScreen1 = '/myReportItemWiseScreen1';
   static final MySearchFunction = '/mySearchFunction';
-  static final MyReportSalesSalespersonWiseScreen1 =
-      '/myReportSalesSalespersonWiseScreen1';
+  static final MyFulfilledOrders = '/myFulfilledOrders';
+  static final MyReportHome = '/myReportHome';
 }

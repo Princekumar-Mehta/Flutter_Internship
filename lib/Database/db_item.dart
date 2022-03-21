@@ -11,7 +11,7 @@ class Database_Item {
     List<Item> existing_item =
         await DatabaseHelper.instance.getItem(item['item_Name']);
     if (existing_item.isNotEmpty) {
-      print(existing_item[0].item_Name);
+      //print(existing_item[0].item_Name);
       return false;
     } else {
       final items = await DatabaseHelper.instance.getItems();
@@ -33,9 +33,9 @@ class Database_Item {
     final items = await DatabaseHelper.instance.getItems();
     items.forEach((element) {
       item_names.add(element.item_Name!);
-      print(element.code! + "\n");
+      //print(element.code! + "\n");
     });
-    //  print(item_names);
+    //  //print(item_names);
     return true;
   }
 
@@ -47,7 +47,7 @@ class Database_Item {
   static insertData() async {
     bool isData = await DatabaseHelper.instance.isItemTableContainData();
     if (isData == false) {
-      // print("customer branches data insert");
+      // //print("customer branches data insert");
       List? data;
       var jsonText = await rootBundle.loadString('assets/data/Item.json');
       data = json.decode(jsonText);

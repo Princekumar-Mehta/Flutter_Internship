@@ -29,16 +29,6 @@ class _UploadChequePhotoState extends State<UploadChequePhoto> {
   }
 
   @override
-  initState() {
-    _pickedImage = Database_ApproveOrders
-                .processingOrders[widget.order_id].chequePhotoPath ==
-            ""
-        ? null
-        : File(Database_ApproveOrders
-            .processingOrders[widget.order_id].chequePhotoPath);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -50,12 +40,7 @@ class _UploadChequePhotoState extends State<UploadChequePhoto> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-            Database_ApproveOrders
-                        .processingOrders[widget.order_id].chequePhotoPath !=
-                    ""
-                ? "View Cheque Image"
-                : "Upload Cheque Image",
+        title: Text("Upload Cheque Image",
             style: TextStyle(
                 color: MyColors.white,
                 fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
@@ -86,64 +71,58 @@ class _UploadChequePhotoState extends State<UploadChequePhoto> {
                   )
                 : Image.file(File(_pickedImage!.path)),
           ),
-          Database_ApproveOrders
-                      .processingOrders[widget.order_id].chequePhotoPath !=
-                  ""
-              ? Container()
-              : _pickedImage == null
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            _pickImage();
-                          },
-                          child: const Text("Upload Image"),
-                        )
-                      ],
+          _pickedImage == null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _pickImage();
+                      },
+                      child: const Text("Upload Image"),
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _pickedImage = null;
-                            });
-                          },
-                          child: const Text("Reset Image"),
-                        ),
-                        _pickedImage == null
-                            ? Container()
-                            : ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: MyColors.scarlet,
-                                ),
-                                onPressed: () async {
-                                  print(_pickedImage!.path);
-                                  if (await Database_ApproveOrders()
-                                      .FulfilledOrder(widget.order_id,
-                                          _pickedImage!.path)) {
-                                    Send_Mail.send_mail(
-                                        Database_ApproveOrders
-                                            .customers[widget.order_id].email!,
-                                        "Order Delivered",
-                                        "Your Order has been delivered");
-                                    Navigator.pop(context);
-                                    var _processingOrders =
-                                        Database_ApproveOrders();
-                                    if (await _processingOrders
-                                        .getProcessingOrders(MyDrawer.emp.id!,
-                                            MyDrawer.emp.role!)) {
-                                      Navigator.pushReplacementNamed(
-                                          context, MyRoutes.MyProcessingOrders);
-                                    }
-                                  }
-                                },
-                                child: const Text("Proceed"),
-                              ),
-                      ],
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _pickedImage = null;
+                        });
+                      },
+                      child: const Text("Reset Image"),
                     ),
+                    _pickedImage == null
+                        ? Container()
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: MyColors.scarlet,
+                            ),
+                            onPressed: () async {
+                              print(_pickedImage!.path);
+                              if (await Database_ApproveOrders().FulfilledOrder(
+                                  widget.order_id, _pickedImage!.path)) {
+                                Send_Mail.send_mail(
+                                    Database_ApproveOrders
+                                        .customers[widget.order_id].email!,
+                                    "Order Delivered",
+                                    "Your Order has been delivered");
+                                Navigator.pop(context);
+                                var _processingOrders =
+                                    Database_ApproveOrders();
+                                if (await _processingOrders.getProcessingOrders(
+                                    MyDrawer.emp.id!, MyDrawer.emp.role!)) {
+                                  Navigator.pushReplacementNamed(
+                                      context, MyRoutes.MyProcessingOrders);
+                                }
+                              }
+                            },
+                            child: const Text("Proceed"),
+                          ),
+                  ],
+                ),
         ],
       ),
     );

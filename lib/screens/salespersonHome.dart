@@ -121,17 +121,44 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                   onSuggestionSelected: (String val) {
                     _textEditingController.text = val;
                     Future.delayed(Duration(milliseconds: 500), () async {
-                      if (val == "Processing Orders") {
+                      if (val == "My Orders") {
                         var _pendingOrders = Database_ApproveOrders();
                         if (await _pendingOrders.getProcessingOrders(
                             MyDrawer.emp.id!, MyDrawer.emp.role!)) {
-                          Navigator.pop(context);
                           Navigator.pushNamed(
                               context, MyRoutes.MyProcessingOrders);
                         }
-                      } else if (val == "Add Employee") {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, MyRoutes.MySignUpEmail);
+                      } else if (val == "Edit Profile" ||
+                          val == "Edit Employee") {
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditEmployeeScreen(
+                                      emp: MyDrawer.emp,
+                                    )));
+                      } else if (val == "Salesperson Attendance") {
+                        if (await Database_Hourly_Attendance()
+                            .getHourlyAttendance(MyDrawer.emp.id!,
+                                DateTime.now().toString().split(" ")[0])) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MySalespersonAttendance);
+                        }
+                      } else if (val == "Leave Request Form") {
+                        Navigator.pushNamed(
+                            context, MyRoutes.MyLeaveRequestForm);
+                      } else if (val == "My Leave Request Summary") {
+                        if (await Database_leaveRequest()
+                            .getAllRequestForEmp(MyDrawer.emp.id!)) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyLeaveRequestSummary);
+                        }
+                      } else if (val == "Add New Order" || val == "Add Order") {
+                        if (await Database_customer().insertData() &&
+                            await Database_customer().get_customerIds() &&
+                            await Database_customerBranch().insertData() &&
+                            await Database_Item().get_Items()) {
+                          Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+                        }
                       }
                     });
                   },

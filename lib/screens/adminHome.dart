@@ -9,6 +9,8 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/routes.dart';
 
+import 'editEmployeeScreen.dart';
+
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);
 
@@ -20,7 +22,6 @@ class _AdminHomeState extends State<AdminHome> {
   bool viewAll1 = false;
   bool viewAll2 = false;
   bool viewAll3 = false;
-  int _selectedIndex = 0;
   final TextEditingController _textEditingController = TextEditingController();
   bool isChanged = true;
   var itemList = [
@@ -150,13 +151,66 @@ class _AdminHomeState extends State<AdminHome> {
                         var _pendingOrders = Database_ApproveOrders();
                         if (await _pendingOrders.getProcessingOrders(
                             MyDrawer.emp.id!, MyDrawer.emp.role!)) {
-                          Navigator.pop(context);
                           Navigator.pushNamed(
                               context, MyRoutes.MyProcessingOrders);
                         }
                       } else if (val == "Add Employee") {
-                        Navigator.pop(context);
                         Navigator.pushNamed(context, MyRoutes.MySignUpEmail);
+                      } else if (val == "Pending Orders") {
+                        var _pendingOrders = Database_ApproveOrders();
+                        if (await _pendingOrders.getProcessingOrders(
+                            MyDrawer.emp.id!, MyDrawer.emp.role!)) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyProcessingOrders);
+                        }
+                      } else if (val == "Fulfilled Orders") {
+                        var _fulfilledOrders = Database_ApproveOrders();
+                        if (await _fulfilledOrders.getFulfilledOrders()) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyFulfilledOrders);
+                        }
+                      } else if (val == "Leave Request Form") {
+                        Navigator.pushNamed(
+                            context, MyRoutes.MyLeaveRequestForm);
+                      } else if (val == "My Leave Request Summary") {
+                        if (await Database_leaveRequest()
+                            .getAllRequestForEmp(MyDrawer.emp.id!)) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyLeaveRequestSummary);
+                        }
+                      } else if (val == "Leave Requests") {
+                        if (await Database_leaveRequest().getAllRequest()) {
+                          Navigator.pushNamed(context, MyRoutes.MyLeaveRequest);
+                        }
+                      } else if (val == "Edit Profile") {
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditEmployeeScreen(
+                                      emp: MyDrawer.emp,
+                                    )));
+                      } else if (val == "View Employees") {
+                        var _db_employee = Database_signUp();
+                        if (await _db_employee.getAllEmp()) {
+                          print(Database_signUp.emps);
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyEditEmployeeScreen);
+                        }
+                      } else if (val == "Explore Attendance") {
+                        var _db_employee = Database_signUp();
+                        if (await _db_employee.getAllEmp()) {
+                          //print(Database_signUp.emps);
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyExploreAttendanceScreen);
+                        }
+                      } else if (val == "Add Item") {
+                        Navigator.pushNamed(context, MyRoutes.MyAddItemScreen);
+                      } else if (val == "Analytic Report") {
+                        if (await Database_Report()
+                            .getSalesperson_SalesReport()) {
+                          Navigator.pushNamed(context,
+                              MyRoutes.MyReportHome);
+                        }
                       }
                     });
                   },
@@ -331,7 +385,15 @@ class _AdminHomeState extends State<AdminHome> {
                               width: MyScreen.getScreenWidth(context) *
                                   ((440 / 3) / 490.9),
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () async {
+                                  var _fulfilledOrders =
+                                      Database_ApproveOrders();
+                                  if (await _fulfilledOrders
+                                      .getFulfilledOrders()) {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.MyFulfilledOrders);
+                                  }
+                                },
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -1231,11 +1293,6 @@ class _AdminHomeState extends State<AdminHome> {
                                 onTap: () async {
                                   Navigator.pushNamed(
                                       context, MyRoutes.MyAddItemScreen);
-                                  // if (await Database_leaveRequest()
-                                  //     .getAllRequestForEmp(MyDrawer.emp.id!)) {
-                                  //   Navigator.pushNamed(
-                                  //       context, MyRoutes.MyLeaveRequestForm);
-                                  // }
                                 },
                                 child: Column(
                                   mainAxisAlignment:
@@ -1295,9 +1352,7 @@ class _AdminHomeState extends State<AdminHome> {
                                   if (await Database_Report()
                                       .getSalesperson_SalesReport()) {
                                     Navigator.pushNamed(
-                                        context,
-                                        MyRoutes
-                                            .MyReportSalesSalespersonWiseScreen1);
+                                        context, MyRoutes.MyReportHome);
                                   }
                                 },
                                 child: Column(
@@ -1418,7 +1473,10 @@ class _AdminHomeState extends State<AdminHome> {
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        Navigator.pushNamed(
+                                            context, MyRoutes.MyReportHome);
+                                      },
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -1441,7 +1499,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.timelapse,
+                                              Icons.home_filled,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
@@ -1455,7 +1513,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (2 / 1063.6),
                                           ),
-                                          Text("Processing Orders",
+                                          Text("Report Home",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:

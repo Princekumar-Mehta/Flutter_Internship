@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:project_v3/Extras/myColors.dart';
+import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 
 class ReportItemWise2 extends StatefulWidget {
   Map<String, double> dataMap;
@@ -10,14 +13,14 @@ class ReportItemWise2 extends StatefulWidget {
 
 class _ReportItemWise2State extends State<ReportItemWise2> {
   List<Color> colorList = [
-    const Color(0xff5ca55f),
-    const Color(0xff3EE094),
-    const Color(0xff3398F6),
-    const Color(0xffFA4A42),
-    const Color(0xffFE9539),
-    const Color(0xff4039fe),
-    const Color(0xff85fe39),
-    const Color(0xfff139fe),
+    const Color(0xFF8DA0CB),
+    const Color(0xFFE78AC3),
+    const Color(0xFFA6D853),
+    const Color(0xFFFFD930),
+    const Color(0xFFE4C493),
+    const Color(0xFFB3B3B3),
+    const Color(0xFF65C2A5),
+    const Color(0xFFFC8D62),
   ];
   @override
   void initState() {
@@ -28,9 +31,34 @@ class _ReportItemWise2State extends State<ReportItemWise2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text("Pie Chart Example",
+            style: TextStyle(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
+                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
-        title: const Text("Pie Chart example"),
+        shape: Border(
+          bottom: BorderSide(
+            color: MyColors.scarlet,
+            width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+          ),
+        ),
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
+      backgroundColor: MyColors.white,
       body: Center(
         child: PieChart(
           dataMap: widget.dataMap,

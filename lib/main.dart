@@ -6,14 +6,14 @@ import 'package:project_v3/screens/approveOrderScreen.dart';
 import 'package:project_v3/screens/exploreAttendance.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
 import 'package:project_v3/screens/forgotPasswordScreen2.dart';
+import 'package:project_v3/screens/fulfilledOrderScreen.dart';
 import 'package:project_v3/screens/leaveRequestForm.dart';
 import 'package:project_v3/screens/leaveRequestScreen.dart';
 import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
-import 'package:project_v3/screens/reportItemWise1.dart';
-import 'package:project_v3/screens/reportSalesSalesPersonWise1.dart';
+import 'package:project_v3/screens/reportHome.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/salespersonAttendance.dart';
 import 'package:project_v3/screens/salespersonHome.dart';
@@ -53,10 +53,9 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyMapScreen: (context) => MapSample(),
         MyRoutes.MyAddItemScreen: (context) => AddItem(),
         MyRoutes.MyExploreAttendanceScreen: (context) => ExploreAttendance(),
-        MyRoutes.MyReportItemWiseScreen1: (context) => ReportItemWise1(),
-        MyRoutes.MyReportSalesSalespersonWiseScreen1: (context) =>
-            ReportSalesSalespersonWise1(),
         MyRoutes.MySearchFunction: (context) => SearchFunctions(),
+        MyRoutes.MyFulfilledOrders: (context) => FulfilledOrder(),
+        MyRoutes.MyReportHome: (context) => ReportHome(),
       },
     );
   }

@@ -8,7 +8,6 @@ import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/Extras/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../routes.dart';
@@ -50,11 +49,11 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                   int.parse(currentTime.split(":")[1]));
       print(hourdifference.toString());
       print(minutedifference.toString());
-      if (hourdifference < 1 && minutedifference < 59) {
-        Utility.showMessage(
-            context, "Please Try After ${60 - minutedifference} minutes");
-        return;
-      }
+      // if (hourdifference < 1 && minutedifference < 59) {
+      //   Utility.showMessage(
+      //       context, "Please Try After ${60 - minutedifference} minutes");
+      //   return;
+      // }
     }
 
     Position position = await _determinePosition();

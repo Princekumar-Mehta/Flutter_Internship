@@ -8,7 +8,6 @@ import 'package:project_v3/Database/order.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
-import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/pdf_signed_api.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
@@ -169,11 +168,12 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
         "Order Submitted", "Your order is Submitted",
         file: file, isFile: 1);
     widget.order.file_Address = file.path;
-    widget.order.addToDatabase();
-    Database_Final_Order().getFinalOrders();
-    Database_Final_Individual_Order().getFinalIndividualOrders();
-    Navigator.pop(context);
-    Navigator.pop(context);
+    if (await widget.order.addToDatabase(context)) {
+      Database_Final_Order().getFinalOrders();
+      Database_Final_Individual_Order().getFinalIndividualOrders();
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
     // print(file.path);
   }
 }

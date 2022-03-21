@@ -383,7 +383,7 @@ class DatabaseHelper {
     return OrderList;
   }
 
-  Future<List<FinalOrder>> getFinalOrderByItemId(
+  Future<List<FinalOrder>> getFinalOrderBySalespersonId(
       String salesperson_code) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> orders = await db.rawQuery(
@@ -402,6 +402,17 @@ class DatabaseHelper {
         ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
         : [];
     // print(FinalOrderList);
+    return FinalOrderList;
+  }
+
+  Future<List<FinalOrder>> getFulfilledOrders() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_orders = await db.rawQuery(
+        "SELECT * FROM final_order where (status = 'Fulfilled' or status = 'Rejected')");
+    List<FinalOrder> FinalOrderList = final_orders.isNotEmpty
+        ? final_orders.map((c) => FinalOrder.fromMap((c))).toList()
+        : [];
+    //print(FinalOrderList);
     return FinalOrderList;
   }
 
@@ -555,5 +566,13 @@ class DatabaseHelper {
         ? daily_attendance.map((c) => Daily_Attendance.fromMap((c))).toList()
         : [];
     return DailyAttendanceList;
+  }
+
+  Future<int> getAvgAttendanceBySalespersonId(String emp_id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> hours = await db.rawQuery(
+        "SELECT AVG(hours) FROM daily_attendance where emp_id = '$emp_id'");
+    print(hours);
+    return 0;
   }
 }

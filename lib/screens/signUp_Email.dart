@@ -102,6 +102,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
       String password = _formKey.currentState!.value['password_1'];
       String role = _formKey.currentState!.value['role'];
       String managerid = "2";
+      print(_pickedImage!.path);
       await Database_signUp.addEmp(
         profile_pic: _pickedImage!.path,
         name: name,
@@ -172,9 +173,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
           appBar: AppBar(
             shape: Border(
               bottom: BorderSide(
-                color: MyDrawer.emp.darkTheme == 1
-                    ? MyColors.middleRed
-                    : MyColors.scarlet,
+                color: MyColors.scarlet,
                 width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
               ),
             ),

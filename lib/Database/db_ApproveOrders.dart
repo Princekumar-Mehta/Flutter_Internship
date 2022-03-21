@@ -9,6 +9,7 @@ import 'database_helper.dart';
 class Database_ApproveOrders {
   static List<FinalOrder> pendingOrders = [];
   static List<FinalOrder> processingOrders = [];
+  static List<FinalOrder> fulfilledOrders = [];
   static List<CustomerBranch> shipping_Branches = [];
   static List<Customer> customers = [];
   Future<bool> getPendingOrders() async {
@@ -23,6 +24,22 @@ class Database_ApproveOrders {
             .get_customer(pendingOrders[i].customer_Code));
       }
     }
+    return true;
+  }
+
+  Future<bool> getFulfilledOrders() async {
+    fulfilledOrders = await DatabaseHelper.instance.getFulfilledOrders();
+    shipping_Branches = [];
+    customers = [];
+    if (fulfilledOrders.length != 0) {
+      for (int i = 0; i < fulfilledOrders.length; i++) {
+        shipping_Branches.add(await Database_customerBranch()
+            .get_customerBranch(fulfilledOrders[i].shipping_Branch_Code));
+        customers.add(await Database_customer()
+            .get_customer(fulfilledOrders[i].customer_Code));
+      }
+    }
+    print(fulfilledOrders.length.toString());
     return true;
   }
 
@@ -46,7 +63,7 @@ class Database_ApproveOrders {
   Future<bool> FulfilledOrder(key, path) async {
     processingOrders[key].status = "Fulfilled";
     DatabaseHelper.instance.updateOrder(processingOrders[key]);
-    print("in side fulfil order: " + path);
+    //print("in side fulfil order: " + path);
     DatabaseHelper.instance
         .updateOrderChequePhoto(processingOrders[key].order_Id, path);
     return true;

@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_v3/Database/db_report.dart';
+import 'package:project_v3/Extras/myColors.dart';
+import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/screens/reportItemWise2.dart';
 
 class ReportItemWise1 extends StatefulWidget {
-  const ReportItemWise1({Key? key}) : super(key: key);
+  String report_type;
+  ReportItemWise1({required this.report_type});
 
   @override
   _ReportItemWise1State createState() => _ReportItemWise1State();
 }
 
 class _ReportItemWise1State extends State<ReportItemWise1> {
-  final _formKey = GlobalKey<FormBuilderState>();
   Map<String, double> dataMap = {};
+  Map<String, bool> selected = {};
   moveToReportScreen2() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      for (int i = 0; i < Database_Report.items.length; i++) {
-        //    print(_formKey.currentState?.value[Database_Report.items[i].item_Name]);
-        if (_formKey.currentState?.value[Database_Report.items[i].item_Name] ==
-            true) {
-          dataMap[Database_Report.items[i].item_Name.toString()] =
-              double.parse(Database_Report.sales_in_packet[i].toString());
-        }
+    //print(selected);
+    dataMap = {};
+    for (int i = 0; i < Database_Report.items.length; i++) {
+      //    print(_formKey.currentState?.value[Database_Report.items[i].item_Name]);
+      if (selected[Database_Report.items[i].code.toString()] == true) {
+        dataMap[Database_Report.items[i].item_Name.toString()] =
+            widget.report_type == "revenue"
+                ? double.parse(Database_Report.sales_in_revenue[i].toString())
+                : double.parse(Database_Report.sales_in_packet[i].toString());
       }
-      print(dataMap);
+    }
+    if (dataMap.isEmpty) {
+      Utility.showMessage(context, "Please select at least one item");
+    } else {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -34,19 +41,90 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
     }
   }
 
+  bool selectAll = false;
+  @override
+  void initState() {
+    for (int i = 0; i < Database_Report.items.length; i++) {
+      selected[Database_Report.items[i].code.toString()] = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Items To Analyse"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text("Select Items to Analyze",
+            style: TextStyle(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
+                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
+        shape: Border(
+          bottom: BorderSide(
+            color: MyColors.scarlet,
+            width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+          ),
+        ),
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
       body: SingleChildScrollView(
-        child: FormBuilder(
-          key: _formKey,
+        child: Theme(
+          data: ThemeData(
+            unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
+                ? MyColors.middleRed
+                : MyColors.scarlet,
+          ),
           child: Column(
             children: [
+              CheckboxListTile(
+                checkColor: MyColors.white,
+                activeColor: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.middleRed
+                    : MyColors.scarlet,
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text('Select All',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.pewterBlue
+                            : MyColors.black)),
+                value: selectAll,
+                onChanged: (value) {
+                  setState(() {
+                    selectAll = value!;
+                    for (int i = 0; i < Database_Report.items.length; i++) {
+                      selected[Database_Report.items[i].code.toString()] =
+                          selectAll;
+                    }
+                  });
+                },
+              ),
+              Divider(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.pewterBlue
+                    : MyColors.black,
+                indent: 15,
+                endIndent: 15,
+                thickness: 1,
+              ),
               ListView.builder(
+                  padding: const EdgeInsets.all(12),
                   shrinkWrap: true,
                   itemCount: Database_Report.items.length,
                   itemBuilder: (context, index) {
@@ -54,12 +132,43 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
                       child: _row(index),
                     );
                   }),
-              InkWell(
-                onTap: () {
-                  moveToReportScreen2();
-                },
-                child: Text("Generate Report"),
-              )
+              SizedBox(
+                width: MyScreen.getScreenWidth(context) * (85 / 294),
+                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                child: InkWell(
+                  child: Stack(
+                    children: [
+                      Opacity(
+                        opacity: 0.8,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                MyScreen.getScreenHeight(context) *
+                                    (10 / 1063.6)),
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.middleRed
+                                : MyColors.scarlet,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text("Generate Report",
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.richBlackFogra
+                                    : MyColors.white,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (17 / 1063.6),
+                                fontWeight: FontWeight.bold)),
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    moveToReportScreen2();
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -72,9 +181,33 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
       children: [
         Container(
           width: 300,
-          child: FormBuilderCheckbox(
-              name: Database_Report.items[key].item_Name!,
-              title: Text(Database_Report.items[key].item_Name!)),
+          child: CheckboxListTile(
+            checkColor: MyColors.white,
+            activeColor: MyDrawer.emp.darkTheme == 1
+                ? MyColors.middleRed
+                : MyColors.scarlet,
+            controlAffinity: ListTileControlAffinity.leading,
+            title: Text(
+                Database_Report.items[key].code.toString() +
+                    "\t" +
+                    Database_Report.items[key].item_Name.toString(),
+                style: TextStyle(
+                    fontSize: 13,
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.pewterBlue
+                        : MyColors.black)),
+            value: selected[Database_Report.items[key].code.toString()],
+            onChanged: (value) {
+              setState(() {
+                selected[Database_Report.items[key].code.toString()] = value!;
+                selectAll = true;
+                for (int i = 0; i < Database_Report.items.length; i++) {
+                  if (selected[Database_Report.items[i].code.toString()] ==
+                      false) selectAll = false;
+                }
+              });
+            },
+          ),
         )
       ],
     );

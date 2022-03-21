@@ -64,9 +64,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
               if (order.billing_branch.code == customer.getValue()) {
                 if (phone_number == order.billing_branch.branch_Phone &&
                     email == order.billing_branch.branch_Email) {
-                  print(order.billing_branch.branch_Phone);
-                  print(order.billing_branch.branch_Email);
-                  print("Successful");
+                  //print(order.billing_branch.branch_Phone);
+                  //print(order.billing_branch.branch_Email);
+                  //print("Successful");
                   order.manufacturing_Branch = manufacturing_branch.getValue();
                   _formKey.currentState!.save();
                   order.OrderBydate = _formKey
@@ -74,8 +74,13 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       .toString()
                       .split(" ")[0];
                   order.salesPerson = MyDrawer.emp;
+                  if (order.counter == 0) {
+                    Utility.showMessage(
+                        context, "Please Enter Items to proceed");
+                    return;
+                  }
                   final file = await PdfApi.generatePDF(order: order);
-                  print("Date is :" + order.OrderBydate);
+                  //print("Date is :" + order.OrderBydate);
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -104,7 +109,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     super.initState();
     getOrders = MyItemContainer();
 
-    //  print("inti state called");
+    //  //print("inti state called");
   }
 
   void fetch_contact() async {
@@ -120,7 +125,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   bool? isCustomerId = false;
   @override
   Widget build(BuildContext context) {
-    //  print("hello");
+    //  //print("hello");
     try {
       if (customer.getValue().toString().length == 7) {
         isCustomerId = true;
