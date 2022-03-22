@@ -7,9 +7,10 @@ import 'item.dart';
 
 class Database_Item {
   static List<String> item_names = [];
+  static List<Item> items = [];
   static Future<bool> addItem(Map<String, dynamic> item) async {
-    List<Item> existing_item =
-        await DatabaseHelper.instance.getItem(item['item_Name']);
+    List<Item> existing_item = await DatabaseHelper.instance
+        .getItem(item['item_Name'], item['net_Weight']);
     if (existing_item.isNotEmpty) {
       //print(existing_item[0].item_Name);
       return false;
@@ -28,19 +29,30 @@ class Database_Item {
     }
   }
 
-  Future<bool> get_Items() async {
+  static Future<bool> updateItem(Map<String, dynamic> item) async {
+    await DatabaseHelper.instance.updateItem(Item.fromMap(item));
+    return true;
+  }
+
+  Future<bool> get_ItemNames() async {
     item_names = [];
     final items = await DatabaseHelper.instance.getItems();
     items.forEach((element) {
-      item_names.add(element.item_Name!);
+      item_names.add(
+          element.item_Name! + " - " + element.net_Weight!.toString() + "g");
       //print(element.code! + "\n");
     });
     //  //print(item_names);
     return true;
   }
 
-  Future<Item> get_Item(String item_name) async {
-    final items = await DatabaseHelper.instance.getItem(item_name);
+  Future<bool> get_Items() async {
+    items = await DatabaseHelper.instance.getItems();
+    return true;
+  }
+
+  Future<Item> get_Item(String item_name, int net_Weight) async {
+    final items = await DatabaseHelper.instance.getItem(item_name, net_Weight);
     return items[0];
   }
 

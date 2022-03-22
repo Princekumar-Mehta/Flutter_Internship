@@ -10,10 +10,12 @@ import 'mydrawer.dart';
 class MyTypeAhead extends StatefulWidget {
   List<String> itemList;
   String message;
+  var fontSize;
   bool isEnabled;
   MyTypeAhead({
     required this.itemList,
     required this.message,
+    this.fontSize = 0,
     required this.isEnabled,
   });
   @override
@@ -28,6 +30,9 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
   bool isChanged = true;
   @override
   Widget build(BuildContext context) {
+    widget.fontSize = widget.fontSize == 0
+        ? MyScreen.getScreenHeight(context) * (25 / 1063.6)
+        : widget.fontSize;
     widget.isEmpty = () {
       if (_textEditingController.text.isEmpty) {
         Utility.showMessage(context, widget.message);
@@ -59,8 +64,7 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
                   borderSide: BorderSide(color: MyColors.pewterBlue)),
             ),
             style: TextStyle(
-                color: MyColors.middleRed,
-                fontSize: MyScreen.getScreenHeight(context) * (25 / 1063.6))),
+                color: MyColors.middleRed, fontSize: widget.fontSize)),
         suggestionsCallback: (pattern) => widget.itemList.where(
             (item) => item.toLowerCase().startsWith(pattern.toLowerCase())),
         itemBuilder: (_, String item) => ListTile(

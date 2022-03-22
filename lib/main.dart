@@ -21,6 +21,7 @@ import 'package:project_v3/screens/searchFunction.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
+import 'package:project_v3/screens/viewItems.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySearchFunction: (context) => SearchFunctions(),
         MyRoutes.MyFulfilledOrders: (context) => FulfilledOrder(),
         MyRoutes.MyReportHome: (context) => ReportHome(),
+        MyRoutes.MyViewItems: (context) => ViewItems(),
       },
     );
   }

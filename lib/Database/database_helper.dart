@@ -316,6 +316,12 @@ class DatabaseHelper {
     return await db.insert('items', item.toMap());
   }
 
+  Future<int> updateItem(Item item) async {
+    Database db = await instance.database;
+    return await db.update('items', item.toMap(),
+        where: 'code = ?', whereArgs: [item.code]);
+  }
+
   Future<List<Item>> getItems() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> items =
@@ -325,10 +331,10 @@ class DatabaseHelper {
     return ItemList;
   }
 
-  Future<List<Item>> getItem(String item_Name) async {
+  Future<List<Item>> getItem(String item_Name, int net_Weight) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> items =
-        await db.rawQuery("SELECT * FROM items where item_Name = '$item_Name'");
+    List<Map<String, dynamic>> items = await db.rawQuery(
+        "SELECT * FROM items where (item_Name = '$item_Name' and net_Weight = '$net_Weight')");
     List<Item> ItemList =
         items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
     return ItemList;

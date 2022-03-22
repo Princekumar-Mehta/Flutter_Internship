@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_report.dart';
+import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/pdf_report_api.dart';
 import 'package:project_v3/screens/reportItemWise1.dart';
 import 'package:project_v3/screens/reportSalesSalesPersonWise1.dart';
+import 'package:project_v3/screens/viewOrderScreen.dart';
 
 class ReportHome extends StatelessWidget {
   const ReportHome({Key? key}) : super(key: key);
@@ -319,7 +322,24 @@ class ReportHome extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        if (await Database_Report()
+                            .getSalesperson_DownloadReport()) {
+                          final file = await PdfApi_Report.generatePDF(
+                              report_type: 'employee');
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => viewOrder(file: file)));
+                          Send_Mail.send_mail(
+                              MyDrawer.emp.email!,
+                              "Employee Report Generated",
+                              "Your employee report has been generated. Please see the attachment for further details. \nThank you",
+                              file: file,
+                              isFile: 1);
+                          //print("DONE");
+                        }
+                      },
                       child: Container(
                         height:
                             MyScreen.getScreenHeight(context) * (200 / 1063.6),
@@ -367,7 +387,24 @@ class ReportHome extends StatelessWidget {
                       width: MyScreen.getScreenWidth(context) * (20 / 490.9),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        if (await Database_Report()
+                            .getItemWiseDownloadReport()) {
+                          final file = await PdfApi_Report.generatePDF(
+                              report_type: 'item');
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => viewOrder(file: file)));
+                          Send_Mail.send_mail(
+                              MyDrawer.emp.email!,
+                              "Item Report Generated",
+                              "Your item report has been generated. Please see the attachment for further details. \nThank you",
+                              file: file,
+                              isFile: 1);
+                          //print("DONE");
+                        }
+                      },
                       child: Container(
                         height:
                             MyScreen.getScreenHeight(context) * (200 / 1063.6),

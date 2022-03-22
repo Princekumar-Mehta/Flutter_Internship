@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_v3/Database/db_item.dart';
+import 'package:project_v3/Database/item.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 
-class AddItem extends StatefulWidget {
-  const AddItem({Key? key}) : super(key: key);
+import '../routes.dart';
+
+class EditItem extends StatefulWidget {
+  Item item;
+  EditItem({required this.item});
 
   @override
-  _AddItemState createState() => _AddItemState();
+  _EditItemState createState() => _EditItemState();
 }
 
-class _AddItemState extends State<AddItem> {
+class _EditItemState extends State<EditItem> {
   final _formKey = GlobalKey<FormBuilderState>();
-  addItem() async {
+  EditItem() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // String code = (_formKey.currentState?.value['code'].toString())!;
@@ -40,7 +44,7 @@ class _AddItemState extends State<AddItem> {
       int net_Weight =
           int.parse((_formKey.currentState?.value['net_Weight'].toString())!);
       Map<String, dynamic> item = {
-        "code": "",
+        "code": widget.item.code,
         "hsn_Code": hsn_Code,
         "item_Name": item_Name,
         "grp": grp,
@@ -53,17 +57,27 @@ class _AddItemState extends State<AddItem> {
         "price": price,
         "net_Weight": net_Weight
       };
-      Utility.showMessage(
-          context,
-          await Database_Item.addItem(item)
-              ? "Item Added"
-              : "Item Already Exist");
-      Navigator.pop(context);
+      print(item);
+      if (await Database_Item.updateItem(item)) {
+        Utility.showMessage(context, "Item Updated");
+        Navigator.pop(context);
+        Navigator.pop(context);
+        if (await Database_Item().get_Items()) {
+          Navigator.pushNamed(context, MyRoutes.MyViewItems);
+        }
+      }
     }
   }
 
-  var checkedValue = true;
-  var checkedValue2 = true;
+  var checkedValue;
+  var checkedValue2;
+  @override
+  void initState() {
+    //implement initState
+    checkedValue = widget.item.pur_Item == "true" ? true : false;
+    checkedValue2 = widget.item.sell_Item == "true" ? true : false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +139,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'hsn_Code',
-                          initialValue: "15151515",
+                          initialValue: widget.item.hsn_Code!.toString(),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -171,6 +185,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'item_Name',
+                          initialValue: widget.item.item_Name,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -209,6 +224,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'grp',
+                          initialValue: widget.item.grp,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -248,6 +264,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'sub_Group',
+                          initialValue: widget.item.sub_Group,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -287,6 +304,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'item_Type',
+                          initialValue: widget.item.item_Type,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -326,6 +344,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'unit_Item',
+                          initialValue: widget.item.unit_Item.toString(),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -369,6 +388,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'barcode',
+                          initialValue: widget.item.barcode.toString(),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -483,6 +503,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'price',
+                          initialValue: widget.item.price.toString(),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -526,6 +547,7 @@ class _AddItemState extends State<AddItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'net_Weight',
+                          initialValue: widget.item.net_Weight.toString(),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -591,7 +613,7 @@ class _AddItemState extends State<AddItem> {
                           ],
                         ),
                         onTap: () {
-                          addItem();
+                          EditItem();
                         },
                       ),
                     ),

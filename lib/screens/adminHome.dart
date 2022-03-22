@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:project_v3/Database/db_ApproveOrders.dart';
 import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Database/db_report.dart';
 import 'package:project_v3/Extras/myColors.dart';
@@ -208,8 +209,7 @@ class _AdminHomeState extends State<AdminHome> {
                       } else if (val == "Analytic Report") {
                         if (await Database_Report()
                             .getSalesperson_SalesReport()) {
-                          Navigator.pushNamed(context,
-                              MyRoutes.MyReportHome);
+                          Navigator.pushNamed(context, MyRoutes.MyReportHome);
                         }
                       }
                     });
@@ -1474,8 +1474,10 @@ class _AdminHomeState extends State<AdminHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        Navigator.pushNamed(
-                                            context, MyRoutes.MyReportHome);
+                                        if (await Database_Item().get_Items()) {
+                                          Navigator.pushNamed(
+                                              context, MyRoutes.MyViewItems);
+                                        }
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -1513,7 +1515,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (2 / 1063.6),
                                           ),
-                                          Text("Report Home",
+                                          Text("View Items",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:

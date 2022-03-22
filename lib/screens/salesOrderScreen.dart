@@ -78,14 +78,20 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     Utility.showMessage(
                         context, "Please Enter Items to proceed");
                     return;
+                  } else {
+                    for (int i = 0; i < order.counter!; i++) {
+                      if (!(await order.saveItem(i, context, close: false))) {
+                        return;
+                      }
+                    }
+                    final file = await PdfApi.generatePDF(order: order);
+                    //print("Date is :" + order.OrderBydate);
+                    await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ConfirmOrder(order: order, file: file)));
                   }
-                  final file = await PdfApi.generatePDF(order: order);
-                  //print("Date is :" + order.OrderBydate);
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ConfirmOrder(order: order, file: file)));
                 } else {
                   Utility.showMessage(context,
                       "Mobile Number and Email ID have not been updated.\n\nPlease refresh the page and try again.");

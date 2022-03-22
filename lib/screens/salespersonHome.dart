@@ -156,7 +156,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                         if (await Database_customer().insertData() &&
                             await Database_customer().get_customerIds() &&
                             await Database_customerBranch().insertData() &&
-                            await Database_Item().get_Items()) {
+                            await Database_Item().get_ItemNames()) {
                           Navigator.pushNamed(context, MyRoutes.MySalesOrder);
                         }
                       }
@@ -871,7 +871,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                           .get_customerIds() &&
                                       await Database_customerBranch()
                                           .insertData() &&
-                                      await Database_Item().get_Items()) {
+                                      await Database_Item().get_ItemNames()) {
                                     Navigator.pushNamed(
                                         context, MyRoutes.MySalesOrder);
                                   }

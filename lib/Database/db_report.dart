@@ -50,6 +50,28 @@ class Database_Report {
     return true;
   }
 
+  Future<bool> getItemWiseDownloadReport() async {
+    items = [];
+    sales_in_revenue = [];
+    sales_in_packet = [];
+    items = await DatabaseHelper.instance.getItems();
+    //print(items.length);
+    for (int j = 0; j < items.length; j++) {
+      List<FinalIndividualOrder> orders = await DatabaseHelper.instance
+          .getFinalIndividualOrderByItemId(items[j].code!);
+      int no_of_packet = 0;
+      for (int i = 0; i < orders.length; i++) {
+        no_of_packet = no_of_packet +
+            int.parse(orders[i].packet.toString()) +
+            (int.parse(orders[i].patti.toString()) * 3) +
+            (int.parse(orders[i].box.toString()) * 15);
+      }
+      sales_in_revenue.add(no_of_packet * items[j].price!);
+      sales_in_packet.add(no_of_packet);
+    }
+    return true;
+  }
+
   Future<bool> getSalesperson_SalesReport() async {
     salespersons = [];
     sales_salesperson_wise = [];
@@ -83,6 +105,29 @@ class Database_Report {
       int hours = await DatabaseHelper.instance
           .getAvgAttendanceBySalespersonId(salespersons[j].id.toString());
       hours_salesperson_wise.add(hours);
+    }
+    return true;
+  }
+
+  Future<bool> getSalesperson_DownloadReport() async {
+    salespersons = [];
+    sales_salesperson_wise = [];
+    hours_salesperson_wise = [];
+    salespersons = await DatabaseHelper.instance.getSalespersons();
+    for (int j = 0; j < salespersons.length; j++) {
+      //print(salespersons[j].name! + "\n");
+      int hours = await DatabaseHelper.instance
+          .getAvgAttendanceBySalespersonId(salespersons[j].id.toString());
+      hours_salesperson_wise.add(hours);
+      //print(salespersons[j].name! + "\n");
+      List<FinalOrder> orders = await DatabaseHelper.instance
+          .getFinalOrderBySalespersonId(salespersons[j].id.toString());
+      int sales = 0;
+      for (int i = 0; i < orders.length; i++) {
+        //print(orders[i].total.toString() + "\n");
+        sales = sales + orders[i].total;
+      }
+      sales_salesperson_wise.add(sales);
     }
     return true;
   }

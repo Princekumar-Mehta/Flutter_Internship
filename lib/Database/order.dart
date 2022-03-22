@@ -149,6 +149,7 @@ class Order {
     item_name!.add(MyTypeAhead(
         itemList: Database_Item.item_names,
         message: "Please Enter Item Name",
+        fontSize: MyScreen.getScreenHeight(context) * (19 / 1063.6),
         isEnabled: true));
     packet!.add(TextEditingController(text: "0"));
     patti!.add(TextEditingController(text: "0"));
@@ -208,13 +209,19 @@ class Order {
   }
 
   Future<bool> saveItem(key, BuildContext context, {bool close = true}) async {
-    if (item_name![key].getValue().toString().isEmpty) {
+    if (item_name![key].getValue().isEmpty) {
       Utility.showMessage(context, "Please enter Item Name");
       fillIfNull(key);
       return false;
     }
-    item_detials[key] =
-        await Database_Item().get_Item(item_name![key].getValue());
+    if (!Database_Item.item_names.contains(item_name![key].getValue())) {
+      Utility.showMessage(
+          context, "Please select from Item List for Item ${key + 1}");
+      return false;
+    }
+    item_detials[key] = await Database_Item().get_Item(
+        item_name![key].getValue().split(' - ')[0],
+        int.parse(item_name![key].getValue().split(' - ')[1].split('g')[0]));
     fillIfNull(key);
 
     price![key].text = item_detials[key].price.toString();
