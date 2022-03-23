@@ -21,5 +21,7 @@ class MyRoutes {
   static final MySearchFunction = '/mySearchFunction';
   static final MyFulfilledOrders = '/myFulfilledOrders';
   static final MyReportHome = '/myReportHome';
+  static final MyManagerHome = '/myManagerHome';
   static final MyViewItems = '/viewItems';
+  static final MyAddCustomerScreen = '/myAddCustomerScreen';
 }

@@ -37,7 +37,8 @@ class _AdminHomeState extends State<AdminHome> {
     "View Employees",
     "Explore Attendance",
     "Add Item",
-    "Analytic Report"
+    "Analytic Report",
+    "View Item",
   ];
   @override
   Widget build(BuildContext context) {
@@ -210,6 +211,10 @@ class _AdminHomeState extends State<AdminHome> {
                         if (await Database_Report()
                             .getSalesperson_SalesReport()) {
                           Navigator.pushNamed(context, MyRoutes.MyReportHome);
+                        }
+                      } else if (val == "View Item" || val == "View Items") {
+                        if (await Database_Item().get_Items()) {
+                          Navigator.pushNamed(context, MyRoutes.MyViewItems);
                         }
                       }
                     });
@@ -1501,7 +1506,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.home_filled,
+                                              Icons.wysiwyg_outlined,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),

@@ -74,9 +74,11 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               if (emp.role == "Admin") {
                 Navigator.pushReplacementNamed(context, MyRoutes.MyAdminHome);
-              } else {
+              } else if (emp.role == "Salesperson") {
                 Navigator.pushReplacementNamed(
                     context, MyRoutes.MySalespersonHome);
+              } else {
+                Navigator.pushReplacementNamed(context, MyRoutes.MyManagerHome);
               }
             },
           ),

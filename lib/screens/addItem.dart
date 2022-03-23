@@ -5,7 +5,6 @@ import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/Extras/utility.dart';
 
 class AddItem extends StatefulWidget {
   const AddItem({Key? key}) : super(key: key);
@@ -53,30 +52,45 @@ class _AddItemState extends State<AddItem> {
         "price": price,
         "net_Weight": net_Weight
       };
-      Utility.showMessage(
-          context,
-          await Database_Item.addItem(item)
-              ? "Item Added"
-              : "Item Already Exist");
-      Navigator.pop(context);
+      bool isAdded = await Database_Item.addItem(item);
+      showMessage(
+          context, isAdded ? "Item Added" : "Item Already Exist", isAdded);
     }
   }
 
+  static Future<void> showMessage(
+    BuildContext context,
+    String message,
+    bool isAdded,
+  ) async {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Alert'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () async {
+              Navigator.pop(c, false);
+              if (isAdded) Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   var checkedValue = true;
+
   var checkedValue2 = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: MyDrawer.emp.darkTheme == 1
-                  ? MyColors.white
-                  : MyColors.scarlet,
-              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
         ),
         shape: Border(
           bottom: BorderSide(
@@ -95,6 +109,7 @@ class _AddItemState extends State<AddItem> {
             ? MyColors.richBlackFogra
             : MyColors.white,
       ),
+      drawer: MyDrawer(),
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,

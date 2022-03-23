@@ -70,8 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
       RegExp _numeric = RegExp(r'^-?[0-9]+$');
       String? id = _formKey.currentState?.value['email_or_id'].toString();
       if (await Utility.isNotExist(id.toString())) {
-        showMessage(
-            context, "This is not a registered Email/Employee ID\nPlease Try again");
+        showMessage(context,
+            "This is not a registered Email/Employee ID\nPlease Try again");
         return;
       } else {
         emp = await Utility.getEmployee(id.toString());
@@ -100,8 +100,11 @@ class _LoginScreenState extends State<LoginScreen> {
         if (emp!.role == "Admin") {
           print(emp!.role);
           await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
-        } else {
+        } else if (emp!.role == "Salesperson") {
           await Navigator.pushNamed(context, MyRoutes.MySalespersonHome);
+          print(emp!.role);
+        } else {
+          await Navigator.pushNamed(context, MyRoutes.MyManagerHome);
           print(emp!.role);
         }
       }

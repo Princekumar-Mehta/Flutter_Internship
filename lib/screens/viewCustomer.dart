@@ -1,23 +1,23 @@
+/*
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/screens/editEmployeeScreen.dart';
 
 import '../routes.dart';
 
-class ViewEmployeeScreen extends StatefulWidget {
-  const ViewEmployeeScreen({Key? key}) : super(key: key);
+class ViewCustomerScreen extends StatefulWidget {
+  const ViewCustomerScreen({Key? key}) : super(key: key);
 
   @override
-  State<ViewEmployeeScreen> createState() => _ViewEmployeeScreenState();
+  State<ViewCustomerScreen> createState() => _ViewCustomerScreenState();
 }
 
-class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
+class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
   @override
   initState() {
     super.initState();
@@ -37,7 +37,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
             width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
           ),
         ),
-        title: Text("Edit Employee",
+        title: Text("Edit Customer",
             style: TextStyle(
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white
@@ -64,9 +64,9 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Database_signUp.emps.length,
+                  itemCount:Database_customer.customers.length,
                   itemBuilder: (context, index) {
-                    print(Database_signUp.emps[index]);
+                    print(Database_customer.customers[index]);
                     return Container(
                       child: _row(index),
                     );
@@ -106,7 +106,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                         height: MyScreen.getScreenWidth(context) * (50 / 490.9),
                         color: MyColors.richBlackFogra,
                         child: Image.file(
-                            File(Database_signUp.emps[key].profile_pic!)),
+                            File(Database_customer.customers[key].profile_pic!)),
                       ),
                       SizedBox(
                         width: MyScreen.getScreenWidth(context) * (10 / 490.9),
@@ -118,7 +118,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                           Row(
                             children: [
                               Text(
-                                Database_signUp.emps[key].id!.toString(),
+                               Database_customer.customers[key].id!.toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
@@ -134,7 +134,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                 ),
                               ),
                               Text(
-                                Database_signUp.emps[key].name!,
+                               Database_customer.customers[key].name!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
@@ -145,12 +145,12 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                 width: MyScreen.getScreenWidth(context) *
                                     (40 / 490.9),
                               ),
-                              Database_signUp.emps[key].role! == "Salesperson"
+                             Database_customer.customers[key].role! == "Salesperson"
                                   ? InkWell(
                                       onTap: () async {
                                         if (await Database_Hourly_Attendance()
                                             .getHourlyAttendance(
-                                                Database_signUp.emps[key].id!,
+                                               Database_customer.customers[key].id!,
                                                 DateTime.now()
                                                     .toString()
                                                     .split(" ")[0])) {
@@ -184,7 +184,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                     (10 / 490.9),
                               ),
                               Text(
-                                Database_signUp.emps[key].role!,
+                               Database_customer.customers[key].!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
@@ -210,9 +210,9 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                EditEmployeeScreen(
+                                                EditCustomerScreen(
                                                   emp:
-                                                      Database_signUp.emps[key],
+                                                     Database_customer.customers[key],
                                                 )));
                                   }),
                             ],
@@ -233,3 +233,4 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
     ]);
   }
 }
+*/

@@ -76,6 +76,8 @@ class DatabaseHelper {
      address1 TEXT,
      address2 TEXT,
      location TEXT,
+     latitude TEXT,
+     longitude TEXT,
      city TEXT,
      state TEXT,
      country TEXT,
@@ -238,7 +240,8 @@ class DatabaseHelper {
 
   Future<List<Customer>> getCustomers() async {
     Database db = await instance.database;
-    var customers = await db.query('customers');
+    List<Map<String, dynamic>> customers =
+        await db.rawQuery("SELECT * FROM customers order by code ASC");
     List<Customer> CustomersList = customers.isNotEmpty
         ? customers.map((c) => Customer.fromMap((c))).toList()
         : [];
@@ -249,6 +252,17 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map<String, dynamic>> customer = await db
         .rawQuery("SELECT * FROM customers where code = '$customer_Code'");
+    List<Customer> CustomerList = customer.isNotEmpty
+        ? customer.map((c) => Customer.fromMap((c))).toList()
+        : [];
+    return CustomerList;
+  }
+
+  Future<List<Customer>> getCustomerByPartyName(
+      String customer_party_Name) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customer = await db.rawQuery(
+        "SELECT * FROM customers where party_Name = '$customer_party_Name'");
     List<Customer> CustomerList = customer.isNotEmpty
         ? customer.map((c) => Customer.fromMap((c))).toList()
         : [];

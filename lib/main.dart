@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/routes.dart';
+import 'package:project_v3/screens/AddCustomer.dart';
 import 'package:project_v3/screens/addItem.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
@@ -10,6 +11,7 @@ import 'package:project_v3/screens/fulfilledOrderScreen.dart';
 import 'package:project_v3/screens/leaveRequestForm.dart';
 import 'package:project_v3/screens/leaveRequestScreen.dart';
 import 'package:project_v3/screens/loginScreen.dart';
+import 'package:project_v3/screens/managerHome.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
@@ -58,6 +60,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyFulfilledOrders: (context) => FulfilledOrder(),
         MyRoutes.MyReportHome: (context) => ReportHome(),
         MyRoutes.MyViewItems: (context) => ViewItems(),
+        MyRoutes.MyManagerHome: (context) => ManagerHome(),
+        MyRoutes.MyAddCustomerScreen: (context) => AddCustomer(),
       },
     );
   }

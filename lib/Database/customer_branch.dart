@@ -6,6 +6,8 @@ class CustomerBranch {
   String? address1;
   String? address2;
   String? location;
+  String? latitude;
+  String? longitude;
   String? city;
   String? state;
   String? country;
@@ -27,6 +29,8 @@ class CustomerBranch {
     this.address1,
     this.address2,
     this.location,
+    this.latitude,
+    this.longitude,
     this.city,
     this.state,
     this.country,
@@ -50,6 +54,8 @@ class CustomerBranch {
       'address1': this.address1,
       'address2': this.address2,
       'location': this.location,
+      'latitude': this.latitude,
+      'longitude': this.longitude,
       'city': this.city,
       'state': this.state,
       'country': this.country,
@@ -74,6 +80,8 @@ class CustomerBranch {
       address1: map['address1'] as String,
       address2: map['address2'] as String,
       location: map['location'] as String,
+      latitude: map['latitude'] as String,
+      longitude: map['longitude'] as String,
       city: map['city'] as String,
       state: map['state'] as String,
       country: map['country'] as String,

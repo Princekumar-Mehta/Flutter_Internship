@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 
@@ -13,6 +14,7 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   Set<Marker> markers = {};
   List<LatLng> points = [];
+
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _searchContoller = TextEditingController();
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -71,8 +73,8 @@ class MapSampleState extends State<MapSample> {
       fillColor: Colors.transparent);
 
   @override
-  Widget build(BuildContext context) {
-    points = [
+  initState() {
+    /*points = [
       LatLng(37.418, -122.092),
       LatLng(37.42796133580664, -122.085749655962),
       LatLng(37.43296265331129, -122.08832357078792),
@@ -83,29 +85,42 @@ class MapSampleState extends State<MapSample> {
       _Marker2,
       _Marker3,
       _Marker4,
-    };
-    // for (int i = 0;
-    //     i < Database_Hourly_Attendance.hourly_attendance.length;
-    //     i++) {
-    // points.add(LatLng(
-    //     double.parse(
-    //         Database_Hourly_Attendance.hourly_attendance[i].latitude),
-    //     double.parse(
-    //         Database_Hourly_Attendance.hourly_attendance[i].longitude)));
-    /*markers.add(Marker(
+    };*/
+    print(Database_Hourly_Attendance.hourly_attendance.length);
+    for (int i = 0;
+        i < Database_Hourly_Attendance.hourly_attendance.length;
+        i++) {
+      points.add(LatLng(
+          double.parse(
+              Database_Hourly_Attendance.hourly_attendance[i].latitude),
+          double.parse(
+              Database_Hourly_Attendance.hourly_attendance[i].longitude)));
+      var my_icon = BitmapDescriptor.defaultMarker;
+      if (i == 0) {
+        my_icon =
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+      } else if (i == Database_Hourly_Attendance.hourly_attendance.length - 1) {
+        my_icon =
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
+      }
+
+      markers.add(Marker(
         markerId: MarkerId(i.toString()),
         infoWindow: InfoWindow(
             title: Database_Hourly_Attendance.hourly_attendance[i].time),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        icon: my_icon,
         position: LatLng(
             double.parse(
                 Database_Hourly_Attendance.hourly_attendance[i].latitude),
             double.parse(
                 Database_Hourly_Attendance.hourly_attendance[i].longitude)),
-      ));*/
-    //   print("Marker Length: " + markers.length.toString());
-    // }
+      ));
+      print("Marker Length: " + markers.length.toString());
+    }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Google Maps")),
       body: Column(

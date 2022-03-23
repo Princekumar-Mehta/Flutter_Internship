@@ -1,28 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:project_v3/Database/db_item.dart';
-import 'package:project_v3/Database/item.dart';
+import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/Extras/utility.dart';
 
-import '../routes.dart';
-
-class EditItem extends StatefulWidget {
-  Item item;
-  EditItem({required this.item});
+class AddCustomer extends StatefulWidget {
+  const AddCustomer({Key? key}) : super(key: key);
 
   @override
-  _EditItemState createState() => _EditItemState();
+  _AddCustomerState createState() => _AddCustomerState();
 }
 
-class _EditItemState extends State<EditItem> {
+class _AddCustomerState extends State<AddCustomer> {
   final _formKey = GlobalKey<FormBuilderState>();
-  Future<void> confirmationDialog(
+  AddCustomer() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      String party_Name =
+          (_formKey.currentState?.value['party_Name'].toString())!;
+      String nick_Name =
+          (_formKey.currentState?.value['nick_Name'].toString())!;
+      String doc_Type = (_formKey.currentState?.value['doc_Type'].toString())!;
+      String grp = (_formKey.currentState?.value['grp'].toString())!;
+      String sub_Group =
+          (_formKey.currentState?.value['sub_Group'].toString())!;
+      int map_Cn =
+          int.parse((_formKey.currentState?.value['map_Cn'].toString())!);
+      int branch_Cn =
+          int.parse((_formKey.currentState?.value['branch_Cn'].toString())!);
+      String email = (_formKey.currentState?.value['email'].toString())!;
+      String phone_1 = (_formKey.currentState?.value['phone_1'].toString())!;
+      String phone_2 = (_formKey.currentState?.value['phone_2'].toString())!;
+      int crd_Day =
+          int.parse((_formKey.currentState?.value['crd_Day'].toString())!);
+      int crd_Amt =
+          int.parse((_formKey.currentState?.value['crd_Amt'].toString())!);
+      int gL_Acc =
+          int.parse((_formKey.currentState?.value['gL_Acc'].toString())!);
+      String active = checkedValue.toString();
+      Map<String, dynamic> customer = {
+        "code": "",
+        "party_Name": party_Name,
+        "nick_Name": nick_Name,
+        "doc_Type": doc_Type,
+        "grp": grp,
+        "sub_Group": sub_Group,
+        "map_Cn": map_Cn,
+        "branch_Cn": branch_Cn,
+        "email": email,
+        "phone_1": phone_1,
+        "phone_2": phone_2,
+        "crd_Day": crd_Day,
+        "crd_Amt": crd_Amt,
+        "gL_Acc": gL_Acc,
+        "active": active,
+      };
+      print(customer);
+      bool isAdded = await Database_customer.addCustomer(customer);
+      showMessage(context,
+          isAdded ? "Customer Added" : "Customer Already Exist", isAdded);
+    }
+  }
+
+  static Future<void> showMessage(
     BuildContext context,
     String message,
+    bool isAdded,
   ) async {
     showDialog<bool>(
       context: context,
@@ -31,17 +76,10 @@ class _EditItemState extends State<EditItem> {
         content: Text(message),
         actions: [
           TextButton(
-            child: const Text('No'),
+            child: const Text('Okay'),
             onPressed: () async {
               Navigator.pop(c, false);
-            },
-          ),
-          TextButton(
-            child: const Text('Yes'),
-            onPressed: () async {
-              Navigator.pop(c, false);
-              // MyDrawer.emp = widget.emp;
-              Navigator.pop(context);
+              if (isAdded) Navigator.pop(context);
             },
           ),
         ],
@@ -49,105 +87,14 @@ class _EditItemState extends State<EditItem> {
     );
   }
 
-  EditItem() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      // String code = (_formKey.currentState?.value['code'].toString())!;
-      int hsn_Code =
-          int.parse((_formKey.currentState?.value['hsn_Code'].toString())!);
-      String item_Name =
-          (_formKey.currentState?.value['item_Name'].toString())!;
-      String grp = (_formKey.currentState?.value['grp'].toString())!;
-      String sub_Group =
-          (_formKey.currentState?.value['sub_Group'].toString())!;
-      String item_Type =
-          (_formKey.currentState?.value['item_Type'].toString())!;
-      int unit_Item =
-          int.parse((_formKey.currentState?.value['unit_Item'].toString())!);
-      int barcode =
-          int.parse((_formKey.currentState?.value['barcode'].toString())!);
-      String pur_Item = checkedValue.toString();
-      String sell_Item = checkedValue2.toString();
-      int price =
-          int.parse((_formKey.currentState?.value['price'].toString())!);
-      int net_Weight =
-          int.parse((_formKey.currentState?.value['net_Weight'].toString())!);
-      Map<String, dynamic> item = {
-        "code": widget.item.code,
-        "hsn_Code": hsn_Code,
-        "item_Name": item_Name,
-        "grp": grp,
-        "sub_Group": sub_Group,
-        "item_Type": item_Type,
-        "unit_Item": unit_Item,
-        "barcode": barcode,
-        "pur_Item": pur_Item,
-        "sell_Item": sell_Item,
-        "price": price,
-        "net_Weight": net_Weight
-      };
-      print(item);
-      if (await Database_Item.updateItem(item)) {
-        Utility.showMessage(context, "Item Updated");
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
-        if (await Database_Item().get_Items()) {
-          Navigator.pushNamed(context, MyRoutes.MyViewItems);
-        }
-      }
-    }
-  }
-
-  var checkedValue;
-  var checkedValue2;
-  @override
-  void initState() {
-    //implement initState
-    checkedValue = widget.item.pur_Item == "true" ? true : false;
-    checkedValue2 = widget.item.sell_Item == "true" ? true : false;
-  }
-
+  var checkedValue = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: MyDrawer.emp.darkTheme == 1
-                  ? MyColors.white
-                  : MyColors.scarlet,
-              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              _formKey.currentState!.save();
-              if (widget.item.hsn_Code !=
-                      _formKey.currentState!.value['hsn_Code'] ||
-                  widget.item.item_Name !=
-                      _formKey.currentState!.value['item_Name'] ||
-                  widget.item.grp != _formKey.currentState!.value['grp'] ||
-                  widget.item.sub_Group !=
-                      _formKey.currentState!.value['sub_Group'] ||
-                  widget.item.item_Type !=
-                      _formKey.currentState!.value['item_Type'] ||
-                  widget.item.unit_Item !=
-                      _formKey.currentState!.value['unit_Item'] ||
-                  widget.item.barcode !=
-                      _formKey.currentState!.value['barcode'] ||
-                  widget.item.pur_Item !=
-                      _formKey.currentState!.value['pur_Item'].toString() ||
-                  widget.item.sell_Item !=
-                      _formKey.currentState!.value['sell_Item'].toString() ||
-                  widget.item.price != _formKey.currentState!.value['price'] ||
-                  widget.item.net_Weight !=
-                      _formKey.currentState!.value['net_Weight']) {
-                confirmationDialog(context,
-                    "Exit to Edit Item Page?\n\nChanges will not be saved.");
-              } else {
-                Navigator.pop(context);
-              }
-            }
-          },
+        iconTheme: IconThemeData(
+          color:
+              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
         ),
         shape: Border(
           bottom: BorderSide(
@@ -155,7 +102,7 @@ class _EditItemState extends State<EditItem> {
             width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
           ),
         ),
-        title: Text("Edit Item",
+        title: Text("Add Customer",
             style: TextStyle(
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white
@@ -166,6 +113,7 @@ class _EditItemState extends State<EditItem> {
             ? MyColors.richBlackFogra
             : MyColors.white,
       ),
+      drawer: MyDrawer(),
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,
@@ -179,57 +127,11 @@ class _EditItemState extends State<EditItem> {
                 child: Column(
                   children: [
                     SizedBox(
-                        height: MyScreen.getScreenWidth(context) * (70 / 640)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("HSN Code *",
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                          name: 'hsn_Code',
-                          initialValue: widget.item.hsn_Code!.toString(),
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: MyDrawer.emp.darkTheme == 1
-                                        ? MyColors.pewterBlue
-                                        : MyColors.black)),
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.middleRed
-                                  : MyColors.scarlet,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          validator: (value) {
-                            RegExp regexhsn = RegExp(r'^[0-9]{8}$');
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter HSN Code";
-                            } else if (!regexhsn.hasMatch(value)) {
-                              return "Enter Proper HSN Code";
-                            }
-                            return null;
-                          }),
-                    ),
-                    SizedBox(
                         height: MyScreen.getScreenHeight(context) * (6 / 553)),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Item Name *",
+                      child: Text("Party Name *",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -241,8 +143,7 @@ class _EditItemState extends State<EditItem> {
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
-                          name: 'item_Name',
-                          initialValue: widget.item.item_Name,
+                          name: 'party_Name',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -258,7 +159,7 @@ class _EditItemState extends State<EditItem> {
                                   (25 / 1063.6)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please Enter Item Name";
+                              return "Please Enter Party Name";
                             }
                             return null;
                           }),
@@ -268,7 +169,85 @@ class _EditItemState extends State<EditItem> {
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Group Name *",
+                      child: Text("Nick Name *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'nick_Name',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Nick Name";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Doc Type *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'doc_Type',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Doc Type";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Group Name*",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -281,7 +260,6 @@ class _EditItemState extends State<EditItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'grp',
-                          initialValue: widget.item.grp,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -308,7 +286,7 @@ class _EditItemState extends State<EditItem> {
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Sub Group Name *",
+                      child: Text("Sub Group*",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -321,7 +299,6 @@ class _EditItemState extends State<EditItem> {
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
                           name: 'sub_Group',
-                          initialValue: widget.item.sub_Group,
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -343,12 +320,13 @@ class _EditItemState extends State<EditItem> {
                             return null;
                           }),
                     ),
+
                     SizedBox(
                         height: MyScreen.getScreenHeight(context) * (6 / 553)),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Item Type *",
+                      child: Text("Map_cn *",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -360,48 +338,7 @@ class _EditItemState extends State<EditItem> {
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
-                          name: 'item_Type',
-                          initialValue: widget.item.item_Type,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                            )),
-                          ),
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.middleRed
-                                  : MyColors.scarlet,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Item Type";
-                            }
-                            return null;
-                          }),
-                    ),
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Number of Units (Ex: 2 [Packet, Box]) *",
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                          name: 'unit_Item',
-                          initialValue: widget.item.unit_Item.toString(),
+                          name: 'map_Cn',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -422,7 +359,7 @@ class _EditItemState extends State<EditItem> {
                                   (25 / 1063.6)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please Enter Number of Units";
+                              return "Please Enter Map_cn";
                             }
                             return null;
                           }),
@@ -432,7 +369,7 @@ class _EditItemState extends State<EditItem> {
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Barcode *",
+                      child: Text("Branch_cn *",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -444,8 +381,7 @@ class _EditItemState extends State<EditItem> {
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
-                          name: 'barcode',
-                          initialValue: widget.item.barcode.toString(),
+                          name: 'branch_Cn',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -465,11 +401,275 @@ class _EditItemState extends State<EditItem> {
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
-                            RegExp regexbarcode = RegExp(r'^[0-9]{9}$');
                             if (value == null || value.isEmpty) {
-                              return "Please Enter Barcode";
-                            } else if (!regexbarcode.hasMatch(value)) {
-                              return "Enter Proper Barcode";
+                              return "Please Enter Branch_cn";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Email *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'email',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            RegExp regexem = RegExp(
+                                r'^[a-z0-9!#$%&"*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&"*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9][a-zA-Z0-9-]{0,253}\.)*[a-zA-Z0-9][a-zA-Z0-9-]{0,253}\.[a-zA-Z0-9]{2,}$');
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Email ID";
+                            } else if (!regexem.hasMatch(value)) {
+                              return "Enter Proper Email ID";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Phone_1 *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'phone_1',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            RegExp regexem = RegExp(r'^[0-9]{10}$');
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Phone Number 1";
+                            } else if (!regexem.hasMatch(value)) {
+                              return "Enter Valid Phone Number 1";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Phone 2 *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'phone_2',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            RegExp regexem = RegExp(r'^[0-9]{10}$');
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Phone Number 2";
+                            } else if (!regexem.hasMatch(value)) {
+                              return "Enter Valid Phone Number 2";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Credit Day *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'crd_Day',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Credit Day";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Credit Amount *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'crd_Amt',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Credit Amount";
+                            }
+                            return null;
+                          }),
+                    ),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Gl Acc *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      child: FormBuilderTextField(
+                          name: 'gL_Acc',
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                            )),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                          validator: (value) {
+                            RegExp regexgLAcc = RegExp(r'^[0-9]{6}$');
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter gL Acc";
+                            } else if (!regexgLAcc.hasMatch(value)) {
+                              return "Enter Proper gL Acc";
                             }
                             return null;
                           }),
@@ -486,8 +686,7 @@ class _EditItemState extends State<EditItem> {
                               : MyColors.black,
                         ),
                         child: CheckboxListTile(
-                          title: Text(
-                              'Purchase Item (Select if available for Purchase)',
+                          title: Text('Active (Select if Active Customer)',
                               style: TextStyle(
                                   color: MyDrawer.emp.darkTheme == 1
                                       ? MyColors.pewterBlue
@@ -508,130 +707,7 @@ class _EditItemState extends State<EditItem> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: Theme(
-                        data: ThemeData(
-                          unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
-                              ? MyColors.pewterBlue
-                              : MyColors.black,
-                        ),
-                        child: CheckboxListTile(
-                          title: Text(
-                              'Sell Item (Select if available for Sales)',
-                              style: TextStyle(
-                                  color: MyDrawer.emp.darkTheme == 1
-                                      ? MyColors.pewterBlue
-                                      : MyColors.black,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (20 / 1063.6))),
-                          value: checkedValue2,
-                          onChanged: (value) {
-                            setState(() {
-                              checkedValue2 = !checkedValue2;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                          checkColor: MyColors.white,
-                          activeColor: MyDrawer.emp.darkTheme == 1
-                              ? MyColors.middleRed
-                              : MyColors.scarlet,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (12 / 553)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Price *",
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                          name: 'price',
-                          initialValue: widget.item.price.toString(),
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                            )),
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.middleRed
-                                  : MyColors.scarlet,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Price";
-                            }
-                            return null;
-                          }),
-                    ),
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Net Weight *",
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (20 / 1063.6))),
-                    ),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
-                      child: FormBuilderTextField(
-                          name: 'net_Weight',
-                          initialValue: widget.item.net_Weight.toString(),
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                            )),
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.middleRed
-                                  : MyColors.scarlet,
-                              fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Net Weight";
-                            }
-                            return null;
-                          }),
-                    ),
-                    SizedBox(
-                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+
                     // Button
                     SizedBox(
                         height:
@@ -670,7 +746,7 @@ class _EditItemState extends State<EditItem> {
                           ],
                         ),
                         onTap: () {
-                          EditItem();
+                          AddCustomer();
                         },
                       ),
                     ),

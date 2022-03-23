@@ -7,8 +7,32 @@ import 'database_helper.dart';
 
 class Database_customer {
   static List<String> codes = [];
+  static List<Customer> customers = [];
   static addCustomer(Map<String, dynamic> customer) async {
-    await DatabaseHelper.instance.addCustomer(Customer.fromMap(customer));
+    List<Customer> existing_customer = await DatabaseHelper.instance
+        .getCustomerByPartyName(customer['party_Name']);
+    print(existing_customer.length);
+    if (existing_customer.isNotEmpty) {
+      //print(existing_item[0].item_Name);
+      return false;
+    } else {
+      final customers = await DatabaseHelper.instance.getCustomers();
+      print("customers length " + customers.length.toString());
+      if (customer['code'].length == 0) {
+        customer['code'] = "DST" +
+            (int.parse(customers[customers.length - 1].code!.substring(
+                        3, customers[customers.length - 1].code!.length)) +
+                    1)
+                .toString();
+      }
+      await DatabaseHelper.instance.addCustomer(Customer.fromMap(customer));
+      return true;
+    }
+  }
+
+  Future<bool> getAllCustomers() async {
+    customers = (await DatabaseHelper.instance.getCustomers());
+    return true;
   }
 
   Future<Customer> get_customer(String customer_Code) async {
