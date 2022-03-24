@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_Employee.dart';
-import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Models/employee.dart';
 import 'package:project_v3/screens/editEmployeeScreen.dart';
 
-import '../routes.dart';
+import 'routes.dart';
 
 class MyDrawer extends StatelessWidget {
   static Employee emp = Employee();

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project_v3/routes.dart';
-import 'package:project_v3/screens/AddCustomer.dart';
+import 'package:project_v3/Extras/routes.dart';
+import 'package:project_v3/screens/ViewFeedbackScreen.dart';
+import 'package:project_v3/screens/addCustomer.dart';
 import 'package:project_v3/screens/addItem.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
+import 'package:project_v3/screens/customerFeedbackScreen.dart';
 import 'package:project_v3/screens/exploreAttendance.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
 import 'package:project_v3/screens/forgotPasswordScreen2.dart';
@@ -22,6 +24,7 @@ import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/searchFunction.dart';
 import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
+import 'package:project_v3/screens/viewCustomer.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
 import 'package:project_v3/screens/viewItems.dart';
 
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: MyRoutes.MyLogin,
+      initialRoute: MyRoutes.MYSplashScreen,
       routes: {
         //  MyRoutes.MyTempScreen: (context) => DynamicForms(),
         MyRoutes.MYSplashScreen: (context) => SplashScreen(),
@@ -62,6 +65,11 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyViewItems: (context) => ViewItems(),
         MyRoutes.MyManagerHome: (context) => ManagerHome(),
         MyRoutes.MyAddCustomerScreen: (context) => AddCustomer(),
+        MyRoutes.MyViewCustomerScreen: (context) => ViewCustomerScreen(),
+        MyRoutes.MyCustomerFeedbackScreen: (context) =>
+            CustomerFeedbackScreen(),
+        MyRoutes.MyViewCustomerFeedbackScreen: (context) =>
+            ViewCustomerFeedbackScreen(),
       },
     );
   }

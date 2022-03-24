@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import 'customer_branch.dart';
+import '../Models/customer_branch.dart';
 import 'database_helper.dart';
 
 class Database_customerBranch {
   static List<String> bill_branch_codes = [];
   static List<String> ship_branch_codes = [];
+
   static String iphone_number = "";
   static String iemail = "";
 

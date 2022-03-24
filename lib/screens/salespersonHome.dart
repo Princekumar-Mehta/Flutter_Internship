@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:project_v3/Database/db_ApproveOrders.dart';
-import 'package:project_v3/Database/db_Customer.dart';
-import 'package:project_v3/Database/db_Customer_branch.dart';
+import 'package:intl/intl.dart';
+import 'package:project_v3/Database/db_approveOrders.dart';
+import 'package:project_v3/Database/db_customer.dart';
+import 'package:project_v3/Database/db_customer_branch.dart';
+import 'package:project_v3/Database/db_customer_feedback.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/routes.dart';
+import 'package:project_v3/Extras/routes.dart';
 
 import 'editEmployeeScreen.dart';
 
@@ -206,7 +208,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                           children: [
                             Icon(
                               Icons.work,
-                              textDirection: TextDirection.rtl,
+                              // textDirection: TextDirection.rtl,
                               size: MyScreen.getScreenHeight(context) *
                                   (30 / 1063.6),
                               color: MyColors.black,
@@ -520,10 +522,12 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
-                                      onTap: () async{
-                                        /*if(await Database_customer.getAllCustomers()){
-                                          Navigator.pushNamed(context,MyRoutes.My);
-                                        }*/
+                                      onTap: () async {
+                                        if (await Database_customer
+                                            .getAllCustomers()) {
+                                          Navigator.pushNamed(context,
+                                              MyRoutes.MyViewCustomerScreen);
+                                        }
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -581,14 +585,21 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    /*child: InkWell(
+                                    child: InkWell(
                                       onTap: () async {
-                                        var _pendingOrders =
-                                            Database_ApproveOrders();
-                                        if (await _pendingOrders
-                                            .getPendingOrders()) {
+                                        final df = DateFormat('dd-MM-yyyy');
+                                        var date =
+                                            (df.format(new DateTime.now()));
+                                        if (await Database_Customer_Feedback()
+                                            .getRemainingBranchesCustomerFeedbacks(
+                                          MyDrawer.emp.id!,
+                                          int.parse(date.split('-')[1]),
+                                          int.parse(date.split('-')[2]),
+                                        )) {
                                           Navigator.pushNamed(
-                                              context, MyRoutes.MyApproveOrder);
+                                              context,
+                                              MyRoutes
+                                                  .MyCustomerFeedbackScreen);
                                         }
                                       },
                                       child: Column(
@@ -627,7 +638,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                     context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("Pending Orders",
+                                          Text("Customer Feedback",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:
@@ -639,7 +650,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),*/
+                                    ),
                                   ),
                                 ],
                               )
@@ -681,7 +692,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                           children: [
                             Icon(
                               Icons.timeline,
-                              textDirection: TextDirection.rtl,
+                              // textDirection: TextDirection.RTL,
                               size: MyScreen.getScreenHeight(context) *
                                   (30 / 1063.6),
                               color: MyColors.black,

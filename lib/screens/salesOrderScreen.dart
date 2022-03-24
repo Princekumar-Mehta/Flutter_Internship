@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:project_v3/Database/db_Customer.dart';
-import 'package:project_v3/Database/db_Customer_branch.dart';
-import 'package:project_v3/Database/order.dart';
+import 'package:project_v3/Database/db_customer.dart';
+import 'package:project_v3/Database/db_customer_branch.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myItemContainer.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -11,6 +10,7 @@ import 'package:project_v3/Extras/myTypeAhead.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/pdf_api.dart';
 import 'package:project_v3/Extras/utility.dart';
+import 'package:project_v3/Models/order.dart';
 
 import 'confirmSalesOrder.dart';
 

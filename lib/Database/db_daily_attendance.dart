@@ -1,4 +1,4 @@
-import 'daily_attendance.dart';
+import '../Models/daily_attendance.dart';
 import 'database_helper.dart';
 
 class Database_Daily_Attendance {

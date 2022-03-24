@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import 'customer.dart';
+import '../Models/customer.dart';
 import 'database_helper.dart';
 
 class Database_customer {
@@ -30,8 +30,9 @@ class Database_customer {
     }
   }
 
-  Future<bool> getAllCustomers() async {
+  static Future<bool> getAllCustomers() async {
     customers = (await DatabaseHelper.instance.getCustomers());
+    print(customers.length);
     return true;
   }
 
@@ -71,6 +72,11 @@ class Database_customer {
         Database_customer.addCustomer(element);
       });
     }
+    return true;
+  }
+
+  static Future<bool> updateCustomer(Map<String, dynamic> customer) async {
+    await DatabaseHelper.instance.updateCustomer(Customer.fromMap(customer));
     return true;
   }
 }

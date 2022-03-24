@@ -1,7 +1,7 @@
-import 'package:project_v3/Database/hourly_attendance.dart';
+import 'package:project_v3/Models/hourly_attendance.dart';
 
+import '../Models/hourly_attendance.dart';
 import 'database_helper.dart';
-import 'hourly_attendance.dart';
 
 class Database_Hourly_Attendance {
   static List<Hourly_Attendance> hourly_attendance = [];
@@ -21,7 +21,8 @@ class Database_Hourly_Attendance {
   }
 
   Future<bool> getHourlyAttendance(int emp_id, String date) async {
-    hourly_attendance = await DatabaseHelper.instance.getHourlyAttendance(emp_id, date);
+    hourly_attendance =
+        await DatabaseHelper.instance.getHourlyAttendance(emp_id, date);
     //print(hourly_attendance);
     return true;
   }

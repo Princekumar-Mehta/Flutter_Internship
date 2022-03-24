@@ -1,14 +1,10 @@
-/*
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_Customer.dart';
-import 'package:project_v3/Database/db_hourly_attendance.dart';
+import 'package:project_v3/Database/db_customer.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-
-import '../routes.dart';
+import 'package:project_v3/screens/viewCustomerDetail.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewCustomerScreen extends StatefulWidget {
   const ViewCustomerScreen({Key? key}) : super(key: key);
@@ -23,6 +19,8 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
     super.initState();
   }
 
+  var phone;
+  var email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +62,8 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount:Database_customer.customers.length,
+                  itemCount: Database_customer.customers.length,
                   itemBuilder: (context, index) {
-                    print(Database_customer.customers[index]);
                     return Container(
                       child: _row(index),
                     );
@@ -101,122 +98,107 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        width: MyScreen.getScreenWidth(context) * (50 / 490.9),
-                        height: MyScreen.getScreenWidth(context) * (50 / 490.9),
-                        color: MyColors.richBlackFogra,
-                        child: Image.file(
-                            File(Database_customer.customers[key].profile_pic!)),
+                      Text(
+                        Database_customer.customers[key].party_Name! +
+                            " - " +
+                            Database_customer.customers[key].sub_Group!,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize:
+                              MyScreen.getScreenHeight(context) * (20 / 1063.6),
+                        ),
                       ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (10 / 490.9),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          email = Database_customer.customers[key].email!;
+                          launch("mailto:$email?subject=''");
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.mail,
+                              size: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6),
+                            ),
+                            SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (10 / 490.9),
+                            ),
+                            Text(
+                              Database_customer.customers[key].email!,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (15 / 1063.6),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                               Database_customer.customers[key].id!.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (20 / 1063.6),
+                          InkWell(
+                            onTap: () {
+                              phone = Database_customer.customers[key].phone_1!;
+                              launch("tel:$phone");
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.phone_outlined,
+                                  size: MyScreen.getScreenHeight(context) *
+                                      (25 / 1063.6),
                                 ),
-                              ),
-                              Text(
-                                ") ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (20 / 1063.6),
+                                SizedBox(
+                                  width: MyScreen.getScreenWidth(context) *
+                                      (10 / 490.9),
                                 ),
-                              ),
-                              Text(
-                               Database_customer.customers[key].name!,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (20 / 1063.6),
+                                Text(
+                                  Database_customer.customers[key].phone_1!,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (15 / 1063.6),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (40 / 490.9),
-                              ),
-                             Database_customer.customers[key].role! == "Salesperson"
-                                  ? InkWell(
-                                      onTap: () async {
-                                        if (await Database_Hourly_Attendance()
-                                            .getHourlyAttendance(
-                                               Database_customer.customers[key].id!,
-                                                DateTime.now()
-                                                    .toString()
-                                                    .split(" ")[0])) {
-                                          Navigator.pushNamed(
-                                              context, MyRoutes.MyMapScreen);
-                                        }
-                                      },
-                                      child: Text("View Live Location",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MyScreen.getScreenHeight(
-                                                    context) *
-                                                (15 / 1063.6),
-                                          )))
-                                  : Container(),
-                            ],
+                              ],
+                            ),
                           ),
                           SizedBox(
-                            height: MyScreen.getScreenHeight(context) *
-                                (8 / 1063.6),
+                            width: MyScreen.getScreenWidth(context) *
+                                (120 / 490.9),
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.theater_comedy,
-                                size: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6),
-                              ),
-                              SizedBox(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (10 / 490.9),
-                              ),
-                              Text(
-                               Database_customer.customers[key].!,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (15 / 1063.6),
-                                ),
-                              ),
-                              SizedBox(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (125 / 490.9),
-                              ),
-                              InkWell(
-                                  child: Text(
-                                    "Edit",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (15 / 1063.6),
-                                    ),
+                          InkWell(
+                            onTap: () async {
+                              print(
+                                  Database_customer.customers[key].party_Name);
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ViewCustomerDetail(
+                                            customer: Database_customer
+                                                .customers[key],
+                                          )));
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "View/Edit Customer",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (15 / 1063.6),
                                   ),
-                                  onTap: () async {
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditCustomerScreen(
-                                                  emp:
-                                                     Database_customer.customers[key],
-                                                )));
-                                  }),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ],
@@ -233,4 +215,3 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
     ]);
   }
 }
-*/

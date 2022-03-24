@@ -1,9 +1,9 @@
-import 'package:project_v3/Database/customer.dart';
-import 'package:project_v3/Database/db_Customer.dart';
-import 'package:project_v3/Database/db_Customer_branch.dart';
-import 'package:project_v3/Database/final_order.dart';
+import 'package:project_v3/Database/db_customer.dart';
+import 'package:project_v3/Database/db_customer_branch.dart';
+import 'package:project_v3/Models/customer.dart';
+import 'package:project_v3/Models/final_order.dart';
 
-import 'customer_branch.dart';
+import '../Models/customer_branch.dart';
 import 'database_helper.dart';
 
 class Database_ApproveOrders {

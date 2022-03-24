@@ -66,7 +66,7 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
             style: TextStyle(
                 color: MyColors.middleRed, fontSize: widget.fontSize)),
         suggestionsCallback: (pattern) => widget.itemList.where(
-            (item) => item.toLowerCase().startsWith(pattern.toLowerCase())),
+            (item) => item.toLowerCase().contains(pattern.toLowerCase())),
         itemBuilder: (_, String item) => ListTile(
           title: Text(item),
         ),

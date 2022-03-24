@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_v3/Database/db_Employee.dart';
-import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
+import 'package:project_v3/Models/employee.dart';
 
-import '../routes.dart';
+import '../Extras/routes.dart';
 import 'otpVerificationScreen.dart';
 
 class EditEmployeeScreen extends StatefulWidget {
@@ -526,80 +526,80 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             ),
                       MyDrawer.emp.role == 'Admin'
                           ? Stack(children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                              width: MyScreen.getScreenWidth(context) *
-                                  (.75 / 294),
-                            ),
-                          ),
-                          width: MyScreen.getScreenWidth(context) *
-                              (228 / 294),
-                          height: 54,
-                          child: FormBuilderDropdown<String>(
-                            name: 'role',
-                            initialValue: widget.emp.role,
-                            validator: (value) {
-                              if (value.toString() ==
-                                  "Select an Option") {
-                                return "Please select a role";
-                              }
-                              return null;
-                            },
-                            dropdownColor: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.richBlackFogra
-                                : MyColors.white,
-                            iconSize: MyScreen.getScreenHeight(context) *
-                                (35 / 1063.6),
-                            isExpanded: true,
-                            isDense: true,
-                            iconDisabledColor: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.pewterBlue
-                                : MyColors.black,
-                            iconEnabledColor: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.pewterBlue
-                                : MyColors.black,
-                            icon: const Icon(Icons.arrow_drop_down),
-                            style: TextStyle(
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.pewterBlue
-                                  : MyColors.black,
-                            ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownvalue = newValue!;
-                              });
-                            },
-                            items: <String>[
-                              'Admin',
-                              'Salesperson',
-                              'Regional Manager',
-                              'Area Manager',
-                              'General Manager'
-                            ].map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Center(
-                                        child: Text(value,
-                                            style: TextStyle(
-                                                color:
-                                                MyDrawer.emp.darkTheme ==
-                                                    1
-                                                    ? MyColors.pewterBlue
-                                                    : MyColors.black,
-                                                fontSize:
-                                                MyScreen.getScreenHeight(
-                                                    context) *
-                                                    (20 / 1063.6)))),
-                                  );
-                                }).toList(),
-                          ),
-                        )
-                      ])
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (.75 / 294),
+                                  ),
+                                ),
+                                width: MyScreen.getScreenWidth(context) *
+                                    (228 / 294),
+                                height: 54,
+                                child: FormBuilderDropdown<String>(
+                                  name: 'role',
+                                  initialValue: widget.emp.role,
+                                  validator: (value) {
+                                    if (value.toString() ==
+                                        "Select an Option") {
+                                      return "Please select a role";
+                                    }
+                                    return null;
+                                  },
+                                  dropdownColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.richBlackFogra
+                                      : MyColors.white,
+                                  iconSize: MyScreen.getScreenHeight(context) *
+                                      (35 / 1063.6),
+                                  isExpanded: true,
+                                  isDense: true,
+                                  iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  icon: const Icon(Icons.arrow_drop_down),
+                                  style: TextStyle(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownvalue = newValue!;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'Admin',
+                                    'Salesperson',
+                                    'Regional Manager',
+                                    'Area Manager',
+                                    'General Manager'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(
+                                          child: Text(value,
+                                              style: TextStyle(
+                                                  color:
+                                                      MyDrawer.emp.darkTheme ==
+                                                              1
+                                                          ? MyColors.pewterBlue
+                                                          : MyColors.black,
+                                                  fontSize:
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (20 / 1063.6)))),
+                                    );
+                                  }).toList(),
+                                ),
+                              )
+                            ])
                           : Container(),
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *

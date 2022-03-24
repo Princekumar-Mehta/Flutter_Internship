@@ -24,4 +24,7 @@ class MyRoutes {
   static final MyManagerHome = '/myManagerHome';
   static final MyViewItems = '/viewItems';
   static final MyAddCustomerScreen = '/myAddCustomerScreen';
+  static final MyViewCustomerScreen = '/myViewCustomerScreen';
+  static final MyCustomerFeedbackScreen = '/myCustomerFeedbackScreen';
+  static final MyViewCustomerFeedbackScreen = '/myViewCustomerFeedbackScreen';
 }

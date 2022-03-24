@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_ApproveOrders.dart';
+import 'package:project_v3/Database/db_approveOrders.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -10,7 +10,7 @@ import 'package:project_v3/screens/uploadCheque.dart';
 import 'package:project_v3/screens/viewChequePhoto.dart';
 import 'package:project_v3/screens/viewOrderScreen.dart';
 
-import '../routes.dart';
+import '../Extras/routes.dart';
 
 class ProcessingOrder extends StatefulWidget {
   const ProcessingOrder({Key? key}) : super(key: key);

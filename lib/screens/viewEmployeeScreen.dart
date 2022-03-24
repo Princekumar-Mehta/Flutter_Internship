@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_customer_feedback.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/screens/editEmployeeScreen.dart';
 
-import '../routes.dart';
+import '../Extras/routes.dart';
 
 class ViewEmployeeScreen extends StatefulWidget {
   const ViewEmployeeScreen({Key? key}) : super(key: key);
@@ -217,6 +218,23 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                   }),
                             ],
                           ),
+                          InkWell(
+                              child: Text(
+                                "View Feedbacks",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (15 / 1063.6),
+                                ),
+                              ),
+                              onTap: () async {
+                                if (await Database_Customer_Feedback()
+                                    .getCustomerFeedbacksBySalespersonCode(
+                                        Database_signUp.emps[key].id!)) {
+                                  Navigator.pushNamed(context,
+                                      MyRoutes.MyViewCustomerFeedbackScreen);
+                                }
+                              }),
                         ],
                       ),
                     ],

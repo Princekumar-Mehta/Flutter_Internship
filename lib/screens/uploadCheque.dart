@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project_v3/Database/db_ApproveOrders.dart';
+import 'package:project_v3/Database/db_approveOrders.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 
-import '../routes.dart';
+import '../Extras/routes.dart';
 
 class UploadChequePhoto extends StatefulWidget {
   int order_id;

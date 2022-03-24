@@ -1,8 +1,8 @@
 import 'package:project_v3/Database/db_Employee.dart';
 
+import '../Models/employee.dart';
+import '../Models/leave_request.dart';
 import 'database_helper.dart';
-import 'employee.dart';
-import 'leave_request.dart';
 
 class Database_leaveRequest {
   static List<LeaveRequest> leaveRequests = [];

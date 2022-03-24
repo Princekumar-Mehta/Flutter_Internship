@@ -2,18 +2,19 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:project_v3/Database/employee.dart';
-import 'package:project_v3/Database/final_individual_order.dart';
-import 'package:project_v3/Database/hourly_attendance.dart';
-import 'package:project_v3/Database/leave_request.dart';
 import 'package:project_v3/Extras/utility.dart';
+import 'package:project_v3/Models/employee.dart';
+import 'package:project_v3/Models/final_individual_order.dart';
+import 'package:project_v3/Models/hourly_attendance.dart';
+import 'package:project_v3/Models/leave_request.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'customer.dart';
-import 'customer_branch.dart';
-import 'daily_attendance.dart';
-import 'final_order.dart';
-import 'item.dart';
+import '../Models/customer.dart';
+import '../Models/customer_branch.dart';
+import '../Models/customer_feedback.dart';
+import '../Models/daily_attendance.dart';
+import '../Models/final_order.dart';
+import '../Models/item.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
@@ -163,6 +164,18 @@ class DatabaseHelper {
       hours TEXT
     )
     ''');
+    await db.execute('''
+    CREATE TABLE customer_feedback(
+      customer_feedback_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      salesperson_Code INTEGER,
+      date TEXT,
+      month INTEGER,
+      year INTEGER,
+      branch_Code TEXT,
+      rating TEXT,
+      reason TEXT
+    )
+    ''');
   }
 
   Future<List<Employee>> getEmployees() async {
@@ -238,6 +251,13 @@ class DatabaseHelper {
     return await db.insert('customers', customer.toMap());
   }
 
+  Future<int> updateCustomer(Customer customer) async {
+    Database db = await instance.database;
+    print("in databs file update : " + customer.code!);
+    return await db.update('customers', customer.toMap(),
+        where: 'code = ?', whereArgs: [customer.code]);
+  }
+
   Future<List<Customer>> getCustomers() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> customers =
@@ -302,6 +322,16 @@ class DatabaseHelper {
         ? customer_branches.map((c) => CustomerBranch.fromMap((c))).toList()
         : [];
     return Customer_BranchList;
+  }
+
+  Future<List<CustomerBranch>> getAllCustomerBranches() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customerBranch =
+        await db.rawQuery("SELECT * FROM customers_branches");
+    List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
+        ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
+        : [];
+    return CustomerBranchList;
   }
 
   Future<List<CustomerBranch>> getCustomerBranch(String branch_Code) async {
@@ -594,5 +624,49 @@ class DatabaseHelper {
         "SELECT AVG(hours) FROM daily_attendance where emp_id = '$emp_id'");
     print(hours);
     return 0;
+  }
+
+  Future<int> addCustomerFeedback(Customer_Feedback customer_feedback) async {
+    Database db = await instance.database;
+    return await db.insert('customer_feedback', customer_feedback.toMap());
+  }
+
+  Future<List<Customer_Feedback>> getCustomerFeedbackBySalespersonCode(
+      int salesperson_Code) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> existing_customer_feedbacks = await db.rawQuery(
+        "SELECT * FROM customer_feedback where salesperson_Code = '$salesperson_Code' order by customer_feedback_p DESC"); //where role = 'Salesperson'
+    List<Customer_Feedback> CustomerFeedbackList =
+        existing_customer_feedbacks.isNotEmpty
+            ? existing_customer_feedbacks
+                .map((c) => Customer_Feedback.fromMap((c)))
+                .toList()
+            : [];
+    return CustomerFeedbackList;
+  }
+
+  Future<List<Customer_Feedback>> getExistingBranchesCustomerFeedback(
+      int salesperson_Code, int month, int year) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> existing_customer_feedbacks = await db.rawQuery(
+        "SELECT * FROM customer_feedback where salesperson_Code = '$salesperson_Code' and month =  '$month' and year =  '$year' order by month DESC"); //where role = 'Salesperson'
+    List<Customer_Feedback> CustomerFeedbackList =
+        existing_customer_feedbacks.isNotEmpty
+            ? existing_customer_feedbacks
+                .map((c) => Customer_Feedback.fromMap((c)))
+                .toList()
+            : [];
+    return CustomerFeedbackList;
+  }
+
+  Future<List<Customer_Feedback>> getCustomerFeedback(
+      int salesperson_Code, String branch_Code, int month, int year) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customer_feedbacks = await db.rawQuery(
+        "SELECT * FROM customer_feedback where salesperson_Code = '$salesperson_Code' and branch_Code = '$branch_Code' and month =  '$month' and year =  '$year' order by month DESC"); //where role = 'Salesperson'
+    List<Customer_Feedback> CustomerFeedbackList = customer_feedbacks.isNotEmpty
+        ? customer_feedbacks.map((c) => Customer_Feedback.fromMap((c))).toList()
+        : [];
+    return CustomerFeedbackList;
   }
 }

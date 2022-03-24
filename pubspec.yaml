@@ -54,6 +54,7 @@ dependencies:
   pie_chart: ^5.1.0
   charts_flutter: ^0.12.0
   excel: ^2.0.0-null-safety-3
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   flutter_test:

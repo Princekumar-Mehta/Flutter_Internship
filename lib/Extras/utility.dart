@@ -4,9 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:project_v3/Database/db_Customer.dart';
+import 'package:project_v3/Database/db_Customer_branch.dart';
 import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_daily_attendance.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
-import 'package:project_v3/Database/employee.dart';
+import 'package:project_v3/Database/db_item.dart';
+import 'package:project_v3/Models/employee.dart';
 
 class Utility {
   static int totalLeaves = 30;
@@ -22,6 +26,9 @@ class Utility {
   }
 
   static insert_Admin() async {
+    await Database_customer().insertData();
+    await Database_customerBranch().insertData();
+    await Database_Item.insertData();
     File _pickedImage = await getImageFileFromAssets('images/DIMS.png');
     Database_signUp.addEmp(
       name: "Admin",
@@ -80,74 +87,78 @@ class Utility {
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "10:00",
       latitude: "23.129654",
       longitude: "72.541589",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "11:00",
       latitude: "23.128515",
       longitude: "72.548370",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "12:00",
       latitude: "23.121618",
       longitude: "72.546856",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "13:00",
       latitude: "23.113097",
       longitude: "72.545682",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "14:00",
       latitude: "23.113842",
       longitude: "72.555366",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "15:00",
       latitude: "23.103844",
       longitude: "72.549834",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "16:00",
       latitude: "23.100411",
       longitude: "72.548784",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "17:00",
       latitude: "23.097482",
       longitude: "72.546203",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "18:00",
       latitude: "23.094935",
       longitude: "72.546364",
     );
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
-      date: "2022-03-23",
+      date: DateTime.now().toString().split(" ")[0],
       time: "19:00",
       latitude: "23.090718",
       longitude: "72.544989",
     );
+    Database_Daily_Attendance().updateDailyAttendance(
+        emp_id: 3,
+        date: DateTime.now().toString().split(" ")[0],
+        hours: "09:00");
   }
 
   static Future<Employee> getEmployee(String email_id) async {
@@ -173,14 +184,12 @@ class Utility {
     return (emp == null);
   }
 
-  static Future<void> showMessage(
-    BuildContext context,
-    String message,
-  ) async {
+  static Future<void> showMessage(BuildContext context, String message,
+      {String title: "Alert"}) async {
     showDialog<bool>(
       context: context,
       builder: (c) => AlertDialog(
-        title: const Text('Alert'),
+        title: Text(title),
         content: Text(message),
         actions: [
           TextButton(

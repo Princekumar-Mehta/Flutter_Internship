@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_v3/Database/database_helper.dart';
 import 'package:project_v3/Database/db_Employee.dart';
-import 'package:project_v3/Database/employee.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
+import 'package:project_v3/Models/employee.dart';
 
-import '../routes.dart';
+import '../Extras/routes.dart';
 import 'otpVerificationScreen.dart';
 
 class LoginScreen extends StatefulWidget {

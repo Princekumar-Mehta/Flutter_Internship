@@ -1,5 +1,5 @@
+import '../Models/employee.dart';
 import 'database_helper.dart';
-import 'employee.dart';
 
 class Database_signUp {
   static List<Employee> emps = [];

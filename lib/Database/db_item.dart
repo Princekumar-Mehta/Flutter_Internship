@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+import '../Models/item.dart';
 import 'database_helper.dart';
-import 'item.dart';
 
 class Database_Item {
   static List<String> item_names = [];

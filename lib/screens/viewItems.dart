@@ -4,7 +4,7 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 
-import 'EditItem.dart';
+import 'editItem.dart';
 
 class ViewItems extends StatefulWidget {
   @override

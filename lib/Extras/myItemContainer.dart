@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_item.dart';
-import 'package:project_v3/Database/order.dart';
+import 'package:project_v3/Models/order.dart';
 
 import 'myColors.dart';
 import 'myScreen.dart';
