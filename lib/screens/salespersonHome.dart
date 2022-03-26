@@ -958,10 +958,13 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    /*child: InkWell(
+                                    child: InkWell(
                                       onTap: () async {
-                                        Navigator.pushNamed(context,
-                                            MyRoutes.MyUploadChequePhoto);
+                                        if (await Database_customerBranch()
+                                            .get_AllcustomerBranches()) {
+                                          await Navigator.pushNamed(context,
+                                              MyRoutes.MySetRouteMapScreen);
+                                        }
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -985,7 +988,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.camera,
+                                              Icons.map,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
@@ -999,7 +1002,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                     context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("Upload Cheque",
+                                          Text("Route Plan",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:
@@ -1011,7 +1014,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),*/
+                                    ),
                                   ),
                                   Container(
                                     alignment: Alignment.center,

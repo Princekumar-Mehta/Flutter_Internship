@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -220,5 +221,31 @@ class Utility {
     final String months = (difference / 30.44).toStringAsFixed(0);
     final String weekorday = (difference / 7).toStringAsFixed(0);
     return {'difference': difference, 'weekorday': weekorday, 'months': months};
+  }
+
+  static calculateDistance(lat1, long1, lat2, long2) {
+    var R = 6371e3;
+    lat1 = double.parse(lat1);
+    long1 = double.parse(long1);
+    lat2 = double.parse(lat2);
+    long2 = double.parse(long2);
+
+    var phi1 = (lat1) * (math.pi / 180);
+    var phi2 = (lat2) * (math.pi / 180);
+
+    var delphi = (lat2 - lat1) * (math.pi / 180);
+    var delLambda = (long2 - long1) * (math.pi / 180);
+
+    var a = math.sin(delphi / 2) * math.sin(delphi / 2) +
+        math.cos(phi1) *
+            math.cos(phi2) *
+            math.sin(delLambda / 2) *
+            math.sin(delLambda / 2);
+
+    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+
+    var d = (R * c) / 1000;
+
+    return d.toStringAsFixed(2);
   }
 }

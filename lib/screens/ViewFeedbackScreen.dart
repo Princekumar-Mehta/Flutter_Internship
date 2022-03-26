@@ -24,9 +24,15 @@ class _ViewCustomerFeedbackScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color:
-              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         shape: Border(
           bottom: BorderSide(
@@ -60,9 +66,17 @@ class _ViewCustomerFeedbackScreenState
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                  "Average Rating is :" +
-                      Database_Customer_Feedback.avgRating.toString(),
-                  style: TextStyle(color: MyColors.pewterBlue)),
+                  "Average Rating: " +
+                      Database_Customer_Feedback.avgRating.toStringAsFixed(2),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MyScreen.getScreenHeight(context) * (24 / 1063.6),
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.pewterBlue
+                        : MyColors.scarlet,
+                  )),
+              SizedBox(
+                  height: MyScreen.getScreenHeight(context) * (25 / 1063.6)),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount:
@@ -104,7 +118,10 @@ class _ViewCustomerFeedbackScreenState
                     children: [
                       Text(
                         Database_Customer_Feedback
-                            .customer_feedbacks[key].branch_Code,
+                                .customer_feedback_branches[key].branch_Code! +
+                            " " +
+                            Database_Customer_Feedback
+                                .customer_feedback_branches[key].branch_Name!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:
@@ -116,23 +133,33 @@ class _ViewCustomerFeedbackScreenState
                   Row(
                     children: [
                       Text(
-                        Database_Customer_Feedback.customer_feedbacks[key].date,
+                        "Date: " +
+                            Database_Customer_Feedback
+                                .customer_feedbacks[key].date,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:
-                              MyScreen.getScreenHeight(context) * (20 / 1063.6),
+                              MyScreen.getScreenHeight(context) * (18 / 1063.6),
                         ),
                       ),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (200 / 490.9),
+                      ),
                       Text(
-                        Database_Customer_Feedback
-                            .customer_feedbacks[key].rating,
+                        "Rating: " +
+                            Database_Customer_Feedback
+                                .customer_feedbacks[key].rating,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:
-                              MyScreen.getScreenHeight(context) * (20 / 1063.6),
+                              MyScreen.getScreenHeight(context) * (18 / 1063.6),
                         ),
                       ),
                     ],
+                  ),
+                  Container(
+                    height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
+                    color: MyColors.black,
                   ),
                   InkWell(
                     onTap: () {

@@ -90,7 +90,9 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
-            height: MyScreen.getScreenHeight(context) * (80 / 1063.6),
+            height: Database_signUp.emps[key].role! == "Salesperson"
+                ? MyScreen.getScreenHeight(context) * (105 / 1063.6)
+                : MyScreen.getScreenHeight(context) * (80 / 1063.6),
             child: Padding(
               padding: EdgeInsets.fromLTRB(
                   MyScreen.getScreenWidth(context) * (10.0 / 490.9),
@@ -142,31 +144,6 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                       (20 / 1063.6),
                                 ),
                               ),
-                              SizedBox(
-                                width: MyScreen.getScreenWidth(context) *
-                                    (40 / 490.9),
-                              ),
-                              Database_signUp.emps[key].role! == "Salesperson"
-                                  ? InkWell(
-                                      onTap: () async {
-                                        if (await Database_Hourly_Attendance()
-                                            .getHourlyAttendance(
-                                                Database_signUp.emps[key].id!,
-                                                DateTime.now()
-                                                    .toString()
-                                                    .split(" ")[0])) {
-                                          Navigator.pushNamed(
-                                              context, MyRoutes.MyMapScreen);
-                                        }
-                                      },
-                                      child: Text("View Live Location",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MyScreen.getScreenHeight(
-                                                    context) *
-                                                (15 / 1063.6),
-                                          )))
-                                  : Container(),
                             ],
                           ),
                           SizedBox(
@@ -218,27 +195,58 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                   }),
                             ],
                           ),
-                          InkWell(
-                              child: Text(
-                                "View Feedbacks",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (15 / 1063.6),
-                                ),
-                              ),
-                              onTap: () async {
-                                if (await Database_Customer_Feedback()
-                                    .getCustomerFeedbacksBySalespersonCode(
-                                        Database_signUp.emps[key].id!)) {
-                                  Navigator.pushNamed(context,
-                                      MyRoutes.MyViewCustomerFeedbackScreen);
-                                }
-                              }),
                         ],
                       ),
                     ],
                   ),
+                  Container(
+                    color: MyColors.black,
+                    height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
+                  ),
+                  Database_signUp.emps[key].role! == "Salesperson"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                                onTap: () async {
+                                  if (await Database_Hourly_Attendance()
+                                      .getHourlyAttendance(
+                                          Database_signUp.emps[key].id!,
+                                          DateTime.now()
+                                              .toString()
+                                              .split(" ")[0])) {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.MyMapScreen);
+                                  }
+                                },
+                                child: Text("View Live Location",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (15 / 1063.6),
+                                    ))),
+                            InkWell(
+                                child: Text(
+                                  "View Feedbacks",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (15 / 1063.6),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  if (await Database_Customer_Feedback()
+                                      .getCustomerFeedbacksBySalespersonCode(
+                                          Database_signUp.emps[key].id!)) {
+                                    Navigator.pushNamed(context,
+                                        MyRoutes.MyViewCustomerFeedbackScreen);
+                                  }
+                                }),
+                          ],
+                        )
+                      : Container(),
                 ],
               ),
             ),

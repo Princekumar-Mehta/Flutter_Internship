@@ -27,4 +27,5 @@ class MyRoutes {
   static final MyViewCustomerScreen = '/myViewCustomerScreen';
   static final MyCustomerFeedbackScreen = '/myCustomerFeedbackScreen';
   static final MyViewCustomerFeedbackScreen = '/myViewCustomerFeedbackScreen';
+  static final MySetRouteMapScreen = '/mySetRouteMapScreen';
 }

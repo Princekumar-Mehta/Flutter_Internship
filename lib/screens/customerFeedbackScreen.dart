@@ -7,6 +7,7 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
 
 class CustomerFeedbackScreen extends StatefulWidget {
@@ -45,10 +46,10 @@ class _CustomerFeedbackScreenState extends State<CustomerFeedbackScreen> {
           branch_Code: customerBranch.getValue().split(' ')[0],
           rating: _ratingValue.toString(),
           reason: _feedback.text);
-      Utility.showMessage(context, "This month's feedback Successfully added");
+      Utility.showMessage(context, "This month's feedback successfully added");
       await Future.delayed(Duration(seconds: 2), () {});
-      Navigator.pop(context);
-      Navigator.pop(context);
+      Navigator.popUntil(
+          context, ModalRoute.withName(MyRoutes.MySalespersonHome));
       return;
     } else {
       Utility.showMessage(context, "This month's feedback is already given");

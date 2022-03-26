@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/screens/ViewFeedbackScreen.dart';
 import 'package:project_v3/screens/addCustomer.dart';
+import 'package:project_v3/screens/addEmployee.dart';
 import 'package:project_v3/screens/addItem.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
@@ -16,13 +17,13 @@ import 'package:project_v3/screens/loginScreen.dart';
 import 'package:project_v3/screens/managerHome.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
+import 'package:project_v3/screens/planRouteScreen1.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
 import 'package:project_v3/screens/reportHome.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
 import 'package:project_v3/screens/salespersonAttendance.dart';
 import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/searchFunction.dart';
-import 'package:project_v3/screens/signUp_Email.dart';
 import 'package:project_v3/screens/splashScreen.dart';
 import 'package:project_v3/screens/viewCustomer.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
             CustomerFeedbackScreen(),
         MyRoutes.MyViewCustomerFeedbackScreen: (context) =>
             ViewCustomerFeedbackScreen(),
+        MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
       },
     );
   }
