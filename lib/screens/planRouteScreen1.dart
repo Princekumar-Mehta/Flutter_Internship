@@ -3,6 +3,7 @@ import 'package:project_v3/Database/db_customer_branch.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/customer_branch.dart';
 import 'package:project_v3/screens/viewRouteScreen.dart';
@@ -29,12 +30,19 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
   }
 
   viewOnMap() async {
+    String route = "";
     List<CustomerBranch> locations = [];
     for (int i = 0; i < selectedBranches.length; i++) {
       print(selectedBranches[i]['branch'].branch_Name +
           selectedBranches[i]['distance'].toString());
       locations.add(selectedBranches[i]['branch']);
+      if (i == 0) {
+        route += selectedBranches[i]['branch'].branch_Code;
+      } else {
+        route += "-" + selectedBranches[i]['branch'].branch_Code;
+      }
     }
+    print(route);
     await Navigator.push(
         context,
         MaterialPageRoute(
@@ -186,83 +194,125 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                       child: _row(index, true),
                     );
                   }),
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (85 / 294),
-                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                child: InkWell(
-                  child: Stack(
-                    children: [
-                      Opacity(
-                        opacity: 0.8,
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                MyScreen.getScreenHeight(context) *
-                                    (10 / 1063.6)),
-                            color: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.middleRed
-                                : MyColors.scarlet,
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: Text("View on Map",
-                            style: TextStyle(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (105 / 294),
+                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                    child: InkWell(
+                      child: Stack(
+                        children: [
+                          Opacity(
+                            opacity: 0.8,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    MyScreen.getScreenHeight(context) *
+                                        (10 / 1063.6)),
                                 color: MyDrawer.emp.darkTheme == 1
-                                    ? MyColors.richBlackFogra
-                                    : MyColors.white,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (17 / 1063.6),
-                                fontWeight: FontWeight.bold)),
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    viewOnMap();
-                  },
-                ),
-              ),
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (30 / 294),
-                height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-              ),
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (85 / 294),
-                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                child: InkWell(
-                  child: Stack(
-                    children: [
-                      Opacity(
-                        opacity: 0.8,
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                MyScreen.getScreenHeight(context) *
-                                    (10 / 1063.6)),
-                            color: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.middleRed
-                                : MyColors.scarlet,
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
+                              ),
+                            ),
                           ),
-                        ),
+                          Center(
+                            child: Text("Form Optimal Route",
+                                style: TextStyle(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.richBlackFogra
+                                        : MyColors.white,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (17 / 1063.6),
+                                    fontWeight: FontWeight.bold)),
+                          )
+                        ],
                       ),
-                      Center(
-                        child: Text("Form Optimal Route",
-                            style: TextStyle(
-                                color: MyDrawer.emp.darkTheme == 1
-                                    ? MyColors.richBlackFogra
-                                    : MyColors.white,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (17 / 1063.6),
-                                fontWeight: FontWeight.bold)),
-                      )
-                    ],
+                      onTap: () {
+                        formOptimalRoute();
+                      },
+                    ),
                   ),
-                  onTap: () {
-                    formOptimalRoute();
-                  },
-                ),
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (85 / 294),
+                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                    child: InkWell(
+                      child: Stack(
+                        children: [
+                          Opacity(
+                            opacity: 0.8,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    MyScreen.getScreenHeight(context) *
+                                        (10 / 1063.6)),
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text("View on Map",
+                                style: TextStyle(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.richBlackFogra
+                                        : MyColors.white,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (17 / 1063.6),
+                                    fontWeight: FontWeight.bold)),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        viewOnMap();
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (85 / 294),
+                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                    child: InkWell(
+                      child: Stack(
+                        children: [
+                          Opacity(
+                            opacity: 0.8,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    MyScreen.getScreenHeight(context) *
+                                        (10 / 1063.6)),
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text("Add Route",
+                                style: TextStyle(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.richBlackFogra
+                                        : MyColors.white,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (17 / 1063.6),
+                                    fontWeight: FontWeight.bold)),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, MyRoutes.MyPlanRouteScreen2);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -302,10 +352,10 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                     setState(() {
                       selected[selectedBranches[key]['branch'].branch_Code] =
                           value!;
-                      totalDistance -= selectedBranches[key]['distance'];
-                      totalDistance = totalDistance < 0 ? 0 : totalDistance;
+
                       selectedBranches.removeAt(key);
                       if (selectedBranches.isNotEmpty) {
+                        totalDistance = 0;
                         selectedBranches[0] = {
                           'branch': selectedBranches[0]['branch'],
                           'distance': 0.00
@@ -316,14 +366,16 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                       }
                       if (selectedBranches.length > 1) {
                         for (int i = 1; i < selectedBranches.length; i++) {
+                          var distance = double.parse(Utility.calculateDistance(
+                            selectedBranches[i - 1]['branch'].latitude,
+                            selectedBranches[i - 1]['branch'].longitude,
+                            selectedBranches[i]['branch'].latitude,
+                            selectedBranches[i]['branch'].longitude,
+                          ));
+                          totalDistance += distance;
                           selectedBranches[i] = {
                             'branch': selectedBranches[i]['branch'],
-                            'distance': double.parse(Utility.calculateDistance(
-                              selectedBranches[i - 1]['branch'].latitude,
-                              selectedBranches[i - 1]['branch'].longitude,
-                              selectedBranches[i]['branch'].latitude,
-                              selectedBranches[i]['branch'].longitude,
-                            ))
+                            'distance': distance
                           };
                         }
                       }

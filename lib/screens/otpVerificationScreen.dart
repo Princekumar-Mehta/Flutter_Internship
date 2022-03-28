@@ -77,6 +77,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     otp_user4.clear();
   }
 
+  bool firstTime = true;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -117,7 +118,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           onChanged: (String value) {
-                            if (value.toString().length != 0) {
+                            if (value.toString().isNotEmpty) {
                               //print("go to 2");
                               otp_user1.text = otp_user1.text.toString()[0];
                               FocusScope.of(context)
@@ -151,7 +152,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                           ],
                           onChanged: (String value) {
-                            if (value.toString().length != 0) {
+                            if (value.toString().isNotEmpty) {
                               //print("go to 3");
                               otp_user2.text = otp_user2.text.toString()[0];
                               FocusScope.of(context)
@@ -351,7 +352,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             (1000 + Random().nextInt(9999 - 1000)).toString();
                         Send_Mail.send_mail(email, "OTP For Verification",
                             "OTP is:" + (otp_mail));
-                        showMessage(context, "Resend OTP successful", "none");
+                        showMessage(
+                            context,
+                            "A newly generated OTP has been sent to your email address.\n\nPlease take a look in your inbox, if it is not available there make sure to check your Spam folder. \n\nThank you.",
+                            "none");
                         clearAll();
                         FocusScope.of(context).requestFocus(textFocusNode1);
                       },

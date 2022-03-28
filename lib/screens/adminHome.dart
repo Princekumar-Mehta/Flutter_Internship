@@ -160,10 +160,8 @@ class _AdminHomeState extends State<AdminHome> {
                         Navigator.pushNamed(context, MyRoutes.MySignUpEmail);
                       } else if (val == "Pending Orders") {
                         var _pendingOrders = Database_ApproveOrders();
-                        if (await _pendingOrders.getProcessingOrders(
-                            MyDrawer.emp.id!, MyDrawer.emp.role!)) {
-                          Navigator.pushNamed(
-                              context, MyRoutes.MyProcessingOrders);
+                        if (await _pendingOrders.getPendingOrders()) {
+                          Navigator.pushNamed(context, MyRoutes.MyApproveOrder);
                         }
                       } else if (val == "Fulfilled Orders") {
                         var _fulfilledOrders = Database_ApproveOrders();
@@ -217,6 +215,7 @@ class _AdminHomeState extends State<AdminHome> {
                           Navigator.pushNamed(context, MyRoutes.MyViewItems);
                         }
                       }
+                      _textEditingController.text = "";
                     });
                   },
                   getImmediateSuggestions: true,
@@ -289,14 +288,13 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         InkWell(
                           onTap: () {
-                            setState(() {
+                            /*setState(() {
                               viewAll1 = !viewAll1;
                               viewAll2 = false;
                               viewAll3 = false;
-                            });
-                            //Navigator.pushNamed(context, MyRoutes.MySalesOrder);
+                            });*/
                           },
-                          child: Text("View All",
+                          child: Text("        ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: MyScreen.getScreenHeight(context) *
@@ -522,7 +520,7 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () async {
                                         var _pendingOrders =
                                             Database_ApproveOrders();
@@ -582,7 +580,7 @@ class _AdminHomeState extends State<AdminHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -590,7 +588,7 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () {},
                                       child: Column(
                                         mainAxisAlignment:
@@ -640,7 +638,7 @@ class _AdminHomeState extends State<AdminHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -648,7 +646,7 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () async {
                                         var _pendingOrders =
                                             Database_ApproveOrders();
@@ -706,7 +704,7 @@ class _AdminHomeState extends State<AdminHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                 ],
                               )
@@ -970,7 +968,7 @@ class _AdminHomeState extends State<AdminHome> {
                                       height: MyScreen.getScreenWidth(context) *
                                           (2 / 490.9),
                                     ),
-                                    Text("Edit Employee",
+                                    Text("View Employees",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: MyScreen.getScreenHeight(
@@ -1257,13 +1255,13 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              viewAll3 = !viewAll3;
-                              viewAll2 = false;
-                              viewAll1 = false;
-                            });
+                            //setState(() {
+                            //viewAll3 = !viewAll3;
+                            //viewAll2 = false;
+                            //viewAll1 = false;
+                            //});
                           },
-                          child: Text("View All",
+                          child: Text("        ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: MyScreen.getScreenHeight(context) *
@@ -1413,7 +1411,12 @@ class _AdminHomeState extends State<AdminHome> {
                               width: MyScreen.getScreenWidth(context) *
                                   ((440 / 3) / 490.9),
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () async {
+                                  if (await Database_Item().get_Items()) {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.MyViewItems);
+                                  }
+                                },
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -1434,7 +1437,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                     (10 / 1063.6))),
                                       ),
                                       child: Icon(
-                                        Icons.swap_horiz,
+                                        Icons.wysiwyg_outlined,
                                         size:
                                             MyScreen.getScreenHeight(context) *
                                                 (30 / 1063.6),
@@ -1444,10 +1447,11 @@ class _AdminHomeState extends State<AdminHome> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: MyScreen.getScreenWidth(context) *
-                                          (2 / 490.9),
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (2 / 1063.6),
                                     ),
-                                    Text("Inventory",
+                                    Text("View Items",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: MyScreen.getScreenHeight(
@@ -1477,23 +1481,16 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        if (await Database_Item().get_Items()) {
-                                          Navigator.pushNamed(
-                                              context, MyRoutes.MyViewItems);
-                                        }
-                                      },
+                                    /*child: InkWell(
+                                      onTap: () {},
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
-                                            width: MyScreen.getScreenWidth(
-                                                    context) *
+                                            width: MyScreen.getScreenWidth(context) *
                                                 (53 / 490.9),
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
+                                            height: MyScreen.getScreenWidth(context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
                                               color: MyDrawer.emp.darkTheme == 1
@@ -1502,13 +1499,13 @@ class _AdminHomeState extends State<AdminHome> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
-                                                              context) *
+                                                          context) *
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.wysiwyg_outlined,
-                                              size: MyScreen.getScreenHeight(
-                                                      context) *
+                                              Icons.swap_horiz,
+                                              size:
+                                              MyScreen.getScreenHeight(context) *
                                                   (30 / 1063.6),
                                               color: MyDrawer.emp.darkTheme == 1
                                                   ? MyColors.black
@@ -1516,23 +1513,21 @@ class _AdminHomeState extends State<AdminHome> {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: MyScreen.getScreenHeight(
-                                                    context) *
-                                                (2 / 1063.6),
+                                            height: MyScreen.getScreenWidth(context) *
+                                                (2 / 490.9),
                                           ),
-                                          Text("View Items",
+                                          Text("Inventory",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (12 / 1063.6),
+                                                fontSize: MyScreen.getScreenHeight(
+                                                    context) *
+                                                    (12 / 1063.6),
                                                 fontWeight: FontWeight.bold,
                                                 color: MyColors.black,
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -1540,7 +1535,7 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () {},
                                       child: Column(
                                         mainAxisAlignment:
@@ -1590,7 +1585,7 @@ class _AdminHomeState extends State<AdminHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -1598,7 +1593,7 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () async {
                                         var _pendingOrders =
                                             Database_ApproveOrders();
@@ -1656,7 +1651,7 @@ class _AdminHomeState extends State<AdminHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                 ],
                               )

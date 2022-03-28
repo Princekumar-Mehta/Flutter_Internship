@@ -624,7 +624,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.timer,
+                                              Icons.thumbs_up_down_outlined,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),

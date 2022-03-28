@@ -28,9 +28,15 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color:
-              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         shape: Border(
           bottom: BorderSide(
@@ -38,7 +44,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
             width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
           ),
         ),
-        title: Text("Edit Employee",
+        title: Text("View Employee",
             style: TextStyle(
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white
@@ -49,7 +55,6 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
             ? MyColors.richBlackFogra
             : MyColors.white,
       ),
-      drawer: MyDrawer(),
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,

@@ -22,7 +22,8 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
   _ForgotPasswordScreen2State({this.email});
   final password1 = TextEditingController();
   final password2 = TextEditingController();
-  void showMessage(BuildContext context, String message) {
+  void showMessage(BuildContext context, String message,
+      {bool moveToNextScreen = false}) {
     showDialog<bool>(
       context: context,
       builder: (c) => AlertDialog(
@@ -33,6 +34,10 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
               child: const Text('Okay'),
               onPressed: () => {
                     Navigator.pop(c, false),
+                    if (moveToNextScreen)
+                      {
+                        Navigator.of(context).pop(),
+                      }
                   }),
         ],
       ),
@@ -95,7 +100,7 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                 return "Please Enter Password";
                               } else if (!regex.hasMatch(value)) {
                                 showMessage(context,
-                                    "Password Error\n\nPassword Length must be at least 8 characters\nIt must contain atleast:\n1 Capital Letter\n1 Lower Letter\n1 Digit\n1 Special Character");
+                                    "Password Error\n\nPassword Length must be at least 8 characters\nIt must contain at least:\n1 Capital Case Letter\n1 Lower Case Letter\n1 Digit\n1 Special Character");
                                 return "Enter Proper Password";
                                 //return "Password Length must be at least 8 characters\nIt must contain atleast:\n1 Capital Letter\n1 Lower Letter\n1 Digit\n1 Special Character";
                               }
@@ -221,8 +226,8 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                 print(pwd2);
                                 RegExp _original = RegExp(r'(dims@)');
                                 if (pwd1 != pwd2) {
-                                  showMessage(
-                                      context, "Both Password Should Match");
+                                  showMessage(context,
+                                      "Both Password & Confirm Password should match.");
                                   return;
                                 } else if (_original
                                     .hasMatch(pwd1.toLowerCase())) {
@@ -239,7 +244,9 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                       email,
                                       "Password Reset Successful",
                                       "Your password is changed, If it was not you, then click on forgot password and reset it");
-                                  Navigator.of(context).pop();
+                                  showMessage(
+                                      context, "Password Reset Successful",
+                                      moveToNextScreen: true);
                                 }
                               }
                             },

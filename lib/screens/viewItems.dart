@@ -19,9 +19,15 @@ class _ViewItemsState extends State<ViewItems> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color:
-              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text("Select Item to Edit",
             style: TextStyle(
@@ -40,7 +46,6 @@ class _ViewItemsState extends State<ViewItems> {
             ? MyColors.richBlackFogra
             : MyColors.white,
       ),
-      drawer: MyDrawer(),
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,

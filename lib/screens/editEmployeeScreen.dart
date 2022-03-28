@@ -65,7 +65,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
     final pickedImageFile =
         await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
-      _pickedImage = File(pickedImageFile!.path);
+      if (_pickedImage != null) {
+        _pickedImage = File(pickedImageFile!.path);
+      }
     });
   }
 
@@ -240,28 +242,27 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                       SizedBox(
                           height:
                               MyScreen.getScreenWidth(context) * (70 / 640)),
-                      Stack(children: [
-                        InkWell(
-                          child: CircleAvatar(
-                            radius:
-                                MyScreen.getScreenWidth(context) * (40 / 360),
-                            backgroundImage: _pickedImage != null
-                                ? FileImage(_pickedImage!)
-                                : null,
-                          ),
+                      InkWell(
                           onTap: _pickImage,
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 2,
-                          child: Icon(Icons.add_circle,
-                              color: MyDrawer.emp.darkTheme == 1
-                                  ? MyColors.white
-                                  : MyColors.scarlet,
-                              size: MyScreen.getScreenWidth(context) *
-                                  (22 / 360)),
-                        )
-                      ]),
+                          child: Stack(children: [
+                            CircleAvatar(
+                              radius:
+                                  MyScreen.getScreenWidth(context) * (40 / 360),
+                              backgroundImage: _pickedImage != null
+                                  ? FileImage(_pickedImage!)
+                                  : null,
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 2,
+                              child: Icon(Icons.add_circle,
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.white
+                                      : MyColors.scarlet,
+                                  size: MyScreen.getScreenWidth(context) *
+                                      (22 / 360)),
+                            )
+                          ])),
                       SizedBox(
                           height:
                               MyScreen.getScreenWidth(context) * (70 / 640)),
@@ -299,8 +300,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
+                            RegExp regexname = RegExp(r'^[a-zA-Z]*$');
                             if (value == null || value.isEmpty) {
                               return "Please Enter Full Name";
+                            } else if (!regexname.hasMatch(value)) {
+                              return "Enter Proper Full Name";
                             }
                             return null;
                           },

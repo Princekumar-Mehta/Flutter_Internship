@@ -18,6 +18,7 @@ import 'package:project_v3/screens/managerHome.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/planRouteScreen1.dart';
+import 'package:project_v3/screens/planRouteScreen2.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
 import 'package:project_v3/screens/reportHome.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyViewCustomerFeedbackScreen: (context) =>
             ViewCustomerFeedbackScreen(),
         MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
+        MyRoutes.MyPlanRouteScreen2: (context) => PlanRouteScreen2(),
       },
     );
   }

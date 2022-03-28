@@ -25,9 +25,15 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color:
-              MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.scarlet,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         shape: Border(
           bottom: BorderSide(
@@ -46,7 +52,6 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
             ? MyColors.richBlackFogra
             : MyColors.white,
       ),
-      drawer: MyDrawer(),
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,

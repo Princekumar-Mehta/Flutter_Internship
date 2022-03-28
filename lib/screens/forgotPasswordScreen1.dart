@@ -16,7 +16,9 @@ class ForgotPasswordScreen1 extends StatefulWidget {
 
 class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
   final email = TextEditingController();
-  void showMessage(BuildContext context, String message) {
+  void showMessage(BuildContext context, String message,
+      {bool moveToNextScreen = false}) {
+    int otp;
     showDialog<bool>(
       context: context,
       builder: (c) => AlertDialog(
@@ -25,7 +27,23 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
         actions: [
           TextButton(
             child: const Text('Okay'),
-            onPressed: () => Navigator.pop(c, false),
+            onPressed: () async => {
+              Navigator.pop(c, false),
+              if (moveToNextScreen)
+                {
+                  otp = 1000 + Random().nextInt(9999 - 1000),
+                  Send_Mail.send_mail(email.text.toString(),
+                      "OTP For Verification", "OTP is: " + otp.toString()),
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OtpVerificationScreen(
+                                email: email.text.toString(),
+                                otp: otp,
+                                previous: "forgot password",
+                              ))),
+                }
+            },
           ),
         ],
       ),
@@ -73,22 +91,17 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
                         height:
                             MyScreen.getScreenHeight(context) * (50 / 1063.6),
                         child: TextFormField(
-                            controller: email,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.pewterBlue)),
-                            ),
-                            style: TextStyle(
-                                color: MyColors.middleRed,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (25 / 1063.6)),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Email Id";
-                              }
-                              return null;
-                            }),
+                          controller: email,
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyColors.pewterBlue)),
+                          ),
+                          style: TextStyle(
+                              color: MyColors.middleRed,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (25 / 1063.6)),
+                        ),
                       ),
                       SizedBox(
                         height:
@@ -129,26 +142,19 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
                             ],
                           ),
                           onTap: () async {
+                            if (email.text.toString().isEmpty) {
+                              showMessage(context, "Please Enter Email ID");
+                              return;
+                            }
                             if (await Utility.isNotExist(
                                 email.text.toString())) {
                               showMessage(context,
-                                  "This is not a registered email\nPlease Try again");
+                                  "This is not a registered email address,\nPlease try again");
                               return;
                             } else {
-                              int otp = 1000 + Random().nextInt(9999 - 1000);
-                              Send_Mail.send_mail(
-                                  email.text.toString(),
-                                  "OTP For Verification",
-                                  "OTP is: " + otp.toString());
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OtpVerificationScreen(
-                                            email: email.text.toString(),
-                                            otp: otp,
-                                            previous: "forgot password",
-                                          )));
+                              showMessage(context,
+                                  "A newly generated OTP has been sent to your email address.\n\nPlease take a look in your inbox, if it is not available there make sure to check your Spam folder. \n\nThank you.",
+                                  moveToNextScreen: true);
                             }
                           },
                         ),
