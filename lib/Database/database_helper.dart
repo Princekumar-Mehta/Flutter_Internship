@@ -7,6 +7,7 @@ import 'package:project_v3/Models/employee.dart';
 import 'package:project_v3/Models/final_individual_order.dart';
 import 'package:project_v3/Models/hourly_attendance.dart';
 import 'package:project_v3/Models/leave_request.dart';
+import 'package:project_v3/Models/stock.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../Models/customer.dart';
@@ -174,6 +175,31 @@ class DatabaseHelper {
       branch_Code TEXT,
       rating TEXT,
       reason TEXT
+    )
+    ''');
+    int emp_id;
+    String role;
+    String item_Id;
+    int packet;
+    int patti;
+    int box;
+    int minimum_Packet;
+    int order_packet;
+    int last_Order_In_Packet;
+    String last_Order_Date;
+    await db.execute('''
+    CREATE TABLE stock(
+      stock_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      emp_Id INTEGER,
+      role TEXT,
+      item_Id TEXT,
+      packet INTEGER,
+      patti INTEGER,
+      box INTEGER,
+      minimum_Packet INTEGER,
+      order_Packet INTEGER,
+      last_Order_In_Packet INTEGER,
+      last_Order_Date TEXT
     )
     ''');
   }
@@ -668,5 +694,19 @@ class DatabaseHelper {
         ? customer_feedbacks.map((c) => Customer_Feedback.fromMap((c))).toList()
         : [];
     return CustomerFeedbackList;
+  }
+
+  Future<int> addStock(Stock stock) async {
+    Database db = await instance.database;
+    return await db.insert('stock', stock.toMap());
+  }
+
+  Future<List<Stock>> getStockForAllEmp() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> stocks =
+        await db.rawQuery("SELECT * FROM stock");
+    List<Stock> StockList =
+        stocks.isNotEmpty ? stocks.map((c) => Stock.fromMap((c))).toList() : [];
+    return StockList;
   }
 }

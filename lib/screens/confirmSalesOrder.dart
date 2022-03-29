@@ -168,12 +168,34 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
         "Order Submitted", "Your order is Submitted",
         file: file, isFile: 1);
     widget.order.file_Address = file.path;
-    if (await widget.order.addToDatabase(context)) {
-      Database_Final_Order().getFinalOrders();
-      Database_Final_Individual_Order().getFinalIndividualOrders();
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
+    showMessage(
+        context, "Your order is Submitted, Please Check Your mail for Invoice",
+        order: widget.order);
     // print(file.path);
+  }
+
+  static Future<void> showMessage(BuildContext context, String message,
+      {String title: "Alert", required Order order}) async {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () async {
+              Navigator.pop(c, false);
+              if (await order.addToDatabase(context)) {
+                Database_Final_Order().getFinalOrders();
+                Database_Final_Individual_Order().getFinalIndividualOrders();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

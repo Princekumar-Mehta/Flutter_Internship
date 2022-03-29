@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_employee.dart';
+import 'package:project_v3/Database/db_stock.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -123,6 +124,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
       Employee? emp = await Database_signUp.getEmp(email: email, id: 0);
       int otp = 1000 + Random().nextInt(9999 - 1000);
       int? id = emp!.id;
+      await Database_Stock.addStockForAllItem(emp.id!, emp.role!);
       final emp_detials = emp.toMap();
       Send_Mail.send_mail(
         _formKey.currentState?.value['email'],
@@ -578,7 +580,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 'Salesperson',
                                 'Regional Manager',
                                 'Area Manager',
-                                'General Manager'
+                                'General Manager',
+                                'Dealer'
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
