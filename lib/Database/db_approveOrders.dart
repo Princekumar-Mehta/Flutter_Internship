@@ -1,10 +1,14 @@
 import 'package:project_v3/Database/db_customer.dart';
 import 'package:project_v3/Database/db_customer_branch.dart';
+import 'package:project_v3/Database/db_final_individual_order.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Models/customer.dart';
+import 'package:project_v3/Models/final_individual_order.dart';
 import 'package:project_v3/Models/final_order.dart';
 
 import '../Models/customer_branch.dart';
 import 'database_helper.dart';
+import 'db_stock.dart';
 
 class Database_ApproveOrders {
   static List<FinalOrder> pendingOrders = [];
@@ -72,12 +76,37 @@ class Database_ApproveOrders {
   Future<bool> RejectOrder(key) async {
     processingOrders[key].status = 'Rejected';
     DatabaseHelper.instance.updateOrder(processingOrders[key]);
+    if (MyDrawer.emp.role == "Salesperson") {
+      List<FinalIndividualOrder> individualOrders =
+          await Database_Final_Individual_Order()
+              .getFinalIndividualOrdersByOrderId(
+                  processingOrders[key].order_Id);
+      for (int i = 0; i < individualOrders.length; i++) {
+        Database_Stock.increaseStock(
+            1,
+            individualOrders[i].item_Code,
+            individualOrders[i].packet,
+            individualOrders[i].patti,
+            individualOrders[i].box);
+      }
+    }
     return true;
   }
 
   Future<bool> ApproveFinalOrder(key) async {
     pendingOrders[key].status = 'Processing';
     DatabaseHelper.instance.updateOrder(pendingOrders[key]);
+    List<FinalIndividualOrder> individualOrders =
+        await Database_Final_Individual_Order()
+            .getFinalIndividualOrdersByOrderId(pendingOrders[key].order_Id);
+    for (int i = 0; i < individualOrders.length; i++) {
+      Database_Stock.reduceStock(
+          1,
+          individualOrders[i].item_Code,
+          individualOrders[i].packet,
+          individualOrders[i].patti,
+          individualOrders[i].box);
+    }
     return true;
   }
 

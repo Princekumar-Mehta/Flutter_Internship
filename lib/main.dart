@@ -4,6 +4,7 @@ import 'package:project_v3/screens/ViewFeedbackScreen.dart';
 import 'package:project_v3/screens/addCustomer.dart';
 import 'package:project_v3/screens/addEmployee.dart';
 import 'package:project_v3/screens/addItem.dart';
+import 'package:project_v3/screens/addStock.dart';
 import 'package:project_v3/screens/adminHome.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
 import 'package:project_v3/screens/customerFeedbackScreen.dart';
@@ -28,6 +29,7 @@ import 'package:project_v3/screens/searchFunction.dart';
 import 'package:project_v3/screens/splashScreen.dart';
 import 'package:project_v3/screens/viewCustomer.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
+import 'package:project_v3/screens/viewInventory.dart';
 import 'package:project_v3/screens/viewItems.dart';
 
 void main() {
@@ -74,6 +76,8 @@ class MyApp extends StatelessWidget {
             ViewCustomerFeedbackScreen(),
         MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
         MyRoutes.MyPlanRouteScreen2: (context) => PlanRouteScreen2(),
+        MyRoutes.MyAddStock: (context) => AddStock(),
+        MyRoutes.MyViewInventory: (context) => ViewInventory(),
       },
     );
   }

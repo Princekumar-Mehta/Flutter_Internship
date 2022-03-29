@@ -42,6 +42,7 @@ class Utility {
       profile_pic: _pickedImage.path,
       darkTheme: 1,
     );
+
     Database_signUp.addEmp(
       name: "Prince Mehta",
       email: "18bce111@nirmauni.ac.in",

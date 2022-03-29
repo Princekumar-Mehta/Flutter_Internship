@@ -410,6 +410,15 @@ class DatabaseHelper {
     return ItemList;
   }
 
+  Future<List<Item>> getItemByItemId(String item_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> items =
+        await db.rawQuery("SELECT * FROM items where code = '$item_Id'");
+    List<Item> ItemList =
+        items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
+    return ItemList;
+  }
+
   Future<bool> isItemTableContainData() async {
     Database db = await instance.database;
     var customers = await db.query('items');
@@ -526,6 +535,20 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map<String, dynamic>> final_individual_orders =
         await db.rawQuery("SELECT * FROM final_individual_order");
+    List<FinalIndividualOrder> FinalIndividualOrderList =
+        final_individual_orders.isNotEmpty
+            ? final_individual_orders
+                .map((c) => FinalIndividualOrder.fromMap((c)))
+                .toList()
+            : [];
+    return FinalIndividualOrderList;
+  }
+
+  Future<List<FinalIndividualOrder>> getFinalIndividualOrderByOrderId(
+      int order_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> final_individual_orders = await db.rawQuery(
+        "SELECT * FROM final_individual_order where order_Id = $order_Id");
     List<FinalIndividualOrder> FinalIndividualOrderList =
         final_individual_orders.isNotEmpty
             ? final_individual_orders
@@ -708,5 +731,30 @@ class DatabaseHelper {
     List<Stock> StockList =
         stocks.isNotEmpty ? stocks.map((c) => Stock.fromMap((c))).toList() : [];
     return StockList;
+  }
+
+  Future<Stock> getStock(int emp_Id, String item_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> stocks = await db.rawQuery(
+        "SELECT * FROM stock where emp_Id = $emp_Id and item_Id = '$item_Id'");
+    List<Stock> StockList =
+        stocks.isNotEmpty ? stocks.map((c) => Stock.fromMap((c))).toList() : [];
+    return StockList[0];
+  }
+
+  Future<List<Stock>> getStockByEmpId(int emp_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> stocks =
+        await db.rawQuery("SELECT * FROM stock where emp_Id = $emp_Id");
+    List<Stock> StockList =
+        stocks.isNotEmpty ? stocks.map((c) => Stock.fromMap((c))).toList() : [];
+    return StockList;
+  }
+
+  Future<int> updateStock(Stock stock) async {
+    Database db = await instance.database;
+    return await db.update('stock', stock.toMap(),
+        where: 'emp_Id = ? and item_Id = ?',
+        whereArgs: [stock.emp_Id, stock.item_Id]);
   }
 }

@@ -56,6 +56,11 @@ class Database_Item {
     return items[0];
   }
 
+  Future<Item> get_ItemByItemId(String item_Id) async {
+    final items = await DatabaseHelper.instance.getItemByItemId(item_Id);
+    return items[0];
+  }
+
   static insertData() async {
     bool isData = await DatabaseHelper.instance.isItemTableContainData();
     if (isData == false) {

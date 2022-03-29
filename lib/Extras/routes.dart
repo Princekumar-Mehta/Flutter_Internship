@@ -29,4 +29,6 @@ class MyRoutes {
   static final MyViewCustomerFeedbackScreen = '/myViewCustomerFeedbackScreen';
   static final MySetRouteMapScreen = '/mySetRouteMapScreen';
   static final MyPlanRouteScreen2 = '/myPlanRouteScreen2';
+  static final MyAddStock = "/myAddStock";
+  static final MyViewInventory = "/myViewInventory";
 }

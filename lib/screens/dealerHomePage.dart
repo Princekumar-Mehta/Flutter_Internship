@@ -5,7 +5,6 @@ import 'package:project_v3/Database/db_approveOrders.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Database/db_report.dart';
-import 'package:project_v3/Database/db_stock.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -78,8 +77,7 @@ class _AdminHomeState extends State<AdminHome> {
                         : MyColors.scarlet,
                     size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               ),
-              onTap: () async {
-                //await Database_Stock.addStockForAllItem(1, "Admin");
+              onTap: () {
                 // Navigator.pop(context, true);
               },
             ),
@@ -1257,13 +1255,13 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              viewAll3 = !viewAll3;
-                              viewAll2 = false;
-                              viewAll1 = false;
-                            });
+                            //setState(() {
+                            //viewAll3 = !viewAll3;
+                            //viewAll2 = false;
+                            //viewAll1 = false;
+                            //});
                           },
-                          child: Text("View All",
+                          child: Text("        ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: MyScreen.getScreenHeight(context) *
@@ -1483,23 +1481,16 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        if (await Database_Item().get_Items()) {
-                                          Navigator.pushNamed(
-                                              context, MyRoutes.MyAddStock);
-                                        }
-                                      },
+                                    /*child: InkWell(
+                                      onTap: () {},
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
-                                            width: MyScreen.getScreenWidth(
-                                                    context) *
+                                            width: MyScreen.getScreenWidth(context) *
                                                 (53 / 490.9),
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
+                                            height: MyScreen.getScreenWidth(context) *
                                                 (53 / 490.9),
                                             decoration: BoxDecoration(
                                               color: MyDrawer.emp.darkTheme == 1
@@ -1508,13 +1499,13 @@ class _AdminHomeState extends State<AdminHome> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(
                                                       MyScreen.getScreenHeight(
-                                                              context) *
+                                                          context) *
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
                                               Icons.swap_horiz,
-                                              size: MyScreen.getScreenHeight(
-                                                      context) *
+                                              size:
+                                              MyScreen.getScreenHeight(context) *
                                                   (30 / 1063.6),
                                               color: MyDrawer.emp.darkTheme == 1
                                                   ? MyColors.black
@@ -1522,23 +1513,21 @@ class _AdminHomeState extends State<AdminHome> {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
+                                            height: MyScreen.getScreenWidth(context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("Add Stock",
+                                          Text("Inventory",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (12 / 1063.6),
+                                                fontSize: MyScreen.getScreenHeight(
+                                                    context) *
+                                                    (12 / 1063.6),
                                                 fontWeight: FontWeight.bold,
                                                 color: MyColors.black,
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -1546,12 +1535,8 @@ class _AdminHomeState extends State<AdminHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
-                                      onTap: () async{
-                                        if(await Database_Stock.getStockByEmpId(1)){
-                                          await Navigator.pushNamed(context, MyRoutes.MyViewInventory);
-                                        }
-                                      },
+                                    /*child: InkWell(
+                                      onTap: () {},
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -1588,7 +1573,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("View Inventory",
+                                          Text("Fulfilled Orders",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:
@@ -1600,7 +1585,7 @@ class _AdminHomeState extends State<AdminHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,

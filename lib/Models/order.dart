@@ -208,6 +208,18 @@ class Order {
     }
   }
 
+  adjust(key) {
+    int packets = (int.parse(packet![key].text.toString()) +
+        (int.parse(patti![key].text.toString()) * 5) +
+        (int.parse(box![key].text.toString()) * 3 * 5));
+    int boxes = packets ~/ 15;
+    int pattis = (packets - (boxes * 15)) ~/ 5;
+    packets = packets - (boxes * 15) - (pattis * 5);
+    box![key].text = boxes.toString();
+    patti![key].text = pattis.toString();
+    packet![key].text = packets.toString();
+  }
+
   Future<bool> saveItem(key, BuildContext context, {bool close = true}) async {
     if (item_name![key].getValue().isEmpty) {
       Utility.showMessage(context, "Please enter Item Name");
@@ -223,7 +235,7 @@ class Order {
         item_name![key].getValue().split(' - ')[0],
         int.parse(item_name![key].getValue().split(' - ')[1].split('g')[0]));
     fillIfNull(key);
-
+    adjust(key);
     price![key].text = item_detials[key].price.toString();
     netWeight![key].text = item_detials[key].net_Weight.toString();
     tax![key].text = "0";

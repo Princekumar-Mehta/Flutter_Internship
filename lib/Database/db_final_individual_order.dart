@@ -26,4 +26,10 @@ class Database_Final_Individual_Order {
       print("\n");
     }
   }
+
+  Future<List<FinalIndividualOrder>> getFinalIndividualOrdersByOrderId(
+      int order_Id) async {
+    return await DatabaseHelper.instance
+        .getFinalIndividualOrderByOrderId(order_Id);
+  }
 }
