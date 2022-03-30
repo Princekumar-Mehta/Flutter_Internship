@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:project_v3/Database/db_stock.dart';
 
 import '../Models/item.dart';
 import 'database_helper.dart';
@@ -25,6 +26,17 @@ class Database_Item {
                 .toString();
       }
       await DatabaseHelper.instance.addItem(Item.fromMap(item));
+      Database_Stock.addStock(
+          emp_Id: 1,
+          role: "Admin",
+          item_Id: item['code']!,
+          packet: 1000,
+          patti: 1000,
+          box: 1000,
+          minimum_Packet: 0,
+          order_Packet: 1000,
+          last_Order_In_Packet: 0,
+          last_Order_Date: "00-00-0000");
       return true;
     }
   }
@@ -61,7 +73,7 @@ class Database_Item {
     return items[0];
   }
 
-  static insertData() async {
+  static Future<bool> insertData() async {
     bool isData = await DatabaseHelper.instance.isItemTableContainData();
     if (isData == false) {
       // //print("customer branches data insert");
@@ -72,5 +84,6 @@ class Database_Item {
         Database_Item.addItem(element);
       });
     }
+    return true;
   }
 }

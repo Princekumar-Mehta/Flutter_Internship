@@ -115,7 +115,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       widget.emp.name = _formKey.currentState!.value['full_name'];
       //widget.emp.email = _formKey.currentState!.value['email'];
       widget.emp.password = _formKey.currentState!.value['password_1'];
-      widget.emp.role = _formKey.currentState!.value['role'];
+      if (MyDrawer.emp.role == "Admin") {
+        widget.emp.role = _formKey.currentState!.value['role'];
+      }
       widget.emp.profile_pic = _pickedImage!.path;
       await Database_signUp().updateEmp(widget.emp);
       setState(() {});
@@ -300,11 +302,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
-                            RegExp regexname = RegExp(r'^[a-zA-Z]*$');
                             if (value == null || value.isEmpty) {
                               return "Please Enter Full Name";
-                            } else if (!regexname.hasMatch(value)) {
-                              return "Enter Proper Full Name";
                             }
                             return null;
                           },

@@ -10,6 +10,7 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
+import 'package:project_v3/screens/viewEmployeeScreen.dart';
 
 import 'editEmployeeScreen.dart';
 
@@ -79,7 +80,7 @@ class _AdminHomeState extends State<AdminHome> {
                     size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
               ),
               onTap: () async {
-                //await Database_Stock.addStockForAllItem(1, "Admin");
+                await Database_Stock.addStockForAllItem(1, "Admin");
                 // Navigator.pop(context, true);
               },
             ),
@@ -195,8 +196,12 @@ class _AdminHomeState extends State<AdminHome> {
                         var _db_employee = Database_signUp();
                         if (await _db_employee.getAllEmp()) {
                           print(Database_signUp.emps);
-                          Navigator.pushNamed(
-                              context, MyRoutes.MyEditEmployeeScreen);
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ViewEmployeeScreen(
+                                        emps: Database_signUp.emps,
+                                      )));
                         }
                       } else if (val == "Explore Attendance") {
                         var _db_employee = Database_signUp();
@@ -933,8 +938,15 @@ class _AdminHomeState extends State<AdminHome> {
                                   var _db_employee = Database_signUp();
                                   if (await _db_employee.getAllEmp()) {
                                     print(Database_signUp.emps);
-                                    Navigator.pushNamed(
-                                        context, MyRoutes.MyEditEmployeeScreen);
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ViewEmployeeScreen(
+                                                  emps: Database_signUp.emps,
+                                                )));
+                                    // Navigator.pushNamed(
+                                    //     context, MyRoutes.MyEditEmployeeScreen);
                                   }
                                 },
                                 child: Column(
@@ -1485,7 +1497,9 @@ class _AdminHomeState extends State<AdminHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        if (await Database_Item().get_Items()) {
+                                        if (await Database_Item()
+                                            .get_ItemNames()) {
+                                          print(Database_Item.items);
                                           Navigator.pushNamed(
                                               context, MyRoutes.MyAddStock);
                                         }
@@ -1547,9 +1561,13 @@ class _AdminHomeState extends State<AdminHome> {
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
-                                      onTap: () async{
-                                        if(await Database_Stock.getStockByEmpId(1)){
-                                          await Navigator.pushNamed(context, MyRoutes.MyViewInventory);
+                                      onTap: () async {
+                                        if (await Database_Stock
+                                            .getStockByEmpId(1)) {
+                                          print(Database_Stock
+                                              .stockByEmpId.length);
+                                          await Navigator.pushNamed(context,
+                                              MyRoutes.MyViewInventory);
                                         }
                                       },
                                       child: Column(

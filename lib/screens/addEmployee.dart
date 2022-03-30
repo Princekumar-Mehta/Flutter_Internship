@@ -278,11 +278,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (25 / 1063.6)),
                             validator: (value) {
-                              RegExp regexname = RegExp(r'^[a-zA-Z]*$');
                               if (value == null || value.isEmpty) {
                                 return "Please Enter Full Name";
-                              } else if (!regexname.hasMatch(value)) {
-                                return "Enter Proper Full Name";
                               }
                               return null;
                             },

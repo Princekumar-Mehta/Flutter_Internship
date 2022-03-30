@@ -7,6 +7,7 @@ import 'package:project_v3/Models/employee.dart';
 import 'package:project_v3/Models/final_individual_order.dart';
 import 'package:project_v3/Models/hourly_attendance.dart';
 import 'package:project_v3/Models/leave_request.dart';
+import 'package:project_v3/Models/route.dart';
 import 'package:project_v3/Models/stock.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -177,16 +178,7 @@ class DatabaseHelper {
       reason TEXT
     )
     ''');
-    int emp_id;
-    String role;
-    String item_Id;
-    int packet;
-    int patti;
-    int box;
-    int minimum_Packet;
-    int order_packet;
-    int last_Order_In_Packet;
-    String last_Order_Date;
+
     await db.execute('''
     CREATE TABLE stock(
       stock_p INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -200,6 +192,14 @@ class DatabaseHelper {
       order_Packet INTEGER,
       last_Order_In_Packet INTEGER,
       last_Order_Date TEXT
+    )
+    ''');
+    await db.execute('''
+    CREATE TABLE routes(
+      route_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      salesperson_Id INTEGER,
+      day TEXT,
+      route TEXT
     )
     ''');
   }
@@ -269,7 +269,7 @@ class DatabaseHelper {
 
   Future<void> Temp_Query() async {
     Database db = await instance.database;
-    await db.rawQuery("UPDATE final_order SET status = 'Processing'");
+    await db.rawQuery("DELETE FROM routes");
   }
 
   Future<int> addCustomer(Customer customer) async {
@@ -756,5 +756,36 @@ class DatabaseHelper {
     return await db.update('stock', stock.toMap(),
         where: 'emp_Id = ? and item_Id = ?',
         whereArgs: [stock.emp_Id, stock.item_Id]);
+  }
+
+  Future<int> addRoute(Route route) async {
+    Database db = await instance.database;
+    return await db.insert('routes', route.toMap());
+  }
+
+  Future<List<Route>> getAllRoutesBySalespersonId(int salesperson_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> routes = await db.rawQuery(
+        "SELECT * FROM routes where salesperson_Id = $salesperson_Id");
+    List<Route> RouteList =
+        routes.isNotEmpty ? routes.map((c) => Route.fromMap((c))).toList() : [];
+    return RouteList;
+  }
+
+  Future<List<Route>> getRoutesBySalespersonIdDay(
+      int salesperson_Id, String day) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> routes = await db.rawQuery(
+        "SELECT * FROM routes where salesperson_Id = $salesperson_Id and day ='$day'");
+    List<Route> RouteList =
+        routes.isNotEmpty ? routes.map((c) => Route.fromMap((c))).toList() : [];
+    return RouteList;
+  }
+
+  Future<int> updateRoute(Route route) async {
+    Database db = await instance.database;
+    return await db.update('routes', route.toMap(),
+        where: 'salesperson_id = ? and day = ?',
+        whereArgs: [route.salesperson_Id, route.day]);
   }
 }

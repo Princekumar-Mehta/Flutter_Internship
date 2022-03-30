@@ -70,34 +70,166 @@ class _AddStockState extends State<AddStock> {
 
   @override
   Widget build(BuildContext context) {
+    print(Database_Item.item_names.length);
     item_Name = (MyTypeAhead(
         itemList: Database_Item.item_names,
         message: "Please Enter Item Name",
-        fontSize: MyScreen.getScreenHeight(context) * (19 / 1063.6),
+        fontSize: MyScreen.getScreenHeight(context) * (25 / 1063.6),
         isEnabled: true));
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Stock"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shape: Border(
+          bottom: BorderSide(
+            color: MyColors.scarlet,
+            width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+          ),
+        ),
+        title: Text("Add Stock",
+            style: TextStyle(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
+                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
-      body: FormBuilder(
-        key: _formKey,
-        child: Column(
-          children: [
-            Text("Select Item"),
-            item_Name,
-            Text("No of packet"),
-            giveFormBuilderTextField("no_packet"),
-            Text("No of Patti"),
-            giveFormBuilderTextField("no_patti"),
-            Text("No of box"),
-            giveFormBuilderTextField("no_box"),
-            InkWell(
-                child: Text("Add stock"),
-                onTap: () {
-                  addStock();
-                }),
-          ],
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                FormBuilder(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenWidth(context) * (70 / 640)),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Select Item *",
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      item_Name,
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("No. of Packets *",
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      giveFormBuilderTextField("No. of Packets"),
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("No. of Pattis *",
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      giveFormBuilderTextField("No. of Pattis"),
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("No. of Boxes *",
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      giveFormBuilderTextField("No. of Boxes"),
+                      SizedBox(
+                          height: MyScreen.getScreenHeight(context) *
+                              (60 / 1063.6)),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                        child: InkWell(
+                          child: Stack(
+                            children: [
+                              Opacity(
+                                opacity: 0.8,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        MyScreen.getScreenHeight(context) *
+                                            (10 / 1063.6)),
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.middleRed
+                                        : MyColors.scarlet,
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Text("Save Item",
+                                    style: TextStyle(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.richBlackFogra
+                                            : MyColors.white,
+                                        fontSize:
+                                            MyScreen.getScreenHeight(context) *
+                                                (17 / 1063.6),
+                                        fontWeight: FontWeight.bold)),
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            addStock();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

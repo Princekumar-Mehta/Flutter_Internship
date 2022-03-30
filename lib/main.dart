@@ -19,7 +19,6 @@ import 'package:project_v3/screens/managerHome.dart';
 import 'package:project_v3/screens/mapScreen.dart';
 import 'package:project_v3/screens/myLeaveRequestSummary.dart';
 import 'package:project_v3/screens/planRouteScreen1.dart';
-import 'package:project_v3/screens/planRouteScreen2.dart';
 import 'package:project_v3/screens/processingOrderScreen.dart';
 import 'package:project_v3/screens/reportHome.dart';
 import 'package:project_v3/screens/salesOrderScreen.dart';
@@ -28,7 +27,6 @@ import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/searchFunction.dart';
 import 'package:project_v3/screens/splashScreen.dart';
 import 'package:project_v3/screens/viewCustomer.dart';
-import 'package:project_v3/screens/viewEmployeeScreen.dart';
 import 'package:project_v3/screens/viewInventory.dart';
 import 'package:project_v3/screens/viewItems.dart';
 
@@ -55,7 +53,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyLeaveRequest: (context) => LeaveRequest(),
         MyRoutes.MyApproveOrder: (context) => ApproveOrder(),
         MyRoutes.MyLeaveRequestForm: (context) => LeaveRequestForm(),
-        MyRoutes.MyEditEmployeeScreen: (context) => ViewEmployeeScreen(),
+
         MyRoutes.MyLeaveRequestSummary: (context) => myLeaveRequestSummary(),
         MyRoutes.MySalespersonHome: (context) => SalespersonHome(),
         MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
@@ -75,7 +73,6 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyViewCustomerFeedbackScreen: (context) =>
             ViewCustomerFeedbackScreen(),
         MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
-        MyRoutes.MyPlanRouteScreen2: (context) => PlanRouteScreen2(),
         MyRoutes.MyAddStock: (context) => AddStock(),
         MyRoutes.MyViewInventory: (context) => ViewInventory(),
       },

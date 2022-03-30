@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project_v3/Database/db_route.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 
 class PlanRouteScreen2 extends StatefulWidget {
-  PlanRouteScreen2();
+  String route;
+  PlanRouteScreen2({required this.route});
 
   @override
   _PlanRouteScreen2State createState() => _PlanRouteScreen2State();
@@ -20,9 +22,18 @@ class _PlanRouteScreen2State extends State<PlanRouteScreen2> {
     "Friday",
     "Saturday"
   ];
-  moveToReportScreen2() {
-    //print(selected);
-    print(selected);
+  moveToReportScreen2() async {
+    List<String> selected_Days = [];
+    for (int i = 0; i < days.length; i++) {
+      if (selected[days[i]]!) {
+        selected_Days.add(days[i]);
+      }
+    }
+    await Database_Route().addRoute(
+        salesperson_Id: MyDrawer.emp.id!,
+        days: selected_Days,
+        route: widget.route);
+    Database_Route().getRouteAllRoutesBySalespersonId(MyDrawer.emp.id!);
   }
 
   bool selectAll = false;
@@ -35,6 +46,7 @@ class _PlanRouteScreen2State extends State<PlanRouteScreen2> {
 
   @override
   Widget build(BuildContext context) {
+    // DatabaseHelper.instance.Temp_Query();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

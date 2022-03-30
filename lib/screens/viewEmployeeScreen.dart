@@ -2,18 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_customer_feedback.dart';
-import 'package:project_v3/Database/db_employee.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Models/employee.dart';
 import 'package:project_v3/screens/editEmployeeScreen.dart';
 
 import '../Extras/routes.dart';
 
 class ViewEmployeeScreen extends StatefulWidget {
-  const ViewEmployeeScreen({Key? key}) : super(key: key);
-
+  List<Employee> emps;
+  ViewEmployeeScreen({required this.emps});
   @override
   State<ViewEmployeeScreen> createState() => _ViewEmployeeScreenState();
 }
@@ -26,6 +26,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.emps.length);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -70,9 +71,9 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Database_signUp.emps.length,
+                  itemCount: widget.emps.length,
                   itemBuilder: (context, index) {
-                    print(Database_signUp.emps[index]);
+                    print(widget.emps[index]);
                     return Container(
                       child: _row(index),
                     );
@@ -95,7 +96,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
-            height: Database_signUp.emps[key].role! == "Salesperson"
+            height: widget.emps[key].role! == "Salesperson"
                 ? MyScreen.getScreenHeight(context) * (105 / 1063.6)
                 : MyScreen.getScreenHeight(context) * (80 / 1063.6),
             child: Padding(
@@ -113,8 +114,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                         width: MyScreen.getScreenWidth(context) * (50 / 490.9),
                         height: MyScreen.getScreenWidth(context) * (50 / 490.9),
                         color: MyColors.richBlackFogra,
-                        child: Image.file(
-                            File(Database_signUp.emps[key].profile_pic!)),
+                        child: Image.file(File(widget.emps[key].profile_pic!)),
                       ),
                       SizedBox(
                         width: MyScreen.getScreenWidth(context) * (10 / 490.9),
@@ -126,7 +126,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                           Row(
                             children: [
                               Text(
-                                Database_signUp.emps[key].id!.toString(),
+                                widget.emps[key].id!.toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
@@ -142,7 +142,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                 ),
                               ),
                               Text(
-                                Database_signUp.emps[key].name!,
+                                widget.emps[key].name!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
@@ -167,7 +167,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                     (10 / 490.9),
                               ),
                               Text(
-                                Database_signUp.emps[key].role!,
+                                widget.emps[key].role!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: MyScreen.getScreenHeight(context) *
@@ -194,8 +194,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 EditEmployeeScreen(
-                                                  emp:
-                                                      Database_signUp.emps[key],
+                                                  emp: widget.emps[key],
                                                 )));
                                   }),
                             ],
@@ -208,7 +207,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                     color: MyColors.black,
                     height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
                   ),
-                  Database_signUp.emps[key].role! == "Salesperson"
+                  widget.emps[key].role! == "Salesperson"
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -216,7 +215,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                 onTap: () async {
                                   if (await Database_Hourly_Attendance()
                                       .getHourlyAttendance(
-                                          Database_signUp.emps[key].id!,
+                                          widget.emps[key].id!,
                                           DateTime.now()
                                               .toString()
                                               .split(" ")[0])) {
@@ -244,7 +243,7 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                 onTap: () async {
                                   if (await Database_Customer_Feedback()
                                       .getCustomerFeedbacksBySalespersonCode(
-                                          Database_signUp.emps[key].id!)) {
+                                          widget.emps[key].id!)) {
                                     Navigator.pushNamed(context,
                                         MyRoutes.MyViewCustomerFeedbackScreen);
                                   }

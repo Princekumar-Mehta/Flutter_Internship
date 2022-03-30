@@ -3,9 +3,9 @@ import 'package:project_v3/Database/db_customer_branch.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/customer_branch.dart';
+import 'package:project_v3/screens/planRouteScreen2.dart';
 import 'package:project_v3/screens/viewRouteScreen.dart';
 
 class PlanRouteScreen1 extends StatefulWidget {
@@ -27,6 +27,23 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
       selected[Database_customerBranch.all_branches[i].branch_Code.toString()] =
           false;
     }
+  }
+
+  addRoute() async {
+    String route = "";
+    for (int i = 0; i < selectedBranches.length; i++) {
+      if (i == 0) {
+        route += selectedBranches[i]['branch'].branch_Code;
+      } else {
+        route += "-" + selectedBranches[i]['branch'].branch_Code;
+      }
+    }
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PlanRouteScreen2(
+                  route: route,
+                )));
   }
 
   viewOnMap() async {
@@ -307,8 +324,7 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, MyRoutes.MyPlanRouteScreen2);
+                        addRoute();
                       },
                     ),
                   ),

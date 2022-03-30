@@ -9,10 +9,12 @@ import 'package:project_v3/Database/db_customer_feedback.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
+import 'package:project_v3/Database/db_route.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
+import 'package:project_v3/screens/viewTodaysRoute.dart';
 
 import 'editEmployeeScreen.dart';
 
@@ -1022,8 +1024,21 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    /*child: InkWell(
-                                      onTap: () {},
+                                    child: InkWell(
+                                      onTap: () async {
+                                        var date = DateTime.now();
+                                        print(DateFormat("EEEE").format(date));
+                                        await Database_Route()
+                                            .getRouteRoutesBySalespersonIdDay(
+                                                MyDrawer.emp.id!,
+                                                DateFormat("EEEE")
+                                                    .format(date));
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => ViewTodaysRoute(
+                                                )));
+                                      },
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -1060,7 +1075,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                     context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("Fulfilled Orders",
+                                          Text("View Route",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:
@@ -1072,7 +1087,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),*/
+                                    ),
                                   ),
                                   Container(
                                     alignment: Alignment.center,
