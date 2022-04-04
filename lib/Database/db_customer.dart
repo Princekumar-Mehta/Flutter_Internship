@@ -7,6 +7,7 @@ import 'database_helper.dart';
 
 class Database_customer {
   static List<String> codes = [];
+  static List<String> codesBySubArea = [];
   static List<Customer> customers = [];
   static addCustomer(Map<String, dynamic> customer) async {
     List<Customer> existing_customer = await DatabaseHelper.instance
@@ -56,6 +57,17 @@ class Database_customer {
     codes = [];
     customers.forEach((element) {
       codes.add(element.code!);
+    });
+    return true;
+    //print(codes);
+  }
+
+  Future<bool> get_customerIdsBySubArea(String sub_Area) async {
+    final customers =
+        await DatabaseHelper.instance.getCustomersBySubArea(sub_Area);
+    codesBySubArea = [];
+    customers.forEach((element) {
+      codesBySubArea.add(element.code!);
     });
     return true;
     //print(codes);

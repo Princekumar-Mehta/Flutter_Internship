@@ -12,6 +12,8 @@ class CustomerBranch {
   String? state;
   String? country;
   int? post_Code;
+  String? sub_Area;
+  String? area;
   String? contact_Person;
   String? branch_Email;
   String? branch_Phone;
@@ -35,6 +37,8 @@ class CustomerBranch {
     this.state,
     this.country,
     this.post_Code,
+    this.sub_Area,
+    this.area,
     this.contact_Person,
     this.branch_Email,
     this.branch_Phone,
@@ -60,6 +64,8 @@ class CustomerBranch {
       'state': this.state,
       'country': this.country,
       'post_Code': this.post_Code,
+      'sub_Area': this.sub_Area,
+      'area': this.area,
       'contact_Person': this.contact_Person,
       'branch_Email': this.branch_Email,
       'branch_Phone': this.branch_Phone,
@@ -86,6 +92,8 @@ class CustomerBranch {
       state: map['state'] as String,
       country: map['country'] as String,
       post_Code: map['post_Code'] as int,
+      sub_Area: map['sub_Area'] as String,
+      area: map['area'] as String,
       contact_Person: map['contact_Person'] as String,
       branch_Email: map['branch_Email'] as String,
       branch_Phone: map['branch_Phone'] as String,

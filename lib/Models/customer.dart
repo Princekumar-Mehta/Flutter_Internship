@@ -6,6 +6,8 @@ class Customer {
   String? grp;
   String? sub_Group;
   int? map_Cn;
+  String? sub_Area;
+  String? area;
   int? branch_Cn;
   String? email;
   String? phone_1;
@@ -23,6 +25,8 @@ class Customer {
       this.sub_Group,
       this.map_Cn,
       this.branch_Cn,
+      this.sub_Area,
+      this.area,
       this.email,
       this.phone_1,
       this.phone_2,
@@ -41,6 +45,8 @@ class Customer {
       'sub_Group': this.sub_Group,
       'map_Cn': this.map_Cn,
       'branch_Cn': this.branch_Cn,
+      'sub_Area': this.sub_Area,
+      'area': this.area,
       'email': this.email,
       'phone_1': this.phone_1,
       'phone_2': this.phone_2,
@@ -61,6 +67,8 @@ class Customer {
       sub_Group: map['sub_Group'] as String,
       map_Cn: map['map_Cn'] as int,
       branch_Cn: map['branch_Cn'] as int,
+      sub_Area: map['sub_Area'] as String,
+      area: map['area'] as String,
       email: map['email'] as String,
       phone_1: map['phone_1'] as String,
       phone_2: map['phone_2'] as String,

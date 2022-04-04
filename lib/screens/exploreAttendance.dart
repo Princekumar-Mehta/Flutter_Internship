@@ -1,16 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_employee.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
+import 'package:project_v3/Models/employee.dart';
 
-import '../Extras/routes.dart';
+import 'mapScreen.dart';
 
 class ExploreAttendance extends StatefulWidget {
-  const ExploreAttendance({Key? key}) : super(key: key);
+  List<Employee> emps;
+  ExploreAttendance({required this.emps});
 
   @override
   State<ExploreAttendance> createState() => _ExploreAttendanceState();
@@ -24,6 +26,7 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.emps.length);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -68,9 +71,9 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Database_signUp.emps.length,
+                  itemCount: widget.emps.length,
                   itemBuilder: (context, index) {
-                    //print(Database_signUp.emps[index]);
+                    //print(widget.emps[index]);
                     return Container(
                       child: _row(index),
                     );
@@ -86,7 +89,7 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
     return Column(children: [
       Row(
         children: [
-          Database_signUp.emps[key].role! == "Salesperson"
+          widget.emps[key].role! == "Salesperson"
               ? Container(
                   decoration: BoxDecoration(
                     color: MyDrawer.emp.darkTheme == 1
@@ -114,7 +117,7 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
                                   (50 / 490.9),
                               color: MyColors.richBlackFogra,
                               child: Image.file(
-                                  File(Database_signUp.emps[key].profile_pic!)),
+                                  File(widget.emps[key].profile_pic!)),
                             ),
                             SizedBox(
                               width: MyScreen.getScreenWidth(context) *
@@ -127,7 +130,7 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
                                 Row(
                                   children: [
                                     Text(
-                                      Database_signUp.emps[key].name!,
+                                      widget.emps[key].name!,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize:
@@ -153,7 +156,7 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
                                       ),
                                     ),
                                     Text(
-                                      Database_signUp.emps[key].id!.toString(),
+                                      widget.emps[key].id!.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize:
@@ -163,19 +166,31 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
                                     ),
                                     SizedBox(
                                       width: MyScreen.getScreenWidth(context) *
-                                          (130 / 490.9),
+                                          (100 / 490.9),
                                     ),
                                     InkWell(
                                         onTap: () async {
-                                          if (await Database_Hourly_Attendance()
+                                          await Database_Hourly_Attendance()
                                               .getHourlyAttendance(
-                                                  MyDrawer.emp.id!,
+                                                  widget.emps[key].id!,
                                                   DateTime.now()
                                                       .toString()
-                                                      .split(" ")[0])) {
-                                            Navigator.pushNamed(
-                                                context, MyRoutes.MyMapScreen);
+                                                      .split(" ")[0]);
+                                          if (Database_Hourly_Attendance
+                                              .hourly_attendance.isEmpty) {
+                                            Utility.showMessage(context,
+                                                "Employee has not logged attendance for today.\n\nPlease try again after some time or contact employee for updates.");
+                                            return;
                                           }
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MapScreen(
+                                                        hourly_attendance:
+                                                            Database_Hourly_Attendance
+                                                                .hourly_attendance,
+                                                      )));
                                         },
                                         child: Text("View Live Location",
                                             style: TextStyle(

@@ -95,6 +95,23 @@ class _AddItemState extends State<AddItem> {
                   : MyColors.scarlet,
               size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
           onPressed: () {
+            // if (_formKey.currentState!.validate()) {
+            //   _formKey.currentState!.save();
+            //   if (MyDrawer.emp.name.toString() !=
+            //       _formKey.currentState!.value['full_name'] ||
+            //       MyDrawer.emp.email.toString() !=
+            //           _formKey.currentState!.value['email'] ||
+            //       MyDrawer.emp.password.toString() !=
+            //           _formKey.currentState!.value['password_1'] ||
+            //       MyDrawer.emp.role.toString() !=
+            //           _formKey.currentState!.value['role'] ||
+            //       MyDrawer.emp.profile_pic.toString() != _pickedImage!.path) {
+            //     confirmationDialog(context,
+            //         "Exit to Home Page?\n\nChanges will not be saved.");
+            //   } else {
+            //     Navigator.pop(context);
+            //   }
+            // }
             Navigator.pop(context);
           },
         ),

@@ -7,6 +7,7 @@ import 'package:project_v3/Models/employee.dart';
 import 'package:project_v3/Models/final_individual_order.dart';
 import 'package:project_v3/Models/hourly_attendance.dart';
 import 'package:project_v3/Models/leave_request.dart';
+import 'package:project_v3/Models/region_salesperson.dart';
 import 'package:project_v3/Models/route.dart';
 import 'package:project_v3/Models/stock.dart';
 import 'package:sqflite/sqflite.dart';
@@ -61,6 +62,8 @@ class DatabaseHelper {
      sub_Group TEXT,
      map_Cn INTEGER,
      branch_Cn INTEGER,
+     sub_Area TEXT,
+     area TEXT,
      email TEXT,
      phone_1 TEXT,
      phone_2 TEXT,
@@ -85,6 +88,8 @@ class DatabaseHelper {
      state TEXT,
      country TEXT,
      post_Code INTEGER,
+     sub_Area TEXT,
+     area TEXT,
      contact_Person TEXT,
      branch_Email TEXT,
      branch_Phone TEXT,
@@ -202,6 +207,14 @@ class DatabaseHelper {
       route TEXT
     )
     ''');
+    await db.execute('''
+    CREATE TABLE region_salesperson(
+      region_salesperson_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      emp_Id INTEGER,
+      sub_Area TEXT,
+      area TEXT
+    )
+    ''');
   }
 
   Future<List<Employee>> getEmployees() async {
@@ -294,6 +307,16 @@ class DatabaseHelper {
     return CustomersList;
   }
 
+  Future<List<Customer>> getCustomersBySubArea(String sub_Area) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customers = await db.rawQuery(
+        "SELECT * FROM customers where sub_Area = '$sub_Area' order by code ASC");
+    List<Customer> CustomersList = customers.isNotEmpty
+        ? customers.map((c) => Customer.fromMap((c))).toList()
+        : [];
+    return CustomersList;
+  }
+
   Future<List<Customer>> getCustomer(String customer_Code) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> customer = await db
@@ -354,6 +377,17 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map<String, dynamic>> customerBranch =
         await db.rawQuery("SELECT * FROM customers_branches");
+    List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
+        ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
+        : [];
+    return CustomerBranchList;
+  }
+
+  Future<List<CustomerBranch>> getAllCustomerBranchesBysubArea(
+      String sub_Area) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customerBranch = await db.rawQuery(
+        "SELECT * FROM customers_branches where sub_Area = '$sub_Area' and (branch_Type = 'Bill To / Ship To' or branch_Type = 'Ship To')");
     List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
         ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
         : [];
@@ -787,5 +821,24 @@ class DatabaseHelper {
     return await db.update('routes', route.toMap(),
         where: 'salesperson_id = ? and day = ?',
         whereArgs: [route.salesperson_Id, route.day]);
+  }
+
+  Future<int> addRegionSalesperson(
+      Region_Salesperson region_salesperson) async {
+    Database db = await instance.database;
+    return await db.insert('region_salesperson', region_salesperson.toMap());
+  }
+
+  Future<List<Region_Salesperson>> getRegionsByEmpId(int emp_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> region_salesperson = await db.rawQuery(
+        "SELECT * FROM region_salesperson where emp_id = $emp_Id"); //where role = 'Salesperson'
+    List<Region_Salesperson> RegionSalespersonList =
+        region_salesperson.isNotEmpty
+            ? region_salesperson
+                .map((c) => Region_Salesperson.fromMap((c)))
+                .toList()
+            : [];
+    return RegionSalespersonList;
   }
 }

@@ -20,7 +20,8 @@ class _PlanRouteScreen2State extends State<PlanRouteScreen2> {
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
+    "Sunday"
   ];
   moveToReportScreen2() async {
     List<String> selected_Days = [];
@@ -33,7 +34,9 @@ class _PlanRouteScreen2State extends State<PlanRouteScreen2> {
         salesperson_Id: MyDrawer.emp.id!,
         days: selected_Days,
         route: widget.route);
-    Database_Route().getRouteAllRoutesBySalespersonId(MyDrawer.emp.id!);
+    // Database_Route().getRouteAllRoutesBySalespersonId(MyDrawer.emp.id!);
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   bool selectAll = false;

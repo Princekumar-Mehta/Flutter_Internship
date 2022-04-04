@@ -148,7 +148,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
       }
     } catch (e) {}
     customer = MyTypeAhead(
-      itemList: Database_customer.codes,
+      itemList: Database_customer.codesBySubArea,
       message: "Please Enter Customer ID",
       isEnabled: true,
     );

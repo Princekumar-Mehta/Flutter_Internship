@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_approveOrders.dart';
+import 'package:project_v3/Database/db_employee.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Database/db_report.dart';
@@ -13,6 +13,7 @@ import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
 
 import 'editEmployeeScreen.dart';
+import 'exploreAttendance.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);
@@ -204,11 +205,14 @@ class _AdminHomeState extends State<AdminHome> {
                                       )));
                         }
                       } else if (val == "Explore Attendance") {
-                        var _db_employee = Database_signUp();
-                        if (await _db_employee.getAllEmp()) {
+                        if (await Database_signUp().getAllEmp()) {
                           //print(Database_signUp.emps);
-                          Navigator.pushNamed(
-                              context, MyRoutes.MyExploreAttendanceScreen);
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ExploreAttendance(
+                                        emps: Database_signUp.emps,
+                                      )));
                         }
                       } else if (val == "Add Item") {
                         Navigator.pushNamed(context, MyRoutes.MyAddItemScreen);
@@ -1017,10 +1021,14 @@ class _AdminHomeState extends State<AdminHome> {
                                         var _db_employee = Database_signUp();
                                         if (await _db_employee.getAllEmp()) {
                                           //print(Database_signUp.emps);
-                                          Navigator.pushNamed(
+                                          await Navigator.push(
                                               context,
-                                              MyRoutes
-                                                  .MyExploreAttendanceScreen);
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ExploreAttendance(
+                                                        emps: Database_signUp
+                                                            .emps,
+                                                      )));
                                         }
                                       },
                                       child: Column(
@@ -1628,12 +1636,16 @@ class _AdminHomeState extends State<AdminHome> {
                                         ((440 / 3) / 490.9),
                                     /*child: InkWell(
                                       onTap: () async {
-                                        var _pendingOrders =
-                                            Database_ApproveOrders();
-                                        if (await _pendingOrders
-                                            .getPendingOrders()) {
-                                          Navigator.pushNamed(
-                                              context, MyRoutes.MyApproveOrder);
+                                        if (await Database_Item()
+                                            .get_ItemNames()) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddScheme(
+                                                        itemList: Database_Item
+                                                            .item_names,
+                                                      )));
                                         }
                                       },
                                       child: Column(
@@ -1672,7 +1684,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                     context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("Pending Orders",
+                                          Text("Add Scheme",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:

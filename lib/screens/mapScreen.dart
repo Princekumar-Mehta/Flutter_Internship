@@ -2,118 +2,44 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Models/hourly_attendance.dart';
 
-class MapSample extends StatefulWidget {
+class MapScreen extends StatefulWidget {
+  List<Hourly_Attendance> hourly_attendance;
+  MapScreen({required this.hourly_attendance});
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<MapScreen> createState() => MapScreenState();
 }
 
-class MapSampleState extends State<MapSample> {
+class MapScreenState extends State<MapScreen> {
   Set<Marker> markers = {};
   List<LatLng> points = [];
 
   Completer<GoogleMapController> _controller = Completer();
-  TextEditingController _searchContoller = TextEditingController();
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
-  static final Marker _Marker1 = Marker(
-    markerId: MarkerId('Marker1'),
-    infoWindow: InfoWindow(title: '11:00'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-    position: LatLng(37.418, -122.092),
-  );
-
-  static final Marker _Marker2 = Marker(
-    markerId: MarkerId('Marker2'),
-    infoWindow: InfoWindow(title: '12:00'),
-    icon: BitmapDescriptor.defaultMarker,
-    position: LatLng(37.42796133580664, -122.085749655962),
-  );
-
-  static final Marker _Marker3 = Marker(
-    markerId: MarkerId('Marker3'),
-    infoWindow: InfoWindow(title: '1:00'),
-    icon: BitmapDescriptor.defaultMarker,
-    position: LatLng(37.43296265331129, -122.08832357078792),
-  );
-
-  static final Marker _Marker4 = Marker(
-    markerId: MarkerId('Marker4'),
-    infoWindow: InfoWindow(title: '3:00'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    position: LatLng(37.435, -122.092),
-  );
-
-  static const Polyline _kPolyline = Polyline(
-    polylineId: PolylineId('kPolyline'),
-    points: [],
-    width: 5,
-  );
-  static const Polygon _kPolygon = Polygon(
-      polygonId: PolygonId('kPolygon'),
-      points: [
-        LatLng(37.418, -122.092),
-        LatLng(37.42796133580664, -122.085749655962),
-        LatLng(37.43296265331129, -122.08832357078792),
-        LatLng(37.435, -122.092),
-      ],
-      strokeWidth: 5,
-      fillColor: Colors.transparent);
 
   @override
   initState() {
-    /*points = [
-      LatLng(37.418, -122.092),
-      LatLng(37.42796133580664, -122.085749655962),
-      LatLng(37.43296265331129, -122.08832357078792),
-      LatLng(37.435, -122.092),
-    ];
-    markers = {
-      _Marker1,
-      _Marker2,
-      _Marker3,
-      _Marker4,
-    };*/
-    print(Database_Hourly_Attendance.hourly_attendance.length);
-    for (int i = 0;
-        i < Database_Hourly_Attendance.hourly_attendance.length;
-        i++) {
-      points.add(LatLng(
-          double.parse(
-              Database_Hourly_Attendance.hourly_attendance[i].latitude),
-          double.parse(
-              Database_Hourly_Attendance.hourly_attendance[i].longitude)));
+    print(widget.hourly_attendance.length);
+    for (int i = 0; i < widget.hourly_attendance.length; i++) {
+      points.add(LatLng(double.parse(widget.hourly_attendance[i].latitude),
+          double.parse(widget.hourly_attendance[i].longitude)));
       var my_icon = BitmapDescriptor.defaultMarker;
       if (i == 0) {
         my_icon =
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
-      } else if (i == Database_Hourly_Attendance.hourly_attendance.length - 1) {
+      } else if (i == widget.hourly_attendance.length - 1) {
         my_icon =
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
       }
 
       markers.add(Marker(
         markerId: MarkerId(i.toString()),
-        infoWindow: InfoWindow(
-            title: Database_Hourly_Attendance.hourly_attendance[i].time),
+        infoWindow: InfoWindow(title: widget.hourly_attendance[i].time),
         icon: my_icon,
-        position: LatLng(
-            double.parse(
-                Database_Hourly_Attendance.hourly_attendance[i].latitude),
-            double.parse(
-                Database_Hourly_Attendance.hourly_attendance[i].longitude)),
+        position: LatLng(double.parse(widget.hourly_attendance[i].latitude),
+            double.parse(widget.hourly_attendance[i].longitude)),
       ));
       print("Marker Length: " + markers.length.toString());
     }

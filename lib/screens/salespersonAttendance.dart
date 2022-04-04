@@ -8,9 +8,10 @@ import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../Extras/routes.dart';
+import 'mapScreen.dart';
 
 class SalespersonAttendance extends StatefulWidget {
   @override
@@ -49,11 +50,11 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                   int.parse(currentTime.split(":")[1]));
       print(hourdifference.toString());
       print(minutedifference.toString());
-      // if (hourdifference < 1 && minutedifference < 59) {
-      //   Utility.showMessage(
-      //       context, "Please Try After ${60 - minutedifference} minutes");
-      //   return;
-      // }
+      if (hourdifference < 1 && minutedifference < 59) {
+        Utility.showMessage(
+            context, "Please Try After ${60 - minutedifference} minutes");
+        return;
+      }
     }
 
     Position position = await _determinePosition();
@@ -334,7 +335,8 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        launch("tel:1234567891");
+                                        launch(
+                                            "tel:${Database_signUp.manager.phone!}");
                                       },
                                       child: Row(
                                         children: [
@@ -374,9 +376,15 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
                                                                 .toString()
                                                                 .split(
                                                                     " ")[0])) {
-                                                      Navigator.pushNamed(
+                                                      await Navigator.push(
                                                           context,
-                                                          MyRoutes.MyMapScreen);
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      MapScreen(
+                                                                        hourly_attendance:
+                                                                            Database_Hourly_Attendance.hourly_attendance,
+                                                                      )));
                                                     }
                                                   },
                                                   child:

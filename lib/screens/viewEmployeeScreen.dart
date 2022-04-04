@@ -6,10 +6,12 @@ import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/employee.dart';
 import 'package:project_v3/screens/editEmployeeScreen.dart';
 
 import '../Extras/routes.dart';
+import 'mapScreen.dart';
 
 class ViewEmployeeScreen extends StatefulWidget {
   List<Employee> emps;
@@ -213,15 +215,26 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                           children: [
                             InkWell(
                                 onTap: () async {
-                                  if (await Database_Hourly_Attendance()
+                                  await Database_Hourly_Attendance()
                                       .getHourlyAttendance(
                                           widget.emps[key].id!,
                                           DateTime.now()
                                               .toString()
-                                              .split(" ")[0])) {
-                                    Navigator.pushNamed(
-                                        context, MyRoutes.MyMapScreen);
+                                              .split(" ")[0]);
+                                  if (Database_Hourly_Attendance
+                                      .hourly_attendance.isEmpty) {
+                                    Utility.showMessage(context,
+                                        "Attendance has not been logged for today.\n\nPlease contact Salesperson to know recent updates.");
+                                    return;
                                   }
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MapScreen(
+                                                hourly_attendance:
+                                                    Database_Hourly_Attendance
+                                                        .hourly_attendance,
+                                              )));
                                 },
                                 child: Text("View Live Location",
                                     style: TextStyle(

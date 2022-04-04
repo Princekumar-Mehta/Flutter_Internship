@@ -24,7 +24,8 @@ class RouteMapScreenState extends State<RouteMapScreen> {
 
   @override
   initState() {
-    print(widget.locations.length);
+    // print(widget.locations.length);
+
     for (int i = 0; i < widget.locations.length; i++) {
       points.add(LatLng(double.parse(widget.locations[i].latitude!),
           double.parse(widget.locations[i].longitude!)));

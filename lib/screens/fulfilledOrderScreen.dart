@@ -10,7 +10,6 @@ import 'package:project_v3/screens/viewOrderScreen.dart';
 
 class FulfilledOrder extends StatefulWidget {
   const FulfilledOrder({Key? key}) : super(key: key);
-
   @override
   _FulfilledOrderState createState() => _FulfilledOrderState();
 }
@@ -184,7 +183,7 @@ class _FulfilledOrderState extends State<FulfilledOrder> {
                                   }),
                               SizedBox(
                                 width: MyScreen.getScreenWidth(context) *
-                                    (25 / 490.9),
+                                    (20 / 490.9),
                               ),
                               Database_ApproveOrders.fulfilledOrders[key]
                                           .chequePhotoPath ==

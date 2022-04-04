@@ -11,6 +11,7 @@ import 'package:project_v3/Database/db_Employee.dart';
 import 'package:project_v3/Database/db_daily_attendance.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Database/db_item.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Models/employee.dart';
 
 class Utility {
@@ -65,6 +66,8 @@ class Utility {
       profile_pic: _pickedImage.path,
       darkTheme: 1,
     );
+    Database_Region_Salesperson.addRegionSalesperson(
+        sub_Area: "Ahmedabad-NW", area: "Ahmedabad", emp_Id: 3);
     Database_signUp.addEmp(
       name: "Dev Rami",
       email: "malhar.shah16@gmail.com",
@@ -76,6 +79,8 @@ class Utility {
       profile_pic: _pickedImage.path,
       darkTheme: 1,
     );
+    Database_Region_Salesperson.addRegionSalesperson(
+        sub_Area: "Ahmedabad-SW", area: "Ahmedabad", emp_Id: 4);
     Database_signUp.addEmp(
       name: "Malhar Shah",
       email: "malhar.shah00@gmail.com",
@@ -87,6 +92,8 @@ class Utility {
       profile_pic: _pickedImage.path,
       darkTheme: 1,
     );
+    Database_Region_Salesperson.addRegionSalesperson(
+        sub_Area: "Ahmedabad-CL", area: "Ahmedabad", emp_Id: 5);
     Database_Hourly_Attendance.addHourlyAttendance(
       emp_id: 3,
       date: DateTime.now().toString().split(" ")[0],

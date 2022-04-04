@@ -46,12 +46,21 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
             width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
           ),
         ),
-        title: Text("Processing Orders",
-            style: TextStyle(
-                color: MyDrawer.emp.darkTheme == 1
-                    ? MyColors.white
-                    : MyColors.scarlet,
-                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+        title: MyDrawer.emp.role == "Salesperson"
+            ? Text("My Orders",
+                style: TextStyle(
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.white
+                        : MyColors.scarlet,
+                    fontSize:
+                        MyScreen.getScreenHeight(context) * (20 / 1063.6)))
+            : Text("Processing Orders",
+                style: TextStyle(
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.white
+                        : MyColors.scarlet,
+                    fontSize:
+                        MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
         backgroundColor: MyDrawer.emp.darkTheme == 1
             ? MyColors.richBlackFogra
@@ -189,7 +198,7 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                                   }),
                               SizedBox(
                                 width: MyScreen.getScreenWidth(context) *
-                                    (25 / 490.9),
+                                    (20 / 490.9),
                               ),
                               Database_ApproveOrders.processingOrders[key]
                                           .chequePhotoPath ==

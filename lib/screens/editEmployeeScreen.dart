@@ -114,6 +114,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       }
       widget.emp.name = _formKey.currentState!.value['full_name'];
       //widget.emp.email = _formKey.currentState!.value['email'];
+      widget.emp.phone = _formKey.currentState!.value['phone'];
       widget.emp.password = _formKey.currentState!.value['password_1'];
       if (MyDrawer.emp.role == "Admin") {
         widget.emp.role = _formKey.currentState!.value['role'];
@@ -199,6 +200,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                         _formKey.currentState!.value['full_name'] ||
                     MyDrawer.emp.email.toString() !=
                         _formKey.currentState!.value['email'] ||
+                    MyDrawer.emp.phone.toString() !=
+                        _formKey.currentState!.value['phone'] ||
                     MyDrawer.emp.password.toString() !=
                         _formKey.currentState!.value['password_1'] ||
                     MyDrawer.emp.role.toString() !=
@@ -352,6 +355,52 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                 return "Please Enter Email ID";
                               } else if (!regexem.hasMatch(value)) {
                                 return "Enter Proper Email ID";
+                              }
+                              return null;
+                            }),
+                      ),
+                      SizedBox(
+                          height:
+                              MyScreen.getScreenHeight(context) * (6 / 553)),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        child: Text("Mobile Number *",
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (20 / 1063.6))),
+                      ),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                        child: FormBuilderTextField(
+                            name: 'phone',
+                            initialValue: widget.emp.phone,
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.pewterBlue
+                                    : MyColors.black,
+                              )),
+                            ),
+                            style: TextStyle(
+                                color: MyDrawer.emp.darkTheme == 1
+                                    ? MyColors.middleRed
+                                    : MyColors.scarlet,
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (25 / 1063.6)),
+                            validator: (value) {
+                              RegExp regexem = RegExp(r'^[0-9]{10}$');
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Mobile Number";
+                              } else if (!regexem.hasMatch(value)) {
+                                return "Enter Valid Mobile Number";
                               }
                               return null;
                             }),

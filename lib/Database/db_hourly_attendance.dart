@@ -21,6 +21,8 @@ class Database_Hourly_Attendance {
   }
 
   Future<bool> getHourlyAttendance(int emp_id, String date) async {
+    print(emp_id);
+    print(date);
     hourly_attendance =
         await DatabaseHelper.instance.getHourlyAttendance(emp_id, date);
     //print(hourly_attendance);

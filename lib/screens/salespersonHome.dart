@@ -9,11 +9,13 @@ import 'package:project_v3/Database/db_customer_feedback.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Database/db_route.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/screens/viewTodaysRoute.dart';
 
 import 'editEmployeeScreen.dart';
@@ -161,8 +163,11 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                               context, MyRoutes.MyLeaveRequestSummary);
                         }
                       } else if (val == "Add New Order" || val == "Add Order") {
+                        String sub_Area = await Database_Region_Salesperson()
+                            .getRegionSalesperson(MyDrawer.emp.id!);
                         if (await Database_customer().insertData() &&
-                            await Database_customer().get_customerIds() &&
+                            await Database_customer()
+                                .get_customerIdsBySubArea(sub_Area) &&
                             await Database_customerBranch().insertData() &&
                             await Database_Item().get_ItemNames()) {
                           Navigator.pushNamed(context, MyRoutes.MySalesOrder);
@@ -887,9 +892,13 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                   ((440 / 3) / 490.9),
                               child: InkWell(
                                 onTap: () async {
+                                  String sub_Area =
+                                      await Database_Region_Salesperson()
+                                          .getRegionSalesperson(
+                                              MyDrawer.emp.id!);
                                   if (await Database_customer().insertData() &&
                                       await Database_customer()
-                                          .get_customerIds() &&
+                                          .get_customerIdsBySubArea(sub_Area) &&
                                       await Database_customerBranch()
                                           .insertData() &&
                                       await Database_Item().get_ItemNames()) {
@@ -962,8 +971,13 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        if (await Database_customerBranch()
-                                            .get_AllcustomerBranches()) {
+                                        String sub_Area =
+                                            await Database_Region_Salesperson()
+                                                .getRegionSalesperson(
+                                                    MyDrawer.emp.id!);
+                                        if (await Database_Route()
+                                            .get_AllcustomerBranchesBySubArea(
+                                                sub_Area)) {
                                           await Navigator.pushNamed(context,
                                               MyRoutes.MySetRouteMapScreen);
                                         }
@@ -1029,15 +1043,24 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         var date = DateTime.now();
                                         print(DateFormat("EEEE").format(date));
                                         await Database_Route()
-                                            .getRouteRoutesBySalespersonIdDay(
+                                            .getRoutesBySalespersonIdDay(
                                                 MyDrawer.emp.id!,
                                                 DateFormat("EEEE")
                                                     .format(date));
+                                        if (Database_Route
+                                            .routeBranches.isEmpty) {
+                                          Utility.showMessage(context,
+                                              "No Route planned for Today.\n\nPlease plan route for the day to view route.");
+                                          return;
+                                        }
                                         await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => ViewTodaysRoute(
-                                                )));
+                                                builder: (context) =>
+                                                    ViewTodaysRoute(
+                                                        routeBranches:
+                                                            Database_Route
+                                                                .routeBranches)));
                                       },
                                       child: Column(
                                         mainAxisAlignment:

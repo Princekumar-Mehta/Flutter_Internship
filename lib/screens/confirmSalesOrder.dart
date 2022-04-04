@@ -103,7 +103,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                         ),
                       ),
                       height:
-                          MyScreen.getScreenHeight(context) * (295 / 1063.6),
+                          MyScreen.getScreenHeight(context) * (290 / 1063.6),
                       width: MyScreen.getScreenWidth(context) * (490.9 / 490.9),
                       child: SfSignaturePad(
                         key: keySignaturePad,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_customer_branch.dart';
+import 'package:project_v3/Database/db_route.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -23,13 +23,18 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
   int initialBranch = -1;
   @override
   void initState() {
-    for (int i = 0; i < Database_customerBranch.all_branches.length; i++) {
-      selected[Database_customerBranch.all_branches[i].branch_Code.toString()] =
+    for (int i = 0; i < Database_Route.allBranchesBySubArea.length; i++) {
+      selected[Database_Route.allBranchesBySubArea[i].branch_Code.toString()] =
           false;
     }
   }
 
   addRoute() async {
+    if (selectedBranches.length < 1) {
+      Utility.showMessage(
+          context, "Please select at least one branch to add to route.");
+      return;
+    }
     String route = "";
     for (int i = 0; i < selectedBranches.length; i++) {
       if (i == 0) {
@@ -47,11 +52,16 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
   }
 
   viewOnMap() async {
+    if (selectedBranches.length < 1) {
+      Utility.showMessage(context,
+          "Please select the shops for which you would like to see the route on map.");
+      return;
+    }
     String route = "";
     List<CustomerBranch> locations = [];
     for (int i = 0; i < selectedBranches.length; i++) {
-      print(selectedBranches[i]['branch'].branch_Name +
-          selectedBranches[i]['distance'].toString());
+      // print(selectedBranches[i]['branch'].branch_Name +
+      //     selectedBranches[i]['distance'].toString());
       locations.add(selectedBranches[i]['branch']);
       if (i == 0) {
         route += selectedBranches[i]['branch'].branch_Code;
@@ -59,7 +69,7 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
         route += "-" + selectedBranches[i]['branch'].branch_Code;
       }
     }
-    print(route);
+    // print(route);
     await Navigator.push(
         context,
         MaterialPageRoute(
@@ -70,7 +80,12 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
 
   formOptimalRoute() async {
     List<List<double>> distance = [];
-    int no_of_branches = Database_customerBranch.all_branches.length;
+    int no_of_branches = Database_Route.allBranchesBySubArea.length;
+    if (selectedBranches.length != 1) {
+      Utility.showMessage(context,
+          "Please only select the branch from which you would like to start.");
+      return;
+    }
     for (int i = 0; i < no_of_branches; i++) {
       distance.add([]);
       for (int j = 0; j < no_of_branches; j++) {
@@ -80,19 +95,19 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
     for (int i = 0; i < no_of_branches; i++) {
       for (int j = 0; j < no_of_branches; j++) {
         distance[i][j] = double.parse(Utility.calculateDistance(
-          Database_customerBranch.all_branches[i].latitude,
-          Database_customerBranch.all_branches[i].longitude,
-          Database_customerBranch.all_branches[j].latitude,
-          Database_customerBranch.all_branches[j].longitude,
+          Database_Route.allBranchesBySubArea[i].latitude,
+          Database_Route.allBranchesBySubArea[i].longitude,
+          Database_Route.allBranchesBySubArea[j].latitude,
+          Database_Route.allBranchesBySubArea[j].longitude,
         ));
       }
     }
-    int selected = Database_customerBranch.all_branches
+    int selected = Database_Route.allBranchesBySubArea
         .indexWhere((element) => element == selectedBranches.first['branch']);
     List<CustomerBranch> locations = [];
-    while (locations.length < Database_customerBranch.all_branches.length) {
-      locations.add(Database_customerBranch.all_branches[selected]);
-      print(Database_customerBranch.all_branches[selected].branch_Name);
+    while (locations.length < Database_Route.allBranchesBySubArea.length) {
+      locations.add(Database_Route.allBranchesBySubArea[selected]);
+      //    print(Database_Route.allBranchesBySubArea[selected].branch_Name);
       double minDist = 0.0;
       int index = -1;
       for (int i = 0; i < no_of_branches; i++) {
@@ -150,68 +165,87 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
           ? MyColors.richBlackFogra
           : MyColors.white,
       body: SingleChildScrollView(
-        child: Theme(
-          data: ThemeData(
-            unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
-                ? MyColors.middleRed
-                : MyColors.scarlet,
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    "Total Distance : " +
-                        totalDistance.toStringAsFixed(2) +
-                        " km",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize:
-                          MyScreen.getScreenHeight(context) * (18 / 1063.3),
-                      color: MyDrawer.emp.darkTheme == 1
-                          ? MyColors.middleRed
-                          : MyColors.scarlet,
-                    )),
+        child: Column(
+          children: [
+            Theme(
+              data: ThemeData(
+                unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.middleRed
+                    : MyColors.scarlet,
               ),
-              Divider(
-                color: MyDrawer.emp.darkTheme == 1
-                    ? MyColors.pewterBlue
-                    : MyColors.black,
-                indent: 15,
-                endIndent: 15,
-                thickness: 1,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    MyScreen.getScreenWidth(context) * (0 / 490.9),
+                    0,
+                    MyScreen.getScreenWidth(context) * (0 / 490.9),
+                    MyScreen.getScreenWidth(context) * (10 / 490.9)),
+                child: Container(
+                  width: MyScreen.getScreenWidth(context) * (440 / 490.9),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "Total Distance : " +
+                                totalDistance.toStringAsFixed(2) +
+                                " km",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (18 / 1063.3),
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.middleRed
+                                  : MyColors.scarlet,
+                            )),
+                      ),
+                      Divider(
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.pewterBlue
+                            : MyColors.black,
+                        indent: 15,
+                        endIndent: 15,
+                        thickness: 1,
+                      ),
+                      ListView.builder(
+                          padding: const EdgeInsets.all(12),
+                          shrinkWrap: true,
+                          itemCount: Database_Route.allBranchesBySubArea.length,
+                          itemBuilder: (context, index) {
+                            return selected[Database_Route
+                                    .allBranchesBySubArea[index].branch_Code
+                                    .toString()]!
+                                ? Container()
+                                : Container(
+                                    child: _row(index, false),
+                                  );
+                          }),
+                      Divider(
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.pewterBlue
+                            : MyColors.black,
+                        indent: 15,
+                        endIndent: 15,
+                        thickness: 1,
+                      ),
+                      ListView.builder(
+                          padding: const EdgeInsets.all(12),
+                          shrinkWrap: true,
+                          itemCount: selectedBranches.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              child: _row(index, true),
+                            );
+                          }),
+                    ],
+                  ),
+                ),
               ),
-              ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  shrinkWrap: true,
-                  itemCount: Database_customerBranch.all_branches.length,
-                  itemBuilder: (context, index) {
-                    return selected[Database_customerBranch
-                            .all_branches[index].branch_Code
-                            .toString()]!
-                        ? Container()
-                        : Container(
-                            child: _row(index, false),
-                          );
-                  }),
-              Divider(
-                color: MyDrawer.emp.darkTheme == 1
-                    ? MyColors.pewterBlue
-                    : MyColors.black,
-                indent: 15,
-                endIndent: 15,
-                thickness: 1,
-              ),
-              ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  shrinkWrap: true,
-                  itemCount: selectedBranches.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: _row(index, true),
-                    );
-                  }),
-              Row(
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  0, 0, 0, MyScreen.getScreenWidth(context) * (15 / 490.9)),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
@@ -330,8 +364,8 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -342,7 +376,7 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
         ? Row(
             children: [
               Container(
-                width: 300,
+                width: MyScreen.getScreenWidth(context) * (350 / 490.9),
                 child: CheckboxListTile(
                   checkColor: MyColors.white,
                   activeColor: MyDrawer.emp.darkTheme == 1
@@ -376,7 +410,7 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                           'branch': selectedBranches[0]['branch'],
                           'distance': 0.00
                         };
-                        initialBranch = Database_customerBranch.all_branches
+                        initialBranch = Database_Route.allBranchesBySubArea
                             .indexWhere((element) =>
                                 element == selectedBranches.last['branch']);
                       }
@@ -395,7 +429,7 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                           };
                         }
                       }
-                      print(initialBranch);
+                      // print(initialBranch);
                       if (selectedBranches.isEmpty) initialBranch = -1;
                     });
                   },
@@ -406,7 +440,7 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
         : Row(
             children: [
               Container(
-                width: 300,
+                width: MyScreen.getScreenWidth(context) * (350 / 490.9),
                 child: CheckboxListTile(
                   checkColor: MyColors.white,
                   activeColor: MyDrawer.emp.darkTheme == 1
@@ -414,27 +448,27 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                       : MyColors.scarlet,
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                      Database_customerBranch.all_branches[key].branch_Code
+                      Database_Route.allBranchesBySubArea[key].branch_Code
                               .toString() +
                           "\t" +
-                          Database_customerBranch.all_branches[key].branch_Name
+                          Database_Route.allBranchesBySubArea[key].branch_Name
                               .toString() +
                           "\n" +
                           (Utility.calculateDistance(
-                                Database_customerBranch
-                                    .all_branches[initialBranch == -1
+                                Database_Route
+                                    .allBranchesBySubArea[initialBranch == -1
                                         ? key
                                         : initialBranch]
                                     .latitude,
-                                Database_customerBranch
-                                    .all_branches[initialBranch == -1
+                                Database_Route
+                                    .allBranchesBySubArea[initialBranch == -1
                                         ? key
                                         : initialBranch]
                                     .longitude,
-                                Database_customerBranch
-                                    .all_branches[key].latitude,
-                                Database_customerBranch
-                                    .all_branches[key].longitude,
+                                Database_Route
+                                    .allBranchesBySubArea[key].latitude,
+                                Database_Route
+                                    .allBranchesBySubArea[key].longitude,
                               ) +
                               " km"),
                       style: TextStyle(
@@ -442,43 +476,43 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                           color: MyDrawer.emp.darkTheme == 1
                               ? MyColors.pewterBlue
                               : MyColors.black)),
-                  value: selected[Database_customerBranch
-                      .all_branches[key].branch_Code
+                  value: selected[Database_Route
+                      .allBranchesBySubArea[key].branch_Code
                       .toString()],
                   onChanged: (value) {
                     setState(() {
                       if (value!) {
                         double currentDistance =
                             double.parse(Utility.calculateDistance(
-                          Database_customerBranch
-                              .all_branches[
+                          Database_Route
+                              .allBranchesBySubArea[
                                   initialBranch == -1 ? key : initialBranch]
                               .latitude,
-                          Database_customerBranch
-                              .all_branches[
+                          Database_Route
+                              .allBranchesBySubArea[
                                   initialBranch == -1 ? key : initialBranch]
                               .longitude,
-                          Database_customerBranch.all_branches[key].latitude,
-                          Database_customerBranch.all_branches[key].longitude,
+                          Database_Route.allBranchesBySubArea[key].latitude,
+                          Database_Route.allBranchesBySubArea[key].longitude,
                         ));
                         totalDistance += currentDistance;
                         selectedBranches.add({
-                          "branch": Database_customerBranch.all_branches[key],
+                          "branch": Database_Route.allBranchesBySubArea[key],
                           "distance": currentDistance
                         });
                         initialBranch = key;
                       }
-                      print(initialBranch);
-                      selected[Database_customerBranch
-                          .all_branches[key].branch_Code
+                      // print(initialBranch);
+                      selected[Database_Route
+                          .allBranchesBySubArea[key].branch_Code
                           .toString()] = value;
 
                       bool noneSelected = true;
                       for (int i = 0;
-                          i < Database_customerBranch.all_branches.length;
+                          i < Database_Route.allBranchesBySubArea.length;
                           i++) {
-                        if (selected[Database_customerBranch
-                                .all_branches[i].branch_Code
+                        if (selected[Database_Route
+                                .allBranchesBySubArea[i].branch_Code
                                 .toString()] ==
                             true) {
                           noneSelected = false;

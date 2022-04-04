@@ -6,6 +6,14 @@ import 'db_customer_branch.dart';
 
 class Database_Route {
   static List<CustomerBranch> routeBranches = [];
+  static List<CustomerBranch> allBranchesBySubArea = [];
+  Future<bool> get_AllcustomerBranchesBySubArea(String sub_Area) async {
+    allBranchesBySubArea = await DatabaseHelper.instance
+        .getAllCustomerBranchesBysubArea(
+            sub_Area); // 0 for bill type, 1 ship type
+    return true;
+  }
+
   addRoute({
     required int salesperson_Id,
     required List<String> days,
@@ -14,7 +22,7 @@ class Database_Route {
     for (int i = 0; i < days.length; i++) {
       print(days[i]);
       List<Route> current_routes =
-          await getRouteRoutesBySalespersonIdDay(salesperson_Id, days[i]);
+          await getRoutesBySalespersonIdDay(salesperson_Id, days[i]);
       if (current_routes.isEmpty) {
         await DatabaseHelper.instance.addRoute(
             Route(salesperson_Id: salesperson_Id, day: days[i], route: route));
@@ -35,16 +43,18 @@ class Database_Route {
     return true;
   }
 
-  Future<List<Route>> getRouteRoutesBySalespersonIdDay(
+  Future<List<Route>> getRoutesBySalespersonIdDay(
       int salesperson_Id, String day) async {
     List<Route> routes = await DatabaseHelper.instance
         .getRoutesBySalespersonIdDay(salesperson_Id, day);
 
-    List<String> branch_Codes = (routes[0].route.split("-"));
-    routeBranches = [];
-    for (int i = 0; i < branch_Codes.length; i++) {
-      routeBranches.add(await Database_customerBranch()
-          .get_customerBranch(branch_Codes[i].trim()));
+    if (routes.isNotEmpty) {
+      List<String> branch_Codes = (routes[0].route.split("-"));
+      routeBranches = [];
+      for (int i = 0; i < branch_Codes.length; i++) {
+        routeBranches.add(await Database_customerBranch()
+            .get_customerBranch(branch_Codes[i].trim()));
+      }
     }
     return routes;
   }
