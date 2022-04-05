@@ -20,6 +20,22 @@ class EditCustomer extends StatefulWidget {
 
 class _EditCustomerState extends State<EditCustomer> {
   final _formKey = GlobalKey<FormBuilderState>();
+  var checkedValue;
+  String sub_Area = "";
+  @override
+  initState() {
+    sub_Area = widget.customer.sub_Area!.split("-")[1];
+    if (sub_Area == "CL")
+      sub_Area = "Central";
+    else if (sub_Area == "NW")
+      sub_Area = "North - West";
+    else if (sub_Area == "SW")
+      sub_Area = "South - West";
+    else if (sub_Area == "NE") sub_Area = "North - East";
+
+    checkedValue = widget.customer.active == "true" ? true : false;
+  }
+
   EditCustomer() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -45,6 +61,12 @@ class _EditCustomerState extends State<EditCustomer> {
       int gL_Acc =
           int.parse((_formKey.currentState?.value['gL_Acc'].toString())!);
       String active = checkedValue.toString();
+      String area = _formKey.currentState?.value['area'];
+      String sub_Area = _formKey.currentState?.value['sub_Area'];
+      if (sub_Area == 'Central') sub_Area = area + "-CL";
+      if (sub_Area == 'North - West') sub_Area = area + "-NW";
+      if (sub_Area == 'North - East') sub_Area = area + "-NE";
+      if (sub_Area == 'South - West') sub_Area = area + "-SW";
       Map<String, dynamic> customer = {
         "code": widget.customer.code,
         "party_Name": party_Name,
@@ -54,6 +76,8 @@ class _EditCustomerState extends State<EditCustomer> {
         "sub_Group": sub_Group,
         "map_Cn": map_Cn,
         "branch_Cn": branch_Cn,
+        "sub_Area": sub_Area,
+        "area": area,
         "email": email,
         "phone_1": phone_1,
         "phone_2": phone_2,
@@ -102,13 +126,6 @@ class _EditCustomerState extends State<EditCustomer> {
         ],
       ),
     );
-  }
-
-  var checkedValue;
-  @override
-  void initState() {
-    //implement initState
-    checkedValue = widget.customer.active == "true" ? true : false;
   }
 
   @override
@@ -477,6 +494,147 @@ class _EditCustomerState extends State<EditCustomer> {
                             return null;
                           }),
                     ),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Sub Area *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    Stack(children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            width:
+                                MyScreen.getScreenWidth(context) * (.75 / 294),
+                          ),
+                        ),
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height: 54,
+                        child: FormBuilderDropdown<String>(
+                          name: 'sub_Area',
+                          initialValue: sub_Area,
+                          dropdownColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.richBlackFogra
+                              : MyColors.white,
+                          iconSize:
+                              MyScreen.getScreenHeight(context) * (35 / 1063.6),
+                          isExpanded: true,
+                          isDense: true,
+                          iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {});
+                          },
+                          items: <String>[
+                            'Central',
+                            'North - West',
+                            'North - East',
+                            'South - West'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          color: MyDrawer.emp.darkTheme == 1
+                                              ? MyColors.pewterBlue
+                                              : MyColors.black,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (20 / 1063.6)))),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                    ]),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Area *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    Stack(children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            width:
+                                MyScreen.getScreenWidth(context) * (.75 / 294),
+                          ),
+                        ),
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height: 54,
+                        child: FormBuilderDropdown<String>(
+                          name: 'area',
+                          initialValue: widget.customer.area,
+                          dropdownColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.richBlackFogra
+                              : MyColors.white,
+                          iconSize:
+                              MyScreen.getScreenHeight(context) * (35 / 1063.6),
+                          isExpanded: true,
+                          isDense: true,
+                          iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {});
+                          },
+                          items: <String>[
+                            'Ahmedabad',
+                            'Rajkot',
+                            'Vadodara',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          color: MyDrawer.emp.darkTheme == 1
+                                              ? MyColors.pewterBlue
+                                              : MyColors.black,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (20 / 1063.6)))),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                    ]),
                     SizedBox(
                         height: MyScreen.getScreenHeight(context) * (6 / 553)),
                     SizedBox(

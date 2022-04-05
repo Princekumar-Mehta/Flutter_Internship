@@ -40,6 +40,12 @@ class _AddCustomerState extends State<AddCustomer> {
       int gL_Acc =
           int.parse((_formKey.currentState?.value['gL_Acc'].toString())!);
       String active = checkedValue.toString();
+      String area = _formKey.currentState?.value['area'];
+      String sub_Area = _formKey.currentState?.value['sub_Area'];
+      if (sub_Area == 'Central') sub_Area = area + "-CL";
+      if (sub_Area == 'North - West') sub_Area = area + "-NW";
+      if (sub_Area == 'North - East') sub_Area = area + "-NE";
+      if (sub_Area == 'South - West') sub_Area = area + "-SW";
       Map<String, dynamic> customer = {
         "code": "",
         "party_Name": party_Name,
@@ -49,6 +55,8 @@ class _AddCustomerState extends State<AddCustomer> {
         "sub_Group": sub_Group,
         "map_Cn": map_Cn,
         "branch_Cn": branch_Cn,
+        "sub_Area": sub_Area,
+        "area": area,
         "email": email,
         "phone_1": phone_1,
         "phone_2": phone_2,
@@ -414,6 +422,145 @@ class _AddCustomerState extends State<AddCustomer> {
                     ),
                     SizedBox(
                         height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Sub Area *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    Stack(children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            width:
+                                MyScreen.getScreenWidth(context) * (.75 / 294),
+                          ),
+                        ),
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height: 54,
+                        child: FormBuilderDropdown<String>(
+                          name: 'sub_Area',
+                          dropdownColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.richBlackFogra
+                              : MyColors.white,
+                          iconSize:
+                              MyScreen.getScreenHeight(context) * (35 / 1063.6),
+                          isExpanded: true,
+                          isDense: true,
+                          iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {});
+                          },
+                          items: <String>[
+                            'Central',
+                            'North - West',
+                            'North - East',
+                            'South - West'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          color: MyDrawer.emp.darkTheme == 1
+                                              ? MyColors.pewterBlue
+                                              : MyColors.black,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (20 / 1063.6)))),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                    ]),
+                    SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (228 / 294),
+                      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      child: Text("Area *",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.pewterBlue
+                                  : MyColors.black,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (20 / 1063.6))),
+                    ),
+                    Stack(children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            width:
+                                MyScreen.getScreenWidth(context) * (.75 / 294),
+                          ),
+                        ),
+                        width: MyScreen.getScreenWidth(context) * (228 / 294),
+                        height: 54,
+                        child: FormBuilderDropdown<String>(
+                          name: 'area',
+                          dropdownColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.richBlackFogra
+                              : MyColors.white,
+                          iconSize:
+                              MyScreen.getScreenHeight(context) * (35 / 1063.6),
+                          isExpanded: true,
+                          isDense: true,
+                          iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.pewterBlue
+                              : MyColors.black,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {});
+                          },
+                          items: <String>[
+                            'Ahmedabad',
+                            'Rajkot',
+                            'Vadodara',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          color: MyDrawer.emp.darkTheme == 1
+                                              ? MyColors.pewterBlue
+                                              : MyColors.black,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (20 / 1063.6)))),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                    ]),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),

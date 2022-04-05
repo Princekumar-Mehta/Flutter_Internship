@@ -18,9 +18,18 @@ class ViewCustomerDetail extends StatefulWidget {
 
 class _ViewCustomerDetailState extends State<ViewCustomerDetail> {
   var checkedValue;
+  String sub_Area = "";
   @override
   void initState() {
     //implement initState
+    sub_Area = widget.customer.sub_Area!.split("-")[1];
+    if (sub_Area == "CL")
+      sub_Area = "Central";
+    else if (sub_Area == "NW")
+      sub_Area = "North - West";
+    else if (sub_Area == "SW")
+      sub_Area = "South - West";
+    else if (sub_Area == "NE") sub_Area = "North - East";
     checkedValue = widget.customer.active == "true" ? true : false;
   }
 
@@ -361,6 +370,88 @@ class _ViewCustomerDetailState extends State<ViewCustomerDetail> {
                           return null;
                         }),
                   ),
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                    child: Text("Area *",
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (20 / 1063.6))),
+                  ),
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                    child: FormBuilderTextField(
+                        name: 'area',
+                        enabled: false,
+                        initialValue: widget.customer.area.toString(),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          )),
+                        ),
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.middleRed
+                                : MyColors.scarlet,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (25 / 1063.6)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please Enter area";
+                          }
+                          return null;
+                        }),
+                  ),
+                  SizedBox(
+                      height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                    child: Text("Sub Area *",
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (20 / 1063.6))),
+                  ),
+                  SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (228 / 294),
+                    height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                    child: FormBuilderTextField(
+                        name: 'sub_Area',
+                        enabled: false,
+                        initialValue: widget.customer.sub_Area.toString(),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.pewterBlue
+                                : MyColors.black,
+                          )),
+                        ),
+                        style: TextStyle(
+                            color: MyDrawer.emp.darkTheme == 1
+                                ? MyColors.middleRed
+                                : MyColors.scarlet,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (25 / 1063.6)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please Enter sub area";
+                          }
+                          return null;
+                        }),
+                  ),
+                  SizedBox(
+                      height: MyScreen.getScreenHeight(context) * (6 / 553)),
                   SizedBox(
                       height: MyScreen.getScreenHeight(context) * (6 / 553)),
                   SizedBox(

@@ -16,6 +16,7 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
+import 'package:project_v3/Models/region_salesperson.dart';
 import 'package:project_v3/screens/viewTodaysRoute.dart';
 
 import 'editEmployeeScreen.dart';
@@ -163,11 +164,11 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                               context, MyRoutes.MyLeaveRequestSummary);
                         }
                       } else if (val == "Add New Order" || val == "Add Order") {
-                        String sub_Area = await Database_Region_Salesperson()
+                        Region_Salesperson region_salesperson = await Database_Region_Salesperson()
                             .getRegionSalesperson(MyDrawer.emp.id!);
                         if (await Database_customer().insertData() &&
                             await Database_customer()
-                                .get_customerIdsBySubArea(sub_Area) &&
+                                .get_customerIdsBySubArea(region_salesperson.sub_Area!) &&
                             await Database_customerBranch().insertData() &&
                             await Database_Item().get_ItemNames()) {
                           Navigator.pushNamed(context, MyRoutes.MySalesOrder);
@@ -892,13 +893,11 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                   ((440 / 3) / 490.9),
                               child: InkWell(
                                 onTap: () async {
-                                  String sub_Area =
-                                      await Database_Region_Salesperson()
-                                          .getRegionSalesperson(
-                                              MyDrawer.emp.id!);
+                                  Region_Salesperson region_salesperson = await Database_Region_Salesperson()
+                                      .getRegionSalesperson(MyDrawer.emp.id!);
                                   if (await Database_customer().insertData() &&
                                       await Database_customer()
-                                          .get_customerIdsBySubArea(sub_Area) &&
+                                          .get_customerIdsBySubArea(region_salesperson.sub_Area!) &&
                                       await Database_customerBranch()
                                           .insertData() &&
                                       await Database_Item().get_ItemNames()) {
@@ -971,13 +970,11 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        String sub_Area =
-                                            await Database_Region_Salesperson()
-                                                .getRegionSalesperson(
-                                                    MyDrawer.emp.id!);
+                                        Region_Salesperson region_salesperson = await Database_Region_Salesperson()
+                                            .getRegionSalesperson(MyDrawer.emp.id!);
                                         if (await Database_Route()
                                             .get_AllcustomerBranchesBySubArea(
-                                                sub_Area)) {
+                                                region_salesperson.sub_Area!)) {
                                           await Navigator.pushNamed(context,
                                               MyRoutes.MySetRouteMapScreen);
                                         }

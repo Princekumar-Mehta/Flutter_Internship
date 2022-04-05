@@ -7,6 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/db_employee.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -26,7 +27,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
   File? _pickedImage;
   bool _isObscure = true;
   bool _isObscure2 = true;
-  String dropdownvalue = 'Select an Option';
+  bool isItSalesperson = false;
   Future<void> showMessage(
     BuildContext context,
     String message,
@@ -125,6 +126,19 @@ class _SignUpEmailState extends State<SignUpEmail> {
       int? id = emp!.id;
 
       final emp_detials = emp.toMap();
+      String areaSubArea = "";
+      if (emp.role == 'Salesperson') {
+        String area = _formKey.currentState?.value['area'];
+        String sub_Area = _formKey.currentState?.value['sub_Area'];
+        if (sub_Area == 'Central') sub_Area = area + "-CL";
+        if (sub_Area == 'North - West') sub_Area = area + "-NW";
+        if (sub_Area == 'North - East') sub_Area = area + "-NE";
+        if (sub_Area == 'South - West') sub_Area = area + "-SW";
+        Database_Region_Salesperson.addRegionSalesperson(
+            sub_Area: sub_Area, area: area, emp_Id: emp.id!);
+        areaSubArea = "Area : $area <br> Subarea : $sub_Area";
+      }
+
       Send_Mail.send_mail(
         _formKey.currentState?.value['email'],
         "Access Profile and Reset Your Password",
@@ -142,7 +156,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
             "<br>"
                 "Role: " +
             emp_detials['role'] +
-            "<br>",
+            "<br>" +
+            areaSubArea,
       );
       await showIdOtp(
           context,
@@ -569,7 +584,11 @@ class _SignUpEmailState extends State<SignUpEmail> {
                               ),
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue = newValue!;
+                                  if (newValue == 'Salesperson') {
+                                    isItSalesperson = true;
+                                  } else {
+                                    isItSalesperson = false;
+                                  }
                                 });
                               },
                               items: <String>[
@@ -596,6 +615,143 @@ class _SignUpEmailState extends State<SignUpEmail> {
                             ),
                           )
                         ]),
+                        isItSalesperson
+                            ? Stack(children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (.75 / 294),
+                                    ),
+                                  ),
+                                  width: MyScreen.getScreenWidth(context) *
+                                      (228 / 294),
+                                  height: 54,
+                                  child: FormBuilderDropdown<String>(
+                                    name: 'area',
+                                    dropdownColor: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.richBlackFogra
+                                        : MyColors.white,
+                                    iconSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (35 / 1063.6),
+                                    isExpanded: true,
+                                    isDense: true,
+                                    iconDisabledColor:
+                                        MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
+                                    iconEnabledColor:
+                                        MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    style: TextStyle(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
+                                    ),
+                                    onChanged: (String? newValue) {
+                                      setState(() {});
+                                    },
+                                    items: <String>[
+                                      'Ahmedabad',
+                                      'Rajkot',
+                                      'Vadodara',
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Center(
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    color: MyDrawer.emp
+                                                                .darkTheme ==
+                                                            1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
+                                                    fontSize: MyScreen
+                                                            .getScreenHeight(
+                                                                context) *
+                                                        (20 / 1063.6)))),
+                                      );
+                                    }).toList(),
+                                  ),
+                                )
+                              ])
+                            : Container(),
+                        isItSalesperson
+                            ? Stack(children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (.75 / 294),
+                                    ),
+                                  ),
+                                  width: MyScreen.getScreenWidth(context) *
+                                      (228 / 294),
+                                  height: 54,
+                                  child: FormBuilderDropdown<String>(
+                                    name: 'sub_Area',
+                                    dropdownColor: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.richBlackFogra
+                                        : MyColors.white,
+                                    iconSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (35 / 1063.6),
+                                    isExpanded: true,
+                                    isDense: true,
+                                    iconDisabledColor:
+                                        MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
+                                    iconEnabledColor:
+                                        MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.pewterBlue
+                                            : MyColors.black,
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    style: TextStyle(
+                                      color: MyDrawer.emp.darkTheme == 1
+                                          ? MyColors.pewterBlue
+                                          : MyColors.black,
+                                    ),
+                                    onChanged: (String? newValue) {
+                                      setState(() {});
+                                    },
+                                    items: <String>[
+                                      'Central',
+                                      'North - West',
+                                      'North - East',
+                                      'South - West'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Center(
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    color: MyDrawer.emp
+                                                                .darkTheme ==
+                                                            1
+                                                        ? MyColors.pewterBlue
+                                                        : MyColors.black,
+                                                    fontSize: MyScreen
+                                                            .getScreenHeight(
+                                                                context) *
+                                                        (20 / 1063.6)))),
+                                      );
+                                    }).toList(),
+                                  ),
+                                )
+                              ])
+                            : Container(),
                         SizedBox(
                             height: MyScreen.getScreenHeight(context) *
                                 (60 / 1063.6)),

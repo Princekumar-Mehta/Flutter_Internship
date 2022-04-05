@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_customer_feedback.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/employee.dart';
+import 'package:project_v3/Models/region_salesperson.dart';
 import 'package:project_v3/screens/editEmployeeScreen.dart';
 
 import '../Extras/routes.dart';
@@ -191,13 +193,31 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                     ),
                                   ),
                                   onTap: () async {
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditEmployeeScreen(
-                                                  emp: widget.emps[key],
-                                                )));
+                                    Region_Salesperson region_salesperson;
+                                    if (widget.emps[key].role ==
+                                        "Salesperson") {
+                                      region_salesperson =
+                                          await Database_Region_Salesperson()
+                                              .getRegionSalesperson(
+                                              widget.emps[key].id!);
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditEmployeeScreen(
+                                                    emp: widget.emps[key],
+                                                    region_salesperson:
+                                                        region_salesperson,
+                                                  )));
+                                    } else {
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditEmployeeScreen(
+                                                    emp: widget.emps[key],
+                                                  )));
+                                    }
                                   }),
                             ],
                           ),

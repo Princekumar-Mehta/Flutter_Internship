@@ -6,19 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_v3/Database/db_Employee.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/employee.dart';
+import 'package:project_v3/Models/region_salesperson.dart';
 
 import '../Extras/routes.dart';
 import 'otpVerificationScreen.dart';
 
 class EditEmployeeScreen extends StatefulWidget {
   Employee emp;
-  EditEmployeeScreen({required this.emp});
+  Region_Salesperson? region_salesperson;
+  EditEmployeeScreen({required this.emp, this.region_salesperson});
   @override
   _EditEmployeeScreenState createState() => _EditEmployeeScreenState();
 }
@@ -28,7 +31,22 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   File? _pickedImage;
   bool _isObscure = true;
   bool _isObscure2 = true;
-  String dropdownvalue = 'Select an Option';
+  bool isItSalesperson = true;
+  String sub_Area = "";
+  @override
+  initState() {
+    isItSalesperson = widget.emp.role == "Salesperson";
+    if (isItSalesperson) {
+      sub_Area = widget.region_salesperson!.sub_Area!.split("-")[1];
+      if (sub_Area == "CL")
+        sub_Area = "Central";
+      else if (sub_Area == "NW")
+        sub_Area = "North - West";
+      else if (sub_Area == "SW")
+        sub_Area = "South - West";
+      else if (sub_Area == "NE") sub_Area = "North - East";
+    }
+  }
 
   Future<void> showIdOtp(
     BuildContext context,
@@ -144,6 +162,26 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       } else {
         int? id = emp.id;
         final emp_detials = emp.toMap();
+        String areaSubArea = "";
+        if (emp.role == 'Salesperson') {
+          String area = _formKey.currentState?.value['area'];
+          String sub_Area = _formKey.currentState?.value['sub_Area'];
+          if (sub_Area == 'Central') sub_Area = area + "-CL";
+          if (sub_Area == 'North - West') sub_Area = area + "-NW";
+          if (sub_Area == 'North - East') sub_Area = area + "-NE";
+          if (sub_Area == 'South - West') sub_Area = area + "-SW";
+          areaSubArea = "Area : $area <br> Subarea : $sub_Area";
+          if (!(await Database_Region_Salesperson()
+              .isExistRegionSalesperson(emp.id!))) {
+            Database_Region_Salesperson.addRegionSalesperson(
+                sub_Area: sub_Area, area: area, emp_Id: emp.id!);
+          } else {
+            widget.region_salesperson!.sub_Area = sub_Area;
+            widget.region_salesperson!.area = area;
+            Database_Region_Salesperson()
+                .updateRegionSalesperson(widget.region_salesperson!);
+          }
+        }
         Send_Mail.send_mail(
           _formKey.currentState?.value['email'],
           "Profile Updated",
@@ -161,7 +199,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
               "<br>"
                   "Role: " +
               emp_detials['role'] +
-              "<br>",
+              "<br>" +
+              areaSubArea,
         );
         if (MyDrawer.emp.role.toString() == "Admin") {
           Navigator.pop(context);
@@ -181,7 +220,6 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.emp.role);
     if (_pickedImage == null) {
       LoadImage();
     }
@@ -622,7 +660,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                   ),
                                   onChanged: (String? newValue) {
                                     setState(() {
-                                      dropdownvalue = newValue!;
+                                      if (newValue == 'Salesperson') {
+                                        isItSalesperson = true;
+                                      } else {
+                                        isItSalesperson = false;
+                                      }
                                     });
                                   },
                                   items: <String>[
@@ -631,6 +673,140 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                     'Regional Manager',
                                     'Area Manager',
                                     'General Manager'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(
+                                          child: Text(value,
+                                              style: TextStyle(
+                                                  color:
+                                                      MyDrawer.emp.darkTheme ==
+                                                              1
+                                                          ? MyColors.pewterBlue
+                                                          : MyColors.black,
+                                                  fontSize:
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (20 / 1063.6)))),
+                                    );
+                                  }).toList(),
+                                ),
+                              )
+                            ])
+                          : Container(),
+                      isItSalesperson
+                          ? Stack(children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (.75 / 294),
+                                  ),
+                                ),
+                                width: MyScreen.getScreenWidth(context) *
+                                    (228 / 294),
+                                height: 54,
+                                child: FormBuilderDropdown<String>(
+                                  name: 'area',
+                                  initialValue:
+                                      widget.region_salesperson!.area!,
+                                  dropdownColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.richBlackFogra
+                                      : MyColors.white,
+                                  iconSize: MyScreen.getScreenHeight(context) *
+                                      (35 / 1063.6),
+                                  isExpanded: true,
+                                  isDense: true,
+                                  iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  icon: const Icon(Icons.arrow_drop_down),
+                                  style: TextStyle(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {});
+                                  },
+                                  items: <String>[
+                                    'Ahmedabad',
+                                    'Rajkot',
+                                    'Vadodara',
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(
+                                          child: Text(value,
+                                              style: TextStyle(
+                                                  color:
+                                                      MyDrawer.emp.darkTheme ==
+                                                              1
+                                                          ? MyColors.pewterBlue
+                                                          : MyColors.black,
+                                                  fontSize:
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (20 / 1063.6)))),
+                                    );
+                                  }).toList(),
+                                ),
+                              )
+                            ])
+                          : Container(),
+                      isItSalesperson
+                          ? Stack(children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
+                                    width: MyScreen.getScreenWidth(context) *
+                                        (.75 / 294),
+                                  ),
+                                ),
+                                width: MyScreen.getScreenWidth(context) *
+                                    (228 / 294),
+                                height: 54,
+                                child: FormBuilderDropdown<String>(
+                                  name: 'sub_Area',
+                                  initialValue: sub_Area,
+                                  dropdownColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.richBlackFogra
+                                      : MyColors.white,
+                                  iconSize: MyScreen.getScreenHeight(context) *
+                                      (35 / 1063.6),
+                                  isExpanded: true,
+                                  isDense: true,
+                                  iconDisabledColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  iconEnabledColor: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  icon: const Icon(Icons.arrow_drop_down),
+                                  style: TextStyle(
+                                    color: MyDrawer.emp.darkTheme == 1
+                                        ? MyColors.pewterBlue
+                                        : MyColors.black,
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {});
+                                  },
+                                  items: <String>[
+                                    'Central',
+                                    'North - West',
+                                    'North - East',
+                                    'South - West'
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(

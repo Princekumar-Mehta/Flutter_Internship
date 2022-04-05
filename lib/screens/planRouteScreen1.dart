@@ -384,11 +384,9 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                       : MyColors.scarlet,
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                      selectedBranches[key]['branch'].branch_Code.toString() +
-                          "\t" +
-                          selectedBranches[key]['branch']
-                              .branch_Name
-                              .toString() +
+                      /*selectedBranches[key]['branch'].branch_Code.toString() +
+                          "\t" +*/
+                      selectedBranches[key]['branch'].branch_Name.toString() +
                           "\n" +
                           selectedBranches[key]['distance'].toString() +
                           " km",
@@ -448,10 +446,10 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                       : MyColors.scarlet,
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                      Database_Route.allBranchesBySubArea[key].branch_Code
+                      /*Database_Route.allBranchesBySubArea[key].branch_Code
                               .toString() +
-                          "\t" +
-                          Database_Route.allBranchesBySubArea[key].branch_Name
+                          "\t" +*/
+                      Database_Route.allBranchesBySubArea[key].branch_Name
                               .toString() +
                           "\n" +
                           (Utility.calculateDistance(

@@ -829,6 +829,13 @@ class DatabaseHelper {
     return await db.insert('region_salesperson', region_salesperson.toMap());
   }
 
+  Future<int> updateRegionSalesperson(
+      Region_Salesperson region_salesperson) async {
+    Database db = await instance.database;
+    return await db.update('region_salesperson', region_salesperson.toMap(),
+        where: 'emp_Id = ?', whereArgs: [region_salesperson.emp_Id]);
+  }
+
   Future<List<Region_Salesperson>> getRegionsByEmpId(int emp_Id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> region_salesperson = await db.rawQuery(
