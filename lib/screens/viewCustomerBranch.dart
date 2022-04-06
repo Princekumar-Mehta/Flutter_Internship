@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_customer.dart';
 import 'package:project_v3/Database/db_customer_branch.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/Extras/routes.dart';
-import 'package:project_v3/screens/viewCustomerDetail.dart';
+import 'package:project_v3/screens/viewCustomerBranchDetail.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ViewCustomerScreen extends StatefulWidget {
-  const ViewCustomerScreen({Key? key}) : super(key: key);
+class ViewCustomerBranchScreen extends StatefulWidget {
+  const ViewCustomerBranchScreen({Key? key}) : super(key: key);
 
   @override
-  State<ViewCustomerScreen> createState() => _ViewCustomerScreenState();
+  State<ViewCustomerBranchScreen> createState() =>
+      _ViewCustomerBranchScreenState();
 }
 
-class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
+class _ViewCustomerBranchScreenState extends State<ViewCustomerBranchScreen> {
   @override
   initState() {
     super.initState();
@@ -69,7 +68,7 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Database_customer.customersBySubArea.length,
+                  itemCount: Database_customerBranch.all_branches.length,
                   itemBuilder: (context, index) {
                     return Container(
                       child: _row(index),
@@ -93,7 +92,7 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
-            height: MyScreen.getScreenHeight(context) * (100 / 1063.6),
+            height: MyScreen.getScreenHeight(context) * (80 / 1063.6),
             child: Padding(
               padding: EdgeInsets.fromLTRB(
                   MyScreen.getScreenWidth(context) * (10.0 / 490.9),
@@ -106,10 +105,10 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                   Row(
                     children: [
                       Text(
-                        Database_customer.customersBySubArea[key].party_Name! +
+                        Database_customerBranch.all_branches[key].branch_Code! +
                             " - " +
-                            Database_customer
-                                .customersBySubArea[key].sub_Group!,
+                            Database_customerBranch
+                                .all_branches[key].branch_Name!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:
@@ -122,8 +121,8 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          email =
-                              Database_customer.customersBySubArea[key].email!;
+                          email = Database_customerBranch
+                              .all_branches[key].branch_Email!;
                           launch("mailto:$email?subject=''");
                         },
                         child: Row(
@@ -138,7 +137,8 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                                   (10 / 490.9),
                             ),
                             Text(
-                              Database_customer.customersBySubArea[key].email!,
+                              Database_customerBranch
+                                  .all_branches[key].branch_Email!,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: MyScreen.getScreenHeight(context) *
@@ -148,36 +148,71 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                           ],
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          phone = Database_customer
-                              .customersBySubArea[key].phone_1!;
-                          launch("tel:$phone");
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.phone_outlined,
-                              size: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              phone = Database_customerBranch
+                                  .all_branches[key].branch_Phone!;
+                              launch("tel:$phone");
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.phone_outlined,
+                                  size: MyScreen.getScreenHeight(context) *
+                                      (25 / 1063.6),
+                                ),
+                                SizedBox(
+                                  width: MyScreen.getScreenWidth(context) *
+                                      (10 / 490.9),
+                                ),
+                                Text(
+                                  Database_customerBranch
+                                      .all_branches[key].branch_Phone!,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (15 / 1063.6),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: MyScreen.getScreenWidth(context) *
-                                  (10 / 490.9),
+                          ),
+                          SizedBox(
+                            width: MyScreen.getScreenWidth(context) *
+                                (120 / 490.9),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewCustomerBranchDetail(
+                                            customerBranch:
+                                                Database_customerBranch
+                                                    .all_branches[key],
+                                          )));
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "View/Edit Branch",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (15 / 1063.6),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              Database_customer
-                                  .customersBySubArea[key].phone_1!,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (15 / 1063.6),
-                              ),
-                            ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                      Container(
+                      /*Container(
                         color: MyColors.black,
                         height:
                             MyScreen.getScreenHeight(context) * (2 / 1063.6),
@@ -186,13 +221,15 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              if (await Database_customerBranch()
-                                  .get_AllcustomerBranchesByCode(
-                                      Database_customer
-                                          .customersBySubArea[key].code!)) {
-                                Navigator.pushNamed(context,
-                                    MyRoutes.MyViewCustomerBranchScreen);
-                              }
+                              print(Database_customer
+                                  .customersBySubArea[key].party_Name);
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ViewCustomerDetail(
+                                            customer: Database_customer
+                                                .customersBySubArea[key],
+                                          )));
                             },
                             child: Row(
                               children: [
@@ -239,7 +276,7 @@ class _ViewCustomerScreenState extends State<ViewCustomerScreen> {
                             ),
                           )
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                 ],

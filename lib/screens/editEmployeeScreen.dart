@@ -33,10 +33,12 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   bool _isObscure2 = true;
   bool isItSalesperson = true;
   String sub_Area = "";
+  String city = "";
   @override
   initState() {
     isItSalesperson = widget.emp.role == "Salesperson";
     if (isItSalesperson) {
+      city = widget.region_salesperson!.sub_Area!.split("-")[0];
       sub_Area = widget.region_salesperson!.sub_Area!.split("-")[1];
       if (sub_Area == "CL")
         sub_Area = "Central";
@@ -164,7 +166,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
         final emp_detials = emp.toMap();
         String areaSubArea = "";
         if (emp.role == 'Salesperson') {
-          String area = _formKey.currentState?.value['area'];
+          String area = _formKey.currentState?.value['city'];
           String sub_Area = _formKey.currentState?.value['sub_Area'];
           if (sub_Area == 'Central') sub_Area = area + "-CL";
           if (sub_Area == 'North - West') sub_Area = area + "-NW";
@@ -177,7 +179,6 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 sub_Area: sub_Area, area: area, emp_Id: emp.id!);
           } else {
             widget.region_salesperson!.sub_Area = sub_Area;
-            widget.region_salesperson!.area = area;
             Database_Region_Salesperson()
                 .updateRegionSalesperson(widget.region_salesperson!);
           }
@@ -711,9 +712,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                     (228 / 294),
                                 height: 54,
                                 child: FormBuilderDropdown<String>(
-                                  name: 'area',
-                                  initialValue:
-                                      widget.region_salesperson!.area!,
+                                  name: 'city',
+                                  initialValue: city,
                                   dropdownColor: MyDrawer.emp.darkTheme == 1
                                       ? MyColors.richBlackFogra
                                       : MyColors.white,

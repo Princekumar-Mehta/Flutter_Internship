@@ -16,9 +16,9 @@ import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
-import 'package:project_v3/Models/region_salesperson.dart';
 import 'package:project_v3/screens/viewTodaysRoute.dart';
 
+import 'addCustomerBranch.dart';
 import 'editEmployeeScreen.dart';
 
 class SalespersonHome extends StatefulWidget {
@@ -141,12 +141,18 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                         }
                       } else if (val == "Edit Profile" ||
                           val == "Edit Employee") {
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditEmployeeScreen(
-                                      emp: MyDrawer.emp,
-                                    )));
+                        if (await Database_Region_Salesperson()
+                            .getRegionSalesperson(MyDrawer.emp.id!)) {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditEmployeeScreen(
+                                        emp: MyDrawer.emp,
+                                        region_salesperson:
+                                            Database_Region_Salesperson
+                                                .region_salesperson,
+                                      )));
+                        }
                       } else if (val == "Salesperson Attendance") {
                         if (await Database_Hourly_Attendance()
                             .getHourlyAttendance(MyDrawer.emp.id!,
@@ -164,11 +170,12 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                               context, MyRoutes.MyLeaveRequestSummary);
                         }
                       } else if (val == "Add New Order" || val == "Add Order") {
-                        Region_Salesperson region_salesperson = await Database_Region_Salesperson()
-                            .getRegionSalesperson(MyDrawer.emp.id!);
-                        if (await Database_customer().insertData() &&
-                            await Database_customer()
-                                .get_customerIdsBySubArea(region_salesperson.sub_Area!) &&
+                        if (await Database_Region_Salesperson()
+                                .getRegionSalesperson(MyDrawer.emp.id!) &&
+                            await Database_customer().insertData() &&
+                            await Database_customer().get_customerIdsBySubArea(
+                                Database_Region_Salesperson
+                                    .region_salesperson!.sub_Area!) &&
                             await Database_customerBranch().insertData() &&
                             await Database_Item().get_ItemNames()) {
                           Navigator.pushNamed(context, MyRoutes.MySalesOrder);
@@ -397,13 +404,19 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                   ((440 / 3) / 490.9),
                               child: InkWell(
                                 onTap: () async {
-                                  await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditEmployeeScreen(
-                                                emp: MyDrawer.emp,
-                                              )));
+                                  if (await Database_Region_Salesperson()
+                                      .getRegionSalesperson(MyDrawer.emp.id!)) {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditEmployeeScreen(
+                                                  emp: MyDrawer.emp,
+                                                  region_salesperson:
+                                                      Database_Region_Salesperson
+                                                          .region_salesperson,
+                                                )));
+                                  }
                                 },
                                 child: Column(
                                   mainAxisAlignment:
@@ -531,8 +544,16 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        if (await Database_customer
-                                            .getAllCustomers()) {
+                                        if (await Database_Region_Salesperson()
+                                                .getRegionSalesperson(
+                                                    MyDrawer.emp.id!) &&
+                                            await Database_customer()
+                                                .get_customerIdsBySubArea(
+                                                    Database_Region_Salesperson
+                                                        .region_salesperson!
+                                                        .sub_Area!)) {
+                                          print(Database_Region_Salesperson
+                                              .region_salesperson!.sub_Area!);
                                           Navigator.pushNamed(context,
                                               MyRoutes.MyViewCustomerScreen);
                                         }
@@ -893,11 +914,15 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                   ((440 / 3) / 490.9),
                               child: InkWell(
                                 onTap: () async {
-                                  Region_Salesperson region_salesperson = await Database_Region_Salesperson()
-                                      .getRegionSalesperson(MyDrawer.emp.id!);
-                                  if (await Database_customer().insertData() &&
+                                  if (await Database_Region_Salesperson()
+                                          .getRegionSalesperson(
+                                              MyDrawer.emp.id!) &&
+                                      await Database_customer().insertData() &&
                                       await Database_customer()
-                                          .get_customerIdsBySubArea(region_salesperson.sub_Area!) &&
+                                          .get_customerIdsBySubArea(
+                                              Database_Region_Salesperson
+                                                  .region_salesperson!
+                                                  .sub_Area!) &&
                                       await Database_customerBranch()
                                           .insertData() &&
                                       await Database_Item().get_ItemNames()) {
@@ -970,11 +995,14 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         ((440 / 3) / 490.9),
                                     child: InkWell(
                                       onTap: () async {
-                                        Region_Salesperson region_salesperson = await Database_Region_Salesperson()
-                                            .getRegionSalesperson(MyDrawer.emp.id!);
-                                        if (await Database_Route()
-                                            .get_AllcustomerBranchesBySubArea(
-                                                region_salesperson.sub_Area!)) {
+                                        if (await Database_Region_Salesperson()
+                                                .getRegionSalesperson(
+                                                    MyDrawer.emp.id!) &&
+                                            await Database_Route()
+                                                .get_AllcustomerBranchesBySubArea(
+                                                    Database_Region_Salesperson
+                                                        .region_salesperson!
+                                                        .sub_Area!)) {
                                           await Navigator.pushNamed(context,
                                               MyRoutes.MySetRouteMapScreen);
                                         }
@@ -1115,14 +1143,25 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    /*child: InkWell(
+                                    child: InkWell(
                                       onTap: () async {
-                                        var _pendingOrders =
-                                            Database_ApproveOrders();
-                                        if (await _pendingOrders
-                                            .getPendingOrders()) {
-                                          Navigator.pushNamed(
-                                              context, MyRoutes.MyApproveOrder);
+                                        if (await Database_Region_Salesperson()
+                                                .getRegionSalesperson(
+                                                    MyDrawer.emp.id!) &&
+                                            await Database_customer()
+                                                .get_customerIdsBySubArea(
+                                                    Database_Region_Salesperson
+                                                        .region_salesperson!
+                                                        .sub_Area!)) {
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddCustomerBranch(
+                                                        region_salesperson:
+                                                            Database_Region_Salesperson
+                                                                .region_salesperson,
+                                                      )));
                                         }
                                       },
                                       child: Column(
@@ -1161,7 +1200,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                     context) *
                                                 (2 / 490.9),
                                           ),
-                                          Text("Pending Orders",
+                                          Text("Add Customer Branch",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize:
@@ -1173,7 +1212,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),*/
+                                    ),
                                   ),
                                 ],
                               )

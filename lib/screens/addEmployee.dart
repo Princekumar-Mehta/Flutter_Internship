@@ -128,15 +128,15 @@ class _SignUpEmailState extends State<SignUpEmail> {
       final emp_detials = emp.toMap();
       String areaSubArea = "";
       if (emp.role == 'Salesperson') {
-        String area = _formKey.currentState?.value['area'];
+        String city = _formKey.currentState?.value['city'];
         String sub_Area = _formKey.currentState?.value['sub_Area'];
-        if (sub_Area == 'Central') sub_Area = area + "-CL";
-        if (sub_Area == 'North - West') sub_Area = area + "-NW";
-        if (sub_Area == 'North - East') sub_Area = area + "-NE";
-        if (sub_Area == 'South - West') sub_Area = area + "-SW";
+        if (sub_Area == 'Central') sub_Area = city + "-CL";
+        if (sub_Area == 'North - West') sub_Area = city + "-NW";
+        if (sub_Area == 'North - East') sub_Area = city + "-NE";
+        if (sub_Area == 'South - West') sub_Area = city + "-SW";
         Database_Region_Salesperson.addRegionSalesperson(
-            sub_Area: sub_Area, area: area, emp_Id: emp.id!);
-        areaSubArea = "Area : $area <br> Subarea : $sub_Area";
+            sub_Area: sub_Area, area: "Gujarat", emp_Id: emp.id!);
+        areaSubArea = "Area : Gujarat <br> Subarea : $sub_Area";
       }
 
       Send_Mail.send_mail(
@@ -631,7 +631,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                       (228 / 294),
                                   height: 54,
                                   child: FormBuilderDropdown<String>(
-                                    name: 'area',
+                                    name: 'city',
                                     dropdownColor: MyDrawer.emp.darkTheme == 1
                                         ? MyColors.richBlackFogra
                                         : MyColors.white,

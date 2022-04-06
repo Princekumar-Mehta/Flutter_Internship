@@ -40,12 +40,12 @@ class _AddCustomerState extends State<AddCustomer> {
       int gL_Acc =
           int.parse((_formKey.currentState?.value['gL_Acc'].toString())!);
       String active = checkedValue.toString();
-      String area = _formKey.currentState?.value['area'];
+      String city = _formKey.currentState?.value['city'];
       String sub_Area = _formKey.currentState?.value['sub_Area'];
-      if (sub_Area == 'Central') sub_Area = area + "-CL";
-      if (sub_Area == 'North - West') sub_Area = area + "-NW";
-      if (sub_Area == 'North - East') sub_Area = area + "-NE";
-      if (sub_Area == 'South - West') sub_Area = area + "-SW";
+      if (sub_Area == 'Central') sub_Area = city + "-CL";
+      if (sub_Area == 'North - West') sub_Area = city + "-NW";
+      if (sub_Area == 'North - East') sub_Area = city + "-NE";
+      if (sub_Area == 'South - West') sub_Area = city + "-SW";
       Map<String, dynamic> customer = {
         "code": "",
         "party_Name": party_Name,
@@ -56,7 +56,7 @@ class _AddCustomerState extends State<AddCustomer> {
         "map_Cn": map_Cn,
         "branch_Cn": branch_Cn,
         "sub_Area": sub_Area,
-        "area": area,
+        "area": "Gujarat",
         "email": email,
         "phone_1": phone_1,
         "phone_2": phone_2,
@@ -493,9 +493,11 @@ class _AddCustomerState extends State<AddCustomer> {
                       )
                     ]),
                     SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                    SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Area *",
+                      child: Text("City *",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -517,7 +519,7 @@ class _AddCustomerState extends State<AddCustomer> {
                         width: MyScreen.getScreenWidth(context) * (228 / 294),
                         height: 54,
                         child: FormBuilderDropdown<String>(
-                          name: 'area',
+                          name: 'city',
                           dropdownColor: MyDrawer.emp.darkTheme == 1
                               ? MyColors.richBlackFogra
                               : MyColors.white,
@@ -561,6 +563,8 @@ class _AddCustomerState extends State<AddCustomer> {
                         ),
                       )
                     ]),
+                    SizedBox(
+                        height: MyScreen.getScreenHeight(context) * (6 / 553)),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
@@ -885,7 +889,7 @@ class _AddCustomerState extends State<AddCustomer> {
                               ),
                             ),
                             Center(
-                              child: Text("Save Item",
+                              child: Text("Save Customer",
                                   style: TextStyle(
                                       color: MyDrawer.emp.darkTheme == 1
                                           ? MyColors.richBlackFogra

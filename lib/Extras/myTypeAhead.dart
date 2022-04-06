@@ -10,12 +10,14 @@ import 'mydrawer.dart';
 class MyTypeAhead extends StatefulWidget {
   List<String> itemList;
   String message;
+  String initValue;
   var fontSize;
   bool isEnabled;
   MyTypeAhead({
     required this.itemList,
     required this.message,
     this.fontSize = 0,
+    this.initValue = "",
     required this.isEnabled,
   });
   @override
@@ -26,7 +28,13 @@ class MyTypeAhead extends StatefulWidget {
 }
 
 class _MyTypeAheadState extends State<MyTypeAhead> {
-  final TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _textEditingController = TextEditingController();
+  @override
+  initState() {
+    print(widget.initValue);
+    _textEditingController = TextEditingController(text: widget.initValue);
+  }
+
   bool isChanged = true;
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:project_v3/Models/region_salesperson.dart';
 import 'database_helper.dart';
 
 class Database_Region_Salesperson {
+  static Region_Salesperson? region_salesperson;
   static addRegionSalesperson({
     required String sub_Area,
     required String area,
@@ -22,9 +23,11 @@ class Database_Region_Salesperson {
     await DatabaseHelper.instance.updateRegionSalesperson(region_salesperson);
   }
 
-  Future<Region_Salesperson> getRegionSalesperson(int emp_Id) async {
-    List<Region_Salesperson> region_salesperson =
+  Future<bool> getRegionSalesperson(int emp_Id) async {
+    List<Region_Salesperson> _region_salesperson =
         await DatabaseHelper.instance.getRegionsByEmpId(emp_Id);
-    return region_salesperson[0];
+
+    region_salesperson = _region_salesperson[0];
+    return true;
   }
 }

@@ -9,6 +9,7 @@ class Database_customer {
   static List<String> codes = [];
   static List<String> codesBySubArea = [];
   static List<Customer> customers = [];
+  static List<Customer> customersBySubArea = [];
   static addCustomer(Map<String, dynamic> customer) async {
     List<Customer> existing_customer = await DatabaseHelper.instance
         .getCustomerByPartyName(customer['party_Name']);
@@ -63,12 +64,12 @@ class Database_customer {
   }
 
   Future<bool> get_customerIdsBySubArea(String sub_Area) async {
-    final customers =
+    customersBySubArea =
         await DatabaseHelper.instance.getCustomersBySubArea(sub_Area);
     codesBySubArea = [];
-    customers.forEach((element) {
+    for (var element in customersBySubArea) {
       codesBySubArea.add(element.code!);
-    });
+    }
     return true;
     //print(codes);
   }

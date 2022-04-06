@@ -375,8 +375,19 @@ class DatabaseHelper {
 
   Future<List<CustomerBranch>> getAllCustomerBranches() async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> customerBranch =
-        await db.rawQuery("SELECT * FROM customers_branches");
+    List<Map<String, dynamic>> customerBranch = await db
+        .rawQuery("SELECT * FROM customers_branches order by branch_Code");
+    List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
+        ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
+        : [];
+    return CustomerBranchList;
+  }
+
+  Future<List<CustomerBranch>> getAllCustomerBranchesByCode(
+      String customer_code) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customerBranch = await db.rawQuery(
+        "SELECT * FROM customers_branches where code = '$customer_code' order by branch_Code");
     List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
         ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
         : [];
@@ -398,6 +409,17 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map<String, dynamic>> customerBranch = await db.rawQuery(
         "SELECT * FROM customers_branches where branch_Code = '$branch_Code'");
+    List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
+        ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
+        : [];
+    return CustomerBranchList;
+  }
+
+  Future<List<CustomerBranch>> getCustomerBranchByBranchName(
+      String branch_Name) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customerBranch = await db.rawQuery(
+        "SELECT * FROM customers_branches where branch_Name = '$branch_Name'");
     List<CustomerBranch> CustomerBranchList = customerBranch.isNotEmpty
         ? customerBranch.map((c) => CustomerBranch.fromMap((c))).toList()
         : [];

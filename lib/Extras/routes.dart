@@ -29,4 +29,5 @@ class MyRoutes {
   static final MyPlanRouteScreen2 = '/myPlanRouteScreen2';
   static final MyAddStock = "/myAddStock";
   static final MyViewInventory = "/myViewInventory";
+  static final MyViewCustomerBranchScreen = '/myViewCustomerBranchScreen';
 }

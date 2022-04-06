@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_employee.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Models/employee.dart';
@@ -87,12 +88,26 @@ class MyDrawer extends StatelessWidget {
             iconColor: MyColors.scarlet,
             title: const Text('Profile'),
             onTap: () async {
-              await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EditEmployeeScreen(
-                            emp: MyDrawer.emp,
-                          )));
+              if (MyDrawer.emp.role == "Salesperson") {
+                if (await Database_Region_Salesperson()
+                    .getRegionSalesperson(MyDrawer.emp.id!)) {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditEmployeeScreen(
+                                emp: MyDrawer.emp,
+                                region_salesperson: Database_Region_Salesperson
+                                    .region_salesperson,
+                              )));
+                }
+              } else {
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditEmployeeScreen(
+                              emp: MyDrawer.emp,
+                            )));
+              }
             },
           ),
           ListTile(

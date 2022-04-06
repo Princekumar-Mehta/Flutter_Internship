@@ -24,6 +24,7 @@ import 'package:project_v3/screens/salespersonHome.dart';
 import 'package:project_v3/screens/searchFunction.dart';
 import 'package:project_v3/screens/splashScreen.dart';
 import 'package:project_v3/screens/viewCustomer.dart';
+import 'package:project_v3/screens/viewCustomerBranch.dart';
 import 'package:project_v3/screens/viewInventory.dart';
 import 'package:project_v3/screens/viewItems.dart';
 
@@ -69,6 +70,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
         MyRoutes.MyAddStock: (context) => AddStock(),
         MyRoutes.MyViewInventory: (context) => ViewInventory(),
+        MyRoutes.MyViewCustomerBranchScreen: (context) =>
+            ViewCustomerBranchScreen(),
       },
     );
   }

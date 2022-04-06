@@ -9,12 +9,43 @@ class Database_customerBranch {
   static List<String> bill_branch_codes = [];
   static List<String> ship_branch_codes = [];
   static List<CustomerBranch> all_branches = [];
+  static List<CustomerBranch> bill_branches = [];
+  static List<CustomerBranch> ship_branches = [];
   static CustomerBranch specific_branch = CustomerBranch();
   static String iphone_number = "";
   static String iemail = "";
 
+  static addCustomerBranch(Map<String, dynamic> customerBranch) async {
+    List<CustomerBranch> existing_customer_branch = await DatabaseHelper
+        .instance
+        .getCustomerBranchByBranchName(customerBranch['branch_Name']);
+    print(existing_customer_branch.length);
+    if (existing_customer_branch.isNotEmpty) {
+      //print(existing_item[0].item_Name);
+      return false;
+    } else {
+      final customer_Branches =
+          await DatabaseHelper.instance.getAllCustomerBranches();
+      print("customers length " + customer_Branches.length.toString());
+      if (customerBranch['branch_Code'].length == 0) {
+        customerBranch['branch_Code'] = "B" +
+            (int.parse(customer_Branches[customer_Branches.length - 1]
+                        .branch_Code!
+                        .substring(
+                            1,
+                            customer_Branches[customer_Branches.length - 1]
+                                .branch_Code!
+                                .length)) +
+                    1)
+                .toString();
+      }
+      await DatabaseHelper.instance.addCustomerBranch((customerBranch));
+      return true;
+    }
+  }
+
   get_customerBranches(String customer_code) async {
-    final bill_branches = await DatabaseHelper.instance
+    bill_branches = await DatabaseHelper.instance
         .getCustomerBranches(0, customer_code); // 0 for bill type, 1 ship type
     bill_branch_codes = [];
     ship_branch_codes = [];
@@ -22,7 +53,7 @@ class Database_customerBranch {
       bill_branch_codes
           .add(element.branch_Code! + " : " + element.branch_Name!);
     });
-    final ship_branches = await DatabaseHelper.instance
+    ship_branches = await DatabaseHelper.instance
         .getCustomerBranches(1, customer_code); // 0 for bill type, 1 ship type
     ship_branches.forEach((element) {
       ship_branch_codes
@@ -30,9 +61,9 @@ class Database_customerBranch {
     });
   }
 
-  Future<bool> get_AllcustomerBranches() async {
-    all_branches = await DatabaseHelper.instance
-        .getAllCustomerBranches(); // 0 for bill type, 1 ship type
+  Future<bool> get_AllcustomerBranchesByCode(String customer_code) async {
+    all_branches = await DatabaseHelper.instance.getAllCustomerBranchesByCode(
+        customer_code); // 0 for bill type, 1 ship type
     return true;
   }
 

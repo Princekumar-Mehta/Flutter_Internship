@@ -196,9 +196,8 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                     Region_Salesperson region_salesperson;
                                     if (widget.emps[key].role ==
                                         "Salesperson") {
-                                      region_salesperson =
-                                          await Database_Region_Salesperson()
-                                              .getRegionSalesperson(
+                                      await Database_Region_Salesperson()
+                                          .getRegionSalesperson(
                                               widget.emps[key].id!);
                                       await Navigator.push(
                                           context,
@@ -207,7 +206,8 @@ class _ViewEmployeeScreenState extends State<ViewEmployeeScreen> {
                                                   EditEmployeeScreen(
                                                     emp: widget.emps[key],
                                                     region_salesperson:
-                                                        region_salesperson,
+                                                        Database_Region_Salesperson
+                                                            .region_salesperson,
                                                   )));
                                     } else {
                                       await Navigator.push(
