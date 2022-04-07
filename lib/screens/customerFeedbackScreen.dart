@@ -177,7 +177,7 @@ class _CustomerFeedbackScreenState extends State<CustomerFeedbackScreen> {
               ),
               SizedBox(height: MyScreen.getScreenHeight(context) * (25 / 553)),
               SizedBox(
-                width: MyScreen.getScreenWidth(context) * (85 / 294),
+                width: MyScreen.getScreenWidth(context) * (120 / 294),
                 height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                 child: InkWell(
                   child: Stack(

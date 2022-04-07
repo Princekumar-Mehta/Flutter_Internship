@@ -7,6 +7,7 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/item.dart';
 
 class AddStock extends StatefulWidget {
@@ -22,8 +23,14 @@ class _AddStockState extends State<AddStock> {
   final _formKey = GlobalKey<FormBuilderState>();
   addStock() async {
     print(item_Name.getValue());
+
+    if (!Database_Item.item_names.contains((item_Name.getValue()))) {
+      Utility.showMessage(context, "Please Select Item from Item List");
+      return;
+    }
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
       Item item_details = await Database_Item().get_Item(
           item_Name.getValue().split(' - ')[0],
           int.parse(item_Name.getValue().split(' - ')[1].split('g')[0]));
@@ -33,7 +40,27 @@ class _AddStockState extends State<AddStock> {
       print(packets + " " + patti + " " + box);
       Database_Stock.increaseStock(1, item_details.code!, int.parse(packets),
           int.parse(patti), int.parse(box));
+      showMessage(context, "Stock updated");
     }
+  }
+
+  static Future<void> showMessage(BuildContext context, String message,
+      {String title: "Alert"}) async {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+              child: const Text('Okay'),
+              onPressed: () async {
+                Navigator.pop(c, false);
+                Navigator.pop(context);
+              }),
+        ],
+      ),
+    );
   }
 
   giveFormBuilderTextField(name) {
@@ -42,6 +69,7 @@ class _AddStockState extends State<AddStock> {
       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
       child: FormBuilderTextField(
           name: name,
+          initialValue: '0',
           decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
@@ -149,7 +177,7 @@ class _AddStockState extends State<AddStock> {
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
-                      giveFormBuilderTextField("No. of Packets"),
+                      giveFormBuilderTextField("no_packet"),
                       SizedBox(
                           height:
                               MyScreen.getScreenHeight(context) * (6 / 553)),
@@ -165,7 +193,7 @@ class _AddStockState extends State<AddStock> {
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
-                      giveFormBuilderTextField("No. of Pattis"),
+                      giveFormBuilderTextField("no_patti"),
                       SizedBox(
                           height:
                               MyScreen.getScreenHeight(context) * (6 / 553)),
@@ -181,7 +209,7 @@ class _AddStockState extends State<AddStock> {
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
                       ),
-                      giveFormBuilderTextField("No. of Boxes"),
+                      giveFormBuilderTextField("no_box"),
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *
                               (60 / 1063.6)),

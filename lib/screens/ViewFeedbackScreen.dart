@@ -143,7 +143,7 @@ class _ViewCustomerFeedbackScreenState
                         ),
                       ),
                       SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (200 / 490.9),
+                        width: MyScreen.getScreenWidth(context) * (150 / 490.9),
                       ),
                       Text(
                         "Rating: " +

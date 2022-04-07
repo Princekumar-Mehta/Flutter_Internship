@@ -728,7 +728,8 @@ class DatabaseHelper {
     List<Map<String, dynamic>> hours = await db.rawQuery(
         "SELECT AVG(hours) FROM daily_attendance where emp_id = '$emp_id'");
     print(hours);
-    return 0;
+    if (hours[0]['AVG(hours)'] == null) return 0;
+    return hours[0]['AVG(hours)'].toInt();
   }
 
   Future<int> addCustomerFeedback(Customer_Feedback customer_feedback) async {

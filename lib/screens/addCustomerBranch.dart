@@ -328,6 +328,8 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                       child: FormBuilderTextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 5,
                           name: 'address1',
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(

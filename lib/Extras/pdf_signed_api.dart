@@ -137,12 +137,12 @@ class PdfApi_Signed {
         order.billing_branch.address1!.substring(
           35,
         ) +
-        "\n" +
+       /* "\n" +
         order.billing_branch.address2!.substring(0, 35) +
         "\n" +
         order.billing_branch.address2!.substring(
           35,
-        ) +
+        ) +*/
         "\n" +
         order.billing_branch.city! +
         ", " +
@@ -174,12 +174,12 @@ class PdfApi_Signed {
           35,
         ) +
         "\n" +
-        order.shipping_branch.address2!.substring(0, 35) +
+       /* order.shipping_branch.address2!.substring(0, 35) +
         "\n" +
         order.shipping_branch.address2!.substring(
           35,
         ) +
-        "\n" +
+        "\n" +*/
         order.shipping_branch.city! +
         ", " +
         order.shipping_branch.state! +

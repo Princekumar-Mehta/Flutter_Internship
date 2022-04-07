@@ -42,6 +42,7 @@ class _ReportSalesSalespersonWise1State
             color: colors[i % colors.length],
           ),
         );
+        print(Database_Report.hours_salesperson_wise[i]);
       }
     }
     if (data.isEmpty) {

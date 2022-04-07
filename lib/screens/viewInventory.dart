@@ -181,8 +181,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 ? MyColors.grey
                                 : MyColors.white,
                             child: Text(
-                              Database_Stock.stockByEmpId[key].packet
-                                  .toString(),
+                              Database_Stock.stockByEmpId[key].patti.toString(),
                               style: TextStyle(
                                 color: MyColors.scarlet,
                                 fontWeight: FontWeight.bold,
@@ -217,8 +216,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 ? MyColors.grey
                                 : MyColors.white,
                             child: Text(
-                              Database_Stock.stockByEmpId[key].packet
-                                  .toString(),
+                              Database_Stock.stockByEmpId[key].box.toString(),
                               style: TextStyle(
                                 color: MyColors.scarlet,
                                 fontWeight: FontWeight.bold,

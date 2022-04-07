@@ -334,8 +334,11 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
                     ),
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
-                      height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                      height:
+                          MyScreen.getScreenHeight(context) * (150 / 1063.6),
                       child: FormBuilderTextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 5,
                           name: 'address1',
                           initialValue: widget.customerBranch!.address1!,
                           decoration: InputDecoration(

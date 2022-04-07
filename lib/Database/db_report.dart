@@ -101,9 +101,9 @@ class Database_Report {
     hours_salesperson_wise = [];
     salespersons = await DatabaseHelper.instance.getSalespersons();
     for (int j = 0; j < salespersons.length; j++) {
-      print(salespersons[j].name! + "\n");
-      int hours = await DatabaseHelper.instance
-          .getAvgAttendanceBySalespersonId(salespersons[j].id.toString());
+      int hours = (await DatabaseHelper.instance
+          .getAvgAttendanceBySalespersonId(salespersons[j].id.toString()));
+      print(hours);
       hours_salesperson_wise.add(hours);
     }
     return true;
@@ -116,8 +116,9 @@ class Database_Report {
     salespersons = await DatabaseHelper.instance.getSalespersons();
     for (int j = 0; j < salespersons.length; j++) {
       //print(salespersons[j].name! + "\n");
-      int hours = await DatabaseHelper.instance
-          .getAvgAttendanceBySalespersonId(salespersons[j].id.toString());
+      int hours = (await DatabaseHelper.instance
+          .getAvgAttendanceBySalespersonId(salespersons[j].id.toString()));
+
       hours_salesperson_wise.add(hours);
       //print(salespersons[j].name! + "\n");
       List<FinalOrder> orders = await DatabaseHelper.instance

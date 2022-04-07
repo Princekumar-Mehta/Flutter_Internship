@@ -199,6 +199,11 @@ class ReportHome extends StatelessWidget {
                       onTap: () async {
                         if (await Database_Report()
                             .getSalesperson_HoursReport()) {
+                          /* for (int i = 0;
+                              i < Database_Report.hours_salesperson_wise.length;
+                              i++) {
+                            print(Database_Report.hours_salesperson_wise);
+                          }*/
                           await Navigator.push(
                               context,
                               MaterialPageRoute(

@@ -208,7 +208,9 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
                                   child: Text(
                                     (Utility.totalLeaves -
                                             Database_leaveRequest
-                                                .totalPendingLeaveRequestsForEmp)
+                                                .totalPendingLeaveRequestsForEmp -
+                                            Database_leaveRequest
+                                                .totalApprovedLeaveRequestsForEmp)
                                         .toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,

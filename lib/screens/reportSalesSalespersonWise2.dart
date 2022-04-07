@@ -29,6 +29,9 @@ class _ReportSalesSalespersonWise2State
     extends State<ReportSalesSalespersonWise2> {
   @override
   Widget build(BuildContext context) {
+    /* for (int i = 0; i < widget.data.length; i++) {
+      print(widget.data[i].data);
+    }*/
     List<charts.Series<DataSalespersonModel, String>> series = [
       charts.Series(
         id: "sales",
