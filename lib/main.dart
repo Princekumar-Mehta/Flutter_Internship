@@ -27,6 +27,7 @@ import 'package:project_v3/screens/viewCustomer.dart';
 import 'package:project_v3/screens/viewCustomerBranch.dart';
 import 'package:project_v3/screens/viewInventory.dart';
 import 'package:project_v3/screens/viewItems.dart';
+import 'package:project_v3/screens/viewSchemes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyViewInventory: (context) => ViewInventory(),
         MyRoutes.MyViewCustomerBranchScreen: (context) =>
             ViewCustomerBranchScreen(),
+        MyRoutes.MyViewSchemes: (context) => ViewSchemes(),
       },
     );
   }

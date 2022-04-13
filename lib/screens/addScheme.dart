@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:project_v3/Extras/myColors.dart';
+import 'package:project_v3/Extras/myScreen.dart';
+import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/screens/setSchemeDetails.dart';
 
 class AddScheme extends StatefulWidget {
   List<String> itemList;
@@ -30,24 +34,83 @@ class _AddSchemeState extends State<AddScheme> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Scheme"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.white
+                  : MyColors.scarlet,
+              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        shape: Border(
+          bottom: BorderSide(
+            color: MyColors.scarlet,
+            width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+          ),
+        ),
+        title: Text("Select Items",
+            style: TextStyle(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.scarlet,
+                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
         centerTitle: true,
+        backgroundColor: MyDrawer.emp.darkTheme == 1
+            ? MyColors.richBlackFogra
+            : MyColors.white,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              TypeAheadField(
+      backgroundColor: MyDrawer.emp.darkTheme == 1
+          ? MyColors.richBlackFogra
+          : MyColors.white,
+      body: Container(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+            ),
+            Container(
+              width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.white
+                    : MyColors.grey,
+              ),
+              child: TypeAheadField(
                 textFieldConfiguration: TextFieldConfiguration(
-                    scrollPadding: EdgeInsets.only(bottom: 300),
-                    enabled: true,
+                    scrollPadding: const EdgeInsets.only(
+                      bottom: 300,
+                    ),
                     controller: _textEditingController,
                     decoration: InputDecoration(
-                      focusColor: true ? MyColors.middleRed : MyColors.scarlet,
+                      hintText: "Search",
+                      suffixIcon: Icon(
+                        Icons.search,
+                        size: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.scarlet
+                            : MyColors.white,
+                      ),
+                      contentPadding: const EdgeInsets.fromLTRB(10, 13, 0, 0),
                       enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: MyColors.pewterBlue)),
+                          borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white)),
                     ),
-                    style: TextStyle(color: MyColors.middleRed, fontSize: 14)),
+                    style: TextStyle(
+                        color: MyDrawer.emp.darkTheme == 1
+                            ? MyColors.middleRed
+                            : MyColors.scarlet,
+                        fontSize:
+                            MyScreen.getScreenHeight(context) * (25 / 1063.6))),
                 suggestionsCallback: (pattern) => itemList.where((item) =>
                     item.toLowerCase().contains(pattern.toLowerCase())),
                 itemBuilder: (_, String item) => ListTile(
@@ -66,10 +129,37 @@ class _AddSchemeState extends State<AddScheme> {
                   child: Text('No item found'),
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ListView.builder(
+            ),
+            SizedBox(
+              height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+            ),
+            Container(
+              height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
+              width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.pewterBlue
+                  : MyColors.black,
+            ),
+            SizedBox(
+              height: MyScreen.getScreenHeight(context) * (15 / 1063.6),
+            ),
+            Text(
+              "Long press on Items to remove from List",
+              style: TextStyle(
+                color: MyDrawer.emp.darkTheme == 1
+                    ? MyColors.pewterBlue
+                    : MyColors.black,
+              ),
+            ),
+            SizedBox(
+              height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: selectedItems.length,
                       itemBuilder: (context, index) {
@@ -77,10 +167,53 @@ class _AddSchemeState extends State<AddScheme> {
                           child: _row(index),
                         );
                       }),
-                ],
+                ),
+              ],
+            ),
+            // Button
+            SizedBox(height: MyScreen.getScreenHeight(context) * (60 / 1063.6)),
+            SizedBox(
+              width: MyScreen.getScreenWidth(context) * (240 / 490.9),
+              height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+              child: InkWell(
+                child: Stack(
+                  children: [
+                    Opacity(
+                      opacity: 0.8,
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              MyScreen.getScreenHeight(context) *
+                                  (10 / 1063.6)),
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text("Select Scheme Details",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (17 / 1063.6),
+                              fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                onTap: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SetSchemeDetails(items: selectedItems)));
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -93,7 +226,26 @@ class _AddSchemeState extends State<AddScheme> {
           removeItem(selectedItems[key]);
           setState(() {});
         },
-        child: Text(selectedItems[key]),
+        child: Container(
+          alignment: Alignment.centerLeft,
+          width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+          height: MyScreen.getScreenHeight(context) * (40 / 1063.6),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            color: MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.grey,
+          ),
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: Text(
+            selectedItems[key],
+            style: TextStyle(
+              fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
+              color: MyColors.black,
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: MyScreen.getScreenHeight(context) * (15 / 1063.6),
       ),
     ]);
   }

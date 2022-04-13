@@ -1,4 +1,5 @@
 import 'package:project_v3/Database/db_employee.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 import '../Models/employee.dart';
 import '../Models/leave_request.dart';
@@ -80,6 +81,64 @@ class Database_leaveRequest {
             approvedLeaveRequestForEmp[j].days! + approvedLeaveDaysForEmp;
       }
       totalApprovedLeaveRequestsForEmp = (approvedLeaveDaysForEmp);
+    }
+    return true;
+  }
+
+  Future<bool> isLeaveRequestNotExist(
+      int emp_Id, String fromDate, String toDate) async {
+    bool broken = false;
+    var existingLeaveRequest =
+        await DatabaseHelper.instance.getTotalLeaveRequest(emp_Id);
+    if (existingLeaveRequest.length == 0) {
+      return true;
+    }
+    for (int j = 0; j < existingLeaveRequest.length; j++) {
+      if (existingLeaveRequest[j].status != 'Rejected') {
+        var oldFrom = Utility.formatDate(existingLeaveRequest[j].fromdate!);
+        int oldFromYr = int.parse(oldFrom[0]);
+        int oldFromMth = int.parse(oldFrom[1]);
+        int oldFromDt = int.parse(oldFrom[2]);
+        var oldTo = Utility.formatDate(existingLeaveRequest[j].todate!);
+        int oldToYr = int.parse(oldTo[0]);
+        int oldToMth = int.parse(oldTo[1]);
+        int oldToDt = int.parse(oldTo[2]);
+        //print(oldFromYr + " " + oldFromMth + " " + oldFromDt);
+        //print(oldToYr + " " + oldToMth + " " + oldToDt);
+        var newFrom = Utility.formatDate(fromDate);
+        int newFromYr = int.parse(newFrom[0]);
+        int newFromMth = int.parse(newFrom[1]);
+        int newFromDt = int.parse(newFrom[2]);
+        var newTo = Utility.formatDate(toDate);
+        int newToYr = int.parse(newTo[0]);
+        int newToMth = int.parse(newTo[1]);
+        int newToDt = int.parse(newTo[2]);
+        broken = false;
+        if (Utility.compare(newFromDt, newFromMth, newFromYr, oldFromDt,
+                    oldFromMth, oldFromYr) !=
+                -1 &&
+            Utility.compare(newFromDt, newFromMth, newFromYr, oldToDt, oldToMth,
+                    oldToYr) !=
+                1) {
+          return false;
+        }
+        if (Utility.compare(newToDt, newToMth, newToYr, oldFromDt, oldFromMth,
+                    oldFromYr) !=
+                -1 &&
+            Utility.compare(
+                    newToDt, newToMth, newToYr, oldToDt, oldToMth, oldToYr) !=
+                1) {
+          return false;
+        }
+        if (Utility.compare(newFromDt, newFromMth, newFromYr, oldFromDt,
+                    oldFromMth, oldFromYr) ==
+                -1 &&
+            Utility.compare(
+                    newToDt, newToMth, newToYr, oldToDt, oldToMth, oldToYr) ==
+                1) {
+          return false;
+        }
+      }
     }
     return true;
   }

@@ -5,9 +5,11 @@ import 'package:project_v3/Database/db_stock.dart';
 
 import '../Models/item.dart';
 import 'database_helper.dart';
+import 'db_scheme.dart';
 
 class Database_Item {
   static List<String> item_names = [];
+  static Map<String, double> discounts = {};
   static List<Item> items = [];
   static Future<bool> addItem(Map<String, dynamic> item) async {
     List<Item> existing_item = await DatabaseHelper.instance
@@ -48,11 +50,24 @@ class Database_Item {
 
   Future<bool> get_ItemNames() async {
     item_names = [];
+    discounts = {};
     final items = await DatabaseHelper.instance.getItems();
-    items.forEach((element) {
-      item_names.add(
-          element.item_Name! + " - " + element.net_Weight!.toString() + "g");
-      //print(element.code! + "\n");
+    items.forEach((element) async {
+      String temp_item_Name = element.code! +
+          " - " +
+          element.item_Name! +
+          " - " +
+          element.net_Weight!.toString() +
+          "g";
+      String date = DateTime.now().toString().split(" ")[0];
+      if (!(await Database_Scheme()
+          .isSchemeNotExist(element.code!, date, date))) {
+        item_names.add(temp_item_Name + "*");
+        discounts[element.code!] = Database_Scheme.discounts.last;
+      } else {
+        item_names.add(temp_item_Name);
+        discounts[element.code!] = 0.0;
+      }
     });
     //  //print(item_names);
     return true;

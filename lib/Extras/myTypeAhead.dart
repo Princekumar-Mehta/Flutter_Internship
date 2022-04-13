@@ -57,16 +57,19 @@ class _MyTypeAheadState extends State<MyTypeAhead> {
     };
     return Container(
       width: MyScreen.getScreenWidth(context) * (228 / 294),
-      height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
       color: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,
       child: TypeAheadField(
         textFieldConfiguration: TextFieldConfiguration(
+            maxLines: 2,
+            minLines: 1,
             scrollPadding: EdgeInsets.only(bottom: 300),
             enabled: widget.isEnabled,
             controller: _textEditingController,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 0),
               focusColor: isChanged ? MyColors.middleRed : MyColors.scarlet,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: MyColors.pewterBlue)),

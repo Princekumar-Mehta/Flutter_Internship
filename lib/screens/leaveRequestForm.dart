@@ -5,9 +5,8 @@ import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
-
-import '../Extras/routes.dart';
 
 enum ReasonSelected { self, family, vacation, leave, civil, other }
 
@@ -60,11 +59,16 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
         showMessage(context, "To Date can't  be older than from Date");
         return;
       }
+
       print({_reason, reasondesc, fromdate, todate, days});
       var temp = _reason.toString().split('.');
       String reason = temp[1];
       int emp_id = MyDrawer.emp.id!;
-
+      if (!(await Database_leaveRequest()
+          .isLeaveRequestNotExist(emp_id, fromdate, todate))) {
+        Utility.showMessage(context, "Leave Already Applied");
+        return;
+      }
       Database_leaveRequest.addRequest(
           reason: reason,
           reason_desc: reasondesc,
@@ -73,6 +77,7 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
           todate: todate,
           emp_id: emp_id,
           status: "Pending");
+      print(MyDrawer.emp.id!);
       Navigator.pop(context);
       if (await Database_leaveRequest().getAllRequestForEmp(MyDrawer.emp.id!)) {
         Navigator.pushNamed(context, MyRoutes.MyLeaveRequestSummary);

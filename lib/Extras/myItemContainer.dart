@@ -21,6 +21,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
   @override
   void initState() {
     Database_Item.insertData();
+
     _animatedHeight = -1;
   }
 
@@ -28,7 +29,7 @@ class _MyItemContainerState extends State<MyItemContainer> {
   Widget build(BuildContext context) {
     print("current is ${widget.order!.current}");
     _animatedHeight = _animatedHeight == -1
-        ? MyScreen.getScreenHeight(context) * (245 / 1063.9)
+        ? MyScreen.getScreenHeight(context) * (250 / 1063.9)
         : _animatedHeight;
     return Column(children: [
       Padding(
@@ -186,6 +187,10 @@ class _MyItemContainerState extends State<MyItemContainer> {
                   height: widget.order!.current != key ? 0.0 : _animatedHeight,
                   child: Column(
                     children: [
+                      SizedBox(
+                        height:
+                            MyScreen.getScreenHeight(context) * (4 / 1063.6),
+                      ),
                       // Price & Unit
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

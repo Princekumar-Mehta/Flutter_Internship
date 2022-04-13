@@ -30,4 +30,5 @@ class MyRoutes {
   static final MyAddStock = "/myAddStock";
   static final MyViewInventory = "/myViewInventory";
   static final MyViewCustomerBranchScreen = '/myViewCustomerBranchScreen';
+  static final MyViewSchemes = "/myViewSchemes";
 }

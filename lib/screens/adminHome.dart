@@ -5,6 +5,7 @@ import 'package:project_v3/Database/db_employee.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
 import 'package:project_v3/Database/db_report.dart';
+import 'package:project_v3/Database/db_scheme.dart';
 import 'package:project_v3/Database/db_stock.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -12,6 +13,7 @@ import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
 
+import 'addScheme.dart';
 import 'editEmployeeScreen.dart';
 import 'exploreAttendance.dart';
 
@@ -1222,7 +1224,7 @@ class _AdminHomeState extends State<AdminHome> {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 0),
                 height: viewAll3
-                    ? MyScreen.getScreenHeight(context) * (278 / 1063.6)
+                    ? MyScreen.getScreenHeight(context) * (397 / 1063.6)
                     : MyScreen.getScreenHeight(context) * (159 / 1063.6),
                 padding: EdgeInsets.fromLTRB(
                     MyScreen.getScreenWidth(context) * (10 / 490.9),
@@ -1627,6 +1629,219 @@ class _AdminHomeState extends State<AdminHome> {
                                         ],
                                       ),
                                     ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        if (await Database_Item()
+                                            .get_ItemNames()) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddScheme(
+                                                        itemList: Database_Item
+                                                            .item_names,
+                                                      )));
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.timer,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("Add Scheme",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        viewAll3
+                            ? SizedBox(
+                                height: MyScreen.getScreenHeight(context) *
+                                    (30 / 1063.6),
+                              )
+                            : Container(),
+                        viewAll3
+                            ? Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        if (await Database_Scheme()
+                                            .currentSchemes()) {
+                                          print(Database_Scheme.current_schemes);
+                                          Navigator.pushNamed(
+                                              context, MyRoutes.MyViewSchemes);
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.swap_horiz,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("View Schemes",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    /*child: InkWell(
+                                      onTap: () async {
+                                        if (await Database_Stock
+                                            .getStockByEmpId(1)) {
+                                          print(Database_Stock
+                                              .stockByEmpId.length);
+                                          await Navigator.pushNamed(context,
+                                              MyRoutes.MyViewInventory);
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.radio_button_checked,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("View Inventory",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,

@@ -17,7 +17,7 @@ class ViewTodaysRoute extends StatefulWidget {
 class ViewTodaysRouteState extends State<ViewTodaysRoute> {
   Set<Marker> markers = {};
   List<LatLng> points = [];
-
+  bool boolcheck = false;
   Completer<GoogleMapController> _controller = Completer();
 
   @override
@@ -130,6 +130,17 @@ class ViewTodaysRouteState extends State<ViewTodaysRoute> {
     Position position = await _determinePosition();
     String latitude = position.latitude.toStringAsFixed(6);
     String longitude = position.longitude.toStringAsFixed(6);
+    //print("Marker Length: " + markers.length.toString());
+    markers.removeWhere((element) => element.markerId.value == "99");
+    //print("Marker Removed?: " + markers.length.toString());
+    markers.add(Marker(
+      markerId: const MarkerId("99"),
+      infoWindow: const InfoWindow(title: "Current Location"),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+      position: LatLng(double.parse(latitude), double.parse(longitude)),
+    ));
+    //print("Marker Length: " + markers.length.toString());
+    setState(() {});
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(position.latitude, position.longitude),

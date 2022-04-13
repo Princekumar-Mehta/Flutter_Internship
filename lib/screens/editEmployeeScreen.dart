@@ -592,14 +592,16 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                   (228 / 294),
                               height: MyScreen.getScreenHeight(context) *
                                   (30 / 1063.6),
-                              child: Text("Role: " + widget.emp.role!,
-                                  style: TextStyle(
-                                      color: MyDrawer.emp.darkTheme == 1
-                                          ? MyColors.pewterBlue
-                                          : MyColors.black,
-                                      fontSize:
-                                          MyScreen.getScreenHeight(context) *
-                                              (20 / 1063.6))),
+                              child: Text(
+                                "Role: " + widget.emp.role!,
+                                style: TextStyle(
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6),
+                                ),
+                              ),
                             )
                           : SizedBox(
                               width: MyScreen.getScreenWidth(context) *
@@ -695,8 +697,23 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                 ),
                               )
                             ])
-                          : Container(),
-                      isItSalesperson
+                          : SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (228 / 294),
+                              height: MyScreen.getScreenHeight(context) *
+                                  (30 / 1063.6),
+                              child: Text(
+                                "Location: " + city + " - " + sub_Area,
+                                style: TextStyle(
+                                  color: MyDrawer.emp.darkTheme == 1
+                                      ? MyColors.pewterBlue
+                                      : MyColors.black,
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (20 / 1063.6),
+                                ),
+                              ),
+                            ),
+                      isItSalesperson && MyDrawer.emp.role == 'Admin'
                           ? Stack(children: [
                               Container(
                                 decoration: BoxDecoration(
@@ -762,7 +779,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               )
                             ])
                           : Container(),
-                      isItSalesperson
+                      isItSalesperson && MyDrawer.emp.role == 'Admin'
                           ? Stack(children: [
                               Container(
                                 decoration: BoxDecoration(

@@ -9,6 +9,7 @@ import 'package:project_v3/Models/hourly_attendance.dart';
 import 'package:project_v3/Models/leave_request.dart';
 import 'package:project_v3/Models/region_salesperson.dart';
 import 'package:project_v3/Models/route.dart';
+import 'package:project_v3/Models/scheme.dart';
 import 'package:project_v3/Models/stock.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -215,6 +216,15 @@ class DatabaseHelper {
       area TEXT
     )
     ''');
+    await db.execute('''
+    CREATE TABLE scheme(
+      scheme_p INTEGER PRIMARY KEY AUTOINCREMENT,
+      item_Code TEXT,
+      discount TEXT,
+      fromdate TEXT,
+      todate TEXT
+    )
+    ''');
   }
 
   Future<List<Employee>> getEmployees() async {
@@ -282,7 +292,7 @@ class DatabaseHelper {
 
   Future<void> Temp_Query() async {
     Database db = await instance.database;
-    await db.rawQuery("DELETE FROM routes");
+    await db.rawQuery("DELETE FROM scheme");
   }
 
   Future<int> addCustomer(Customer customer) async {
@@ -646,7 +656,7 @@ class DatabaseHelper {
   Future<String> getLastLeaveRequest(int emp_id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> leave_request = await db.rawQuery(
-        "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = emp_id order by todate DESC");
+        "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = $emp_id order by todate DESC");
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
@@ -660,7 +670,7 @@ class DatabaseHelper {
   Future<List<LeaveRequest>> getTotalAcceptedLeaveRequest(int emp_id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> leave_request = await db.rawQuery(
-        "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = emp_id");
+        "SELECT * FROM leave_requests where status = 'Accepted' and emp_id = $emp_id");
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
@@ -670,8 +680,8 @@ class DatabaseHelper {
 
   Future<List<LeaveRequest>> getTotalLeaveRequest(int emp_id) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> leave_request =
-        await db.rawQuery("SELECT * FROM leave_requests where emp_id = emp_id");
+    List<Map<String, dynamic>> leave_request = await db
+        .rawQuery("SELECT * FROM leave_requests where emp_id = $emp_id");
     List<LeaveRequest> LeaveRequestList = leave_request.isNotEmpty
         ? leave_request.map((c) => LeaveRequest.fromMap((c))).toList()
         : [];
@@ -870,5 +880,26 @@ class DatabaseHelper {
                 .toList()
             : [];
     return RegionSalespersonList;
+  }
+
+  Future<int> addScheme(Scheme scheme) async {
+    Database db = await instance.database;
+    return await db.insert('scheme', scheme.toMap());
+  }
+
+  Future<List<Scheme>> getAllSchemes() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> schemes =
+        await db.rawQuery("SELECT * FROM scheme order by fromdate");
+    List<Scheme> SchemeList = schemes.isNotEmpty
+        ? schemes.map((c) => Scheme.fromMap((c))).toList()
+        : [];
+    return SchemeList;
+  }
+
+  deleteScheme(Scheme scheme) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> schemes = await db.rawQuery(
+        "DELETE FROM scheme where item_Code = '${scheme.item_Code}' and fromdate = '${scheme.fromdate}' and todate = '${scheme.todate}'");
   }
 }

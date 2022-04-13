@@ -83,47 +83,48 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,
-      body: SingleChildScrollView(
-        child: Theme(
-          data: ThemeData(
-            unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
-                ? MyColors.middleRed
-                : MyColors.scarlet,
-          ),
-          child: Column(
-            children: [
-              CheckboxListTile(
-                checkColor: MyColors.white,
-                activeColor: MyDrawer.emp.darkTheme == 1
-                    ? MyColors.middleRed
-                    : MyColors.scarlet,
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text('Select All',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: MyDrawer.emp.darkTheme == 1
-                            ? MyColors.pewterBlue
-                            : MyColors.black)),
-                value: selectAll,
-                onChanged: (value) {
-                  setState(() {
-                    selectAll = value!;
-                    for (int i = 0; i < Database_Report.items.length; i++) {
-                      selected[Database_Report.items[i].code.toString()] =
-                          selectAll;
-                    }
-                  });
-                },
-              ),
-              Divider(
-                color: MyDrawer.emp.darkTheme == 1
-                    ? MyColors.pewterBlue
-                    : MyColors.black,
-                indent: 15,
-                endIndent: 15,
-                thickness: 1,
-              ),
-              ListView.builder(
+      body: Theme(
+        data: ThemeData(
+          unselectedWidgetColor: MyDrawer.emp.darkTheme == 1
+              ? MyColors.middleRed
+              : MyColors.scarlet,
+        ),
+        child: Column(
+          children: [
+            CheckboxListTile(
+              checkColor: MyColors.white,
+              activeColor: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.middleRed
+                  : MyColors.scarlet,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('Select All',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: MyDrawer.emp.darkTheme == 1
+                          ? MyColors.pewterBlue
+                          : MyColors.black)),
+              value: selectAll,
+              onChanged: (value) {
+                setState(() {
+                  selectAll = value!;
+                  for (int i = 0; i < Database_Report.items.length; i++) {
+                    selected[Database_Report.items[i].code.toString()] =
+                        selectAll;
+                  }
+                });
+              },
+            ),
+            Divider(
+              color: MyDrawer.emp.darkTheme == 1
+                  ? MyColors.pewterBlue
+                  : MyColors.black,
+              indent: 15,
+              endIndent: 15,
+              thickness: 1,
+            ),
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
                   padding: const EdgeInsets.all(12),
                   shrinkWrap: true,
                   itemCount: Database_Report.items.length,
@@ -132,45 +133,45 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
                       child: _row(index),
                     );
                   }),
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (85 / 294),
-                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                child: InkWell(
-                  child: Stack(
-                    children: [
-                      Opacity(
-                        opacity: 0.8,
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                MyScreen.getScreenHeight(context) *
-                                    (10 / 1063.6)),
-                            color: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.middleRed
-                                : MyColors.scarlet,
-                          ),
+            ),
+            SizedBox(
+              width: MyScreen.getScreenWidth(context) * (85 / 294),
+              height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+              child: InkWell(
+                child: Stack(
+                  children: [
+                    Opacity(
+                      opacity: 0.8,
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              MyScreen.getScreenHeight(context) *
+                                  (10 / 1063.6)),
+                          color: MyDrawer.emp.darkTheme == 1
+                              ? MyColors.middleRed
+                              : MyColors.scarlet,
                         ),
                       ),
-                      Center(
-                        child: Text("Generate Report",
-                            style: TextStyle(
-                                color: MyDrawer.emp.darkTheme == 1
-                                    ? MyColors.richBlackFogra
-                                    : MyColors.white,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (17 / 1063.6),
-                                fontWeight: FontWeight.bold)),
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    moveToReportScreen2();
-                  },
+                    ),
+                    Center(
+                      child: Text("Generate Report",
+                          style: TextStyle(
+                              color: MyDrawer.emp.darkTheme == 1
+                                  ? MyColors.richBlackFogra
+                                  : MyColors.white,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (17 / 1063.6),
+                              fontWeight: FontWeight.bold)),
+                    )
+                  ],
                 ),
+                onTap: () {
+                  moveToReportScreen2();
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
             forcedPassword: true);
         _formKey.currentState!.reset();
       } else {
+        Utility.showNotification(emp!.name!);
         MyDrawer.emp = emp!;
         print(emp!.darkTheme);
         if (emp!.darkTheme! == 1) {

@@ -59,17 +59,18 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              MyScreen.getScreenWidth(context) * (20 / 490.9),
-              MyScreen.getScreenHeight(context) * (0 / 1063.6),
-              MyScreen.getScreenWidth(context) * (20 / 490.9),
-              MyScreen.getScreenHeight(context) * (20 / 1063.6)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ListView.builder(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+            MyScreen.getScreenWidth(context) * (20 / 490.9),
+            MyScreen.getScreenHeight(context) * (0 / 1063.6),
+            MyScreen.getScreenWidth(context) * (20 / 490.9),
+            MyScreen.getScreenHeight(context) * (20 / 1063.6)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: widget.emps.length,
                   itemBuilder: (context, index) {
@@ -78,8 +79,8 @@ class _ExploreAttendanceState extends State<ExploreAttendance> {
                       child: _row(index),
                     );
                   }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

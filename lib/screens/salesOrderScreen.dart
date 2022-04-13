@@ -131,7 +131,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   bool? isCustomerId = false;
   @override
   Widget build(BuildContext context) {
-    //  //print("hello");
+    // print("hello");
     try {
       if (customer.getValue().toString().length == 7) {
         isCustomerId = true;
@@ -150,21 +150,25 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     customer = MyTypeAhead(
       itemList: Database_customer.codesBySubArea,
       message: "Please Enter Customer ID",
+      fontSize: 20.0,
       isEnabled: true,
     );
     billing_address = MyTypeAhead(
       itemList: Database_customerBranch.bill_branch_codes,
       message: "Please Enter Billing Address",
+      fontSize: 20.0,
       isEnabled: isCustomerId!,
     );
     shipping_address = MyTypeAhead(
       itemList: Database_customerBranch.ship_branch_codes,
       message: "Please Enter Shipping Address",
+      fontSize: 20.0,
       isEnabled: isCustomerId!,
     );
     manufacturing_branch = manufacturing_branch = MyTypeAhead(
       itemList: [],
       message: "Please Enter Manufacturing Branch",
+      fontSize: 20.0,
       isEnabled: true,
     );
     return MaterialApp(
@@ -194,7 +198,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
             },
           ),
           actions: [
-            IconButton(
+            /*IconButton(
               icon: Icon(Icons.more_vert,
                   color: MyDrawer.emp.darkTheme == 1
                       ? MyColors.white
@@ -203,7 +207,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
               onPressed: () {
                 Navigator.pop(context, true);
               },
-            ),
+            ),*/
             IconButton(
               icon: Icon(Icons.refresh,
                   color: MyDrawer.emp.darkTheme == 1
@@ -386,8 +390,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       // Manufacturing Branch Input
                       SizedBox(
                         width: MyScreen.getScreenWidth(context) * (228 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: Text("Manufacturing Branch *",
                             style: TextStyle(
                                 color: MyDrawer.emp.darkTheme == 1
@@ -418,7 +420,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       SizedBox(
                         width: MyScreen.getScreenWidth(context) * (228 / 294),
                         height:
-                            MyScreen.getScreenHeight(context) * (50 / 1063.6),
+                            MyScreen.getScreenHeight(context) * (30 / 1063.6),
                         child: FormBuilderDateTimePicker(
                           inputType: InputType.date,
                           format: DateFormat('dd-MM-yyyy'),
@@ -429,7 +431,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                   ? MyColors.pewterBlue
                                   : MyColors.black,
                               fontSize: MyScreen.getScreenHeight(context) *
-                                  (25 / 1063.6)),
+                                  (20 / 1063.6)),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(

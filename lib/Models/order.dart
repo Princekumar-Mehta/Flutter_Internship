@@ -231,9 +231,8 @@ class Order {
           context, "Please select from Item List for Item ${key + 1}");
       return false;
     }
-    item_detials[key] = await Database_Item().get_Item(
-        item_name![key].getValue().split(' - ')[0],
-        int.parse(item_name![key].getValue().split(' - ')[1].split('g')[0]));
+    item_detials[key] = await Database_Item()
+        .get_ItemByItemId(item_name![key].getValue().split(" - ")[0]);
     fillIfNull(key);
     adjust(key);
     price![key].text = item_detials[key].price.toString();
@@ -244,9 +243,13 @@ class Order {
             (int.parse(patti![key].text.toString()) * 5) +
             (int.parse(box![key].text.toString()) * 3 * 5))
         .toString();
-    subTotal![key].text = (double.parse(totalItem![key].text.toString()) *
-            item_detials[key].price!)
-        .toStringAsFixed(2);
+    double discountedPrice = item_detials[key].price! -
+        ((Database_Item
+                .discounts[item_name![key].getValue().split(" - ")[0]])! *
+            (item_detials[key].price!));
+    subTotal![key].text =
+        (double.parse(totalItem![key].text.toString()) * discountedPrice)
+            .toStringAsFixed(2);
     tax![key].text =
         (double.parse(subTotal![key].text.toString()) * (.120182346))
             .toStringAsFixed(2);

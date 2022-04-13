@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
@@ -213,10 +214,12 @@ class Utility {
   }
 
   static formatDate(date) {
+    //print(date.split(" ")[0].split("-"));
     return date.split(" ")[0].split("-");
   }
 
   static calculateDifferenceDays(fromDate, toDate) {
+    // print("in utility " + fromDate + " " + toDate);
     int fromYear = int.parse(fromDate[0]);
     int fromMonth = int.parse(fromDate[1]);
     int fromDay = int.parse(fromDate[2]);
@@ -229,6 +232,31 @@ class Utility {
     final String months = (difference / 30.44).toStringAsFixed(0);
     final String weekorday = (difference / 7).toStringAsFixed(0);
     return {'difference': difference, 'weekorday': weekorday, 'months': months};
+  }
+
+  static compare(d1, m1, y1, d2, m2, y2) {
+    //previous -1
+    //same 0
+    // next 1
+    if (y1 < y2) {
+      return -1;
+    }
+    if (y1 > y2) {
+      return 1;
+    }
+    if (m1 < m2) {
+      return -1;
+    }
+    if (m1 > m2) {
+      return 1;
+    }
+    if (d1 < d2) {
+      return -1;
+    }
+    if (d1 > d2) {
+      return 1;
+    }
+    return 0;
   }
 
   static calculateDistance(lat1, long1, lat2, long2) {
@@ -255,5 +283,25 @@ class Utility {
     var d = (R * c) / 1000;
 
     return d.toStringAsFixed(2);
+  }
+
+  static Future<void> showNotification(String name) async {
+    FlutterLocalNotificationsPlugin? localNotification;
+    var androidInitialize =
+        new AndroidInitializationSettings("@mipmap/ic_launcher");
+    //https://stackoverflow.com/questions/55820299/flutter-local-notifications-platformexception-platformexceptioninvalid-icon
+    var iOSInitialize = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        android: androidInitialize, iOS: iOSInitialize);
+    localNotification = new FlutterLocalNotificationsPlugin();
+    localNotification.initialize(initializationSettings);
+    var androidDetails = new AndroidNotificationDetails(
+        "channelId", "Description of notification",
+        importance: Importance.high);
+    var iOSDetials = new IOSNotificationDetails();
+    var generalNotificationDetails =
+        new NotificationDetails(android: androidDetails, iOS: iOSDetials);
+    await localNotification.show(
+        0, "Notif Title", "Hello, $name ", generalNotificationDetails);
   }
 }

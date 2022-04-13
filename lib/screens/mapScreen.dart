@@ -105,6 +105,7 @@ class MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _goToTheLake() async {
+    print("hello");
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: points[points.length - 1],

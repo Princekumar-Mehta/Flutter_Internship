@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:project_v3/Database/db_stock.dart';
+import 'package:project_v3/Database/db_scheme.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/routes.dart';
 
-class ViewInventory extends StatefulWidget {
-  const ViewInventory({Key? key}) : super(key: key);
+import 'editScheme.dart';
+
+class ViewSchemes extends StatefulWidget {
+  const ViewSchemes({Key? key}) : super(key: key);
 
   @override
-  _ViewInventoryState createState() => _ViewInventoryState();
+  _ViewSchemesState createState() => _ViewSchemesState();
 }
 
-class _ViewInventoryState extends State<ViewInventory> {
+class _ViewSchemesState extends State<ViewSchemes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +29,7 @@ class _ViewInventoryState extends State<ViewInventory> {
             Navigator.pop(context);
           },
         ),
-        title: Text("View Inventory",
+        title: Text("View Schemes",
             style: TextStyle(
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white
@@ -59,7 +62,7 @@ class _ViewInventoryState extends State<ViewInventory> {
               flex: 1,
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Database_Stock.stockByEmpId.length,
+                  itemCount: Database_Scheme.current_schemes.length,
                   itemBuilder: (context, index) {
                     return Container(
                       child: _row(index),
@@ -83,7 +86,7 @@ class _ViewInventoryState extends State<ViewInventory> {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             width: MyScreen.getScreenWidth(context) * (450 / 490.9),
-            height: MyScreen.getScreenHeight(context) * (100 / 1063.6),
+            height: MyScreen.getScreenHeight(context) * (120 / 1063.6),
             child: Padding(
               padding: EdgeInsets.fromLTRB(
                   MyScreen.getScreenWidth(context) * (10.0 / 490.9),
@@ -103,21 +106,46 @@ class _ViewInventoryState extends State<ViewInventory> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
-                                Database_Stock.stockItemByEmpId[key].code! +
-                                    " - " +
-                                    Database_Stock
-                                        .stockItemByEmpId[key].item_Name! +
-                                    " - " +
-                                    Database_Stock
-                                        .stockItemByEmpId[key].net_Weight!
-                                        .toString() +
-                                    "g",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (20 / 1063.6),
+                              Container(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (270 / 490.9),
+                                child: Text(
+                                  Database_Scheme
+                                          .current_schemes[key].item_Code +
+                                      " - " +
+                                      Database_Scheme.items[key].item_Name! +
+                                      " - " +
+                                      Database_Scheme.items[key].net_Weight!
+                                          .toString() +
+                                      "g ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (20 / 1063.6),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (10 / 490.9),
+                              ),
+                              Container(
+                                width: MyScreen.getScreenWidth(context) *
+                                    (140 / 490.9),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Price: \u{20B9} " +
+                                      Database_Scheme.items[key].price!
+                                          .toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MyScreen.getScreenHeight(context) *
+                                            (20 / 1063.6),
+                                  ),
                                 ),
                               ),
                             ],
@@ -146,8 +174,11 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 ? MyColors.grey
                                 : MyColors.white,
                             child: Text(
-                              Database_Stock.stockByEmpId[key].packet
-                                  .toString(),
+                              (double.parse(Database_Scheme
+                                              .current_schemes[key].discount) *
+                                          100)
+                                      .toString() +
+                                  "%",
                               style: TextStyle(
                                 color: MyColors.scarlet,
                                 fontWeight: FontWeight.bold,
@@ -161,7 +192,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 MyScreen.getScreenWidth(context) * (10 / 490.9),
                           ),
                           Text(
-                            "Packets",
+                            "Discount\nPercentage",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: MyScreen.getScreenHeight(context) *
@@ -175,14 +206,20 @@ class _ViewInventoryState extends State<ViewInventory> {
                           Container(
                             alignment: Alignment.center,
                             width:
-                                MyScreen.getScreenWidth(context) * (70 / 490.9),
+                                MyScreen.getScreenWidth(context) * (90 / 490.9),
                             height:
                                 MyScreen.getScreenWidth(context) * (40 / 490.9),
                             color: MyDrawer.emp.darkTheme == 1
                                 ? MyColors.grey
                                 : MyColors.white,
                             child: Text(
-                              Database_Stock.stockByEmpId[key].patti.toString(),
+                              "\u{20B9} " +
+                                  (Database_Scheme.items[key].price! -
+                                          (Database_Scheme.items[key].price! *
+                                              double.parse(Database_Scheme
+                                                  .current_schemes[key]
+                                                  .discount)))
+                                      .toString(),
                               style: TextStyle(
                                 color: MyColors.scarlet,
                                 fontWeight: FontWeight.bold,
@@ -196,7 +233,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 MyScreen.getScreenWidth(context) * (10 / 490.9),
                           ),
                           Text(
-                            "Pattis",
+                            "Discounted\nPrice",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: MyScreen.getScreenHeight(context) *
@@ -205,40 +242,76 @@ class _ViewInventoryState extends State<ViewInventory> {
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            width:
-                                MyScreen.getScreenWidth(context) * (70 / 490.9),
-                            height:
-                                MyScreen.getScreenWidth(context) * (40 / 490.9),
-                            color: MyDrawer.emp.darkTheme == 1
-                                ? MyColors.grey
-                                : MyColors.white,
-                            child: Text(
-                              Database_Stock.stockByEmpId[key].box.toString(),
-                              style: TextStyle(
-                                color: MyColors.scarlet,
-                                fontWeight: FontWeight.bold,
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (20 / 1063.6),
-                              ),
-                            ),
+                    ],
+                  ),
+                  Container(
+                    color: MyColors.black,
+                    height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (215 / 490.9),
+                        child: Text(
+                          "From: " +
+                              Database_Scheme.current_schemes[key].fromdate +
+                              " to " +
+                              Database_Scheme.current_schemes[key].todate,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: MyScreen.getScreenHeight(context) *
+                                (15 / 1063.6),
                           ),
-                          SizedBox(
-                            width:
-                                MyScreen.getScreenWidth(context) * (10 / 490.9),
-                          ),
-                          Text(
-                            "Boxes",
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: MyScreen.getScreenWidth(context) * (100 / 490.9),
+                        child: InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditScheme(
+                                          scheme: Database_Scheme
+                                              .current_schemes[key],
+                                        )));
+                          },
+                          child: Text(
+                            "Edit",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (15 / 1063.6),
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: MyScreen.getScreenWidth(context) * (100 / 490.9),
+                        child: InkWell(
+                          onTap: () async {
+                            await Database_Scheme().deleteScheme(
+                                Database_Scheme.current_schemes[key]);
+                            Navigator.pop(context);
+                            if (await Database_Scheme().currentSchemes()) {
+                              print(Database_Scheme.current_schemes);
+                              Navigator.pushNamed(
+                                  context, MyRoutes.MyViewSchemes);
+                            }
+                          },
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (15 / 1063.6),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -254,11 +327,3 @@ class _ViewInventoryState extends State<ViewInventory> {
     ]);
   }
 }
-/*
-Column(children: [
-      Text(Database_Stock.stockItemByEmpId[key].item_Name!),
-      Text(Database_Stock.stockByEmpId[key].packet.toString()),
-      Text(Database_Stock.stockByEmpId[key].patti.toString()),
-      Text(Database_Stock.stockByEmpId[key].box.toString()),
-    ]);
-*/

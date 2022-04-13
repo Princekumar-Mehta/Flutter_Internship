@@ -24,7 +24,7 @@ class _SalespersonAttendanceState extends State<SalespersonAttendance> {
   String lasttime = "";
   String meridian = "";
   addHourlyAttendance() async {
-    if (Database_Hourly_Attendance.hourly_attendance.length > 0) {
+    if (Database_Hourly_Attendance.hourly_attendance.isNotEmpty) {
       String previousTime = Database_Hourly_Attendance
           .hourly_attendance[
               Database_Hourly_Attendance.hourly_attendance.length - 1]

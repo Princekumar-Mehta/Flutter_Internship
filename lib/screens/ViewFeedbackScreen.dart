@@ -55,29 +55,29 @@ class _ViewCustomerFeedbackScreenState
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              MyScreen.getScreenWidth(context) * (20 / 490.9),
-              MyScreen.getScreenHeight(context) * (20 / 1063.6),
-              MyScreen.getScreenWidth(context) * (20 / 490.9),
-              MyScreen.getScreenHeight(context) * (20 / 1063.6)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                  "Average Rating: " +
-                      Database_Customer_Feedback.avgRating.toStringAsFixed(2),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: MyScreen.getScreenHeight(context) * (24 / 1063.6),
-                    color: MyDrawer.emp.darkTheme == 1
-                        ? MyColors.pewterBlue
-                        : MyColors.scarlet,
-                  )),
-              SizedBox(
-                  height: MyScreen.getScreenHeight(context) * (25 / 1063.6)),
-              ListView.builder(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+            MyScreen.getScreenWidth(context) * (20 / 490.9),
+            MyScreen.getScreenHeight(context) * (20 / 1063.6),
+            MyScreen.getScreenWidth(context) * (20 / 490.9),
+            MyScreen.getScreenHeight(context) * (20 / 1063.6)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+                "Average Rating: " +
+                    Database_Customer_Feedback.avgRating.toStringAsFixed(2),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: MyScreen.getScreenHeight(context) * (24 / 1063.6),
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.pewterBlue
+                      : MyColors.scarlet,
+                )),
+            SizedBox(height: MyScreen.getScreenHeight(context) * (25 / 1063.6)),
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
                   shrinkWrap: true,
                   itemCount:
                       Database_Customer_Feedback.customer_feedbacks.length,
@@ -86,8 +86,8 @@ class _ViewCustomerFeedbackScreenState
                       child: _row(index),
                     );
                   }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

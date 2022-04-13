@@ -69,17 +69,18 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
       backgroundColor: MyDrawer.emp.darkTheme == 1
           ? MyColors.richBlackFogra
           : MyColors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              MyScreen.getScreenWidth(context) * (20 / 490.9),
-              MyScreen.getScreenHeight(context) * (20 / 1063.6),
-              MyScreen.getScreenWidth(context) * (20 / 490.9),
-              MyScreen.getScreenHeight(context) * (20 / 1063.6)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ListView.builder(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+            MyScreen.getScreenWidth(context) * (20 / 490.9),
+            MyScreen.getScreenHeight(context) * (20 / 1063.6),
+            MyScreen.getScreenWidth(context) * (20 / 490.9),
+            MyScreen.getScreenHeight(context) * (20 / 1063.6)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: Database_ApproveOrders.processingOrders.length,
                   itemBuilder: (context, index) {
@@ -87,8 +88,8 @@ class _ProcessingOrderState extends State<ProcessingOrder> {
                       child: _row(index),
                     );
                   }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
