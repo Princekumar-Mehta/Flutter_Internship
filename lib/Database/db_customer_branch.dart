@@ -11,6 +11,7 @@ class Database_customerBranch {
   static List<CustomerBranch> all_branches = [];
   static List<CustomerBranch> bill_branches = [];
   static List<CustomerBranch> ship_branches = [];
+  static List<CustomerBranch> all_ship_branches = [];
   static CustomerBranch specific_branch = CustomerBranch();
   static String iphone_number = "";
   static String iemail = "";
@@ -64,6 +65,12 @@ class Database_customerBranch {
   Future<bool> get_AllcustomerBranchesByCode(String customer_code) async {
     all_branches = await DatabaseHelper.instance.getAllCustomerBranchesByCode(
         customer_code); // 0 for bill type, 1 ship type
+    return true;
+  }
+
+  Future<bool> get_AllcustomerShipBranches() async {
+    all_ship_branches = await DatabaseHelper.instance
+        .getAllCustomerShipBranches(); // 0 for bill type, 1 ship type
     return true;
   }
 

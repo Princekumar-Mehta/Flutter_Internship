@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:project_v3/Database/db_customer_branch.dart';
 import 'package:project_v3/Database/db_scheme.dart';
+import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -259,6 +261,7 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
                               double percentage = double.parse(_formKey
                                       .currentState!.value['discount']) /
                                   100;
+                              String message = "";
                               for (var i = 0; i < widget.items.length; i++) {
                                 if (await Database_Scheme().isSchemeNotExist(
                                     widget.items[i].split(" - ")[0],
@@ -269,10 +272,31 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
                                       percentage.toString(),
                                       fromdate,
                                       todate);
+                                  message += widget.items[i].split(" - ")[1] +
+                                      " " +
+                                      percentage.toString() +
+                                      " " +
+                                      fromdate +
+                                      " " +
+                                      todate +
+                                      "<br>";
                                 } else {
                                   Utility.showMessage(context,
                                       "Scheme Already Exist For ${widget.items[i].split(" - ")[0]}");
-                                  return;
+                                }
+                              }
+                              if (await Database_customerBranch()
+                                  .get_AllcustomerShipBranches()) {
+                                for (int i = 0;
+                                    i <
+                                        Database_customerBranch
+                                            .all_ship_branches.length;
+                                    i++) {
+                                  Send_Mail.send_mail(
+                                      Database_customerBranch
+                                          .all_ship_branches[i].branch_Email!,
+                                      "New Scheme Added",
+                                      "Details<br>" + message);
                                 }
                               }
                             }

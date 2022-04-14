@@ -44,6 +44,49 @@ class _SalespersonHomeState extends State<SalespersonHome> {
     "Edit Employee",
     "Add Customer",
   ];
+  initState() {
+    isAttendanceAdded();
+  }
+
+  isAttendanceAdded() {
+    if (Database_Hourly_Attendance.hourly_attendance.isNotEmpty) {
+      String previousTime = Database_Hourly_Attendance
+          .hourly_attendance[
+              Database_Hourly_Attendance.hourly_attendance.length - 1]
+          .time;
+      String currentTime =
+          DateTime.now().toString().split(" ")[1].substring(0, 5);
+      print(previousTime);
+      print(currentTime);
+      int hourdifference = int.parse(previousTime.split(":")[1]) <=
+              int.parse(currentTime.split(":")[1])
+          ? int.parse(currentTime.split(":")[0]) -
+              int.parse(previousTime.split(":")[0])
+          : int.parse(currentTime.split(":")[0]) -
+              int.parse(previousTime.split(":")[0]) -
+              1;
+
+      int minutedifference = int.parse(previousTime.split(":")[1]) <=
+              int.parse(currentTime.split(":")[1])
+          ? int.parse(currentTime.split(":")[1]) -
+              int.parse(previousTime.split(":")[1])
+          : 60 -
+              (int.parse(previousTime.split(":")[1]) -
+                  int.parse(currentTime.split(":")[1]));
+      print(hourdifference.toString());
+      print(minutedifference.toString());
+      if (hourdifference >= 1 || minutedifference >= 60) {
+        Utility.showNotification(
+            "Log Your Attendance (Last Added at $previousTime)");
+        return;
+      }
+    } else {
+      Utility.showNotification("Log Your Attendance");
+      return;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     // DatabaseHelper.instance.Temp_Query();

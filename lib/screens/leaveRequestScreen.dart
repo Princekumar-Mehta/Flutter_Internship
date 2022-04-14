@@ -117,6 +117,9 @@ class _LeaveRequestState extends State<LeaveRequest> {
     var daysRequested = Utility.calculateDifferenceDays(fromDate, toDate);
     var totalLeaves = Database_leaveRequest.totalApprovedLeaveRequests[key];
     var remLeaves = pendingLeaves(totalLeaves);
+    if (remLeaves < 0) {
+      remLeaves = 0;
+    }
     print(remLeaves);
     return Column(
       children: [
@@ -308,7 +311,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                             Container(
                               alignment: Alignment.center,
                               width: MyScreen.getScreenWidth(context) *
-                                  (40 / 490.9),
+                                  (60 / 490.9),
                               height: MyScreen.getScreenWidth(context) *
                                   (40 / 490.9),
                               color: MyDrawer.emp.darkTheme == 1
@@ -371,10 +374,9 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   Database_leaveRequest.empleave[key].email!,
                                   "Leave Confirmed",
                                   "Your Leave has been approved.");
-
+                              Navigator.pop(context);
                               if (await Database_leaveRequest()
                                   .getAllRequest()) {
-                                Navigator.pop(context);
                                 Navigator.pushNamed(
                                     context, MyRoutes.MyLeaveRequest);
                               }

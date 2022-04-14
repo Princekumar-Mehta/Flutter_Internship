@@ -19,7 +19,12 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
   @override
   Widget build(BuildContext context) {
     tableRows = [];
-
+    var rem = Utility.totalLeaves -
+        Database_leaveRequest.totalPendingLeaveRequestsForEmp -
+        Database_leaveRequest.totalApprovedLeaveRequestsForEmp;
+    if (rem < 0) {
+      rem = 0;
+    }
     for (int i = -1;
         i < Database_leaveRequest.leaveRequestsForEmp.length;
         i++) {
@@ -206,12 +211,7 @@ class _myLeaveRequestSummaryState extends State<myLeaveRequestSummary> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    (Utility.totalLeaves -
-                                            Database_leaveRequest
-                                                .totalPendingLeaveRequestsForEmp -
-                                            Database_leaveRequest
-                                                .totalApprovedLeaveRequestsForEmp)
-                                        .toString(),
+                                    rem.toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize:

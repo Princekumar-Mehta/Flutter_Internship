@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_v3/Database/database_helper.dart';
 import 'package:project_v3/Database/db_employee.dart';
+import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
@@ -102,8 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
           print(emp!.role);
           await Navigator.pushNamed(context, MyRoutes.MyAdminHome);
         } else if (emp!.role == "Salesperson") {
-          await Navigator.pushNamed(context, MyRoutes.MySalespersonHome);
-          print(emp!.role);
+          if (await Database_Hourly_Attendance().getHourlyAttendance(
+              MyDrawer.emp.id!, DateTime.now().toString().split(" ")[0])) {
+            await Navigator.pushNamed(context, MyRoutes.MySalespersonHome);
+            print(emp!.role);
+          }
         } else {
           await Navigator.pushNamed(context, MyRoutes.MyManagerHome);
           print(emp!.role);

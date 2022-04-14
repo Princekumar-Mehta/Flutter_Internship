@@ -36,7 +36,8 @@ class _AdminHomeState extends State<AdminHome> {
     "Pending Orders",
     "Fulfilled Orders",
     "Leave Request Form",
-    "My Leave Request Summary",
+    "Apply for Leave",
+    "My Leave Summary",
     "Leave Requests",
     "Edit Profile",
     "View Employees",
@@ -44,6 +45,10 @@ class _AdminHomeState extends State<AdminHome> {
     "Add Item",
     "Analytic Report",
     "View Item",
+    "Add Stock",
+    "View Inventory",
+    "Add Scheme",
+    "View Schemes"
   ];
   @override
   Widget build(BuildContext context) {
@@ -175,10 +180,11 @@ class _AdminHomeState extends State<AdminHome> {
                           Navigator.pushNamed(
                               context, MyRoutes.MyFulfilledOrders);
                         }
-                      } else if (val == "Leave Request Form") {
+                      } else if (val == "Leave Request Form" ||
+                          val == "Apply for Leave") {
                         Navigator.pushNamed(
                             context, MyRoutes.MyLeaveRequestForm);
-                      } else if (val == "My Leave Request Summary") {
+                      } else if (val == "My Leave Summary") {
                         if (await Database_leaveRequest()
                             .getAllRequestForEmp(MyDrawer.emp.id!)) {
                           Navigator.pushNamed(
@@ -207,7 +213,8 @@ class _AdminHomeState extends State<AdminHome> {
                                       )));
                         }
                       } else if (val == "Explore Attendance") {
-                        if (await Database_signUp().getAllEmp()) {
+                        var _db_employee = Database_signUp();
+                        if (await _db_employee.getAllEmp()) {
                           //print(Database_signUp.emps);
                           await Navigator.push(
                               context,
@@ -218,6 +225,31 @@ class _AdminHomeState extends State<AdminHome> {
                         }
                       } else if (val == "Add Item") {
                         Navigator.pushNamed(context, MyRoutes.MyAddItemScreen);
+                      } else if (val == "Add Stock") {
+                        if (await Database_Item().get_ItemNames()) {
+                          print(Database_Item.items);
+                          Navigator.pushNamed(context, MyRoutes.MyAddStock);
+                        }
+                      } else if (val == "View Inventory") {
+                        if (await Database_Stock.getStockByEmpId(1)) {
+                          print(Database_Stock.stockByEmpId.length);
+                          await Navigator.pushNamed(
+                              context, MyRoutes.MyViewInventory);
+                        }
+                      } else if (val == "Add Scheme") {
+                        if (await Database_Item().get_ItemNames()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddScheme(
+                                        itemList: Database_Item.item_names,
+                                      )));
+                        }
+                      } else if (val == "View Schemes") {
+                        if (await Database_Scheme().currentSchemes()) {
+                          print(Database_Scheme.current_schemes);
+                          Navigator.pushNamed(context, MyRoutes.MyViewSchemes);
+                        }
                       } else if (val == "Analytic Report") {
                         if (await Database_Report()
                             .getSalesperson_SalesReport()) {
@@ -1602,7 +1634,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.radio_button_checked,
+                                              Icons.inventory_2_outlined,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
@@ -1672,7 +1704,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.timer,
+                                              Icons.local_offer_outlined,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
@@ -1722,7 +1754,8 @@ class _AdminHomeState extends State<AdminHome> {
                                       onTap: () async {
                                         if (await Database_Scheme()
                                             .currentSchemes()) {
-                                          print(Database_Scheme.current_schemes);
+                                          print(
+                                              Database_Scheme.current_schemes);
                                           Navigator.pushNamed(
                                               context, MyRoutes.MyViewSchemes);
                                         }
@@ -1749,7 +1782,7 @@ class _AdminHomeState extends State<AdminHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.swap_horiz,
+                                              Icons.inventory_outlined,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),

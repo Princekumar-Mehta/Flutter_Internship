@@ -60,6 +60,8 @@ class Database_Stock {
   }
 
   static Future<bool> getStockByEmpId(int emp_Id) async {
+    stockByEmpId = [];
+    stockItemByEmpId = [];
     stockByEmpId = await DatabaseHelper.instance.getStockByEmpId(emp_Id);
     for (int i = 0; i < stockByEmpId.length; i++) {
       stockItemByEmpId

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:project_v3/Database/db_customer_branch.dart';
 import 'package:project_v3/Database/db_stock.dart';
+import 'package:project_v3/Email/send_email.dart';
 
 import '../Models/item.dart';
 import 'database_helper.dart';
@@ -19,6 +21,7 @@ class Database_Item {
       return false;
     } else {
       final items = await DatabaseHelper.instance.getItems();
+      bool isItNew = false;
       if (item['code'].length == 0) {
         item['code'] = "I" +
             (int.parse(items[items.length - 1]
@@ -26,6 +29,7 @@ class Database_Item {
                         .substring(1, items[items.length - 1].code!.length)) +
                     1)
                 .toString();
+        isItNew = true;
       }
       await DatabaseHelper.instance.addItem(Item.fromMap(item));
       Database_Stock.addStock(
@@ -39,6 +43,18 @@ class Database_Item {
           order_Packet: 1000,
           last_Order_In_Packet: 0,
           last_Order_Date: "00-00-0000");
+      if (isItNew) {
+        if (await Database_customerBranch().get_AllcustomerShipBranches()) {
+          for (int i = 0;
+              i < Database_customerBranch.all_ship_branches.length;
+              i++) {
+            Send_Mail.send_mail(
+                Database_customerBranch.all_ship_branches[i].branch_Email!,
+                "New Item Added",
+                "Details<br>" + item.toString());
+          }
+        }
+      }
       return true;
     }
   }

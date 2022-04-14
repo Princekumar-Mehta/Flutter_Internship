@@ -285,7 +285,7 @@ class Utility {
     return d.toStringAsFixed(2);
   }
 
-  static Future<void> showNotification(String name) async {
+  static Future<void> showNotification(String message) async {
     FlutterLocalNotificationsPlugin? localNotification;
     var androidInitialize =
         new AndroidInitializationSettings("@mipmap/ic_launcher");
@@ -302,6 +302,6 @@ class Utility {
     var generalNotificationDetails =
         new NotificationDetails(android: androidDetails, iOS: iOSDetials);
     await localNotification.show(
-        0, "Notif Title", "Hello, $name ", generalNotificationDetails);
+        0, "Notification", message, generalNotificationDetails);
   }
 }

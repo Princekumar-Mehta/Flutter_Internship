@@ -53,6 +53,7 @@ class _AddItemState extends State<AddItem> {
         "net_Weight": net_Weight
       };
       bool isAdded = await Database_Item.addItem(item);
+
       showMessage(
           context, isAdded ? "Item Added" : "Item Already Exist", isAdded);
     }
