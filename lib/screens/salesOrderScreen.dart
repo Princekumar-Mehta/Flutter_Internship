@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:project_v3/Database/db_customer.dart';
@@ -37,8 +40,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   Future<void> placeOrder(BuildContext context) async {
     if ((!customer.isEmpty() &&
         !billing_address.isEmpty() &&
-        !shipping_address.isEmpty() &&
-        !manufacturing_branch.isEmpty())) {
+        !shipping_address.isEmpty())) {
       order = getOrders!.getOrder();
       order.customer = (await Database_customer()
           .get_customer(customer.getValue().toString()));
@@ -67,7 +69,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   //print(order.billing_branch.branch_Phone);
                   //print(order.billing_branch.branch_Email);
                   //print("Successful");
-                  order.manufacturing_Branch = manufacturing_branch.getValue();
+                  order.manufacturing_Branch = "";
+                  // order.manufacturing_Branch = manufacturing_branch.getValue();
                   _formKey.currentState!.save();
                   order.OrderBydate = _formKey
                       .currentState!.value['order_by_date']
@@ -84,7 +87,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         return;
                       }
                     }
-                    final file = await PdfApi.generatePDF(order: order);
+                    final file = await PdfApi.generatePDF(
+                      order: order,
+                      imageSignature:
+                          await rootBundle.load('assets/images/White.png'),
+                    );
                     //print("Date is :" + order.OrderBydate);
                     await Navigator.push(
                         context,
@@ -388,7 +395,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                           height:
                               MyScreen.getScreenHeight(context) * (6 / 553)),
                       // Manufacturing Branch Input
-                      SizedBox(
+                      /* SizedBox(
                         width: MyScreen.getScreenWidth(context) * (228 / 294),
                         child: Text("Manufacturing Branch *",
                             style: TextStyle(
@@ -397,8 +404,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                     : MyColors.black,
                                 fontSize: MyScreen.getScreenHeight(context) *
                                     (20 / 1063.6))),
-                      ),
-                      manufacturing_branch,
+                      ),*/
+                      //manufacturing_branch,
                       // Spacing to be kept between Field Name & Field Input
                       SizedBox(
                           height:

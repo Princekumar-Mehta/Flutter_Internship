@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:project_v3/Database/database_helper.dart';
 import 'package:project_v3/Database/db_Customer.dart';
 import 'package:project_v3/Database/db_Customer_branch.dart';
 import 'package:project_v3/Database/db_Employee.dart';
@@ -192,6 +193,12 @@ class Utility {
       emp = await Database_signUp.getEmp(email: email_id.toLowerCase(), id: 0);
     }
     return (emp == null);
+  }
+
+  static Future<bool> isExistEmailNotId(String email, int emp_Id) async {
+    List<Employee> emps =
+        (await DatabaseHelper.instance.getEmpWithEmailId(email, emp_Id));
+    return emps.isNotEmpty;
   }
 
   static Future<void> showMessage(BuildContext context, String message,

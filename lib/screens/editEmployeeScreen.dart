@@ -38,6 +38,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   initState() {
     isItSalesperson = widget.emp.role == "Salesperson";
     if (isItSalesperson) {
+      // print(widget.region_salesperson!.sub_Area);
       city = widget.region_salesperson!.sub_Area!.split("-")[0];
       sub_Area = widget.region_salesperson!.sub_Area!.split("-")[1];
       if (sub_Area == "CL")
@@ -124,6 +125,10 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       String email = _formKey.currentState!.value['email'];
+      if (await Utility.isExistEmailNotId(email, widget.emp.id!)) {
+        Utility.showMessage(context, "Email ID Already Registered");
+        return;
+      }
       if (_formKey.currentState!.value['password_1'] !=
           _formKey.currentState!.value['password_2']) {
         Utility.showMessage(context, "Both Password Should match");
@@ -166,8 +171,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
         final emp_detials = emp.toMap();
         String areaSubArea = "";
         if (emp.role == 'Salesperson') {
-          String area = _formKey.currentState?.value['city'];
-          String sub_Area = _formKey.currentState?.value['sub_Area'];
+          String area = city;
           if (sub_Area == 'Central') sub_Area = area + "-CL";
           if (sub_Area == 'North - West') sub_Area = area + "-NW";
           if (sub_Area == 'North - East') sub_Area = area + "-NE";
@@ -176,7 +180,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
           if (!(await Database_Region_Salesperson()
               .isExistRegionSalesperson(emp.id!))) {
             Database_Region_Salesperson.addRegionSalesperson(
-                sub_Area: sub_Area, area: area, emp_Id: emp.id!);
+                sub_Area: sub_Area, area: city, emp_Id: emp.id!);
           } else {
             widget.region_salesperson!.sub_Area = sub_Area;
             Database_Region_Salesperson()

@@ -29,11 +29,11 @@ class Database_Customer_Feedback {
         reason: reason));
   }
 
-  Future<bool> getRemainingBranchesCustomerFeedbacks(
-      int salesperson_Code, int month, int year) async {
+  Future<bool> getRemainingBranchesBysubAreaCustomerFeedbacks(
+      int salesperson_Code, int month, int year, String sub_Area) async {
     remaining_branches = [];
     List<CustomerBranch> allCustomerBranches =
-        await DatabaseHelper.instance.getAllCustomerBranches();
+        await DatabaseHelper.instance.getAllCustomerBranchesBysubArea(sub_Area);
     List<Customer_Feedback> existingCustomerFeedbacks = await DatabaseHelper
         .instance
         .getExistingBranchesCustomerFeedback(salesperson_Code, month, year);

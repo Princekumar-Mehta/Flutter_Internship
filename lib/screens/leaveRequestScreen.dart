@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:project_v3/Database/db_leave_request.dart';
-import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
@@ -121,6 +120,11 @@ class _LeaveRequestState extends State<LeaveRequest> {
       remLeaves = 0;
     }
     print(remLeaves);
+    String message = "\n\n\nYour leave between: " +
+        Database_leaveRequest.leaveRequests[key].fromdate!.split(" ")[0] +
+        " to " +
+        Database_leaveRequest.leaveRequests[key].todate!.split(" ")[0] +
+        " has been ";
     return Column(
       children: [
         Row(
@@ -344,12 +348,13 @@ class _LeaveRequestState extends State<LeaveRequest> {
                         InkWell(
                           onTap: () async {
                             if (await Database_leaveRequest()
-                                .CancelLeaveRequest(key)) {
-                              Send_Mail.send_mail(
-                                  Database_leaveRequest.empleave[key].email!,
-                                  "Leave Cancelled",
-                                  "Your Leave has been cancelled.");
-                              setState(() {});
+                                .CancelLeaveRequest(key, message)) {
+                              Navigator.pop(context);
+                              if (await Database_leaveRequest()
+                                  .getAllRequest()) {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.MyLeaveRequest);
+                              }
                             }
                           },
                           child: Container(
@@ -369,11 +374,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                         InkWell(
                           onTap: () async {
                             if (await Database_leaveRequest()
-                                .ApproveLeaveRequest(key)) {
-                              Send_Mail.send_mail(
-                                  Database_leaveRequest.empleave[key].email!,
-                                  "Leave Confirmed",
-                                  "Your Leave has been approved.");
+                                .ApproveLeaveRequest(key, message)) {
                               Navigator.pop(context);
                               if (await Database_leaveRequest()
                                   .getAllRequest()) {

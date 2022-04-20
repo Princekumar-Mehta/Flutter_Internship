@@ -272,7 +272,14 @@ class _ApproveOrderState extends State<ApproveOrder> {
                             Send_Mail.send_mail(
                                 Database_ApproveOrders.customers[key].email!,
                                 "Order Cancelled",
-                                "Your Order is Cancelled");
+                                "Your Order ID: " +
+                                    Database_ApproveOrders
+                                        .pendingOrders[key].order_Id
+                                        .toString() +
+                                    ", to be delivered on: " +
+                                    Database_ApproveOrders
+                                        .pendingOrders[key].order_by_date +
+                                    " has been Cancelled");
                             Navigator.pop(context);
                             var _pendingOrders = Database_ApproveOrders();
                             if (await _pendingOrders.getPendingOrders()) {
@@ -302,7 +309,14 @@ class _ApproveOrderState extends State<ApproveOrder> {
                             Send_Mail.send_mail(
                                 Database_ApproveOrders.customers[key].email!,
                                 "Order Confirmed",
-                                "Your Order is now under processing");
+                                "Your Order ID: " +
+                                    Database_ApproveOrders
+                                        .pendingOrders[key].order_Id
+                                        .toString() +
+                                    ", to be delivered on: " +
+                                    Database_ApproveOrders
+                                        .pendingOrders[key].order_by_date +
+                                    " is now under processing");
                             Navigator.pop(context);
                             var _pendingOrders = Database_ApproveOrders();
                             if (await _pendingOrders.getPendingOrders()) {

@@ -264,6 +264,16 @@ class DatabaseHelper {
     }
   }
 
+  Future<List<Employee>> getEmpWithEmailId(String email, int emp_Id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> salespersons = await db.rawQuery(
+        "SELECT * FROM employees where email = '$email' and id != $emp_Id"); //where role = 'Salesperson'
+    List<Employee> SalespersonList = salespersons.isNotEmpty
+        ? salespersons.map((c) => Employee.fromMap((c))).toList()
+        : [];
+    return SalespersonList;
+  }
+
   Future<List<Employee>?> getAllEmp() async {
     Database db = await instance.database;
     var emp = await db.query('employees');

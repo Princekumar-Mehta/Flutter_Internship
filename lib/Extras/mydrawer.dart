@@ -88,6 +88,7 @@ class MyDrawer extends StatelessWidget {
             iconColor: MyColors.scarlet,
             title: const Text('Profile'),
             onTap: () async {
+              Navigator.pop(context);
               if (MyDrawer.emp.role == "Salesperson") {
                 if (await Database_Region_Salesperson()
                     .getRegionSalesperson(MyDrawer.emp.id!)) {

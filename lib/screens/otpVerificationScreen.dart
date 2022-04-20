@@ -261,6 +261,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                   Employee emp = await Utility.getEmployee(
                                       old_email.toString());
                                   emp.email = email;
+                                  print("new email" + email);
+                                  if (MyDrawer.emp.role == emp.role) {
+                                    MyDrawer.emp = emp;
+                                  }
+
                                   Database_signUp().updateEmp(emp);
                                   Send_Mail.send_mail(
                                     emp.email.toString(),

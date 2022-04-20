@@ -104,6 +104,14 @@ class _SignUpEmailState extends State<SignUpEmail> {
         showMessage(context, "Please Select Role");
         return;
       }
+      if (_formKey.currentState!.value['city'] == null) {
+        showMessage(context, "Please Select City for Salesperson");
+        return;
+      }
+      if (_formKey.currentState!.value['sub_Area'] == null) {
+        showMessage(context, "Please Select Sub Area for Salesperson");
+        return;
+      }
       String name = _formKey.currentState!.value['full_name'];
       String phone = _formKey.currentState!.value['phone'];
       String password = _formKey.currentState!.value['password_1'];

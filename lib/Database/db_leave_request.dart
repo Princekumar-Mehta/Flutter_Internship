@@ -1,4 +1,5 @@
 import 'package:project_v3/Database/db_employee.dart';
+import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/utility.dart';
 
 import '../Models/employee.dart';
@@ -37,6 +38,8 @@ class Database_leaveRequest {
     leaveRequests = await DatabaseHelper.instance.getAllLeaveRequest();
     totalApprovedLeaveRequests = [];
     lastApprovedLeaveRequests = [];
+    empleave = [];
+    print(leaveRequests.length.toString());
     for (int i = 0; i < leaveRequests.length; i++) {
       empleave.add(await Database_signUp.getEmp(
           email: "", id: leaveRequests[i].emp_id!));
@@ -143,16 +146,22 @@ class Database_leaveRequest {
     return true;
   }
 
-  Future<bool> ApproveLeaveRequest(key) async {
+  Future<bool> ApproveLeaveRequest(key, message) async {
     leaveRequests[key].status = 'Accepted';
     DatabaseHelper.instance.updateLeaveRequest(leaveRequests[key]);
+    print(Database_leaveRequest.empleave[key].email!);
+    Send_Mail.send_mail(Database_leaveRequest.empleave[key].email!,
+        "Leave Confirmed", message + "approved.");
     if (await Database_leaveRequest().getAllRequest()) return true;
     return false;
   }
 
-  Future<bool> CancelLeaveRequest(key) async {
+  Future<bool> CancelLeaveRequest(key, message) async {
     leaveRequests[key].status = 'Rejected';
     DatabaseHelper.instance.updateLeaveRequest(leaveRequests[key]);
+    print(Database_leaveRequest.empleave[key].email!);
+    Send_Mail.send_mail(Database_leaveRequest.empleave[key].email!,
+        "Leave Cancelled", message + "cancelled.");
     if (await Database_leaveRequest().getAllRequest()) return true;
     return false;
   }

@@ -7,7 +7,6 @@ import 'package:project_v3/Email/send_email.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
-import 'package:project_v3/Extras/utility.dart';
 
 class SetSchemeDetails extends StatefulWidget {
   final List<String> items;
@@ -261,32 +260,43 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
                               double percentage = double.parse(_formKey
                                       .currentState!.value['discount']) /
                                   100;
-                              String message = "";
+                              String message =
+                                  "The following items are on scheme!!\n";
+                              int added = 0;
+                              String item_not_added = "";
                               for (var i = 0; i < widget.items.length; i++) {
                                 if (await Database_Scheme().isSchemeNotExist(
                                     widget.items[i].split(" - ")[0],
                                     fromdate,
                                     todate)) {
+                                  added++;
                                   Database_Scheme().addScheme(
                                       widget.items[i].split(" - ")[0],
                                       percentage.toString(),
                                       fromdate,
                                       todate);
-                                  message += widget.items[i].split(" - ")[1] +
-                                      " " +
-                                      percentage.toString() +
-                                      " " +
-                                      fromdate +
-                                      " " +
-                                      todate +
-                                      "<br>";
+                                  message += r"""<ul><li>""" +
+                                      widget.items[i].split(" - ")[1] +
+                                      " - " +
+                                      widget.items[i].split(" - ")[2] +
+                                      "</li></ul>";
                                 } else {
-                                  Utility.showMessage(context,
-                                      "Scheme Already Exist For ${widget.items[i].split(" - ")[0]}");
+                                  item_not_added +=
+                                      "${widget.items[i].split(" - ")[1]}";
                                 }
                               }
-                              if (await Database_customerBranch()
-                                  .get_AllcustomerShipBranches()) {
+                              message += "\n\nDiscount Percentage: " +
+                                  double.parse(_formKey
+                                          .currentState!.value['discount'])
+                                      .toString() +
+                                  "%\n\n From Date: " +
+                                  fromdate +
+                                  "\n\n To Date:  " +
+                                  todate +
+                                  "\n\n";
+                              if (added > 0 &&
+                                  await Database_customerBranch()
+                                      .get_AllcustomerShipBranches()) {
                                 for (int i = 0;
                                     i <
                                         Database_customerBranch
@@ -299,10 +309,18 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
                                       "Details<br>" + message);
                                 }
                               }
+                              if (added != widget.items.length) {
+                                showMessage(
+                                    context,
+                                    "Scheme already exist for given items: " +
+                                        item_not_added +
+                                        "\n");
+                              } else {
+                                Database_Scheme().getSchemes();
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }
                             }
-                            Database_Scheme().getSchemes();
-                            Navigator.pop(context);
-                            Navigator.pop(context);
                           },
                         ),
                       ),
@@ -313,6 +331,28 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  static Future<void> showMessage(BuildContext context, String message,
+      {String title: "Alert"}) async {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () async {
+              Navigator.pop(c, false);
+              Database_Scheme().getSchemes();
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
     );
   }

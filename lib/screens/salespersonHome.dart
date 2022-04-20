@@ -43,6 +43,14 @@ class _SalespersonHomeState extends State<SalespersonHome> {
     "Add New Order",
     "Edit Employee",
     "Add Customer",
+    "Request Leave",
+    "Leave Requests",
+    "View Customers",
+    "Customer Feedback",
+    "Attendance Log",
+    "Route Plan",
+    "View Route",
+    "Add Customer Branch"
   ];
   initState() {
     isAttendanceAdded();
@@ -203,10 +211,90 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                           Navigator.pushNamed(
                               context, MyRoutes.MySalespersonAttendance);
                         }
-                      } else if (val == "Leave Request Form") {
+                      } else if (val == "Leave Request Form" ||
+                          val == "Request Leave") {
                         Navigator.pushNamed(
                             context, MyRoutes.MyLeaveRequestForm);
-                      } else if (val == "My Leave Request Summary") {
+                      } else if (val == "Add Customer") {
+                        await Navigator.pushNamed(
+                            context, MyRoutes.MyAddCustomerScreen);
+                      } else if (val == "View Customers") {
+                        if (await Database_Region_Salesperson()
+                                .getRegionSalesperson(MyDrawer.emp.id!) &&
+                            await Database_customer().get_customerIdsBySubArea(
+                                Database_Region_Salesperson
+                                    .region_salesperson!.sub_Area!)) {
+                          print(Database_Region_Salesperson
+                              .region_salesperson!.sub_Area!);
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyViewCustomerScreen);
+                        }
+                      } else if (val == "Customer Feedback") {
+                        final df = DateFormat('dd-MM-yyyy');
+                        var date = (df.format(new DateTime.now()));
+                        await Database_Region_Salesperson()
+                            .getRegionSalesperson(MyDrawer.emp.id!);
+                        if (await Database_Customer_Feedback()
+                            .getRemainingBranchesBysubAreaCustomerFeedbacks(
+                                MyDrawer.emp.id!,
+                                int.parse(date.split('-')[1]),
+                                int.parse(date.split('-')[2]),
+                                Database_Region_Salesperson
+                                    .region_salesperson!.sub_Area!)) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MyCustomerFeedbackScreen);
+                        }
+                      } else if (val == "Attendance Log") {
+                        if (await Database_Hourly_Attendance()
+                            .getHourlyAttendance(MyDrawer.emp.id!,
+                                DateTime.now().toString().split(" ")[0])) {
+                          Navigator.pushNamed(
+                              context, MyRoutes.MySalespersonAttendance);
+                        }
+                      } else if (val == "Route Plan") {
+                        if (await Database_Region_Salesperson()
+                                .getRegionSalesperson(MyDrawer.emp.id!) &&
+                            await Database_Route()
+                                .get_AllcustomerBranchesBySubArea(
+                                    Database_Region_Salesperson
+                                        .region_salesperson!.sub_Area!)) {
+                          await Navigator.pushNamed(
+                              context, MyRoutes.MySetRouteMapScreen);
+                        }
+                      } else if (val == "View Route") {
+                        var date = DateTime.now();
+                        print(DateFormat("EEEE").format(date));
+                        await Database_Route().getRoutesBySalespersonIdDay(
+                            MyDrawer.emp.id!, DateFormat("EEEE").format(date));
+                        _textEditingController.text = "";
+                        if (Database_Route.routeBranches.isEmpty) {
+                          Utility.showMessage(context,
+                              "No Route planned for Today.\n\nPlease plan route for the day to view route.");
+                          return;
+                        }
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewTodaysRoute(
+                                    routeBranches:
+                                        Database_Route.routeBranches)));
+                      } else if (val == "Add Customer Branch") {
+                        if (await Database_Region_Salesperson()
+                                .getRegionSalesperson(MyDrawer.emp.id!) &&
+                            await Database_customer().get_customerIdsBySubArea(
+                                Database_Region_Salesperson
+                                    .region_salesperson!.sub_Area!)) {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddCustomerBranch(
+                                        region_salesperson:
+                                            Database_Region_Salesperson
+                                                .region_salesperson,
+                                      )));
+                        }
+                      } else if (val == "My Leave Request Summary" ||
+                          val == "Leave Requests") {
                         if (await Database_leaveRequest()
                             .getAllRequestForEmp(MyDrawer.emp.id!)) {
                           Navigator.pushNamed(
@@ -224,6 +312,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                           Navigator.pushNamed(context, MyRoutes.MySalesOrder);
                         }
                       }
+                      _textEditingController.text = "";
                     });
                   },
                   getImmediateSuggestions: true,
@@ -447,6 +536,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                   ((440 / 3) / 490.9),
                               child: InkWell(
                                 onTap: () async {
+                                  print(MyDrawer.emp.id);
                                   if (await Database_Region_Salesperson()
                                       .getRegionSalesperson(MyDrawer.emp.id!)) {
                                     await Navigator.push(
@@ -662,12 +752,17 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         final df = DateFormat('dd-MM-yyyy');
                                         var date =
                                             (df.format(new DateTime.now()));
+                                        await Database_Region_Salesperson()
+                                            .getRegionSalesperson(
+                                                MyDrawer.emp.id!);
                                         if (await Database_Customer_Feedback()
-                                            .getRemainingBranchesCustomerFeedbacks(
-                                          MyDrawer.emp.id!,
-                                          int.parse(date.split('-')[1]),
-                                          int.parse(date.split('-')[2]),
-                                        )) {
+                                            .getRemainingBranchesBysubAreaCustomerFeedbacks(
+                                                MyDrawer.emp.id!,
+                                                int.parse(date.split('-')[1]),
+                                                int.parse(date.split('-')[2]),
+                                                Database_Region_Salesperson
+                                                    .region_salesperson!
+                                                    .sub_Area!)) {
                                           Navigator.pushNamed(
                                               context,
                                               MyRoutes

@@ -43,6 +43,19 @@ class Database_Item {
           order_Packet: 1000,
           last_Order_In_Packet: 0,
           last_Order_Date: "00-00-0000");
+
+      String message =
+          "One more reason to love Balaji! A new item is available for ordering:\n";
+      message += "\n\nItem Name: " +
+          item['item_Name'].toString() +
+          " - " +
+          item['net_Weight'].toString() +
+          "g" +
+          "\nItem Type: " +
+          item['item_Type'] +
+          "\nItem Price: " +
+          item['price'].toString() +
+          "\n\n Thank you";
       if (isItNew) {
         if (await Database_customerBranch().get_AllcustomerShipBranches()) {
           for (int i = 0;
@@ -51,7 +64,7 @@ class Database_Item {
             Send_Mail.send_mail(
                 Database_customerBranch.all_ship_branches[i].branch_Email!,
                 "New Item Added",
-                "Details<br>" + item.toString());
+                "Details<br>\n\n" + message);
           }
         }
       }
