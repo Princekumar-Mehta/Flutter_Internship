@@ -23,7 +23,10 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
     for (int i = 0; i < Database_Report.items.length; i++) {
       //    print(_formKey.currentState?.value[Database_Report.items[i].item_Name]);
       if (selected[Database_Report.items[i].code.toString()] == true) {
-        dataMap[Database_Report.items[i].item_Name.toString()] =
+        dataMap[Database_Report.items[i].item_Name.toString() +
+                " " +
+                Database_Report.items[i].net_Weight.toString() +
+                "g"] =
             widget.report_type == "revenue"
                 ? double.parse(Database_Report.sales_in_revenue[i].toString())
                 : double.parse(Database_Report.sales_in_packet[i].toString());
@@ -134,10 +137,13 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
                     );
                   }),
             ),
-            SizedBox(
-              width: MyScreen.getScreenWidth(context) * (85 / 294),
-              height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-              child: InkWell(
+            InkWell(
+              onTap: () {
+                moveToReportScreen2();
+              },
+              child: SizedBox(
+                width: MyScreen.getScreenWidth(context) * (85 / 294),
+                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                 child: Stack(
                   children: [
                     Opacity(
@@ -166,9 +172,6 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
                     )
                   ],
                 ),
-                onTap: () {
-                  moveToReportScreen2();
-                },
               ),
             ),
           ],
@@ -191,7 +194,10 @@ class _ReportItemWise1State extends State<ReportItemWise1> {
             title: Text(
                 Database_Report.items[key].code.toString() +
                     "\t" +
-                    Database_Report.items[key].item_Name.toString(),
+                    Database_Report.items[key].item_Name.toString() +
+                    "\t" +
+                    Database_Report.items[key].net_Weight.toString() +
+                    "g",
                 style: TextStyle(
                     fontSize: 13,
                     color: MyDrawer.emp.darkTheme == 1

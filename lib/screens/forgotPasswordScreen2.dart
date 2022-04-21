@@ -184,11 +184,43 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                           height: MyScreen.getScreenHeight(context) *
                               (580 / 1063.6),
                         ),
-                        SizedBox(
-                          width: MyScreen.getScreenWidth(context) * (85 / 294),
-                          height:
-                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                          child: InkWell(
+                        InkWell(
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final pwd1 = password1.text.toString();
+                              final pwd2 = password2.text.toString();
+                              print(pwd1);
+                              print(pwd2);
+                              RegExp _original = RegExp(r'(dims@)');
+                              if (pwd1 != pwd2) {
+                                showMessage(context,
+                                    "Both Password & Confirm Password should match.");
+                                return;
+                              } else if (_original
+                                  .hasMatch(pwd1.toLowerCase())) {
+                                showMessage(context,
+                                    "Please change the password for security reasons");
+                                _formKey.currentState!.reset();
+                                return;
+                              } else {
+                                Employee emp = await Utility.getEmployee(email);
+                                emp.password = pwd1;
+                                Database_signUp().updateEmp(emp);
+                                Send_Mail.send_mail(
+                                    email,
+                                    "Password Reset Successful",
+                                    "Your password is changed, If it was not you, then click on forgot password and reset it");
+                                showMessage(
+                                    context, "Password Reset Successful",
+                                    moveToNextScreen: true);
+                              }
+                            }
+                          },
+                          child: SizedBox(
+                            width:
+                                MyScreen.getScreenWidth(context) * (85 / 294),
+                            height: MyScreen.getScreenHeight(context) *
+                                (60 / 1063.6),
                             child: Stack(
                               children: [
                                 Opacity(
@@ -218,38 +250,6 @@ class _ForgotPasswordScreen2State extends State<ForgotPasswordScreen2> {
                                 )
                               ],
                             ),
-                            onTap: () async {
-                              if (_formKey.currentState!.validate()) {
-                                final pwd1 = password1.text.toString();
-                                final pwd2 = password2.text.toString();
-                                print(pwd1);
-                                print(pwd2);
-                                RegExp _original = RegExp(r'(dims@)');
-                                if (pwd1 != pwd2) {
-                                  showMessage(context,
-                                      "Both Password & Confirm Password should match.");
-                                  return;
-                                } else if (_original
-                                    .hasMatch(pwd1.toLowerCase())) {
-                                  showMessage(context,
-                                      "Please change the password for security reasons");
-                                  _formKey.currentState!.reset();
-                                  return;
-                                } else {
-                                  Employee emp =
-                                      await Utility.getEmployee(email);
-                                  emp.password = pwd1;
-                                  Database_signUp().updateEmp(emp);
-                                  Send_Mail.send_mail(
-                                      email,
-                                      "Password Reset Successful",
-                                      "Your password is changed, If it was not you, then click on forgot password and reset it");
-                                  showMessage(
-                                      context, "Password Reset Successful",
-                                      moveToNextScreen: true);
-                                }
-                              }
-                            },
                           ),
                         ),
                       ],

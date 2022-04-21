@@ -407,10 +407,12 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                     SizedBox(
                         height:
                             MyScreen.getScreenHeight(context) * (40 / 1063.6)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (85 / 294),
-                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                      child: InkWell(
+                    InkWell(
+                      onTap: () => applyLeave(context),
+                      child: SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
                         child: Stack(
                           children: [
                             Opacity(
@@ -440,7 +442,6 @@ class _LeaveRequestFormState extends State<LeaveRequestForm> {
                             )
                           ],
                         ),
-                        onTap: () => applyLeave(context),
                       ),
                     ),
                   ],

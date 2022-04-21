@@ -709,10 +709,18 @@ class _ViewCustomerBranchDetailState extends State<ViewCustomerBranchDetail> {
                   SizedBox(
                       height:
                           MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-                  SizedBox(
-                    width: MyScreen.getScreenWidth(context) * (85 / 294),
-                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                    child: InkWell(
+                  InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditCustomerBranch(
+                                    customerBranch: widget.customerBranch,
+                                  )));
+                    },
+                    child: SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (85 / 294),
+                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                       child: Stack(
                         children: [
                           Opacity(
@@ -742,14 +750,6 @@ class _ViewCustomerBranchDetailState extends State<ViewCustomerBranchDetail> {
                           )
                         ],
                       ),
-                      onTap: () async {
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditCustomerBranch(
-                                      customerBranch: widget.customerBranch,
-                                    )));
-                      },
                     ),
                   ),
                 ],

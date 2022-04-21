@@ -212,11 +212,87 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *
                               (60 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
+                      InkWell(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            String fromdate = _formKey
+                                .currentState!.value['date']
+                                .toString()
+                                .split(" ")[0];
+                            String todate = _formKey
+                                .currentState!.value['dateto']
+                                .toString()
+                                .split(" ")[0];
+                            double percentage = double.parse(_formKey
+                                    .currentState!.value['discount']) /
+                                100;
+                            String message =
+                                "The following items are on scheme!!\n";
+                            int added = 0;
+                            String item_not_added = "";
+                            for (var i = 0; i < widget.items.length; i++) {
+                              if (await Database_Scheme().isSchemeNotExist(
+                                  widget.items[i].split(" - ")[0],
+                                  fromdate,
+                                  todate)) {
+                                added++;
+                                Database_Scheme().addScheme(
+                                    widget.items[i].split(" - ")[0],
+                                    percentage.toString(),
+                                    fromdate,
+                                    todate);
+                                message += r"""<ul><li>""" +
+                                    widget.items[i].split(" - ")[1] +
+                                    " - " +
+                                    widget.items[i].split(" - ")[2] +
+                                    "</li></ul>";
+                              } else {
+                                item_not_added +=
+                                    "${widget.items[i].split(" - ")[1]}";
+                              }
+                            }
+                            message += "\n\nDiscount Percentage: " +
+                                double.parse(_formKey
+                                        .currentState!.value['discount'])
+                                    .toString() +
+                                "%\n\n From Date: " +
+                                fromdate +
+                                "\n\n To Date:  " +
+                                todate +
+                                "\n\n";
+                            if (added > 0 &&
+                                await Database_customerBranch()
+                                    .get_AllcustomerShipBranches()) {
+                              for (int i = 0;
+                                  i <
+                                      Database_customerBranch
+                                          .all_ship_branches.length;
+                                  i++) {
+                                Send_Mail.send_mail(
+                                    Database_customerBranch
+                                        .all_ship_branches[i].branch_Email!,
+                                    "New Scheme Added",
+                                    "Details<br>" + message);
+                              }
+                            }
+                            if (added != widget.items.length) {
+                              showMessage(
+                                  context,
+                                  "Scheme already exist for given items: " +
+                                      item_not_added +
+                                      "\n");
+                            } else {
+                              Database_Scheme().getSchemes();
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            }
+                          }
+                        },
+                        child: SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (85 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
                           child: Stack(
                             children: [
                               Opacity(
@@ -246,82 +322,6 @@ class _SetSchemeDetailsState extends State<SetSchemeDetails> {
                               )
                             ],
                           ),
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              String fromdate = _formKey
-                                  .currentState!.value['date']
-                                  .toString()
-                                  .split(" ")[0];
-                              String todate = _formKey
-                                  .currentState!.value['dateto']
-                                  .toString()
-                                  .split(" ")[0];
-                              double percentage = double.parse(_formKey
-                                      .currentState!.value['discount']) /
-                                  100;
-                              String message =
-                                  "The following items are on scheme!!\n";
-                              int added = 0;
-                              String item_not_added = "";
-                              for (var i = 0; i < widget.items.length; i++) {
-                                if (await Database_Scheme().isSchemeNotExist(
-                                    widget.items[i].split(" - ")[0],
-                                    fromdate,
-                                    todate)) {
-                                  added++;
-                                  Database_Scheme().addScheme(
-                                      widget.items[i].split(" - ")[0],
-                                      percentage.toString(),
-                                      fromdate,
-                                      todate);
-                                  message += r"""<ul><li>""" +
-                                      widget.items[i].split(" - ")[1] +
-                                      " - " +
-                                      widget.items[i].split(" - ")[2] +
-                                      "</li></ul>";
-                                } else {
-                                  item_not_added +=
-                                      "${widget.items[i].split(" - ")[1]}";
-                                }
-                              }
-                              message += "\n\nDiscount Percentage: " +
-                                  double.parse(_formKey
-                                          .currentState!.value['discount'])
-                                      .toString() +
-                                  "%\n\n From Date: " +
-                                  fromdate +
-                                  "\n\n To Date:  " +
-                                  todate +
-                                  "\n\n";
-                              if (added > 0 &&
-                                  await Database_customerBranch()
-                                      .get_AllcustomerShipBranches()) {
-                                for (int i = 0;
-                                    i <
-                                        Database_customerBranch
-                                            .all_ship_branches.length;
-                                    i++) {
-                                  Send_Mail.send_mail(
-                                      Database_customerBranch
-                                          .all_ship_branches[i].branch_Email!,
-                                      "New Scheme Added",
-                                      "Details<br>" + message);
-                                }
-                              }
-                              if (added != widget.items.length) {
-                                showMessage(
-                                    context,
-                                    "Scheme already exist for given items: " +
-                                        item_not_added +
-                                        "\n");
-                              } else {
-                                Database_Scheme().getSchemes();
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              }
-                            }
-                          },
                         ),
                       ),
                     ],

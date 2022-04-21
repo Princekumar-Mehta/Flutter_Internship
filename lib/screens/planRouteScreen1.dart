@@ -270,10 +270,13 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(
-                  width: MyScreen.getScreenWidth(context) * (105 / 294),
-                  height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                  child: InkWell(
+                InkWell(
+                  onTap: () {
+                    formOptimalRoute();
+                  },
+                  child: SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (105 / 294),
+                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                     child: Stack(
                       children: [
                         Opacity(
@@ -302,9 +305,6 @@ class _PlanRouteScreen1State extends State<PlanRouteScreen1> {
                         )
                       ],
                     ),
-                    onTap: () {
-                      formOptimalRoute();
-                    },
                   ),
                 ),
                 SizedBox(

@@ -468,10 +468,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 SizedBox(
                     height: MyScreen.getScreenHeight(context) * (20 / 1063.6)),
                 // Sign Order Button
-                SizedBox(
-                  width: MyScreen.getScreenWidth(context) * (85 / 294),
-                  height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                  child: InkWell(
+                InkWell(
+                  onTap: () => placeOrder(context),
+                  child: SizedBox(
+                    width: MyScreen.getScreenWidth(context) * (85 / 294),
+                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                     child: Stack(
                       children: [
                         Container(
@@ -497,7 +498,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         )
                       ],
                     ),
-                    onTap: () => placeOrder(context),
                   ),
                 ),
               ],

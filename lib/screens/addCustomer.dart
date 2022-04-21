@@ -5,6 +5,7 @@ import 'package:project_v3/Database/db_customer.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 class AddCustomer extends StatefulWidget {
   const AddCustomer({Key? key}) : super(key: key);
@@ -40,6 +41,14 @@ class _AddCustomerState extends State<AddCustomer> {
       int gL_Acc =
           int.parse((_formKey.currentState?.value['gL_Acc'].toString())!);
       String active = checkedValue.toString();
+      if (_formKey.currentState!.value['city'] == null) {
+        Utility.showMessage(context, "Please Select City for Salesperson");
+        return;
+      }
+      if (_formKey.currentState!.value['sub_Area'] == null) {
+        Utility.showMessage(context, "Please Select Sub Area for Salesperson");
+        return;
+      }
       String city = _formKey.currentState?.value['city'];
       String sub_Area = _formKey.currentState?.value['sub_Area'];
       if (sub_Area == 'Central') sub_Area = city + "-CL";
@@ -611,7 +620,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Phone_1 *",
+                      child: Text("Phone 1 *",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -868,10 +877,14 @@ class _AddCustomerState extends State<AddCustomer> {
                     SizedBox(
                         height:
                             MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (85 / 294),
-                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                      child: InkWell(
+                    InkWell(
+                      onTap: () {
+                        AddCustomer();
+                      },
+                      child: SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
                         child: Stack(
                           children: [
                             Opacity(
@@ -901,9 +914,6 @@ class _AddCustomerState extends State<AddCustomer> {
                             )
                           ],
                         ),
-                        onTap: () {
-                          AddCustomer();
-                        },
                       ),
                     ),
                   ],

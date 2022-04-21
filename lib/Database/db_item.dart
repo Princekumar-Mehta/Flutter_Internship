@@ -107,11 +107,6 @@ class Database_Item {
     return true;
   }
 
-  Future<Item> get_Item(String item_name, int net_Weight) async {
-    final items = await DatabaseHelper.instance.getItem(item_name, net_Weight);
-    return items[0];
-  }
-
   Future<Item> get_ItemByItemId(String item_Id) async {
     final items = await DatabaseHelper.instance.getItemByItemId(item_Id);
     return items[0];

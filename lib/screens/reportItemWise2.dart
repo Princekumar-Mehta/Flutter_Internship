@@ -41,7 +41,7 @@ class _ReportItemWise2State extends State<ReportItemWise2> {
             Navigator.pop(context);
           },
         ),
-        title: Text("Pie Chart Example",
+        title: Text("Item Reports",
             style: TextStyle(
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white

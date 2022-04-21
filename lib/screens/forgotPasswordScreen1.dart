@@ -107,11 +107,26 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
                         height:
                             MyScreen.getScreenHeight(context) * (680 / 1063.6),
                       ),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
+                      InkWell(
+                        onTap: () async {
+                          if (email.text.toString().isEmpty) {
+                            showMessage(context, "Please Enter Email ID");
+                            return;
+                          }
+                          if (await Utility.isNotExist(email.text.toString())) {
+                            showMessage(context,
+                                "This is not a registered email address,\nPlease try again");
+                            return;
+                          } else {
+                            showMessage(context,
+                                "A newly generated OTP has been sent to your email address.\n\nPlease take a look in your inbox, if it is not available there make sure to check your Spam folder. \n\nThank you.",
+                                moveToNextScreen: true);
+                          }
+                        },
+                        child: SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (85 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
                           child: Stack(
                             children: [
                               Opacity(
@@ -141,22 +156,6 @@ class _ForgotPasswordScreen1State extends State<ForgotPasswordScreen1> {
                               )
                             ],
                           ),
-                          onTap: () async {
-                            if (email.text.toString().isEmpty) {
-                              showMessage(context, "Please Enter Email ID");
-                              return;
-                            }
-                            if (await Utility.isNotExist(
-                                email.text.toString())) {
-                              showMessage(context,
-                                  "This is not a registered email address,\nPlease try again");
-                              return;
-                            } else {
-                              showMessage(context,
-                                  "A newly generated OTP has been sent to your email address.\n\nPlease take a look in your inbox, if it is not available there make sure to check your Spam folder. \n\nThank you.",
-                                  moveToNextScreen: true);
-                            }
-                          },
                         ),
                       ),
                     ],

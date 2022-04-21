@@ -769,10 +769,18 @@ class _ViewCustomerDetailState extends State<ViewCustomerDetail> {
                   SizedBox(
                       height:
                           MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-                  SizedBox(
-                    width: MyScreen.getScreenWidth(context) * (85 / 294),
-                    height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                    child: InkWell(
+                  InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditCustomer(
+                                    customer: widget.customer,
+                                  )));
+                    },
+                    child: SizedBox(
+                      width: MyScreen.getScreenWidth(context) * (85 / 294),
+                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                       child: Stack(
                         children: [
                           Opacity(
@@ -790,7 +798,7 @@ class _ViewCustomerDetailState extends State<ViewCustomerDetail> {
                             ),
                           ),
                           Center(
-                            child: Text("Edit Customer",
+                            child: Text("Edit Details",
                                 style: TextStyle(
                                     color: MyDrawer.emp.darkTheme == 1
                                         ? MyColors.richBlackFogra
@@ -802,14 +810,6 @@ class _ViewCustomerDetailState extends State<ViewCustomerDetail> {
                           )
                         ],
                       ),
-                      onTap: () async {
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditCustomer(
-                                      customer: widget.customer,
-                                    )));
-                      },
                     ),
                   ),
                 ],

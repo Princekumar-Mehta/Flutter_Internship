@@ -31,9 +31,8 @@ class _AddStockState extends State<AddStock> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      Item item_details = await Database_Item().get_Item(
-          item_Name.getValue().split(' - ')[0],
-          int.parse(item_Name.getValue().split(' - ')[1].split('g')[0]));
+      Item item_details = await Database_Item()
+          .get_ItemByItemId(item_Name.getValue().split(' - ')[0]);
       String packets = (_formKey.currentState?.value['no_packet'].toString())!;
       String patti = (_formKey.currentState?.value['no_patti'].toString())!;
       String box = (_formKey.currentState?.value['no_box'].toString())!;
@@ -213,11 +212,14 @@ class _AddStockState extends State<AddStock> {
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *
                               (60 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
+                      InkWell(
+                        onTap: () {
+                          addStock();
+                        },
+                        child: SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (85 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
                           child: Stack(
                             children: [
                               Opacity(
@@ -235,7 +237,7 @@ class _AddStockState extends State<AddStock> {
                                 ),
                               ),
                               Center(
-                                child: Text("Save Item",
+                                child: Text("Add Stock",
                                     style: TextStyle(
                                         color: MyDrawer.emp.darkTheme == 1
                                             ? MyColors.richBlackFogra
@@ -247,9 +249,6 @@ class _AddStockState extends State<AddStock> {
                               )
                             ],
                           ),
-                          onTap: () {
-                            addStock();
-                          },
                         ),
                       ),
                     ],

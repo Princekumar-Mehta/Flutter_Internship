@@ -134,6 +134,14 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
         Utility.showMessage(context, "Both Password Should match");
         return;
       }
+      if (_formKey.currentState!.value['city'] == null) {
+        Utility.showMessage(context, "Please Select City for Salesperson");
+        return;
+      }
+      if (_formKey.currentState!.value['sub_Area'] == null) {
+        Utility.showMessage(context, "Please Select Sub Area for Salesperson");
+        return;
+      }
       if (_pickedImage == null) {
         LoadImage();
       }
@@ -143,6 +151,10 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       widget.emp.password = _formKey.currentState!.value['password_1'];
       if (MyDrawer.emp.role == "Admin") {
         widget.emp.role = _formKey.currentState!.value['role'];
+        if (_formKey.currentState!.value['role'] == 'Salesperson') {
+          city = _formKey.currentState!.value['city'];
+          sub_Area = _formKey.currentState!.value['sub_Area'];
+        }
       }
       widget.emp.profile_pic = _pickedImage!.path;
       await Database_signUp().updateEmp(widget.emp);
@@ -170,7 +182,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
         int? id = emp.id;
         final emp_detials = emp.toMap();
         String areaSubArea = "";
-        if (emp.role == 'Salesperson') {
+        if (emp.role == 'Salesperson' ||
+            _formKey.currentState!.value['role'] == 'Salesperson') {
+          print("hello");
           String area = city;
           if (sub_Area == 'Central') sub_Area = area + "-CL";
           if (sub_Area == 'North - West') sub_Area = area + "-NW";
@@ -734,7 +748,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                 height: 54,
                                 child: FormBuilderDropdown<String>(
                                   name: 'city',
-                                  initialValue: city,
+                                  initialValue: city != '' ? city : null,
                                   dropdownColor: MyDrawer.emp.darkTheme == 1
                                       ? MyColors.richBlackFogra
                                       : MyColors.white,
@@ -760,7 +774,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                   items: <String>[
                                     'Ahmedabad',
                                     'Rajkot',
-                                    'Vadodara',
+                                    'Vadodara'
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
@@ -800,7 +814,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                 height: 54,
                                 child: FormBuilderDropdown<String>(
                                   name: 'sub_Area',
-                                  initialValue: sub_Area,
+                                  initialValue:
+                                      sub_Area != '' ? sub_Area : null,
                                   dropdownColor: MyDrawer.emp.darkTheme == 1
                                       ? MyColors.richBlackFogra
                                       : MyColors.white,
@@ -853,11 +868,12 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *
                               (60 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
+                      InkWell(
+                        onTap: () => moveToHome(context),
+                        child: SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (85 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
                           child: Stack(
                             children: [
                               Opacity(
@@ -887,7 +903,6 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               )
                             ],
                           ),
-                          onTap: () => moveToHome(context),
                         ),
                       ),
                     ],

@@ -164,10 +164,17 @@ class _AddSchemeState extends State<AddScheme> {
           ),
           // Button
           SizedBox(height: MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-          SizedBox(
-            width: MyScreen.getScreenWidth(context) * (240 / 490.9),
-            height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-            child: InkWell(
+          InkWell(
+            onTap: () async {
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SetSchemeDetails(items: selectedItems)));
+            },
+            child: SizedBox(
+              width: MyScreen.getScreenWidth(context) * (240 / 490.9),
+              height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
               child: Stack(
                 children: [
                   Opacity(
@@ -195,13 +202,6 @@ class _AddSchemeState extends State<AddScheme> {
                   )
                 ],
               ),
-              onTap: () async {
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SetSchemeDetails(items: selectedItems)));
-              },
             ),
           ),
         ],

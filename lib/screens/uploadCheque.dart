@@ -54,76 +54,80 @@ class _UploadChequePhotoState extends State<UploadChequePhoto> {
         backgroundColor: MyColors.richBlackFogra,
       ),
       backgroundColor: MyColors.richBlackFogra,
-      body: Column(
-        children: [
-          Container(
-            width: MyScreen.getScreenWidth(context),
-            height: MyScreen.getScreenHeight(context) * (890 / 1063.6),
-            color: MyColors.richBlackFogra,
-            child: _pickedImage == null
-                ? Center(
-                    child: Text(
-                      "Upload Image to View",
-                      style: TextStyle(
-                        color: MyColors.pewterBlue,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: MyScreen.getScreenWidth(context),
+              height: MyScreen.getScreenHeight(context) * (890 / 1063.6),
+              color: MyColors.richBlackFogra,
+              child: _pickedImage == null
+                  ? Center(
+                      child: Text(
+                        "Upload Image to View",
+                        style: TextStyle(
+                          color: MyColors.pewterBlue,
+                        ),
                       ),
-                    ),
-                  )
-                : Image.file(File(_pickedImage!.path)),
-          ),
-          _pickedImage == null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        _pickImage();
-                      },
-                      child: const Text("Upload Image"),
                     )
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _pickedImage = null;
-                        });
-                      },
-                      child: const Text("Reset Image"),
-                    ),
-                    _pickedImage == null
-                        ? Container()
-                        : ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: MyColors.scarlet,
-                            ),
-                            onPressed: () async {
-                              print(_pickedImage!.path);
-                              if (await Database_ApproveOrders().FulfilledOrder(
-                                  widget.order_id, _pickedImage!.path)) {
-                                Send_Mail.send_mail(
-                                    Database_ApproveOrders
-                                        .customers[widget.order_id].email!,
-                                    "Order Delivered",
-                                    "Your Order has been delivered");
-                                Navigator.pop(context);
-                                var _processingOrders =
-                                    Database_ApproveOrders();
-                                if (await _processingOrders.getProcessingOrders(
-                                    MyDrawer.emp.id!, MyDrawer.emp.role!)) {
-                                  Navigator.pushReplacementNamed(
-                                      context, MyRoutes.MyProcessingOrders);
+                  : Image.file(File(_pickedImage!.path)),
+            ),
+            _pickedImage == null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          _pickImage();
+                        },
+                        child: const Text("Upload Image"),
+                      )
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _pickedImage = null;
+                          });
+                        },
+                        child: const Text("Reset Image"),
+                      ),
+                      _pickedImage == null
+                          ? Container()
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: MyColors.scarlet,
+                              ),
+                              onPressed: () async {
+                                print(_pickedImage!.path);
+                                if (await Database_ApproveOrders()
+                                    .FulfilledOrder(
+                                        widget.order_id, _pickedImage!.path)) {
+                                  Send_Mail.send_mail(
+                                      Database_ApproveOrders
+                                          .customers[widget.order_id].email!,
+                                      "Order Delivered",
+                                      "Your Order has been delivered");
+                                  Navigator.pop(context);
+                                  var _processingOrders =
+                                      Database_ApproveOrders();
+                                  if (await _processingOrders
+                                      .getProcessingOrders(MyDrawer.emp.id!,
+                                          MyDrawer.emp.role!)) {
+                                    Navigator.pushReplacementNamed(
+                                        context, MyRoutes.MyProcessingOrders);
+                                  }
                                 }
-                              }
-                            },
-                            child: const Text("Proceed"),
-                          ),
-                  ],
-                ),
-        ],
+                              },
+                              child: const Text("Proceed"),
+                            ),
+                    ],
+                  ),
+          ],
+        ),
       ),
     );
   }

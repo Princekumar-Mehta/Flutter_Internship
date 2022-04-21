@@ -986,10 +986,14 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
                     SizedBox(
                         height:
                             MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (85 / 294),
-                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                      child: InkWell(
+                    InkWell(
+                      onTap: () {
+                        EditCustomerBranch();
+                      },
+                      child: SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
                         child: Stack(
                           children: [
                             Opacity(
@@ -1019,9 +1023,6 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
                             )
                           ],
                         ),
-                        onTap: () {
-                          EditCustomerBranch();
-                        },
                       ),
                     ),
                   ],

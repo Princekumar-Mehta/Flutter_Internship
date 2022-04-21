@@ -94,9 +94,10 @@ class _EditCustomerState extends State<EditCustomer> {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
-        if (await Database_customer.getAllCustomers()) {
+        Navigator.pop(context);
+       /* if (await Database_customer.getAllCustomers()) {
           Navigator.pushNamed(context, MyRoutes.MyViewCustomerScreen);
-        }
+        }*/
       }
     }
   }
@@ -686,7 +687,7 @@ class _EditCustomerState extends State<EditCustomer> {
                     SizedBox(
                       width: MyScreen.getScreenWidth(context) * (228 / 294),
                       height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                      child: Text("Phone_1 *",
+                      child: Text("Phone 1 *",
                           style: TextStyle(
                               color: MyDrawer.emp.darkTheme == 1
                                   ? MyColors.pewterBlue
@@ -948,10 +949,14 @@ class _EditCustomerState extends State<EditCustomer> {
                     SizedBox(
                         height:
                             MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (85 / 294),
-                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                      child: InkWell(
+                    InkWell(
+                      onTap: () {
+                        EditCustomer();
+                      },
+                      child: SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
                         child: Stack(
                           children: [
                             Opacity(
@@ -981,9 +986,6 @@ class _EditCustomerState extends State<EditCustomer> {
                             )
                           ],
                         ),
-                        onTap: () {
-                          EditCustomer();
-                        },
                       ),
                     ),
                   ],

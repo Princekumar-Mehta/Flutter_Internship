@@ -30,6 +30,7 @@ class _ReportSalesSalespersonWise1State
       charts.ColorUtil.fromDartColor(const Color(0xFFFC8D62)),
     ];
     final List<DataSalespersonModel> data = [];
+    //print(Database_Report.salespersons.length.toString());
     for (int i = 0; i < Database_Report.salespersons.length; i++) {
       if (selected[Database_Report.salespersons[i].id.toString()] == true) {
         //print(Database_Report.sales_salesperson_wise[i]);
@@ -42,7 +43,7 @@ class _ReportSalesSalespersonWise1State
             color: colors[i % colors.length],
           ),
         );
-        print(Database_Report.hours_salesperson_wise[i]);
+        //print(Database_Report.hours_salesperson_wise[i]);
       }
     }
     if (data.isEmpty) {
@@ -151,10 +152,13 @@ class _ReportSalesSalespersonWise1State
                       child: _row(index),
                     );
                   }),
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (85 / 294),
-                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                child: InkWell(
+              InkWell(
+                onTap: () {
+                  moveToReportScreen2();
+                },
+                child: SizedBox(
+                  width: MyScreen.getScreenWidth(context) * (85 / 294),
+                  height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                   child: Stack(
                     children: [
                       Opacity(
@@ -183,9 +187,6 @@ class _ReportSalesSalespersonWise1State
                       )
                     ],
                   ),
-                  onTap: () {
-                    moveToReportScreen2();
-                  },
                 ),
               ),
             ],

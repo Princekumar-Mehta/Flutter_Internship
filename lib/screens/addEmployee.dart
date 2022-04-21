@@ -763,11 +763,12 @@ class _SignUpEmailState extends State<SignUpEmail> {
                         SizedBox(
                             height: MyScreen.getScreenHeight(context) *
                                 (60 / 1063.6)),
-                        SizedBox(
-                          width: MyScreen.getScreenWidth(context) * (85 / 294),
-                          height:
-                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                          child: InkWell(
+                        InkWell(
+                          onTap: () => moveToHome(context),
+                          child: SizedBox(
+                            width: MyScreen.getScreenWidth(context) * (85 / 294),
+                            height:
+                                MyScreen.getScreenHeight(context) * (60 / 1063.6),
                             child: Stack(
                               children: [
                                 Opacity(
@@ -797,7 +798,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 )
                               ],
                             ),
-                            onTap: () => moveToHome(context),
                           ),
                         ),
                       ],

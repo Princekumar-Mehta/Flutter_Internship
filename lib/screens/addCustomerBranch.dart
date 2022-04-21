@@ -40,6 +40,10 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
         } else {
           _formKey.currentState!.save();
           String code = (customer1.code.toString());
+          if (_formKey.currentState!.value['branch_Type'] == null) {
+            Utility.showMessage(context, "Please Select Branch Type");
+            return;
+          }
           String branch_Type =
               (_formKey.currentState?.value['branch_Type'].toString())!;
           String branch_Name =
@@ -969,10 +973,14 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
                     SizedBox(
                         height:
                             MyScreen.getScreenHeight(context) * (60 / 1063.6)),
-                    SizedBox(
-                      width: MyScreen.getScreenWidth(context) * (85 / 294),
-                      height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                      child: InkWell(
+                    InkWell(
+                      onTap: () {
+                        AddCustomerBranch();
+                      },
+                      child: SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (85 / 294),
+                        height:
+                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
                         child: Stack(
                           children: [
                             Opacity(
@@ -1002,9 +1010,6 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
                             )
                           ],
                         ),
-                        onTap: () {
-                          AddCustomerBranch();
-                        },
                       ),
                     ),
                   ],

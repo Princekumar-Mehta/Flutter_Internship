@@ -176,10 +176,11 @@ class _CustomerFeedbackScreenState extends State<CustomerFeedbackScreen> {
                 ),
               ),
               SizedBox(height: MyScreen.getScreenHeight(context) * (25 / 553)),
-              SizedBox(
-                width: MyScreen.getScreenWidth(context) * (120 / 294),
-                height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                child: InkWell(
+              InkWell(
+                onTap: () => addCustomerFeedback(context),
+                child: SizedBox(
+                  width: MyScreen.getScreenWidth(context) * (120 / 294),
+                  height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
                   child: Stack(
                     children: [
                       Container(
@@ -205,7 +206,6 @@ class _CustomerFeedbackScreenState extends State<CustomerFeedbackScreen> {
                       )
                     ],
                   ),
-                  onTap: () => addCustomerFeedback(context),
                 ),
               ),
             ],

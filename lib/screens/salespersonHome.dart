@@ -31,6 +31,7 @@ class SalespersonHome extends StatefulWidget {
 class _SalespersonHomeState extends State<SalespersonHome> {
   bool viewAll1 = false;
   bool viewAll2 = false;
+  bool viewAll3 = false;
   final TextEditingController _textEditingController = TextEditingController();
   bool isChanged = true;
   var itemList = [
@@ -383,6 +384,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                             setState(() {
                               viewAll1 = !viewAll1;
                               viewAll2 = false;
+                              viewAll3 = false;
                             });
                           },
                           child: Text("View All",
@@ -402,514 +404,6 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                       height: MyScreen.getScreenHeight(context) * (3 / 1063.6),
                     ),
                     // White space
-                    SizedBox(
-                      height: MyScreen.getScreenHeight(context) * (20 / 1063.6),
-                    ),
-                    // Main
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              height: MyScreen.getScreenHeight(context) *
-                                  (86 / 1063.6),
-                              width: MyScreen.getScreenWidth(context) *
-                                  ((440 / 3) / 490.9),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, MyRoutes.MyLeaveRequestForm);
-                                },
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      width: MyScreen.getScreenWidth(context) *
-                                          (53 / 490.9),
-                                      height: MyScreen.getScreenWidth(context) *
-                                          (53 / 490.9),
-                                      decoration: BoxDecoration(
-                                        color: MyDrawer.emp.darkTheme == 1
-                                            ? MyColors.scarlet
-                                            : MyColors.richBlackFogra,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                MyScreen.getScreenHeight(
-                                                        context) *
-                                                    (10 / 1063.6))),
-                                      ),
-                                      child: Icon(
-                                        Icons.time_to_leave,
-                                        size:
-                                            MyScreen.getScreenHeight(context) *
-                                                (30 / 1063.6),
-                                        color: MyDrawer.emp.darkTheme == 1
-                                            ? MyColors.black
-                                            : MyColors.scarlet,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MyScreen.getScreenHeight(context) *
-                                              (2 / 1063.6),
-                                    ),
-                                    Text("Request Leave",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: MyScreen.getScreenHeight(
-                                                  context) *
-                                              (12 / 1063.6),
-                                          fontWeight: FontWeight.bold,
-                                          color: MyColors.black,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              height: MyScreen.getScreenHeight(context) *
-                                  (86 / 1063.6),
-                              width: MyScreen.getScreenWidth(context) *
-                                  ((440 / 3) / 490.9),
-                              child: InkWell(
-                                onTap: () async {
-                                  if (await Database_leaveRequest()
-                                      .getAllRequestForEmp(MyDrawer.emp.id!)) {
-                                    Navigator.pushNamed(context,
-                                        MyRoutes.MyLeaveRequestSummary);
-                                  }
-                                },
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      width: MyScreen.getScreenWidth(context) *
-                                          (53 / 490.9),
-                                      height: MyScreen.getScreenWidth(context) *
-                                          (53 / 490.9),
-                                      decoration: BoxDecoration(
-                                        color: MyDrawer.emp.darkTheme == 1
-                                            ? MyColors.scarlet
-                                            : MyColors.richBlackFogra,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                MyScreen.getScreenHeight(
-                                                        context) *
-                                                    (10 / 1063.6))),
-                                      ),
-                                      child: Icon(
-                                        Icons.work_off,
-                                        size:
-                                            MyScreen.getScreenHeight(context) *
-                                                (30 / 1063.6),
-                                        color: MyDrawer.emp.darkTheme == 1
-                                            ? MyColors.black
-                                            : MyColors.scarlet,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: MyScreen.getScreenWidth(context) *
-                                          (2 / 490.9),
-                                    ),
-                                    Text("Leave Requests",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: MyScreen.getScreenHeight(
-                                                  context) *
-                                              (12 / 1063.6),
-                                          fontWeight: FontWeight.bold,
-                                          color: MyColors.black,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              height: MyScreen.getScreenHeight(context) *
-                                  (86 / 1063.6),
-                              width: MyScreen.getScreenWidth(context) *
-                                  ((440 / 3) / 490.9),
-                              child: InkWell(
-                                onTap: () async {
-                                  print(MyDrawer.emp.id);
-                                  if (await Database_Region_Salesperson()
-                                      .getRegionSalesperson(MyDrawer.emp.id!)) {
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditEmployeeScreen(
-                                                  emp: MyDrawer.emp,
-                                                  region_salesperson:
-                                                      Database_Region_Salesperson
-                                                          .region_salesperson,
-                                                )));
-                                  }
-                                },
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      width: MyScreen.getScreenWidth(context) *
-                                          (53 / 490.9),
-                                      height: MyScreen.getScreenWidth(context) *
-                                          (53 / 490.9),
-                                      decoration: BoxDecoration(
-                                        color: MyDrawer.emp.darkTheme == 1
-                                            ? MyColors.scarlet
-                                            : MyColors.richBlackFogra,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                MyScreen.getScreenHeight(
-                                                        context) *
-                                                    (10 / 1063.6))),
-                                      ),
-                                      child: Icon(
-                                        Icons.edit_location,
-                                        size:
-                                            MyScreen.getScreenHeight(context) *
-                                                (30 / 1063.6),
-                                        color: MyDrawer.emp.darkTheme == 1
-                                            ? MyColors.black
-                                            : MyColors.scarlet,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: MyScreen.getScreenWidth(context) *
-                                          (2 / 490.9),
-                                    ),
-                                    Text("Edit Employee",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: MyScreen.getScreenHeight(
-                                                  context) *
-                                              (12 / 1063.6),
-                                          fontWeight: FontWeight.bold,
-                                          color: MyColors.black,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        viewAll1
-                            ? SizedBox(
-                                height: MyScreen.getScreenHeight(context) *
-                                    (30 / 1063.6),
-                              )
-                            : Container(),
-                        viewAll1
-                            ? Row(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: MyScreen.getScreenHeight(context) *
-                                        (86 / 1063.6),
-                                    width: MyScreen.getScreenWidth(context) *
-                                        ((440 / 3) / 490.9),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        await Navigator.pushNamed(context,
-                                            MyRoutes.MyAddCustomerScreen);
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (53 / 490.9),
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (53 / 490.9),
-                                            decoration: BoxDecoration(
-                                              color: MyDrawer.emp.darkTheme == 1
-                                                  ? MyColors.scarlet
-                                                  : MyColors.richBlackFogra,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                      MyScreen.getScreenHeight(
-                                                              context) *
-                                                          (10 / 1063.6))),
-                                            ),
-                                            child: Icon(
-                                              Icons.add,
-                                              size: MyScreen.getScreenHeight(
-                                                      context) *
-                                                  (30 / 1063.6),
-                                              color: MyDrawer.emp.darkTheme == 1
-                                                  ? MyColors.black
-                                                  : MyColors.scarlet,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (2 / 490.9),
-                                          ),
-                                          Text("Add Customer",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (12 / 1063.6),
-                                                fontWeight: FontWeight.bold,
-                                                color: MyColors.black,
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: MyScreen.getScreenHeight(context) *
-                                        (86 / 1063.6),
-                                    width: MyScreen.getScreenWidth(context) *
-                                        ((440 / 3) / 490.9),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        if (await Database_Region_Salesperson()
-                                                .getRegionSalesperson(
-                                                    MyDrawer.emp.id!) &&
-                                            await Database_customer()
-                                                .get_customerIdsBySubArea(
-                                                    Database_Region_Salesperson
-                                                        .region_salesperson!
-                                                        .sub_Area!)) {
-                                          print(Database_Region_Salesperson
-                                              .region_salesperson!.sub_Area!);
-                                          Navigator.pushNamed(context,
-                                              MyRoutes.MyViewCustomerScreen);
-                                        }
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (53 / 490.9),
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (53 / 490.9),
-                                            decoration: BoxDecoration(
-                                              color: MyDrawer.emp.darkTheme == 1
-                                                  ? MyColors.scarlet
-                                                  : MyColors.richBlackFogra,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                      MyScreen.getScreenHeight(
-                                                              context) *
-                                                          (10 / 1063.6))),
-                                            ),
-                                            child: Icon(
-                                              Icons.wysiwyg_outlined,
-                                              size: MyScreen.getScreenHeight(
-                                                      context) *
-                                                  (30 / 1063.6),
-                                              color: MyDrawer.emp.darkTheme == 1
-                                                  ? MyColors.black
-                                                  : MyColors.scarlet,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (2 / 490.9),
-                                          ),
-                                          Text("View Customers",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (12 / 1063.6),
-                                                fontWeight: FontWeight.bold,
-                                                color: MyColors.black,
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: MyScreen.getScreenHeight(context) *
-                                        (86 / 1063.6),
-                                    width: MyScreen.getScreenWidth(context) *
-                                        ((440 / 3) / 490.9),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final df = DateFormat('dd-MM-yyyy');
-                                        var date =
-                                            (df.format(new DateTime.now()));
-                                        await Database_Region_Salesperson()
-                                            .getRegionSalesperson(
-                                                MyDrawer.emp.id!);
-                                        if (await Database_Customer_Feedback()
-                                            .getRemainingBranchesBysubAreaCustomerFeedbacks(
-                                                MyDrawer.emp.id!,
-                                                int.parse(date.split('-')[1]),
-                                                int.parse(date.split('-')[2]),
-                                                Database_Region_Salesperson
-                                                    .region_salesperson!
-                                                    .sub_Area!)) {
-                                          Navigator.pushNamed(
-                                              context,
-                                              MyRoutes
-                                                  .MyCustomerFeedbackScreen);
-                                        }
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (53 / 490.9),
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (53 / 490.9),
-                                            decoration: BoxDecoration(
-                                              color: MyDrawer.emp.darkTheme == 1
-                                                  ? MyColors.scarlet
-                                                  : MyColors.richBlackFogra,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                      MyScreen.getScreenHeight(
-                                                              context) *
-                                                          (10 / 1063.6))),
-                                            ),
-                                            child: Icon(
-                                              Icons.thumbs_up_down_outlined,
-                                              size: MyScreen.getScreenHeight(
-                                                      context) *
-                                                  (30 / 1063.6),
-                                              color: MyDrawer.emp.darkTheme == 1
-                                                  ? MyColors.black
-                                                  : MyColors.scarlet,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: MyScreen.getScreenWidth(
-                                                    context) *
-                                                (2 / 490.9),
-                                          ),
-                                          Text("Customer Feedback",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    MyScreen.getScreenHeight(
-                                                            context) *
-                                                        (12 / 1063.6),
-                                                fontWeight: FontWeight.bold,
-                                                color: MyColors.black,
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
-              ),
-              // Outer Shell
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 0),
-                height: viewAll2
-                    ? MyScreen.getScreenHeight(context) * (278 / 1063.6)
-                    : MyScreen.getScreenHeight(context) * (159 / 1063.6),
-                padding: EdgeInsets.fromLTRB(
-                    MyScreen.getScreenWidth(context) * (10 / 490.9),
-                    MyScreen.getScreenHeight(context) * (5 / 1063.6),
-                    MyScreen.getScreenWidth(context) * (10 / 490.9),
-                    MyScreen.getScreenHeight(context) * (5 / 1063.6)),
-                width: MyScreen.getScreenWidth(context) * (460 / 490.9),
-                decoration: BoxDecoration(
-                  color: MyDrawer.emp.darkTheme == 1
-                      ? MyColors.white
-                      : MyColors.grey,
-                  borderRadius: BorderRadius.all(Radius.circular(
-                      MyScreen.getScreenHeight(context) * (15 / 1063.6))),
-                ),
-                child: Column(
-                  children: [
-                    // Order Summary
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.timeline,
-                              // textDirection: TextDirection.RTL,
-                              size: MyScreen.getScreenHeight(context) *
-                                  (30 / 1063.6),
-                              color: MyColors.black,
-                            ),
-                            SizedBox(
-                              width: MyScreen.getScreenWidth(context) *
-                                  (10 / 490.9),
-                            ),
-                            Text("Order Summary",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (22 / 1063.6),
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.black,
-                                )),
-                            SizedBox(
-                              width: MyScreen.getScreenWidth(context) *
-                                  (12 / 490.9),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width:
-                              MyScreen.getScreenWidth(context) * (172 / 490.9),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              viewAll1 = false;
-                              viewAll2 = !viewAll2;
-                            });
-                          },
-                          child: Text("View All",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: MyScreen.getScreenHeight(context) *
-                                    (12 / 1063.6),
-                                fontWeight: FontWeight.bold,
-                                color: MyColors.black,
-                              )),
-                        ),
-                      ],
-                    ),
-                    // Underline
-                    Container(
-                      color: MyColors.black,
-                      height: MyScreen.getScreenHeight(context) * (3 / 1063.6),
-                    ),
-                    // White Space
                     SizedBox(
                       height: MyScreen.getScreenHeight(context) * (20 / 1063.6),
                     ),
@@ -982,6 +476,468 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                 ),
                               ),
                             ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: MyScreen.getScreenHeight(context) *
+                                  (86 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  ((440 / 3) / 490.9),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.MyLeaveRequestForm);
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      decoration: BoxDecoration(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                MyScreen.getScreenHeight(
+                                                        context) *
+                                                    (10 / 1063.6))),
+                                      ),
+                                      child: Icon(
+                                        Icons.explore,
+                                        size:
+                                            MyScreen.getScreenHeight(context) *
+                                                (30 / 1063.6),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MyScreen.getScreenHeight(context) *
+                                              (2 / 1063.6),
+                                    ),
+                                    Text("Request Leave",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (12 / 1063.6),
+                                          fontWeight: FontWeight.bold,
+                                          color: MyColors.black,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: MyScreen.getScreenHeight(context) *
+                                  (86 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  ((440 / 3) / 490.9),
+                              child: InkWell(
+                                onTap: () async {
+                                  if (await Database_Region_Salesperson()
+                                          .getRegionSalesperson(
+                                              MyDrawer.emp.id!) &&
+                                      await Database_Route()
+                                          .get_AllcustomerBranchesBySubArea(
+                                              Database_Region_Salesperson
+                                                  .region_salesperson!
+                                                  .sub_Area!)) {
+                                    await Navigator.pushNamed(
+                                        context, MyRoutes.MySetRouteMapScreen);
+                                  }
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      decoration: BoxDecoration(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                MyScreen.getScreenHeight(
+                                                        context) *
+                                                    (10 / 1063.6))),
+                                      ),
+                                      child: Icon(
+                                        Icons.map,
+                                        size:
+                                            MyScreen.getScreenHeight(context) *
+                                                (30 / 1063.6),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (2 / 490.9),
+                                    ),
+                                    Text("Route Plan",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (12 / 1063.6),
+                                          fontWeight: FontWeight.bold,
+                                          color: MyColors.black,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        viewAll1
+                            ? SizedBox(
+                                height: MyScreen.getScreenHeight(context) *
+                                    (30 / 1063.6),
+                              )
+                            : Container(),
+                        viewAll1
+                            ? Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        print(MyDrawer.emp.id);
+                                        if (await Database_Region_Salesperson()
+                                            .getRegionSalesperson(
+                                                MyDrawer.emp.id!)) {
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditEmployeeScreen(
+                                                        emp: MyDrawer.emp,
+                                                        region_salesperson:
+                                                            Database_Region_Salesperson
+                                                                .region_salesperson,
+                                                      )));
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.edit_location,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("Edit Employee",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        if (await Database_leaveRequest()
+                                            .getAllRequestForEmp(
+                                                MyDrawer.emp.id!)) {
+                                          Navigator.pushNamed(context,
+                                              MyRoutes.MyLeaveRequestSummary);
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.work_off,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("Leave Requests",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    /*child: InkWell(
+                                      onTap: () async {
+                                        var date = DateTime.now();
+                                        print(DateFormat("EEEE").format(date));
+                                        await Database_Route()
+                                            .getRoutesBySalespersonIdDay(
+                                                MyDrawer.emp.id!,
+                                                DateFormat("EEEE")
+                                                    .format(date));
+                                        if (Database_Route
+                                            .routeBranches.isEmpty) {
+                                          Utility.showMessage(context,
+                                              "No Route planned for Today.\n\nPlease plan route for the day to view route.");
+                                          return;
+                                        }
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewTodaysRoute(
+                                                        routeBranches:
+                                                            Database_Route
+                                                                .routeBranches)));
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.alt_route,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("View Route",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),*/
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+              ),
+              // Outer Shell
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 0),
+                height: viewAll2
+                    ? MyScreen.getScreenHeight(context) * (278 / 1063.6)
+                    : MyScreen.getScreenHeight(context) * (159 / 1063.6),
+                padding: EdgeInsets.fromLTRB(
+                    MyScreen.getScreenWidth(context) * (10 / 490.9),
+                    MyScreen.getScreenHeight(context) * (5 / 1063.6),
+                    MyScreen.getScreenWidth(context) * (10 / 490.9),
+                    MyScreen.getScreenHeight(context) * (5 / 1063.6)),
+                width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+                decoration: BoxDecoration(
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(
+                      MyScreen.getScreenHeight(context) * (15 / 1063.6))),
+                ),
+                child: Column(
+                  children: [
+                    // Order Summary
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.timeline,
+                              // textDirection: TextDirection.RTL,
+                              size: MyScreen.getScreenHeight(context) *
+                                  (30 / 1063.6),
+                              color: MyColors.black,
+                            ),
+                            SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (10 / 490.9),
+                            ),
+                            Text("Order Summary",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (22 / 1063.6),
+                                  fontWeight: FontWeight.bold,
+                                  color: MyColors.black,
+                                )),
+                            SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (12 / 490.9),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width:
+                              MyScreen.getScreenWidth(context) * (172 / 490.9),
+                        ),
+                        Text("        ",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: MyScreen.getScreenHeight(context) *
+                                  (12 / 1063.6),
+                              fontWeight: FontWeight.bold,
+                              color: MyColors.black,
+                            )),
+                        /*InkWell(
+                          onTap: () {
+                            setState(() {
+                              viewAll1 = false;
+                              viewAll2 = !viewAll2;
+                              viewAll3 = false;
+                            });
+                          },
+                          child: Text("View All",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (12 / 1063.6),
+                                fontWeight: FontWeight.bold,
+                                color: MyColors.black,
+                              )),
+                        ),*/
+                      ],
+                    ),
+                    // Underline
+                    Container(
+                      color: MyColors.black,
+                      height: MyScreen.getScreenHeight(context) * (3 / 1063.6),
+                    ),
+                    // White Space
+                    SizedBox(
+                      height: MyScreen.getScreenHeight(context) * (20 / 1063.6),
+                    ),
+                    // Main
+                    Column(
+                      children: [
+                        Row(
+                          children: [
                             Container(
                               alignment: Alignment.center,
                               height: MyScreen.getScreenHeight(context) *
@@ -1114,6 +1070,78 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                 ),
                               ),
                             ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: MyScreen.getScreenHeight(context) *
+                                  (86 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  ((440 / 3) / 490.9),
+                              child: InkWell(
+                                onTap: () async {
+                                  var date = DateTime.now();
+                                  print(DateFormat("EEEE").format(date));
+                                  await Database_Route()
+                                      .getRoutesBySalespersonIdDay(
+                                          MyDrawer.emp.id!,
+                                          DateFormat("EEEE").format(date));
+                                  if (Database_Route.routeBranches.isEmpty) {
+                                    Utility.showMessage(context,
+                                        "No Route planned for Today.\n\nPlease plan route for the day to view route.");
+                                    return;
+                                  }
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ViewTodaysRoute(
+                                              routeBranches: Database_Route
+                                                  .routeBranches)));
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      decoration: BoxDecoration(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                MyScreen.getScreenHeight(
+                                                        context) *
+                                                    (10 / 1063.6))),
+                                      ),
+                                      child: Icon(
+                                        Icons.alt_route,
+                                        size:
+                                            MyScreen.getScreenHeight(context) *
+                                                (30 / 1063.6),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (2 / 490.9),
+                                    ),
+                                    Text("View Route",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (12 / 1063.6),
+                                          fontWeight: FontWeight.bold,
+                                          color: MyColors.black,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         viewAll2
@@ -1131,7 +1159,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () async {
                                         if (await Database_Region_Salesperson()
                                                 .getRegionSalesperson(
@@ -1193,7 +1221,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -1201,7 +1229,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () async {
                                         var date = DateTime.now();
                                         print(DateFormat("EEEE").format(date));
@@ -1273,7 +1301,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   Container(
                                     alignment: Alignment.center,
@@ -1281,7 +1309,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                         (86 / 1063.6),
                                     width: MyScreen.getScreenWidth(context) *
                                         ((440 / 3) / 490.9),
-                                    child: InkWell(
+                                    /*child: InkWell(
                                       onTap: () async {
                                         if (await Database_Region_Salesperson()
                                                 .getRegionSalesperson(
@@ -1324,7 +1352,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                           (10 / 1063.6))),
                                             ),
                                             child: Icon(
-                                              Icons.timer,
+                                              Icons.add_business,
                                               size: MyScreen.getScreenHeight(
                                                       context) *
                                                   (30 / 1063.6),
@@ -1350,7 +1378,7 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                               )),
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                 ],
                               )
@@ -1362,6 +1390,519 @@ class _SalespersonHomeState extends State<SalespersonHome> {
               ),
               SizedBox(
                 height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 0),
+                height: viewAll3
+                    ? MyScreen.getScreenHeight(context) * (278 / 1063.6)
+                    : MyScreen.getScreenHeight(context) * (159 / 1063.6),
+                padding: EdgeInsets.fromLTRB(
+                    MyScreen.getScreenWidth(context) * (10 / 490.9),
+                    MyScreen.getScreenHeight(context) * (5 / 1063.6),
+                    MyScreen.getScreenWidth(context) * (10 / 490.9),
+                    MyScreen.getScreenHeight(context) * (5 / 1063.6)),
+                width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+                decoration: BoxDecoration(
+                  color: MyDrawer.emp.darkTheme == 1
+                      ? MyColors.white
+                      : MyColors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(
+                      MyScreen.getScreenHeight(context) * (15 / 1063.6))),
+                ),
+                child: Column(
+                  children: [
+                    // Employee Master
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.groups_outlined,
+                              // textDirection: TextDirection.rtl,
+                              size: MyScreen.getScreenHeight(context) *
+                                  (30 / 1063.6),
+                              color: MyColors.black,
+                            ),
+                            SizedBox(
+                              width: MyScreen.getScreenWidth(context) *
+                                  (10 / 490.9),
+                            ),
+                            Text("Customer Master",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MyScreen.getScreenHeight(context) *
+                                      (22 / 1063.6),
+                                  fontWeight: FontWeight.bold,
+                                  color: MyColors.black,
+                                )),
+                          ],
+                        ),
+                        SizedBox(
+                          width:
+                              MyScreen.getScreenWidth(context) * (172 / 490.9),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              viewAll3 = !viewAll3;
+                              viewAll2 = false;
+                              viewAll1 = false;
+                            });
+                          },
+                          child: Text("View All",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: MyScreen.getScreenHeight(context) *
+                                    (12 / 1063.6),
+                                fontWeight: FontWeight.bold,
+                                color: MyColors.black,
+                              )),
+                        ),
+                      ],
+                    ),
+                    // Underline
+                    Container(
+                      color: MyColors.black,
+                      height: MyScreen.getScreenHeight(context) * (3 / 1063.6),
+                    ),
+                    // White space
+                    SizedBox(
+                      height: MyScreen.getScreenHeight(context) * (20 / 1063.6),
+                    ),
+                    // Main
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              height: MyScreen.getScreenHeight(context) *
+                                  (86 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  ((440 / 3) / 490.9),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.pushNamed(
+                                      context, MyRoutes.MyAddCustomerScreen);
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      decoration: BoxDecoration(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                MyScreen.getScreenHeight(
+                                                        context) *
+                                                    (10 / 1063.6))),
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        size:
+                                            MyScreen.getScreenHeight(context) *
+                                                (30 / 1063.6),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (2 / 490.9),
+                                    ),
+                                    Text("Add Customer",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (12 / 1063.6),
+                                          fontWeight: FontWeight.bold,
+                                          color: MyColors.black,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: MyScreen.getScreenHeight(context) *
+                                  (86 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  ((440 / 3) / 490.9),
+                              child: InkWell(
+                                onTap: () async {
+                                  if (await Database_Region_Salesperson()
+                                          .getRegionSalesperson(
+                                              MyDrawer.emp.id!) &&
+                                      await Database_customer()
+                                          .get_customerIdsBySubArea(
+                                              Database_Region_Salesperson
+                                                  .region_salesperson!
+                                                  .sub_Area!)) {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddCustomerBranch(
+                                                  region_salesperson:
+                                                      Database_Region_Salesperson
+                                                          .region_salesperson,
+                                                )));
+                                  }
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      decoration: BoxDecoration(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                MyScreen.getScreenHeight(
+                                                        context) *
+                                                    (10 / 1063.6))),
+                                      ),
+                                      child: Icon(
+                                        Icons.add_business,
+                                        size:
+                                            MyScreen.getScreenHeight(context) *
+                                                (30 / 1063.6),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (2 / 490.9),
+                                    ),
+                                    Text("Add Customer Branch",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (12 / 1063.6),
+                                          fontWeight: FontWeight.bold,
+                                          color: MyColors.black,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: MyScreen.getScreenHeight(context) *
+                                  (86 / 1063.6),
+                              width: MyScreen.getScreenWidth(context) *
+                                  ((440 / 3) / 490.9),
+                              child: InkWell(
+                                onTap: () async {
+                                  final df = DateFormat('dd-MM-yyyy');
+                                  var date = (df.format(new DateTime.now()));
+                                  await Database_Region_Salesperson()
+                                      .getRegionSalesperson(MyDrawer.emp.id!);
+                                  if (await Database_Customer_Feedback()
+                                      .getRemainingBranchesBysubAreaCustomerFeedbacks(
+                                          MyDrawer.emp.id!,
+                                          int.parse(date.split('-')[1]),
+                                          int.parse(date.split('-')[2]),
+                                          Database_Region_Salesperson
+                                              .region_salesperson!.sub_Area!)) {
+                                    Navigator.pushNamed(context,
+                                        MyRoutes.MyCustomerFeedbackScreen);
+                                  }
+                                },
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (53 / 490.9),
+                                      decoration: BoxDecoration(
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.scarlet
+                                            : MyColors.richBlackFogra,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                MyScreen.getScreenHeight(
+                                                        context) *
+                                                    (10 / 1063.6))),
+                                      ),
+                                      child: Icon(
+                                        Icons.thumbs_up_down_outlined,
+                                        size:
+                                            MyScreen.getScreenHeight(context) *
+                                                (30 / 1063.6),
+                                        color: MyDrawer.emp.darkTheme == 1
+                                            ? MyColors.black
+                                            : MyColors.scarlet,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: MyScreen.getScreenWidth(context) *
+                                          (2 / 490.9),
+                                    ),
+                                    Text("Customer Feedback",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (12 / 1063.6),
+                                          fontWeight: FontWeight.bold,
+                                          color: MyColors.black,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        viewAll3
+                            ? SizedBox(
+                                height: MyScreen.getScreenHeight(context) *
+                                    (30 / 1063.6),
+                              )
+                            : Container(),
+                        viewAll3
+                            ? Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        if (await Database_Region_Salesperson()
+                                                .getRegionSalesperson(
+                                                    MyDrawer.emp.id!) &&
+                                            await Database_customer()
+                                                .get_customerIdsBySubArea(
+                                                    Database_Region_Salesperson
+                                                        .region_salesperson!
+                                                        .sub_Area!)) {
+                                          print(Database_Region_Salesperson
+                                              .region_salesperson!.sub_Area!);
+                                          Navigator.pushNamed(context,
+                                              MyRoutes.MyViewCustomerScreen);
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.wysiwyg_outlined,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("View Customers",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    /*child: InkWell(
+                                      onTap: () async {
+                                        if (await Database_leaveRequest()
+                                            .getAllRequestForEmp(
+                                                MyDrawer.emp.id!)) {
+                                          Navigator.pushNamed(context,
+                                              MyRoutes.MyLeaveRequestSummary);
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.work_off,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("Leave Requests",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),*/
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: MyScreen.getScreenHeight(context) *
+                                        (86 / 1063.6),
+                                    width: MyScreen.getScreenWidth(context) *
+                                        ((440 / 3) / 490.9),
+                                    /*child: InkWell(
+                                      onTap: () async {
+                                        print(MyDrawer.emp.id);
+                                        if (await Database_Region_Salesperson()
+                                            .getRegionSalesperson(
+                                                MyDrawer.emp.id!)) {
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditEmployeeScreen(
+                                                        emp: MyDrawer.emp,
+                                                        region_salesperson:
+                                                            Database_Region_Salesperson
+                                                                .region_salesperson,
+                                                      )));
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (53 / 490.9),
+                                            decoration: BoxDecoration(
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.scarlet
+                                                  : MyColors.richBlackFogra,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      MyScreen.getScreenHeight(
+                                                              context) *
+                                                          (10 / 1063.6))),
+                                            ),
+                                            child: Icon(
+                                              Icons.edit_location,
+                                              size: MyScreen.getScreenHeight(
+                                                      context) *
+                                                  (30 / 1063.6),
+                                              color: MyDrawer.emp.darkTheme == 1
+                                                  ? MyColors.black
+                                                  : MyColors.scarlet,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MyScreen.getScreenWidth(
+                                                    context) *
+                                                (2 / 490.9),
+                                          ),
+                                          Text("Edit Employee",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    MyScreen.getScreenHeight(
+                                                            context) *
+                                                        (12 / 1063.6),
+                                                fontWeight: FontWeight.bold,
+                                                color: MyColors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),*/
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

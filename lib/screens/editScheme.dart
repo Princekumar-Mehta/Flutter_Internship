@@ -232,11 +232,43 @@ class _EditSchemeState extends State<EditScheme> {
                       SizedBox(
                           height: MyScreen.getScreenHeight(context) *
                               (60 / 1063.6)),
-                      SizedBox(
-                        width: MyScreen.getScreenWidth(context) * (85 / 294),
-                        height:
-                            MyScreen.getScreenHeight(context) * (60 / 1063.6),
-                        child: InkWell(
+                      InkWell(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            String fromdate = _formKey
+                                .currentState!.value['date']
+                                .toString()
+                                .split(" ")[0];
+                            String todate = _formKey
+                                .currentState!.value['dateto']
+                                .toString()
+                                .split(" ")[0];
+                            double percentage = double.parse(
+                                    _formKey.currentState!.value['discount']) /
+                                100;
+                            Scheme newScheme = Scheme(
+                              item_Code: widget.scheme.item_Code,
+                              discount: percentage.toString(),
+                              fromdate: fromdate,
+                              todate: todate,
+                            );
+                            if (await Database_Scheme()
+                                .updateScheme(widget.scheme, newScheme)) {
+                              showMessage(context, "Scheme Updated");
+                              return;
+                            } else {
+                              Utility.showMessage(context,
+                                  "Scheme Already Exist For ${newScheme.item_Code}");
+                              return;
+                            }
+                          }
+                          Database_Scheme().getSchemes();
+                        },
+                        child: SizedBox(
+                          width: MyScreen.getScreenWidth(context) * (85 / 294),
+                          height:
+                              MyScreen.getScreenHeight(context) * (60 / 1063.6),
                           child: Stack(
                             children: [
                               Opacity(
@@ -266,38 +298,6 @@ class _EditSchemeState extends State<EditScheme> {
                               )
                             ],
                           ),
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              String fromdate = _formKey
-                                  .currentState!.value['date']
-                                  .toString()
-                                  .split(" ")[0];
-                              String todate = _formKey
-                                  .currentState!.value['dateto']
-                                  .toString()
-                                  .split(" ")[0];
-                              double percentage = double.parse(_formKey
-                                      .currentState!.value['discount']) /
-                                  100;
-                              Scheme newScheme = Scheme(
-                                item_Code: widget.scheme.item_Code,
-                                discount: percentage.toString(),
-                                fromdate: fromdate,
-                                todate: todate,
-                              );
-                              if (await Database_Scheme()
-                                  .updateScheme(widget.scheme, newScheme)) {
-                                showMessage(context, "Scheme Updated");
-                                return;
-                              } else {
-                                Utility.showMessage(context,
-                                    "Scheme Already Exist For ${newScheme.item_Code}");
-                                return;
-                              }
-                            }
-                            Database_Scheme().getSchemes();
-                          },
                         ),
                       ),
                     ],
