@@ -41,7 +41,8 @@ class _EditItemState extends State<EditItem> {
             onPressed: () async {
               Navigator.pop(c, false);
               // MyDrawer.emp = widget.emp;
-              Navigator.pop(context);
+              Navigator.popUntil(
+                  context, ModalRoute.withName(MyRoutes.MyAdminHome));
             },
           ),
         ],
@@ -64,6 +65,17 @@ class _EditItemState extends State<EditItem> {
           (_formKey.currentState?.value['item_Type'].toString())!;
       int unit_Item =
           int.parse((_formKey.currentState?.value['unit_Item'].toString())!);
+      String? barcodestr = _formKey.currentState?.value['barcode'].toString();
+      if (_formKey.currentState?.value['barcode'].toString() !=
+          widget.item.barcode!.toString()) {
+        print(barcodestr);
+        print(widget.item.barcode!.toString());
+        if (await Utility.isBarcodeNotExist(barcodestr!)) {
+          Utility.showMessage(context,
+              "Barcode already assigned. Please change the Barcode to Continue.");
+          return;
+        }
+      }
       int barcode =
           int.parse((_formKey.currentState?.value['barcode'].toString())!);
       String pur_Item = checkedValue.toString();
@@ -89,9 +101,7 @@ class _EditItemState extends State<EditItem> {
       print(item);
       if (await Database_Item.updateItem(item)) {
         Utility.showMessage(context, "Item Updated");
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
+        Navigator.popUntil(context, ModalRoute.withName(MyRoutes.MyAdminHome));
         if (await Database_Item().get_Items()) {
           Navigator.pushNamed(context, MyRoutes.MyViewItems);
         }
@@ -121,8 +131,8 @@ class _EditItemState extends State<EditItem> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              if (widget.item.hsn_Code !=
-                      _formKey.currentState!.value['hsn_Code'] ||
+              if (widget.item.hsn_Code.toString() !=
+                      _formKey.currentState!.value['hsn_Code'].toString() ||
                   widget.item.item_Name !=
                       _formKey.currentState!.value['item_Name'] ||
                   widget.item.grp != _formKey.currentState!.value['grp'] ||
@@ -130,21 +140,22 @@ class _EditItemState extends State<EditItem> {
                       _formKey.currentState!.value['sub_Group'] ||
                   widget.item.item_Type !=
                       _formKey.currentState!.value['item_Type'] ||
-                  widget.item.unit_Item !=
-                      _formKey.currentState!.value['unit_Item'] ||
-                  widget.item.barcode !=
-                      _formKey.currentState!.value['barcode'] ||
-                  widget.item.pur_Item !=
-                      _formKey.currentState!.value['pur_Item'].toString() ||
-                  widget.item.sell_Item !=
-                      _formKey.currentState!.value['sell_Item'].toString() ||
-                  widget.item.price != _formKey.currentState!.value['price'] ||
-                  widget.item.net_Weight !=
-                      _formKey.currentState!.value['net_Weight']) {
+                  widget.item.unit_Item.toString() !=
+                      _formKey.currentState!.value['unit_Item'].toString() ||
+                  widget.item.barcode.toString() !=
+                      _formKey.currentState!.value['barcode'].toString() ||
+                  widget.item.pur_Item.toString() != checkedValue.toString() ||
+                  widget.item.sell_Item.toString() !=
+                      checkedValue2.toString() ||
+                  widget.item.price.toString() !=
+                      _formKey.currentState!.value['price'].toString() ||
+                  widget.item.net_Weight.toString() !=
+                      _formKey.currentState!.value['net_Weight'].toString()) {
                 confirmationDialog(context,
                     "Exit to Edit Item Page?\n\nChanges will not be saved.");
               } else {
-                Navigator.pop(context);
+                Navigator.popUntil(
+                    context, ModalRoute.withName(MyRoutes.MyViewItems));
               }
             }
           },

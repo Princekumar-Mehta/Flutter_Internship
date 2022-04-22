@@ -5,6 +5,7 @@ import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/utility.dart';
 
 class AddItem extends StatefulWidget {
   const AddItem({Key? key}) : super(key: key);
@@ -30,6 +31,12 @@ class _AddItemState extends State<AddItem> {
           (_formKey.currentState?.value['item_Type'].toString())!;
       int unit_Item =
           int.parse((_formKey.currentState?.value['unit_Item'].toString())!);
+      String? barcodestr = _formKey.currentState?.value['barcode'].toString();
+      if (await Utility.isBarcodeNotExist(barcodestr!)) {
+        Utility.showMessage(context,
+            "Barcode already assigned. Please change the Barcode to Continue.");
+        return;
+      }
       int barcode =
           int.parse((_formKey.currentState?.value['barcode'].toString())!);
       String pur_Item = checkedValue.toString();

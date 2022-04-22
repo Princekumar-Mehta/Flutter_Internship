@@ -258,7 +258,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                     MyDrawer.emp.email.toString() !=
                         _formKey.currentState!.value['email'] ||
                     MyDrawer.emp.phone.toString() !=
-                        _formKey.currentState!.value['phone'] ||
+                        _formKey.currentState!.value['phone'].toString() ||
                     MyDrawer.emp.password.toString() !=
                         _formKey.currentState!.value['password_1'] ||
                     MyDrawer.emp.role.toString() !=

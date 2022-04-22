@@ -637,10 +637,11 @@ class _ViewCustomerBranchDetailState extends State<ViewCustomerBranchDetail> {
                   ),
                   SizedBox(
                       height: MyScreen.getScreenHeight(context) * (6 / 553)),
+
                   SizedBox(
                     width: MyScreen.getScreenWidth(context) * (228 / 294),
                     height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                    child: Text("Composite Scheme",
+                    child: Text("isDefault",
                         style: TextStyle(
                             color: MyDrawer.emp.darkTheme == 1
                                 ? MyColors.pewterBlue
@@ -652,9 +653,9 @@ class _ViewCustomerBranchDetailState extends State<ViewCustomerBranchDetail> {
                     width: MyScreen.getScreenWidth(context) * (228 / 294),
                     height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                     child: FormBuilderTextField(
-                      name: 'active',
+                      name: 'isDefault',
                       enabled: false,
-                      initialValue: widget.customerBranch!.active!,
+                      initialValue: widget.customerBranch!.isDefault!,
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -672,9 +673,11 @@ class _ViewCustomerBranchDetailState extends State<ViewCustomerBranchDetail> {
                     ),
                   ),
                   SizedBox(
+                      height: MyScreen.getScreenHeight(context) * (6 / 553)),
+                  SizedBox(
                     width: MyScreen.getScreenWidth(context) * (228 / 294),
                     height: MyScreen.getScreenHeight(context) * (30 / 1063.6),
-                    child: Text("isDeault",
+                    child: Text("Active",
                         style: TextStyle(
                             color: MyDrawer.emp.darkTheme == 1
                                 ? MyColors.pewterBlue
@@ -686,9 +689,9 @@ class _ViewCustomerBranchDetailState extends State<ViewCustomerBranchDetail> {
                     width: MyScreen.getScreenWidth(context) * (228 / 294),
                     height: MyScreen.getScreenHeight(context) * (50 / 1063.6),
                     child: FormBuilderTextField(
-                      name: 'isDefault',
+                      name: 'active',
                       enabled: false,
-                      initialValue: widget.customerBranch!.isDefault!,
+                      initialValue: widget.customerBranch!.active!,
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(

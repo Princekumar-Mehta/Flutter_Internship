@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:project_v3/Database/db_customer.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/customer.dart';
-
-import '../Extras/routes.dart';
 
 class EditCustomer extends StatefulWidget {
   Customer customer;
@@ -90,12 +90,17 @@ class _EditCustomerState extends State<EditCustomer> {
       };
       print(customer);
       if (await Database_customer.updateCustomer(customer)) {
+        Navigator.popUntil(
+            context, ModalRoute.withName(MyRoutes.MySalespersonHome));
+        if (await Database_Region_Salesperson()
+                .getRegionSalesperson(MyDrawer.emp.id!) &&
+            await Database_customer().get_customerIdsBySubArea(
+                Database_Region_Salesperson.region_salesperson!.sub_Area!)) {
+          print(Database_Region_Salesperson.region_salesperson!.sub_Area!);
+          Navigator.pushNamed(context, MyRoutes.MyViewCustomerScreen);
+        }
         Utility.showMessage(context, "Customer Updated");
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
-       /* if (await Database_customer.getAllCustomers()) {
+        /* if (await Database_customer.getAllCustomers()) {
           Navigator.pushNamed(context, MyRoutes.MyViewCustomerScreen);
         }*/
       }
@@ -169,8 +174,7 @@ class _EditCustomerState extends State<EditCustomer> {
                       _formKey.currentState!.value['crd_Amt'].toString() ||
                   widget.customer.gL_Acc.toString() !=
                       _formKey.currentState!.value['gL_Acc'].toString() ||
-                  widget.customer.active !=
-                      _formKey.currentState!.value['active'].toString()) {
+                  widget.customer.active != checkedValue.toString()) {
                 confirmationDialog(context,
                     "Exit to Home Page?\n\nChanges will not be saved.");
               } else {

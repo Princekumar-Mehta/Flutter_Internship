@@ -1019,7 +1019,8 @@ class _SalespersonHomeState extends State<SalespersonHome> {
                                                   .sub_Area!) &&
                                       await Database_customerBranch()
                                           .insertData() &&
-                                      await Database_Item().get_ItemNames()) {
+                                      await Database_Item()
+                                          .get_ItemNamesForSell()) {
                                     Navigator.pushNamed(
                                         context, MyRoutes.MySalesOrder);
                                   }

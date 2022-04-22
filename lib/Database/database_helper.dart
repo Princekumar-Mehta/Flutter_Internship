@@ -467,6 +467,13 @@ class DatabaseHelper {
     return Customer_BranchList;
   }
 
+  Future<int> updateCustomerBranch(CustomerBranch customerBranch) async {
+    Database db = await instance.database;
+    print("in database file update : " + customerBranch.branch_Code!);
+    return await db.update('customers_branches', customerBranch.toMap(),
+        where: 'branch_Code = ?', whereArgs: [customerBranch.branch_Code]);
+  }
+
   Future<int> addItem(Item item) async {
     Database db = await instance.database;
     return await db.insert('items', item.toMap());
@@ -500,6 +507,15 @@ class DatabaseHelper {
     Database db = await instance.database;
     List<Map<String, dynamic>> items =
         await db.rawQuery("SELECT * FROM items where code = '$item_Id'");
+    List<Item> ItemList =
+        items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
+    return ItemList;
+  }
+
+  Future<List<Item>> getItemByBarcode(String barcode) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> items =
+        await db.rawQuery("SELECT * FROM items where barcode = '$barcode'");
     List<Item> ItemList =
         items.isNotEmpty ? items.map((c) => Item.fromMap((c))).toList() : [];
     return ItemList;

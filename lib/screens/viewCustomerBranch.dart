@@ -42,7 +42,7 @@ class _ViewCustomerBranchScreenState extends State<ViewCustomerBranchScreen> {
             width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
           ),
         ),
-        title: Text("Edit Customer",
+        title: Text("View Customer Branches",
             style: TextStyle(
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white

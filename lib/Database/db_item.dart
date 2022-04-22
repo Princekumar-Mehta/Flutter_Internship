@@ -102,6 +102,33 @@ class Database_Item {
     return true;
   }
 
+  Future<bool> get_ItemNamesForSell() async {
+    item_names = [];
+    discounts = {};
+    final items = await DatabaseHelper.instance.getItems();
+    items.forEach((element) async {
+      if (element.sell_Item == 'true') {
+        String temp_item_Name = element.code! +
+            " - " +
+            element.item_Name! +
+            " - " +
+            element.net_Weight!.toString() +
+            "g";
+        String date = DateTime.now().toString().split(" ")[0];
+        if (!(await Database_Scheme()
+            .isSchemeNotExist(element.code!, date, date))) {
+          item_names.add(temp_item_Name + "*");
+          discounts[element.code!] = Database_Scheme.discounts.last;
+        } else {
+          item_names.add(temp_item_Name);
+          discounts[element.code!] = 0.0;
+        }
+      }
+    });
+    //  //print(item_names);
+    return true;
+  }
+
   Future<bool> get_Items() async {
     items = await DatabaseHelper.instance.getItems();
     return true;

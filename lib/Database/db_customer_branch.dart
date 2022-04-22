@@ -116,4 +116,11 @@ class Database_customerBranch {
     }
     return true;
   }
+
+  static Future<bool> updateCustomerBranch(
+      Map<String, dynamic> customerBranch) async {
+    await DatabaseHelper.instance
+        .updateCustomerBranch(CustomerBranch.fromMap(customerBranch));
+    return true;
+  }
 }

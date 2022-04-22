@@ -4,10 +4,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project_v3/Database/db_customer.dart';
 import 'package:project_v3/Database/db_customer_branch.dart';
+import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/myTypeAhead.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/routes.dart';
 import 'package:project_v3/Extras/utility.dart';
 import 'package:project_v3/Models/customer.dart';
 import 'package:project_v3/Models/customer_branch.dart';
@@ -90,7 +92,7 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
           if (sub_Area == 'South - West') sub_Area = area + "-SW";*/
           Map<String, dynamic> customerBranch = {
             "code": code,
-            "branch_Code": "",
+            "branch_Code": widget.customerBranch!.branch_Code!.toString(),
             "branch_Type": branch_Type,
             "branch_Name": branch_Name,
             "address1": address1,
@@ -114,14 +116,24 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
             "active": active
           };
           print(customerBranch);
-          bool isAdded =
-              await Database_customerBranch.addCustomerBranch(customerBranch);
-          showMessage(
-              context,
-              isAdded
-                  ? "Customer Branch Added"
-                  : "Customer Branch Already Exist",
-              isAdded);
+          if (await Database_customerBranch.updateCustomerBranch(
+              customerBranch)) {
+            Navigator.popUntil(
+                context, ModalRoute.withName(MyRoutes.MySalespersonHome));
+            if (await Database_Region_Salesperson()
+                    .getRegionSalesperson(MyDrawer.emp.id!) &&
+                await Database_customer().get_customerIdsBySubArea(
+                    Database_Region_Salesperson
+                        .region_salesperson!.sub_Area!)) {
+              print(Database_Region_Salesperson.region_salesperson!.sub_Area!);
+              Navigator.pushNamed(context, MyRoutes.MyViewCustomerScreen);
+            }
+            if (await Database_customerBranch().get_AllcustomerBranchesByCode(
+                widget.customerBranch!.code!.toString())) {
+              Navigator.pushNamed(context, MyRoutes.MyViewCustomerBranchScreen);
+            }
+            Utility.showMessage(context, "Customer Branch Updated");
+          }
         }
       }
     }
@@ -143,6 +155,35 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
             onPressed: () async {
               Navigator.pop(c, false);
               if (isAdded) Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> confirmationDialog(
+    BuildContext context,
+    String message,
+  ) async {
+    showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Alert'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('No'),
+            onPressed: () async {
+              Navigator.pop(c, false);
+            },
+          ),
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () async {
+              Navigator.pop(c, false);
+              // MyDrawer.emp = widget.emp;
+              Navigator.pop(context);
             },
           ),
         ],
@@ -988,7 +1029,7 @@ class _EditCustomerBranchState extends State<EditCustomerBranch> {
                             MyScreen.getScreenHeight(context) * (60 / 1063.6)),
                     InkWell(
                       onTap: () {
-                        EditCustomerBranch();
+                        updateCustomerBranch();
                       },
                       child: SizedBox(
                         width: MyScreen.getScreenWidth(context) * (85 / 294),

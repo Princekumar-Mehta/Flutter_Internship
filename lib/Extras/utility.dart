@@ -15,6 +15,7 @@ import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Database/db_item.dart';
 import 'package:project_v3/Database/db_region_salesperson.dart';
 import 'package:project_v3/Models/employee.dart';
+import 'package:project_v3/Models/item.dart';
 
 class Utility {
   static int totalLeaves = 30;
@@ -193,6 +194,13 @@ class Utility {
       emp = await Database_signUp.getEmp(email: email_id.toLowerCase(), id: 0);
     }
     return (emp == null);
+  }
+
+  static Future<bool> isBarcodeNotExist(String barcode) async {
+    List<Item> items;
+    items = await DatabaseHelper.instance.getItemByBarcode(barcode);
+    print(items.isNotEmpty);
+    return (items.isNotEmpty);
   }
 
   static Future<bool> isExistEmailNotId(String email, int emp_Id) async {
