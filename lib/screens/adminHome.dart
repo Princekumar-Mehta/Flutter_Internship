@@ -11,6 +11,7 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 import 'package:project_v3/Extras/routes.dart';
+import 'package:project_v3/Extras/size_config.dart';
 import 'package:project_v3/screens/viewEmployeeScreen.dart';
 
 import 'addScheme.dart';
@@ -52,6 +53,8 @@ class _AdminHomeState extends State<AdminHome> {
   ];
   @override
   Widget build(BuildContext context) {
+    /*print(MyScreen.getScreenHeight(context));
+    print(MyScreen.getScreenWidth(context));*/
     // DatabaseHelper.instance.Temp_Query();
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +73,7 @@ class _AdminHomeState extends State<AdminHome> {
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white
                     : MyColors.scarlet,
-                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+                fontSize: 2.4 * SizeConfig.heightMultiplier)),
         centerTitle: true,
         actions: [
           Material(

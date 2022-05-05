@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:project_v3/Extras/myColors.dart';
-import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
+import 'package:project_v3/Extras/size_config.dart';
 import 'package:project_v3/screens/setSchemeDetails.dart';
 
 class AddScheme extends StatefulWidget {
@@ -39,7 +39,7 @@ class _AddSchemeState extends State<AddScheme> {
               color: MyDrawer.emp.darkTheme == 1
                   ? MyColors.white
                   : MyColors.scarlet,
-              size: MyScreen.getScreenHeight(context) * (30 / 1063.6)),
+              size: 3.5 * SizeConfig.heightMultiplier),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -47,7 +47,7 @@ class _AddSchemeState extends State<AddScheme> {
         shape: Border(
           bottom: BorderSide(
             color: MyColors.scarlet,
-            width: MyScreen.getScreenHeight(context) * (4 / 1063.6),
+            width: 1 * SizeConfig.widthMultiplier,
           ),
         ),
         title: Text("Select Items",
@@ -55,7 +55,7 @@ class _AddSchemeState extends State<AddScheme> {
                 color: MyDrawer.emp.darkTheme == 1
                     ? MyColors.white
                     : MyColors.scarlet,
-                fontSize: MyScreen.getScreenHeight(context) * (20 / 1063.6))),
+                fontSize: 2.4 * SizeConfig.textMultiplier)),
         centerTitle: true,
         backgroundColor: MyDrawer.emp.darkTheme == 1
             ? MyColors.richBlackFogra
@@ -67,12 +67,13 @@ class _AddSchemeState extends State<AddScheme> {
       body: Column(
         children: [
           SizedBox(
-            height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+            height: 2.35 * SizeConfig.heightMultiplier,
           ),
           Container(
-            width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+            width: 93.9 * SizeConfig.widthMultiplier,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              borderRadius: BorderRadius.all(
+                  Radius.circular(1.5 * SizeConfig.heightMultiplier)),
               color:
                   MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.grey,
             ),
@@ -86,12 +87,16 @@ class _AddSchemeState extends State<AddScheme> {
                     hintText: "Search",
                     suffixIcon: Icon(
                       Icons.search,
-                      size: MyScreen.getScreenHeight(context) * (30 / 1063.6),
+                      size: 2.8 * SizeConfig.heightMultiplier,
                       color: MyDrawer.emp.darkTheme == 1
                           ? MyColors.scarlet
                           : MyColors.white,
                     ),
-                    contentPadding: const EdgeInsets.fromLTRB(10, 13, 0, 0),
+                    contentPadding: EdgeInsets.fromLTRB(
+                        2.25 * SizeConfig.widthMultiplier,
+                        1.5 * SizeConfig.heightMultiplier,
+                        0,
+                        0),
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                             color: MyDrawer.emp.darkTheme == 1
@@ -104,11 +109,11 @@ class _AddSchemeState extends State<AddScheme> {
                                 : MyColors.white)),
                   ),
                   style: TextStyle(
-                      color: MyDrawer.emp.darkTheme == 1
-                          ? MyColors.middleRed
-                          : MyColors.scarlet,
-                      fontSize:
-                          MyScreen.getScreenHeight(context) * (25 / 1063.6))),
+                    color: MyDrawer.emp.darkTheme == 1
+                        ? MyColors.middleRed
+                        : MyColors.scarlet,
+                    fontSize: 2.35 * SizeConfig.textMultiplier,
+                  )),
               suggestionsCallback: (pattern) => itemList.where(
                   (item) => item.toLowerCase().contains(pattern.toLowerCase())),
               itemBuilder: (_, String item) => ListTile(
@@ -122,24 +127,24 @@ class _AddSchemeState extends State<AddScheme> {
               },
               getImmediateSuggestions: true,
               hideOnEmpty: false,
-              noItemsFoundBuilder: (context) => const Padding(
-                padding: EdgeInsets.all(8.0),
+              noItemsFoundBuilder: (context) => Padding(
+                padding: EdgeInsets.all(SizeConfig.heightMultiplier),
                 child: Text('No item found'),
               ),
             ),
           ),
           SizedBox(
-            height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+            height: 2.35 * SizeConfig.heightMultiplier,
           ),
           Container(
-            height: MyScreen.getScreenHeight(context) * (2 / 1063.6),
-            width: MyScreen.getScreenWidth(context) * (460 / 490.9),
+            height: .18 * SizeConfig.heightMultiplier,
+            width: 93.9 * SizeConfig.widthMultiplier,
             color: MyDrawer.emp.darkTheme == 1
                 ? MyColors.pewterBlue
                 : MyColors.black,
           ),
           SizedBox(
-            height: MyScreen.getScreenHeight(context) * (15 / 1063.6),
+            height: 2 * SizeConfig.heightMultiplier,
           ),
           Text(
             "Long press on Items to remove from List",
@@ -147,10 +152,11 @@ class _AddSchemeState extends State<AddScheme> {
               color: MyDrawer.emp.darkTheme == 1
                   ? MyColors.pewterBlue
                   : MyColors.black,
+              fontSize: 2 * SizeConfig.textMultiplier,
             ),
           ),
           SizedBox(
-            height: MyScreen.getScreenHeight(context) * (25 / 1063.6),
+            height: 2.35 * SizeConfig.heightMultiplier,
           ),
           Flexible(
             child: ListView.builder(
@@ -163,7 +169,7 @@ class _AddSchemeState extends State<AddScheme> {
                 }),
           ),
           // Button
-          SizedBox(height: MyScreen.getScreenHeight(context) * (60 / 1063.6)),
+          SizedBox(height: 7.5 * SizeConfig.heightMultiplier),
           InkWell(
             onTap: () async {
               await Navigator.push(
@@ -173,8 +179,8 @@ class _AddSchemeState extends State<AddScheme> {
                           SetSchemeDetails(items: selectedItems)));
             },
             child: SizedBox(
-              width: MyScreen.getScreenWidth(context) * (240 / 490.9),
-              height: MyScreen.getScreenHeight(context) * (60 / 1063.6),
+              width: 49 * SizeConfig.widthMultiplier,
+              height: 5.6 * SizeConfig.heightMultiplier,
               child: Stack(
                 children: [
                   Opacity(
@@ -183,7 +189,7 @@ class _AddSchemeState extends State<AddScheme> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
-                            MyScreen.getScreenHeight(context) * (10 / 1063.6)),
+                            1.1 * SizeConfig.heightMultiplier),
                         color: MyDrawer.emp.darkTheme == 1
                             ? MyColors.middleRed
                             : MyColors.scarlet,
@@ -196,8 +202,7 @@ class _AddSchemeState extends State<AddScheme> {
                             color: MyDrawer.emp.darkTheme == 1
                                 ? MyColors.richBlackFogra
                                 : MyColors.white,
-                            fontSize: MyScreen.getScreenHeight(context) *
-                                (17 / 1063.6),
+                            fontSize: 2 * SizeConfig.textMultiplier,
                             fontWeight: FontWeight.bold)),
                   )
                 ],
@@ -218,24 +223,25 @@ class _AddSchemeState extends State<AddScheme> {
         },
         child: Container(
           alignment: Alignment.centerLeft,
-          width: MyScreen.getScreenWidth(context) * (460 / 490.9),
-          height: MyScreen.getScreenHeight(context) * (40 / 1063.6),
+          width: 93.9 * SizeConfig.widthMultiplier,
+          height: 3.8 * SizeConfig.heightMultiplier,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderRadius: BorderRadius.all(
+                Radius.circular(1.2 * SizeConfig.heightMultiplier)),
             color: MyDrawer.emp.darkTheme == 1 ? MyColors.white : MyColors.grey,
           ),
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          padding: EdgeInsets.fromLTRB(2 * SizeConfig.widthMultiplier, 0, 0, 0),
           child: Text(
             selectedItems[key],
             style: TextStyle(
-              fontSize: MyScreen.getScreenHeight(context) * (18 / 1063.6),
+              fontSize: 1.7 * SizeConfig.textMultiplier,
               color: MyColors.black,
             ),
           ),
         ),
       ),
       SizedBox(
-        height: MyScreen.getScreenHeight(context) * (15 / 1063.6),
+        height: 1.5 * SizeConfig.heightMultiplier,
       ),
     ]);
   }

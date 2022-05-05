@@ -29,6 +29,8 @@ import 'package:project_v3/screens/viewInventory.dart';
 import 'package:project_v3/screens/viewItems.dart';
 import 'package:project_v3/screens/viewSchemes.dart';
 
+import 'Extras/size_config.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -38,42 +40,56 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: MyRoutes.MYSplashScreen,
-      routes: {
-        //  MyRoutes.MyTempScreen: (context) => DynamicForms(),
-        MyRoutes.MYSplashScreen: (context) => SplashScreen(),
-        MyRoutes.MyLogin: (context) => LoginScreen(),
-        MyRoutes.MySignUpEmail: (context) => SignUpEmail(),
-        MyRoutes.MySalesOrder: (context) => SalesOrderScreen(),
-        MyRoutes.MyForgotPasswordScreen1: (context) => ForgotPasswordScreen1(),
-        MyRoutes.MyForgotPasswordScreen2: (context) => ForgotPasswordScreen2(),
-        MyRoutes.MyAdminHome: (context) => AdminHome(),
-        MyRoutes.MyLeaveRequest: (context) => LeaveRequest(),
-        MyRoutes.MyApproveOrder: (context) => ApproveOrder(),
-        MyRoutes.MyLeaveRequestForm: (context) => LeaveRequestForm(),
-        MyRoutes.MyLeaveRequestSummary: (context) => myLeaveRequestSummary(),
-        MyRoutes.MySalespersonHome: (context) => SalespersonHome(),
-        MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
-        MyRoutes.MySalespersonAttendance: (context) => SalespersonAttendance(),
-        MyRoutes.MyAddItemScreen: (context) => AddItem(),
-        MyRoutes.MySearchFunction: (context) => SearchFunctions(),
-        MyRoutes.MyFulfilledOrders: (context) => FulfilledOrder(),
-        MyRoutes.MyReportHome: (context) => ReportHome(),
-        MyRoutes.MyViewItems: (context) => ViewItems(),
-        //  MyRoutes.MyManagerHome: (context) => ManagerHome(),
-        MyRoutes.MyAddCustomerScreen: (context) => AddCustomer(),
-        MyRoutes.MyViewCustomerScreen: (context) => ViewCustomerScreen(),
-        MyRoutes.MyCustomerFeedbackScreen: (context) =>
-            CustomerFeedbackScreen(),
-        MyRoutes.MyViewCustomerFeedbackScreen: (context) =>
-            ViewCustomerFeedbackScreen(),
-        MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
-        MyRoutes.MyAddStock: (context) => AddStock(),
-        MyRoutes.MyViewInventory: (context) => ViewInventory(),
-        MyRoutes.MyViewCustomerBranchScreen: (context) =>
-            ViewCustomerBranchScreen(),
-        MyRoutes.MyViewSchemes: (context) => ViewSchemes(),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return OrientationBuilder(
+          builder: (context, orientation) {
+            SizeConfig().init(constraints, orientation);
+            return MaterialApp(
+              initialRoute: MyRoutes.MYSplashScreen,
+              routes: {
+                //  MyRoutes.MyTempScreen: (context) => DynamicForms(),
+                MyRoutes.MYSplashScreen: (context) => SplashScreen(),
+                MyRoutes.MyLogin: (context) => LoginScreen(),
+                MyRoutes.MySignUpEmail: (context) => SignUpEmail(),
+                MyRoutes.MySalesOrder: (context) => SalesOrderScreen(),
+                MyRoutes.MyForgotPasswordScreen1: (context) =>
+                    ForgotPasswordScreen1(),
+                MyRoutes.MyForgotPasswordScreen2: (context) =>
+                    ForgotPasswordScreen2(),
+                MyRoutes.MyAdminHome: (context) => AdminHome(),
+                MyRoutes.MyLeaveRequest: (context) => LeaveRequest(),
+                MyRoutes.MyApproveOrder: (context) => ApproveOrder(),
+                MyRoutes.MyLeaveRequestForm: (context) => LeaveRequestForm(),
+                MyRoutes.MyLeaveRequestSummary: (context) =>
+                    myLeaveRequestSummary(),
+                MyRoutes.MySalespersonHome: (context) => SalespersonHome(),
+                MyRoutes.MyProcessingOrders: (context) => ProcessingOrder(),
+                MyRoutes.MySalespersonAttendance: (context) =>
+                    SalespersonAttendance(),
+                MyRoutes.MyAddItemScreen: (context) => AddItem(),
+                MyRoutes.MySearchFunction: (context) => SearchFunctions(),
+                MyRoutes.MyFulfilledOrders: (context) => FulfilledOrder(),
+                MyRoutes.MyReportHome: (context) => ReportHome(),
+                MyRoutes.MyViewItems: (context) => ViewItems(),
+                //  MyRoutes.MyManagerHome: (context) => ManagerHome(),
+                MyRoutes.MyAddCustomerScreen: (context) => AddCustomer(),
+                MyRoutes.MyViewCustomerScreen: (context) =>
+                    ViewCustomerScreen(),
+                MyRoutes.MyCustomerFeedbackScreen: (context) =>
+                    CustomerFeedbackScreen(),
+                MyRoutes.MyViewCustomerFeedbackScreen: (context) =>
+                    ViewCustomerFeedbackScreen(),
+                MyRoutes.MySetRouteMapScreen: (context) => PlanRouteScreen1(),
+                MyRoutes.MyAddStock: (context) => AddStock(),
+                MyRoutes.MyViewInventory: (context) => ViewInventory(),
+                MyRoutes.MyViewCustomerBranchScreen: (context) =>
+                    ViewCustomerBranchScreen(),
+                MyRoutes.MyViewSchemes: (context) => ViewSchemes(),
+              },
+            );
+          },
+        );
       },
     );
   }
