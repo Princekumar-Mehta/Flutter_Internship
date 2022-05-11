@@ -327,6 +327,16 @@ class DatabaseHelper {
     return CustomersList;
   }
 
+  Future<List<Customer>> getCustomersByArea() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> customers = await db
+        .rawQuery("SELECT * FROM customers order by Area ASC, sub_Area ASC");
+    List<Customer> CustomersList = customers.isNotEmpty
+        ? customers.map((c) => Customer.fromMap((c))).toList()
+        : [];
+    return CustomersList;
+  }
+
   Future<List<Customer>> getCustomersBySubArea(String sub_Area) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> customers = await db.rawQuery(

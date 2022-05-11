@@ -656,7 +656,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             if (value == null || value.isEmpty) {
                               return "Please Enter Phone Number 1";
                             } else if (!regexem.hasMatch(value)) {
-                              return "Enter Valid Phone Number 1";
+                              return "Enter Valid Phone Number 1 (Ex: 1234567890)";
                             }
                             return null;
                           }),
@@ -702,7 +702,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             if (value == null || value.isEmpty) {
                               return "Please Enter Phone Number 2";
                             } else if (!regexem.hasMatch(value)) {
-                              return "Enter Valid Phone Number 2";
+                              return "Enter Valid Phone Number 2 (Ex: 1234567890)";
                             }
                             return null;
                           }),
@@ -834,7 +834,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             if (value == null || value.isEmpty) {
                               return "Please Enter gL Acc";
                             } else if (!regexgLAcc.hasMatch(value)) {
-                              return "Enter Proper gL Acc";
+                              return "Enter Proper gL Acc (Ex: 123456)";
                             }
                             return null;
                           }),

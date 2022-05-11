@@ -4,6 +4,8 @@ import 'package:project_v3/Extras/myColors.dart';
 import 'package:project_v3/Extras/myScreen.dart';
 import 'package:project_v3/Extras/mydrawer.dart';
 
+import 'editStock.dart';
+
 class ViewInventory extends StatefulWidget {
   const ViewInventory({Key? key}) : super(key: key);
 
@@ -98,31 +100,66 @@ class _ViewInventoryState extends State<ViewInventory> {
                       SizedBox(
                         width: MyScreen.getScreenWidth(context) * (10 / 490.9),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                Database_Stock.stockItemByEmpId[key].code! +
-                                    " - " +
-                                    Database_Stock
-                                        .stockItemByEmpId[key].item_Name! +
-                                    " - " +
-                                    Database_Stock
-                                        .stockItemByEmpId[key].net_Weight!
-                                        .toString() +
-                                    "g",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyScreen.getScreenHeight(context) *
-                                      (20 / 1063.6),
+                      SizedBox(
+                        width: MyScreen.getScreenWidth(context) * (410 / 490.9),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    Database_Stock.stockItemByEmpId[key].code! +
+                                        " - " +
+                                        Database_Stock
+                                            .stockItemByEmpId[key].item_Name! +
+                                        " - " +
+                                        Database_Stock
+                                            .stockItemByEmpId[key].net_Weight!
+                                            .toString() +
+                                        "g",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MyScreen.getScreenHeight(context) *
+                                              (20 / 1063.6),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Expanded(
+                                  flex: 1,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => EditStock(
+                                                    stock: Database_Stock
+                                                        .stockByEmpId[key],
+                                                  )));
+                                    },
+                                    child: Container(
+                                      alignment: AlignmentDirectional.centerEnd,
+                                      child: Text(
+                                        "Edit",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MyScreen.getScreenHeight(
+                                                  context) *
+                                              (16 / 1063.6),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

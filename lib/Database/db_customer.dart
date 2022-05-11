@@ -33,7 +33,7 @@ class Database_customer {
   }
 
   static Future<bool> getAllCustomers() async {
-    customers = (await DatabaseHelper.instance.getCustomers());
+    customers = (await DatabaseHelper.instance.getCustomersByArea());
     print(customers.length);
     return true;
   }

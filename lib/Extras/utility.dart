@@ -316,7 +316,17 @@ class Utility {
     var iOSDetials = new IOSNotificationDetails();
     var generalNotificationDetails =
         new NotificationDetails(android: androidDetails, iOS: iOSDetials);
+    DatabaseHelper.instance.insertAdminIfNot();
+    DateTime now = DateTime.now();
+    String greetings = "";
+    if (now.hour < 12) {
+      greetings = "Good Morning,";
+    } else if (now.hour < 16) {
+      greetings = "Good Afternoon,";
+    } else {
+      greetings = "Good Evening,";
+    }
     await localNotification.show(
-        0, "Notification", message, generalNotificationDetails);
+        0, greetings, message, generalNotificationDetails);
   }
 }

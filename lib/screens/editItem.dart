@@ -230,7 +230,7 @@ class _EditItemState extends State<EditItem> {
                             if (value == null || value.isEmpty) {
                               return "Please Enter HSN Code";
                             } else if (!regexhsn.hasMatch(value)) {
-                              return "Enter Proper HSN Code";
+                              return "Enter Proper HSN Code (Ex: 12345678)";
                             }
                             return null;
                           }),
@@ -480,7 +480,7 @@ class _EditItemState extends State<EditItem> {
                             if (value == null || value.isEmpty) {
                               return "Please Enter Barcode";
                             } else if (!regexbarcode.hasMatch(value)) {
-                              return "Enter Proper Barcode";
+                              return "Enter Proper Barcode (Ex: 123456789)";
                             }
                             return null;
                           }),

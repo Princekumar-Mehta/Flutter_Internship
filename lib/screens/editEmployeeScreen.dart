@@ -457,7 +457,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                               if (value == null || value.isEmpty) {
                                 return "Please Enter Mobile Number";
                               } else if (!regexem.hasMatch(value)) {
-                                return "Enter Valid Mobile Number";
+                                return "Enter Valid Mobile Number (Ex: 1234567890)";
                               }
                               return null;
                             }),

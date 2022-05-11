@@ -550,8 +550,11 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
+                            RegExp regexpost = RegExp(r'^[0-9]{6}$');
                             if (value == null || value.isEmpty) {
                               return "Please Enter Post Code";
+                            } else if (!regexpost.hasMatch(value)) {
+                              return "Enter Valid Post Code (Ex: 123456)";
                             }
                             return null;
                           }),
@@ -817,11 +820,11 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
                               fontSize: MyScreen.getScreenHeight(context) *
                                   (25 / 1063.6)),
                           validator: (value) {
-                            RegExp regexem = RegExp(r'^[0-9]{10}$');
+                            RegExp regexmob = RegExp(r'^[0-9]{10}$');
                             if (value == null || value.isEmpty) {
                               return "Please Enter Phone Number 1";
-                            } else if (!regexem.hasMatch(value)) {
-                              return "Enter Valid Phone Number 1";
+                            } else if (!regexmob.hasMatch(value)) {
+                              return "Enter Valid Phone Number 1 (Ex: 1234567890)";
                             }
                             return null;
                           }),
@@ -863,7 +866,7 @@ class _AddCustomerBranchState extends State<AddCustomerBranch> {
                             if (value == null || value.isEmpty) {
                               return "Please Enter GST Number";
                             } else if (!regexem.hasMatch(value)) {
-                              return "Enter Valid GST Number";
+                              return "Enter Valid GST Number (Ex: 22AAAAA0000A1Z5)";
                             }
                             return null;
                           }),

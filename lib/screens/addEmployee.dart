@@ -394,7 +394,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                                 if (value == null || value.isEmpty) {
                                   return "Please Enter Mobile Number";
                                 } else if (!regexem.hasMatch(value)) {
-                                  return "Enter Valid Mobile Number";
+                                  return "Enter Valid Mobile Number (Ex: 1234567890)";
                                 }
                                 return null;
                               }),
@@ -766,9 +766,10 @@ class _SignUpEmailState extends State<SignUpEmail> {
                         InkWell(
                           onTap: () => moveToHome(context),
                           child: SizedBox(
-                            width: MyScreen.getScreenWidth(context) * (85 / 294),
-                            height:
-                                MyScreen.getScreenHeight(context) * (60 / 1063.6),
+                            width:
+                                MyScreen.getScreenWidth(context) * (85 / 294),
+                            height: MyScreen.getScreenHeight(context) *
+                                (60 / 1063.6),
                             child: Stack(
                               children: [
                                 Opacity(

@@ -6,6 +6,7 @@ import 'package:project_v3/screens/addEmployee.dart';
 import 'package:project_v3/screens/addItem.dart';
 import 'package:project_v3/screens/addStock.dart';
 import 'package:project_v3/screens/adminHome.dart';
+import 'package:project_v3/screens/adminViewCustomer.dart';
 import 'package:project_v3/screens/approveOrderScreen.dart';
 import 'package:project_v3/screens/customerFeedbackScreen.dart';
 import 'package:project_v3/screens/forgotPasswordScreen1.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.MyViewCustomerBranchScreen: (context) =>
             ViewCustomerBranchScreen(),
         MyRoutes.MyViewSchemes: (context) => ViewSchemes(),
+        MyRoutes.MyAdminViewCustomer: (context) => AdminViewCustomerScreen(),
       },
     );
   }
