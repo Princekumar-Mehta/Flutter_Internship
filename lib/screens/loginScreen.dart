@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:project_v3/Database/database_helper.dart';
 import 'package:project_v3/Database/db_employee.dart';
 import 'package:project_v3/Database/db_hourly_attendance.dart';
 import 'package:project_v3/Email/send_email.dart';
@@ -118,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
+    DatabaseHelper.instance.insertAdminIfNot();
     return MaterialApp(
       home: Scaffold(
           backgroundColor: MyColors.loginPageColor,
